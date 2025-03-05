@@ -1,0 +1,12 @@
+^\.idea$
+^LICENSE\.md$
+^data-raw$
+^README\.md$
+^vignettes/articles$
+^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^inst/extdata/
+^rPackageTemplate\.Rproj$
+^\.Rproj\.user$

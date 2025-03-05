@@ -1,0 +1,25 @@
+Package: scgElectionsAU
+Title: An R Package for Australian Election Data
+Version: 0.0.1
+Authors@R:
+    person("Sarah", "Gall",
+           email = "contact@sarahcgall.co.uk",
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0009-0002-8764-322X")
+           )
+Description: scgElectionsAU allows you to download and explore Australia's
+    election and referendum data sourced from the Australian Electoral Commission.
+    It was developed by Sarah Gall, Sarah C Gall Ltd.
+License: MIT + file LICENSE
+URL: https://github.com/sarahcgall/scgElectionsAU, https://sarahcgall.github.io/scgElectionsAU/
+BugReports: https://github.com/sarahcgall/scgElectionsAU/issues
+LazyData: true
+Encoding: UTF-8
+Language: en-GB
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Depends:
+    R (>= 3.5.0)
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

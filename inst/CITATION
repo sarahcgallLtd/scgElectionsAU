@@ -1,0 +1,8 @@
+bibentry(
+  bibtype  = "Unpublished",
+  title    = "scgElectionsAU: An R Package for Australian Election Data",
+  author   = "Sarah Gall",
+  note     = "The scgElectionsAU allows you to download and explore Australia's
+    election and referendum data sourced from the Australian Electoral Commission.
+    It was developed by Sarah Gall, Sarah C Gall Ltd."
+)
