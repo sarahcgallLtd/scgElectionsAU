@@ -20,6 +20,15 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Depends:
     R (>= 3.5.0)
-Suggests: 
+Imports:
+    dplyr,
+    scgUtils
+Remotes:
+    sarahcgallLtd/scgUtils
+Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Collate: 
+    'utils.R'
+    'get_aec_data.R'
+    'scgElectionsAU_package.R'
