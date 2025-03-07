@@ -1,4 +1,4 @@
-#' @include utils.R
+#' @include utils.R process.R
 NULL
 #' Download and Process AEC Data
 #'
@@ -93,14 +93,14 @@ get_aec_data <- function(
 
     # =====================================#
     # GET DATA FILE FROM URL
-    print(paste0("Downloading `", file_name, "` from ", url))
+    message(paste0("Downloading `", file_name, "` from ", url))
     tmp_df <- scgUtils::get_file(url, source = "web", row_no = 1)
 
     # =====================================#
     # PREPARE INFO DATA
     # Filter info by AEC Reference
     tmp_info <- info[info$aec_reference == ref,]
-    print(paste0("Successfully downloaded `", file_name, "` for the ", tmp_info$event, " ", tmp_info$type))
+    message(paste0("Successfully downloaded `", file_name, "` for the ", tmp_info$event, " ", tmp_info$type))
 
     # Select necessary columns only
     tmp_info <- tmp_info[, !(names(tmp_info) %in% c("aec_reference", "type"))]
@@ -117,7 +117,15 @@ get_aec_data <- function(
   # =====================================#
   # PROCESS DATA
   if (process) {
-    # file dependent logic to come (this section will standardise column names across all years)
+    # Process data, e.g., standardise column names across all years
+    combined_df <- switch(
+      file_name,
+      # Processing functions:
+      "National list of candidates" = process_candidates(data=combined_df, prefix=category),
+
+      # Default return if none of the cases match
+      combined_df
+    )
   }
 
   return(combined_df)

@@ -122,44 +122,50 @@ check_file_exists <- function(
 
   # Loop through the list of events and check corresponding columns
   for (event in events) {
+    # First, ensure the column for the event year exists
+    if (!event %in% names(check_df)) {
+      stop(paste0("`", file_name, "` does not have data available for the year `", event, "`."))
+    }
+
     # Check if the event year column contains "Y" in check_df
-    if (!all(check_df[[event]] == "Y")) {
+    # Also handle potential NA values in the column data
+    if (!all(check_df[[event]] == "Y", na.rm = TRUE)) {
       stop(paste0("`", file_name, "` for the year `", event, "` is not available. Check availability and try again."))
     }
   }
 }
 
 
-#' Construct AEC Data Download URL
-#'
-#' This function constructs a URL for downloading files from the Australian Electoral Commission.
-#' It is designed as a helper function for `get_aec_data()` and uses specific lookup data from
-#' the 'scgElectionsAU' package. It forms URLs based on a reference ID, file name, and prefix
-#' associated with the data to be downloaded.
-#'
-#' @param ref A character string specifying the reference ID associated with the election year
-#'        or event. Different areas ('results' or 'Website') of the AEC website are used based
-#'        on the value of `ref`. Each `ref` corresponds to an election year.
-#' @param file_name A character string specifying the name of the file to download, as recorded
-#'        in the `aec_names_fed` dataset. This corresponds to a particular type of election data.
-#' @param prefix A character string specifying the prefix that categorises the file within
-#'        the AEC structure, used to correctly format the download URL. E.g., House, Senate, of
-#'        General.
-#'
-#' @return A character string containing the fully constructed URL for the data file.
-#'
-#' @details This function accesses the 'aec_names_fed' dataset stored within the 'scgElectionsAU'
-#'          package environment. It filters this dataset based on the `file_name` and `prefix`
-#'          provided, constructs a URL, and ensures that exactly one entry matches the given
-#'          parameters to prevent errors in URL construction. Error handling is robust, providing
-#'          clear messages for potential issues such as missing data or multiple matching entries.
-#'
-#' @examples
-#' # Assuming 'aec_names_fed' and the necessary variables are properly defined:
-#' construct_url("27966", "National list of candidates", "House")
-#'
-#' @noRd
-#' @keywords internal
+  #' Construct AEC Data Download URL
+  #'
+  #' This function constructs a URL for downloading files from the Australian Electoral Commission.
+  #' It is designed as a helper function for `get_aec_data()` and uses specific lookup data from
+  #' the 'scgElectionsAU' package. It forms URLs based on a reference ID, file name, and prefix
+  #' associated with the data to be downloaded.
+  #'
+  #' @param ref A character string specifying the reference ID associated with the election year
+  #'        or event. Different areas ('results' or 'Website') of the AEC website are used based
+  #'        on the value of `ref`. Each `ref` corresponds to an election year.
+  #' @param file_name A character string specifying the name of the file to download, as recorded
+  #'        in the `aec_names_fed` dataset. This corresponds to a particular type of election data.
+  #' @param prefix A character string specifying the prefix that categorises the file within
+  #'        the AEC structure, used to correctly format the download URL. E.g., House, Senate, of
+  #'        General.
+  #'
+  #' @return A character string containing the fully constructed URL for the data file.
+  #'
+  #' @details This function accesses the 'aec_names_fed' dataset stored within the 'scgElectionsAU'
+  #'          package environment. It filters this dataset based on the `file_name` and `prefix`
+  #'          provided, constructs a URL, and ensures that exactly one entry matches the given
+  #'          parameters to prevent errors in URL construction. Error handling is robust, providing
+  #'          clear messages for potential issues such as missing data or multiple matching entries.
+  #'
+  #' @examples
+  #' # Assuming 'aec_names_fed' and the necessary variables are properly defined:
+  #' construct_url("27966", "National list of candidates", "House")
+  #'
+  #' @noRd
+  #' @keywords internal
 construct_url <- function(
   ref,
   file_name,
