@@ -1,0 +1,9 @@
+url: http://docs.sarahcgall.co.uk/scgElectionsAU/
+template:
+  bootstrap: 5
+development:
+  mode: auto
+authors:
+  Sarah Gall:
+    href: https://www.sarahcgall.co.uk/
+

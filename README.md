@@ -1,4 +1,4 @@
-scgElectionsAU <a href="https://sarahcgall.github.io/scgElectionsAU/"><img src="man/figures/logo.png" align="right" height="138" alt="" /></a>
+scgElectionsAU <a href="https://sarahcgallLtd.github.io/scgElectionsAU/"><img src="man/figures/logo.png" align="right" height="138" alt="" /></a>
 ================
 <!-- badges: start -->
 [![Release](https://img.shields.io/badge/Release-development%20version%200&#46;0&#46;1-1c75bc)](https://github.com/sarahcgallLtd/scgElectionsAU/blob/master/NEWS.md)
