@@ -6,46 +6,29 @@ on:
   pull_request:
     branches: [main, master]
 
-name: test-coverage
+name: Run tests and upload coverage
 
 jobs:
-  test-coverage:
+  test:
+    name: Run tests and collect coverage
     runs-on: ubuntu-latest
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      TEST_ENV: "CI"
-
     steps:
-      - uses: actions/checkout@v3
-
-      - uses: r-lib/actions/setup-r@v2
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          use-public-rspm: true
+          fetch-depth: 0
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: covr
-          needs: coverage
+      - name: Set up Node
+        uses: actions/setup-node@v4
 
-      - name: Test coverage
-        run: covr::codecov()
-        shell: Rscript {0}
+      - name: Install dependencies
+        run: npm install
 
-      - name: Show testthat output
-        if: always()
-        run: |
-          ## --------------------------------------------------------------------
-          find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
-        shell: bash
-
-      - name: Upload test results
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-test-failures
-          path: ${{ runner.temp }}/package
+      - name: Run tests
+        run: npx jest --coverage
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          slug: sarahcgallLtd/scgElectionsAU
