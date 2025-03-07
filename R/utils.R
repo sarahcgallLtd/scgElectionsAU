@@ -106,7 +106,7 @@ check_file_exists <- function(
 
   # Check if 'names' data is available
   if (is.null(names)) {
-    stop("Data 'aec_names_fed' not found in 'scgElectionsAU' package.")
+    stop("Data 'aec_names_fed' not found in 'scgElectionsAU' package. Contact the package maintainer.")
   }
 
   # Check if file_name exists
@@ -173,7 +173,7 @@ construct_url <- function(
 
   # Check if names is non-null
   if (is.null(names)) {
-    stop("Data 'aec_names_fed' not found in 'scgElectionsAU' package.")
+    stop("Data 'aec_names_fed' not found in 'scgElectionsAU' package. Contact the package maintainer.")
   }
 
   # Filter by file_name and prefix
