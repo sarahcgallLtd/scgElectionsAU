@@ -3,7 +3,7 @@ scgElectionsAU <a href="https://sarahcgallLtd.github.io/scgElectionsAU/"><img sr
 <!-- badges: start -->
 [![Release](https://img.shields.io/badge/Release-development%20version%200&#46;0&#46;1-1c75bc)](https://github.com/sarahcgallLtd/scgElectionsAU/blob/master/NEWS.md)
 [![R-CMD-check](https://github.com/sarahcgallLtd/scgElectionsAU/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sarahcgallLtd/scgElectionsAU/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/gh/sarahcgallLtd/scgElectionsAU/graph/badge.svg?token=KRX0FWHUAO)](https://codecov.io/gh/sarahcgallLtd/scgElectionsAU)
+[![codecov](https://codecov.io/gh/sarahcgallLtd/scgElectionsAU/graph/badge.svg?token=Oni4LxeKWN)](https://codecov.io/gh/sarahcgallLtd/scgElectionsAU)
 <!-- badges: end -->
 
 ## Overview
