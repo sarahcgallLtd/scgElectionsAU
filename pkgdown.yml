@@ -1,8 +1,9 @@
 pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
-articles: {}
-last_built: 2025-03-07T12:24Z
+articles:
+  articles/available-data: available-data.html
+last_built: 2025-03-07T18:33Z
 urls:
   reference: http://docs.sarahcgall.co.uk/scgElectionsAU/reference
   article: http://docs.sarahcgall.co.uk/scgElectionsAU/articles
