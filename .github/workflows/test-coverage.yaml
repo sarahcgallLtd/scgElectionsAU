@@ -4,9 +4,10 @@ on:
   push:
     branches: [main, master]
   pull_request:
-    branches: [main, master]
 
 name: test-coverage
+
+permissions: read-all
 
 jobs:
   test-coverage:
@@ -33,7 +34,6 @@ jobs:
             clean = FALSE,
             install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
           )
-          print(cov)
           covr::to_cobertura(cov)
         shell: Rscript {0}
 

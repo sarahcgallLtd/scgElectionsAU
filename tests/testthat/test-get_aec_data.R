@@ -52,7 +52,7 @@ test_that("test that get_aec_data returns 2022 election data", {
 test_that("test that get_aec_data returns both 2022 and 2019 election data", {
   df <- get_aec_data(file_name = "National list of candidates",
                      date_range = list(from = "2019-01-01", to = "2023-01-01"))
-  expect_length(df, 12)#
+  expect_length(df, 12)
 })
 
 
