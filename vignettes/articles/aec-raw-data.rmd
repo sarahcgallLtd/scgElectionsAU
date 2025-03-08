@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 )
 ```
 <br>
-This article explores the [`get_aec_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_aec_data.html) function and the data that it is able to retrieve from the Australian Electoral Commission's website. This function is primarily retrieving the raw data with limited processing. For a more processed and 'analysis-ready' function, check out `get_XXX`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_XXX.html).
+This article explores the [`get_aec_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_aec_data.html) function and the data that it is able to retrieve from the Australian Electoral Commission's website. This function is primarily retrieving the raw data with limited processing. For a more processed and 'analysis-ready' function, check out [`get_XXX`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_XXX.html).
 <br>
 
 ```{r setup, include = FALSE}
@@ -29,21 +29,20 @@ library(knitr)
 ```
 In the [`get_aec_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_aec_data.html) function, the `type` argument default is "Federal Election". This type extracts data from the AEC's 'Tally Room' for elections between 2004 and 2022. Both House and Senate data are extractable.
 
-### National list of candidates
+## Candidates
+#### National list of candidates
 The `National list of candidates` dataset contains a list of candidates including whether or not the candidate was `Elected` or an incumbent (`HistoricElected`). This dataset exists for both `Senate` and `House` candidates.
 
 There is the option to switch `process` to `TRUE`. In doing this, the 2004 dataset will be the same as the other election datasets by removing the `SittingMemberFl` column and replacing it with the `Elected` and `HistoricElected` columns. The `HistoricElected` column is based on the `SittingMemberFl` column and the `Elected` column is based on the `Senators elected` dataset.
 
-<br>
-*Options for this dataset include:*
-
-- `file_name = National list of candidates`
-- `date_range = list(from = "2004-01-01", to = "2023-01-01")`
-- `category = c("House","Senate")`
-- `process = TRUE`
-
-<br>
-*Dataset output:*
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "National list of candidates",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House", # OR "Senate",
+  process = TRUE # OR FALSE
+)
+```
 
 ```{r, echo = FALSE}
 national_list_of_candidates <- get_aec_data(file_name = "National list of candidates")
@@ -55,7 +54,7 @@ first_row <- national_list_of_candidates[1, ]
 kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
 
-### Members/Senators elected
+#### Members/Senators elected
 The `Members elected` and `Senators elected` datasets list the elected MPs and Senators at each election. The `Senators elected` dataset contains the `ElectedOrder` column.
 
 There is no need to process this data as all election datasets are already standardised.

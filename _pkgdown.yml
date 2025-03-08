@@ -1,11 +1,15 @@
-url: http://docs.sarahcgall.co.uk/scgElectionsAU/
+url: https://docs.sarahcgall.co.uk/scgElectionsAU/
 template:
+  package: tidytemplate
   bootstrap: 5
+
 development:
   mode: auto
+
 authors:
   Sarah Gall:
     href: https://www.sarahcgall.co.uk/
+
 articles:
 - title: Function Example
   navbar: ~
