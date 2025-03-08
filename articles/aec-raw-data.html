@@ -14,15 +14,17 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="A Guide to the AEC's Federal Election Raw Datasets">
 </head>
 <body>
-    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    <a href="#container" class="visually-hidden-focusable">Skip to content</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-none" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">scgElectionsAU</a>
 
@@ -54,7 +56,7 @@
 
 
   </div>
-</nav><div class="container template-article">
+</nav><div class="container template-article" id="container">
 
 
 
@@ -83,15 +85,18 @@
 function and the data that it is able to retrieve from the Australian
 Electoral Commission’s website. This function is primarily retrieving
 the raw data with limited processing. For a more processed and
-‘analysis-ready’ function, check out <code>get_XXX</code>](<a href="https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_XXX.html" class="external-link uri">https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_XXX.html</a>).
+‘analysis-ready’ function, check out <a href="https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_XXX.html" class="external-link"><code>get_XXX</code></a>.
 <br></p>
 <p>In the <a href="https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_aec_data.html" class="external-link"><code>get_aec_data</code></a>
 function, the <code>type</code> argument default is “Federal Election”.
 This type extracts data from the AEC’s ‘Tally Room’ for elections
 between 2004 and 2022. Both House and Senate data are extractable.</p>
-<div class="section level3">
-<h3 id="national-list-of-candidates">National list of candidates<a class="anchor" aria-label="anchor" href="#national-list-of-candidates"></a>
-</h3>
+<div class="section level2">
+<h2 id="candidates">Candidates<a class="anchor" aria-label="anchor" href="#candidates"></a>
+</h2>
+<div class="section level4">
+<h4 id="national-list-of-candidates">National list of candidates<a class="anchor" aria-label="anchor" href="#national-list-of-candidates"></a>
+</h4>
 <p>The <code>National list of candidates</code> dataset contains a list
 of candidates including whether or not the candidate was
 <code>Elected</code> or an incumbent (<code>HistoricElected</code>).
@@ -105,14 +110,13 @@ column and replacing it with the <code>Elected</code> and
 column is based on the <code>SittingMemberFl</code> column and the
 <code>Elected</code> column is based on the
 <code>Senators elected</code> dataset.</p>
-<p><br><em>Options for this dataset include:</em></p>
-<ul>
-<li><code>file_name = National list of candidates</code></li>
-<li><code>date_range = list(from = "2004-01-01", to = "2023-01-01")</code></li>
-<li><code>category = c("House","Senate")</code></li>
-<li><code>process = TRUE</code></li>
-</ul>
-<p><br><em>Dataset output:</em></p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"National list of candidates"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span>, <span class="co"># OR "Senate",</span></span>
+<span>  process <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># OR FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; Downloading `National list of candidates` from https://results.aec.gov.au/27966/Website/Downloads/HouseCandidatesDownload-27966.csv</span></span>
 <span><span class="co">#&gt; Successfully downloaded `National list of candidates` for the 2022 Federal Election</span></span></code></pre>
 <table class="table table table-bordered">
@@ -194,9 +198,9 @@ N
 </tr></tbody>
 </table>
 </div>
-<div class="section level3">
-<h3 id="memberssenators-elected">Members/Senators elected<a class="anchor" aria-label="anchor" href="#memberssenators-elected"></a>
-</h3>
+<div class="section level4">
+<h4 id="memberssenators-elected">Members/Senators elected<a class="anchor" aria-label="anchor" href="#memberssenators-elected"></a>
+</h4>
 <p>The <code>Members elected</code> and <code>Senators elected</code>
 datasets list the elected MPs and Senators at each election. The
 <code>Senators elected</code> dataset contains the
@@ -344,13 +348,16 @@ ALP
 </tr></tbody>
 </table>
 </div>
+</div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
 
 
-    <footer><div class="pkgdown-footer-left">
+   </div>
+  <footer><div class="container">
+  <div class="pkgdown-footer-left">
   <p>Developed by <a href="https://www.sarahcgall.co.uk/" class="external-link">Sarah Gall</a>.</p>
 </div>
 
@@ -358,12 +365,6 @@ ALP
   <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
-    </footer>
-</div>
-
-
-
-
-
-  </body>
+  </div></footer>
+</body>
 </html>

@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   articles/aec-raw-data: aec-raw-data.html
-last_built: 2025-03-08T07:51Z
+last_built: 2025-03-08T08:24Z
 urls:
-  reference: http://docs.sarahcgall.co.uk/scgElectionsAU/reference
-  article: http://docs.sarahcgall.co.uk/scgElectionsAU/articles
+  reference: https://docs.sarahcgall.co.uk/scgElectionsAU/reference
+  article: https://docs.sarahcgall.co.uk/scgElectionsAU/articles
