@@ -6,4 +6,9 @@ development:
 authors:
   Sarah Gall:
     href: https://www.sarahcgall.co.uk/
+articles:
+- title: Function Example
+  navbar: ~
+  contents:
+  - articles/aec-raw-data
 

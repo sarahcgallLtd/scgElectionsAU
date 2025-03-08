@@ -136,36 +136,36 @@ check_file_exists <- function(
 }
 
 
-  #' Construct AEC Data Download URL
-  #'
-  #' This function constructs a URL for downloading files from the Australian Electoral Commission.
-  #' It is designed as a helper function for `get_aec_data()` and uses specific lookup data from
-  #' the 'scgElectionsAU' package. It forms URLs based on a reference ID, file name, and prefix
-  #' associated with the data to be downloaded.
-  #'
-  #' @param ref A character string specifying the reference ID associated with the election year
-  #'        or event. Different areas ('results' or 'Website') of the AEC website are used based
-  #'        on the value of `ref`. Each `ref` corresponds to an election year.
-  #' @param file_name A character string specifying the name of the file to download, as recorded
-  #'        in the `aec_names_fed` dataset. This corresponds to a particular type of election data.
-  #' @param prefix A character string specifying the prefix that categorises the file within
-  #'        the AEC structure, used to correctly format the download URL. E.g., House, Senate, of
-  #'        General.
-  #'
-  #' @return A character string containing the fully constructed URL for the data file.
-  #'
-  #' @details This function accesses the 'aec_names_fed' dataset stored within the 'scgElectionsAU'
-  #'          package environment. It filters this dataset based on the `file_name` and `prefix`
-  #'          provided, constructs a URL, and ensures that exactly one entry matches the given
-  #'          parameters to prevent errors in URL construction. Error handling is robust, providing
-  #'          clear messages for potential issues such as missing data or multiple matching entries.
-  #'
-  #' @examples
-  #' # Assuming 'aec_names_fed' and the necessary variables are properly defined:
-  #' construct_url("27966", "National list of candidates", "House")
-  #'
-  #' @noRd
-  #' @keywords internal
+#' Construct AEC Data Download URL
+#'
+#' This function constructs a URL for downloading files from the Australian Electoral Commission.
+#' It is designed as a helper function for `get_aec_data()` and uses specific lookup data from
+#' the 'scgElectionsAU' package. It forms URLs based on a reference ID, file name, and prefix
+#' associated with the data to be downloaded.
+#'
+#' @param ref A character string specifying the reference ID associated with the election year
+#'        or event. Different areas ('results' or 'Website') of the AEC website are used based
+#'        on the value of `ref`. Each `ref` corresponds to an election year.
+#' @param file_name A character string specifying the name of the file to download, as recorded
+#'        in the `aec_names_fed` dataset. This corresponds to a particular type of election data.
+#' @param prefix A character string specifying the prefix that categorises the file within
+#'        the AEC structure, used to correctly format the download URL. E.g., House, Senate, of
+#'        General.
+#'
+#' @return A character string containing the fully constructed URL for the data file.
+#'
+#' @details This function accesses the 'aec_names_fed' dataset stored within the 'scgElectionsAU'
+#'          package environment. It filters this dataset based on the `file_name` and `prefix`
+#'          provided, constructs a URL, and ensures that exactly one entry matches the given
+#'          parameters to prevent errors in URL construction. Error handling is robust, providing
+#'          clear messages for potential issues such as missing data or multiple matching entries.
+#'
+#' @examples
+#' # Assuming 'aec_names_fed' and the necessary variables are properly defined:
+#' construct_url("27966", "National list of candidates", "House")
+#'
+#' @noRd
+#' @keywords internal
 construct_url <- function(
   ref,
   file_name,
@@ -201,4 +201,61 @@ construct_url <- function(
                 filtered_names$file_type)
 
   return(url)
+}
+
+
+#' Combine Two Data Frames Robustly
+#'
+#' This utility function attempts to combine two data frames by rows even if
+#' there are data type mismatches between the corresponding columns of the two data frames.
+#' It handles errors specifically related to combining columns with different data types
+#' by converting the problematic column(s) to numeric, assuming that non-numeric characters
+#' can be coerced to NA or are actual numbers.
+#'
+#' @param df1 The first data frame to combine.
+#' @param df2 The second data frame to combine.
+#'
+#' @return A data frame that is the row binding of `df1` and `df2`, after potentially
+#' converting data types of mismatched columns to numeric.
+#'
+#' @details If `bind_rows` fails due to a data type mismatch, the function
+#' identifies the problematic column from the error message, converts it to numeric
+#' in both data frames, and retries the combination. This process is recursive
+#' until no more type mismatch errors occur.
+#'
+#' @examples
+#' df1 <- data.frame(LastElection = c("2010", "2011", "-"))
+#' df2 <- data.frame(LastElection = c(2012, 2013, 2014))
+#' try_combine(df1, df2)
+#'
+#' @note This function is not exported and intended for internal use only.
+#' It assumes that all mismatches should be resolved by converting character
+#' to numeric, which may not be appropriate for all cases.
+#'
+#' @importFrom dplyr bind_rows
+#' @importFrom stringr str_detect str_extract
+#'
+#' @noRd
+try_combine <- function(df1, df2) {
+  tryCatch({
+    # Try to combine the data frames
+    combined_df <- dplyr::bind_rows(df1, df2)
+    return(combined_df)
+  }, error = function(e) {
+    # Catch the error and extract the column name causing the issue
+    message <- conditionMessage(e)
+    if (stringr::str_detect(message, "Can't combine")) {
+      col_name <- stringr::str_extract(message, "(?<=\\$)[^`]+")
+      message(paste("Attempting to fix columns:", paste(col_name, collapse=", ")))
+
+      # Convert the problematic column to numeric, replacing non-numeric characters
+      df1[[col_name]] <- as.numeric(as.character(df1[[col_name]]))
+      df2[[col_name]] <- as.numeric(as.character(df2[[col_name]]))
+
+      # Recursively call try_combine to try again
+      return(try_combine(df1, df2))
+    } else {
+      stop("Unhandled error:", message)
+    }
+  })
 }
