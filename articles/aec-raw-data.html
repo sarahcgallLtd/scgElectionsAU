@@ -109,7 +109,7 @@ column and replacing it with the <code>Elected</code> and
 <code>HistoricElected</code> columns. The <code>HistoricElected</code>
 column is based on the <code>SittingMemberFl</code> column and the
 <code>Elected</code> column is based on the
-<code>Senators elected</code> dataset.</p>
+<code>Senators elected</code> dataset. <br></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"National list of candidates"</span>,</span>
@@ -117,8 +117,6 @@ column is based on the <code>SittingMemberFl</code> column and the
 <span>  category <span class="op">=</span> <span class="st">"House"</span>, <span class="co"># OR "Senate",</span></span>
 <span>  process <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># OR FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; Downloading `National list of candidates` from https://results.aec.gov.au/27966/Website/Downloads/HouseCandidatesDownload-27966.csv</span></span>
-<span><span class="co">#&gt; Successfully downloaded `National list of candidates` for the 2022 Federal Election</span></span></code></pre>
 <table class="table table table-bordered">
 <thead><tr>
 <th style="text-align:left;">
@@ -197,6 +195,7 @@ N
 </td>
 </tr></tbody>
 </table>
+<p><br></p>
 </div>
 <div class="section level4">
 <h4 id="memberssenators-elected">Members/Senators elected<a class="anchor" aria-label="anchor" href="#memberssenators-elected"></a>
@@ -206,17 +205,13 @@ datasets list the elected MPs and Senators at each election. The
 <code>Senators elected</code> dataset contains the
 <code>ElectedOrder</code> column.</p>
 <p>There is no need to process this data as all election datasets are
-already standardised.</p>
-<p><br><em>Options for the <code>Members elected</code> dataset
-include:</em></p>
-<ul>
-<li><code>file_name = Members elected</code></li>
-<li><code>date_range = list(from = "2004-01-01", to = "2023-01-01")</code></li>
-<li><code>category = "House"</code></li>
-</ul>
-<p><br><em>Dataset output:</em></p>
-<pre><code><span><span class="co">#&gt; Downloading `Members elected` from https://results.aec.gov.au/27966/Website/Downloads/HouseMembersElectedDownload-27966.csv</span></span>
-<span><span class="co">#&gt; Successfully downloaded `Members elected` for the 2022 Federal Election</span></span></code></pre>
+already standardised. <br></p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Members elected"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <table class="table table table-bordered">
 <thead><tr>
 <th style="text-align:left;">
@@ -283,16 +278,13 @@ ALP
 </td>
 </tr></tbody>
 </table>
-<p><br><em>Options for the <code>Senators elected</code> dataset
-include:</em></p>
-<ul>
-<li><code>file_name = Senators elected</code></li>
-<li><code>date_range = list(from = "2004-01-01", to = "2023-01-01")</code></li>
-<li><code>category = "Senate"</code></li>
-</ul>
-<p><br><em>Dataset output:</em></p>
-<pre><code><span><span class="co">#&gt; Downloading `Senators elected` from https://results.aec.gov.au/27966/Website/Downloads/SenateSenatorsElectedDownload-27966.csv</span></span>
-<span><span class="co">#&gt; Successfully downloaded `Senators elected` for the 2022 Federal Election</span></span></code></pre>
+<p><br></p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Senators elected"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"Senate"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <table class="table table table-bordered">
 <thead><tr>
 <th style="text-align:left;">
