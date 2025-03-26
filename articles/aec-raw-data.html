@@ -92,31 +92,42 @@ function, the <code>type</code> argument default is “Federal Election”.
 This type extracts data from the AEC’s ‘Tally Room’ for elections
 between 2004 and 2022. Both House and Senate data are extractable.</p>
 <div class="section level2">
-<h2 id="candidates">Candidates<a class="anchor" aria-label="anchor" href="#candidates"></a>
+<h2 id="candidates-nominations">Candidates &amp; Nominations<a class="anchor" aria-label="anchor" href="#candidates-nominations"></a>
 </h2>
 <div class="section level4">
 <h4 id="national-list-of-candidates">National list of candidates<a class="anchor" aria-label="anchor" href="#national-list-of-candidates"></a>
 </h4>
-<p>The <code>National list of candidates</code> dataset contains a list
-of candidates including whether or not the candidate was
-<code>Elected</code> or an incumbent (<code>HistoricElected</code>).
-This dataset exists for both <code>Senate</code> and <code>House</code>
-candidates.</p>
-<p>There is the option to switch <code>process</code> to
-<code>TRUE</code>. In doing this, the 2004 dataset will be the same as
-the other election datasets by removing the <code>SittingMemberFl</code>
-column and replacing it with the <code>Elected</code> and
-<code>HistoricElected</code> columns. The <code>HistoricElected</code>
-column is based on the <code>SittingMemberFl</code> column and the
-<code>Elected</code> column is based on the
-<code>Senators elected</code> dataset. <br></p>
+<p>The <code>National list of candidates</code> dataset contains a
+comprehensive list of all candidates who participated in Australian
+federal elections. It covers both <code>Senate</code> and
+<code>House</code> elections from <code>2004</code> to the present. When
+<code>process = TRUE</code>, the dataset is standardised: for the
+<code>2004</code> election, the <code>SittingMemberFl</code> column is
+removed and replaced with <code>Elected</code> (indicating winners,
+derived from the <code>Senators elected</code> and
+<code>Member elected</code> datasets) and <code>HistoricElected</code>
+(indicating incumbents, based on <code>SittingMemberFl</code>). This
+dataset enables you to:</p>
+<ul>
+<li>View candidate details (<code>CandidateID</code>,
+<code>Surname</code>, <code>GivenNm</code>) and their party affiliations
+(<code>PartyAb</code>, <code>PartyNm</code>).</li>
+<li>Map candidates to electoral divisions (<code>DivisionID</code>,
+<code>DivisionNm</code>) and states (<code>StateAb</code>).</li>
+<li>Identify elected candidates (<code>Elected</code>) and incumbents
+(<code>HistoricElected</code>).</li>
+</ul>
+<p><br></p>
+<p><em>Example Usage:</em></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"National list of candidates"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
-<span>  category <span class="op">=</span> <span class="st">"House"</span>, <span class="co"># OR "Senate",</span></span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span>, <span class="co"># OR "Senate"</span></span>
 <span>  process <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># OR FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
 <table class="table table table-bordered">
 <thead><tr>
 <th style="text-align:left;">
@@ -201,17 +212,49 @@ N
 <h4 id="memberssenators-elected">Members/Senators elected<a class="anchor" aria-label="anchor" href="#memberssenators-elected"></a>
 </h4>
 <p>The <code>Members elected</code> and <code>Senators elected</code>
-datasets list the elected MPs and Senators at each election. The
-<code>Senators elected</code> dataset contains the
-<code>ElectedOrder</code> column.</p>
-<p>There is no need to process this data as all election datasets are
-already standardised. <br></p>
+datasets provide comprehensive lists of the elected Members of
+Parliament (MPs) and Senators at federal elections. These datasets cover
+elections from <code>2004</code> to the present and are available for
+the <code>House</code> and <code>Senate</code>, respectively.</p>
+<ul>
+<li>
+<code>Members elected</code> (<code>House</code>): Contains details
+of MPs who won their respective electoral divisions.</li>
+<li>
+<code>Senators elected</code> (<code>Senate</code>): Contains
+details of Senators elected for each state or territory, including the
+<code>ElectedOrder</code> column, which specifies the order in which
+they were elected.</li>
+</ul>
+<p>There is no need for additional processing when
+<code>process = TRUE</code>, as both datasets are already standardised
+across all election years.</p>
+<p>This dataset enables you to:</p>
+<ul>
+<li>Identify elected representatives:
+<ul>
+<li>For the <code>House</code>: MPs by electoral division
+(<code>DivisionID</code>, <code>DivisionNm</code>).</li>
+<li>For the <code>Senate</code>: Senators by state or territory
+(<code>StateAb</code>), including their election order
+(<code>ElectedOrder</code>).</li>
+</ul>
+</li>
+<li>View candidate details (<code>CandidateID</code>,
+<code>Surname</code>, <code>GivenNm</code>) and party affiliations
+(<code>PartyNm</code>, <code>PartyAb</code>).</li>
+</ul>
+<p><br></p>
+<p><em>Example Usage for Members Elected:</em></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="co"># Example usage</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Members elected"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
 <span>  category <span class="op">=</span> <span class="st">"House"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data for Members Elected:</em></p>
 <table class="table table table-bordered">
 <thead><tr>
 <th style="text-align:left;">
@@ -279,12 +322,15 @@ ALP
 </tr></tbody>
 </table>
 <p><br></p>
+<p><em>Example Usage for Senators Elected:</em></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Senators elected"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
 <span>  category <span class="op">=</span> <span class="st">"Senate"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data for Senators Elected:</em></p>
 <table class="table table table-bordered">
 <thead><tr>
 <th style="text-align:left;">
@@ -336,6 +382,3265 @@ ALP
 </td>
 <td style="text-align:right;">
 1
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="nominations-by-state">Nominations by state<a class="anchor" aria-label="anchor" href="#nominations-by-state"></a>
+</h4>
+<p>The <code>Nominations by state</code> dataset provides a summary of
+nominations for federal elections, detailing:</p>
+<ul>
+<li>The number of divisions (<code>Divisions</code>) and nominations
+(<code>Nominations</code>) per state (<code>StateAb</code>,
+<code>StateNm</code>) for the <code>House</code>; and</li>
+<li>The number of seats (<code>Seats</code>), candidates
+(<code>Candidates</code>), groups (<code>Groups</code>), and ungrouped
+candidates (<code>UngroupedCandidates</code>) per state
+(<code>StateAb</code>, <code>StateNm</code>) for the
+<code>Senate</code>.</li>
+</ul>
+<p>Covering elections from <code>2004</code> to the present, these
+datasets are available for both the <code>House</code> and
+<code>Senate</code> categories. No additional processing is required, as
+the data is already standardised across all election years.</p>
+<p><br></p>
+<p><em>Example Usage for House:</em></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Nominations by state"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data for House:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+StateNm
+</th>
+<th style="text-align:right;">
+Divisions
+</th>
+<th style="text-align:right;">
+Nominations
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+NSW
+</td>
+<td style="text-align:left;">
+New South Wales
+</td>
+<td style="text-align:right;">
+47
+</td>
+<td style="text-align:right;">
+350
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+<p><em>Example Usage for Senate:</em></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Nominations by state"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"Senate"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data for Senate:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+StateNm
+</th>
+<th style="text-align:right;">
+Seats
+</th>
+<th style="text-align:right;">
+Candidates
+</th>
+<th style="text-align:right;">
+Groups
+</th>
+<th style="text-align:right;">
+UngroupedCandidates
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+NSW
+</td>
+<td style="text-align:left;">
+New South Wales
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="nominations-by-division">Nominations by division<a class="anchor" aria-label="anchor" href="#nominations-by-division"></a>
+</h4>
+<p>The <code>Nominations by division</code> dataset provides a summary
+of nominations for federal elections, detailing the number of
+nominations (<code>Nominations</code>) per division
+(<code>DivisionID</code>, <code>DivisionNm</code>,
+<code>DivisionAb</code>) for the <code>House</code>. It also includes
+enrolment figures (<code>Enrolment</code>) and demographic
+classifications (<code>Demographics</code>) for each electorate.</p>
+<p>Covering elections from <code>2011</code> to the present, these
+datasets are available for the <code>House</code> only. No additional
+processing is required, as the data is already standardised across all
+election years.</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Nominations by division"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2011-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:right;">
+TransactionId
+</th>
+<th style="text-align:right;">
+DivisionId
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:left;">
+DivisionAb
+</th>
+<th style="text-align:right;">
+Enrolment
+</th>
+<th style="text-align:left;">
+Demographic
+</th>
+<th style="text-align:right;">
+Nominations
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:right;">
+27966
+</td>
+<td style="text-align:right;">
+179
+</td>
+<td style="text-align:left;">
+SA
+</td>
+<td style="text-align:left;">
+Adelaide
+</td>
+<td style="text-align:left;">
+ADEL
+</td>
+<td style="text-align:right;">
+129960
+</td>
+<td style="text-align:left;">
+Inner Metropolitan
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="nominations-by-gender">Nominations by gender<a class="anchor" aria-label="anchor" href="#nominations-by-gender"></a>
+</h4>
+<p>The <code>Nominations by gender</code> dataset provides a summary of
+nominations for federal elections, detailing the number of nominations
+(<code>Nominations</code>) per party (<code>PartyAb</code>,
+<code>PartyNm</code>) for the <code>House</code> and
+<code>Senate</code>. Each state and territory have their own columns for
+the two genders (<code>MalesNSW</code>, <code>FemalesNSW</code>) and an
+unspecified column (<code>UnspecifiedNSW</code>). There is also a grand
+total (<code>GrandTotal</code>) of nominations by party which is useful
+for turning data into percentages.</p>
+<p>Covering elections from <code>2004</code> to the present, these
+datasets are available for both the <code>House</code> and
+<code>Senate</code> categories. No additional processing is required, as
+the data is already standardised across all election years.</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Nominations by gender"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+PartyAb
+</th>
+<th style="text-align:left;">
+PartyNm
+</th>
+<th style="text-align:right;">
+MalesNSW
+</th>
+<th style="text-align:right;">
+FemalesNSW
+</th>
+<th style="text-align:right;">
+UnspecifiedNSW
+</th>
+<th style="text-align:right;">
+MalesVIC
+</th>
+<th style="text-align:right;">
+FemalesVIC
+</th>
+<th style="text-align:right;">
+UnspecifiedVIC
+</th>
+<th style="text-align:right;">
+MalesQLD
+</th>
+<th style="text-align:right;">
+FemalesQLD
+</th>
+<th style="text-align:right;">
+UnspecifiedQLD
+</th>
+<th style="text-align:right;">
+MalesWA
+</th>
+<th style="text-align:right;">
+FemalesWA
+</th>
+<th style="text-align:right;">
+UnspecifiedWA
+</th>
+<th style="text-align:right;">
+MalesSA
+</th>
+<th style="text-align:right;">
+FemalesSA
+</th>
+<th style="text-align:right;">
+UnspecifiedSA
+</th>
+<th style="text-align:right;">
+MalesTAS
+</th>
+<th style="text-align:right;">
+FemalesTAS
+</th>
+<th style="text-align:right;">
+UnspecifiedTAS
+</th>
+<th style="text-align:right;">
+MalesACT
+</th>
+<th style="text-align:right;">
+FemalesACT
+</th>
+<th style="text-align:right;">
+UnspecifiedACT
+</th>
+<th style="text-align:right;">
+MalesNT
+</th>
+<th style="text-align:right;">
+FemalesNT
+</th>
+<th style="text-align:right;">
+UnspecifiedNT
+</th>
+<th style="text-align:right;">
+TotalMales
+</th>
+<th style="text-align:right;">
+TotalFemales
+</th>
+<th style="text-align:right;">
+TotalUnspecified
+</th>
+<th style="text-align:right;">
+GrandTotal
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+AJP
+</td>
+<td style="text-align:left;">
+Animal Justice Party
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+48
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="party-representation">Party representation<a class="anchor" aria-label="anchor" href="#party-representation"></a>
+</h4>
+<p>The <code>Party representation</code> dataset provides a summary of
+elected representatives for federal elections, detailing:</p>
+<ul>
+<li>The number of MPs per party (<code>Party</code>) per state and
+territory
+(<code>NSW</code>,<code>VIC</code>,<code>QLD</code>,<code>WA</code>,<code>SA</code>,<code>TAS</code>,<code>ACT</code>,<code>NT</code>)
+and nationally (<code>National</code>) for the <code>House</code>. It
+also includes the number of MPs previously representing each party at
+the previous election (<code>LastElection</code>).</li>
+<li>The number of Senators per party (<code>PartyAb</code>,
+<code>PartyNm</code>) per state and territory
+(<code>NSW</code>,<code>VIC</code>,<code>QLD</code>,<code>WA</code>,<code>SA</code>,<code>TAS</code>,<code>ACT</code>,<code>NT</code>)
+and nationally (<code>TOTAL</code>) for the <code>Senate</code>.</li>
+</ul>
+<p>Covering elections from <code>2004</code> to the present, these
+datasets are available for both the <code>House</code> and
+<code>Senate</code> categories. In order to standardise datasets across
+election years, additional processing is available for election years
+prior to <code>2010</code>. This renames the pre-2010 columns from
+<code>Total</code> and <code>LastElectionTotal</code> to
+<code>National</code> and <code>LastElection</code>, respectively. It
+also removes <code>PartyAb</code>. No additional processing is required
+for the <code>Senate</code>, as the data is already standardised across
+all election years.</p>
+<p><br></p>
+<p><em>Example Usage for House:</em></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Party representation"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span>,</span>
+<span>  process <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># OR FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data for House:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+Party
+</th>
+<th style="text-align:right;">
+NSW
+</th>
+<th style="text-align:right;">
+VIC
+</th>
+<th style="text-align:right;">
+QLD
+</th>
+<th style="text-align:right;">
+WA
+</th>
+<th style="text-align:right;">
+SA
+</th>
+<th style="text-align:right;">
+TAS
+</th>
+<th style="text-align:right;">
+ACT
+</th>
+<th style="text-align:right;">
+NT
+</th>
+<th style="text-align:right;">
+National
+</th>
+<th style="text-align:left;">
+LastElection
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+Liberal
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:left;">
+44
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+<p><em>Example Usage for Senate:</em></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Party representation"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"Senate"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data for Senate:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+PartyAb
+</th>
+<th style="text-align:left;">
+Party
+</th>
+<th style="text-align:right;">
+NSW
+</th>
+<th style="text-align:right;">
+VIC
+</th>
+<th style="text-align:right;">
+QLD
+</th>
+<th style="text-align:right;">
+WA
+</th>
+<th style="text-align:right;">
+SA
+</th>
+<th style="text-align:right;">
+TAS
+</th>
+<th style="text-align:right;">
+ACT
+</th>
+<th style="text-align:right;">
+NT
+</th>
+<th style="text-align:right;">
+TOTAL
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+LP
+</td>
+<td style="text-align:left;">
+Liberal
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="seats">Seats<a class="anchor" aria-label="anchor" href="#seats"></a>
+</h2>
+<div class="section level4">
+<h4 id="seats-that-changed-hands">Seats that changed hands<a class="anchor" aria-label="anchor" href="#seats-that-changed-hands"></a>
+</h4>
+<p>The <code>Seats that changed hands</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Seats that changed hands"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:right;">
+DivisionID
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:left;">
+PreviousPartyAb
+</th>
+<th style="text-align:left;">
+PreviousPartyNm
+</th>
+<th style="text-align:right;">
+CandidateID
+</th>
+<th style="text-align:left;">
+Surname
+</th>
+<th style="text-align:left;">
+GivenNm
+</th>
+<th style="text-align:left;">
+PartyAb
+</th>
+<th style="text-align:left;">
+PartyNm
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+NSW
+</td>
+<td style="text-align:right;">
+105
+</td>
+<td style="text-align:left;">
+Bennelong
+</td>
+<td style="text-align:left;">
+LP
+</td>
+<td style="text-align:left;">
+Liberal
+</td>
+<td style="text-align:right;">
+36827
+</td>
+<td style="text-align:left;">
+LAXALE
+</td>
+<td style="text-align:left;">
+Jerome
+</td>
+<td style="text-align:left;">
+ALP
+</td>
+<td style="text-align:left;">
+Australian Labor Party
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="seats-decided-on-preferences">Seats decided on preferences<a class="anchor" aria-label="anchor" href="#seats-decided-on-preferences"></a>
+</h4>
+<p>The <code>Seats decided on preferences</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Seats decided on preferences"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:right;">
+DivisionID
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+PartyAb
+</th>
+<th style="text-align:left;">
+PartyNm
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:right;">
+179
+</td>
+<td style="text-align:left;">
+Adelaide
+</td>
+<td style="text-align:left;">
+SA
+</td>
+<td style="text-align:left;">
+ALP
+</td>
+<td style="text-align:left;">
+Australian Labor Party
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="seats-decided-on-first-preferences">Seats decided on first preferences<a class="anchor" aria-label="anchor" href="#seats-decided-on-first-preferences"></a>
+</h4>
+<p>The <code>Seats decided on first preferences</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Seats decided on first preferences"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:right;">
+DivisionID
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+PartyAb
+</th>
+<th style="text-align:left;">
+PartyNm
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:right;">
+180
+</td>
+<td style="text-align:left;">
+Barker
+</td>
+<td style="text-align:left;">
+SA
+</td>
+<td style="text-align:left;">
+LP
+</td>
+<td style="text-align:left;">
+Liberal
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="non-classic-divisions">Non-classic divisions<a class="anchor" aria-label="anchor" href="#non-classic-divisions"></a>
+</h4>
+<p>The <code>Non-classic divisions</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Non-classic divisions"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2010-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:right;">
+DivisionId
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:left;">
+Updated
+</th>
+<th style="text-align:left;">
+PartyAb1
+</th>
+<th style="text-align:left;">
+PartyNm1
+</th>
+<th style="text-align:right;">
+CandidateId1
+</th>
+<th style="text-align:left;">
+Surname1
+</th>
+<th style="text-align:left;">
+GivenNm1
+</th>
+<th style="text-align:left;">
+Elected1
+</th>
+<th style="text-align:left;">
+HistoricElected1
+</th>
+<th style="text-align:left;">
+PartyAb2
+</th>
+<th style="text-align:left;">
+PartyNm2
+</th>
+<th style="text-align:right;">
+CandidateId2
+</th>
+<th style="text-align:left;">
+Surname2
+</th>
+<th style="text-align:left;">
+GivenNm2
+</th>
+<th style="text-align:left;">
+Elected2
+</th>
+<th style="text-align:left;">
+HistoricElected2
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+ACT
+</td>
+<td style="text-align:right;">
+101
+</td>
+<td style="text-align:left;">
+Canberra
+</td>
+<td style="text-align:left;">
+Wed, 15 Jun 2022 4:36:53 PM AEST
+</td>
+<td style="text-align:left;">
+GRN
+</td>
+<td style="text-align:left;">
+The Greens
+</td>
+<td style="text-align:right;">
+36241
+</td>
+<td style="text-align:left;">
+HOLLO
+</td>
+<td style="text-align:left;">
+Tim
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+ALP
+</td>
+<td style="text-align:left;">
+Australian Labor Party
+</td>
+<td style="text-align:right;">
+36228
+</td>
+<td style="text-align:left;">
+PAYNE
+</td>
+<td style="text-align:left;">
+Alicia
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+Y
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="first-preferences">First Preferences<a class="anchor" aria-label="anchor" href="#first-preferences"></a>
+</h2>
+<div class="section level3">
+<h3 id="house">
+<code>House</code><a class="anchor" aria-label="anchor" href="#house"></a>
+</h3>
+<div class="section level4">
+<h4 id="first-preferences-by-party">First preferences by party<a class="anchor" aria-label="anchor" href="#first-preferences-by-party"></a>
+</h4>
+<p>The <code>First preferences by party</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"First preferences by party"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:right;">
+DivisionID
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+PartyAb
+</th>
+<th style="text-align:left;">
+PartyNm
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:right;">
+180
+</td>
+<td style="text-align:left;">
+Barker
+</td>
+<td style="text-align:left;">
+SA
+</td>
+<td style="text-align:left;">
+LP
+</td>
+<td style="text-align:left;">
+Liberal
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="first-preferences-by-state-by-party">First preferences by state by party<a class="anchor" aria-label="anchor" href="#first-preferences-by-state-by-party"></a>
+</h4>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="first-preferences-by-candidate-by-vote-type">First preferences by candidate by vote type<a class="anchor" aria-label="anchor" href="#first-preferences-by-candidate-by-vote-type"></a>
+</h4>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="first-preferences-by-candidate-by-polling-place">First preferences by candidate by polling place<a class="anchor" aria-label="anchor" href="#first-preferences-by-candidate-by-polling-place"></a>
+</h4>
+<p><br></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="senate">
+<code>Senate</code><a class="anchor" aria-label="anchor" href="#senate"></a>
+</h3>
+<div class="section level4">
+<h4 id="first-preferences-by-state-by-vote-type">First preferences by state by vote type<a class="anchor" aria-label="anchor" href="#first-preferences-by-state-by-vote-type"></a>
+</h4>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="first-preferences-by-division-by-vote-type">First preferences by division by vote type<a class="anchor" aria-label="anchor" href="#first-preferences-by-division-by-vote-type"></a>
+</h4>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="first-preferences-by-group-by-vote-type">First preferences by group by vote type<a class="anchor" aria-label="anchor" href="#first-preferences-by-group-by-vote-type"></a>
+</h4>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="first-preferences-by-state-by-group-by-vote-type">First preferences by state by group by vote type<a class="anchor" aria-label="anchor" href="#first-preferences-by-state-by-group-by-vote-type"></a>
+</h4>
+<p><br></p>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="house-two-party-preferred">House Two Party Preferred<a class="anchor" aria-label="anchor" href="#house-two-party-preferred"></a>
+</h2>
+<div class="section level4">
+<h4 id="two-party-preferred-by-state">Two party preferred by state<a class="anchor" aria-label="anchor" href="#two-party-preferred-by-state"></a>
+</h4>
+<p>The <code>Two party preferred by state</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Two party preferred by state"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+StateNm
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition Votes
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition Percentage
+</th>
+<th style="text-align:right;">
+Australian Labor Party Votes
+</th>
+<th style="text-align:right;">
+Australian Labor Party Percentage
+</th>
+<th style="text-align:right;">
+TotalVotes
+</th>
+<th style="text-align:right;">
+Swing
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+NSW
+</td>
+<td style="text-align:left;">
+New South Wales
+</td>
+<td style="text-align:right;">
+2259639
+</td>
+<td style="text-align:right;">
+48.58
+</td>
+<td style="text-align:right;">
+2391301
+</td>
+<td style="text-align:right;">
+51.42
+</td>
+<td style="text-align:right;">
+4650940
+</td>
+<td style="text-align:right;">
+-3.2
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="two-party-preferred-by-division">Two party preferred by division<a class="anchor" aria-label="anchor" href="#two-party-preferred-by-division"></a>
+</h4>
+<p>The <code>Two party preferred by division</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Two party preferred by division"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:right;">
+DivisionID
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+PartyAb
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition Votes
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition Percentage
+</th>
+<th style="text-align:right;">
+Australian Labor Party Votes
+</th>
+<th style="text-align:right;">
+Australian Labor Party Percentage
+</th>
+<th style="text-align:right;">
+TotalVotes
+</th>
+<th style="text-align:right;">
+Swing
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+Adelaide
+</td>
+<td style="text-align:right;">
+179
+</td>
+<td style="text-align:left;">
+SA
+</td>
+<td style="text-align:left;">
+ALP
+</td>
+<td style="text-align:right;">
+42948
+</td>
+<td style="text-align:right;">
+38.09
+</td>
+<td style="text-align:right;">
+69816
+</td>
+<td style="text-align:right;">
+61.91
+</td>
+<td style="text-align:right;">
+112764
+</td>
+<td style="text-align:right;">
+-3.73
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="two-party-preferred-by-division-by-vote-type">Two party preferred by division by vote type<a class="anchor" aria-label="anchor" href="#two-party-preferred-by-division-by-vote-type"></a>
+</h4>
+<p>The <code>Two party preferred by division by vote type</code>
+dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Two party preferred by division by vote type"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2016-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:right;">
+DivisionID
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+PartyAb
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition OrdinaryVotes
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition OrdinaryPercentage
+</th>
+<th style="text-align:right;">
+Australian Labor Party OrdinaryVotes
+</th>
+<th style="text-align:right;">
+Australian Labor Party OrdinaryPercentage
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition AbsentVotes
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition AbsentPercentage
+</th>
+<th style="text-align:right;">
+Australian Labor Party AbsentVotes
+</th>
+<th style="text-align:right;">
+Australian Labor Party AbsentPercentage
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition ProvisionalVotes
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition ProvisionalPercentage
+</th>
+<th style="text-align:right;">
+Australian Labor Party ProvisionalVotes
+</th>
+<th style="text-align:right;">
+Australian Labor Party ProvisionalPercentage
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition PostalVotes
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition PostalPercentage
+</th>
+<th style="text-align:right;">
+Australian Labor Party PostalVotes
+</th>
+<th style="text-align:right;">
+Australian Labor Party PostalPercentage
+</th>
+<th style="text-align:right;">
+TotalVotes
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition DeclarationPrePollVotes
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition DeclarationPrePollPercentage
+</th>
+<th style="text-align:right;">
+Australian Labor Party DeclarationPrePollVotes
+</th>
+<th style="text-align:right;">
+Australian Labor Party DeclarationPrePollPercentage
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+Adelaide
+</td>
+<td style="text-align:right;">
+179
+</td>
+<td style="text-align:left;">
+SA
+</td>
+<td style="text-align:left;">
+ALP
+</td>
+<td style="text-align:right;">
+31414
+</td>
+<td style="text-align:right;">
+37.27
+</td>
+<td style="text-align:right;">
+52878
+</td>
+<td style="text-align:right;">
+62.73
+</td>
+<td style="text-align:right;">
+2349
+</td>
+<td style="text-align:right;">
+38.33
+</td>
+<td style="text-align:right;">
+3780
+</td>
+<td style="text-align:right;">
+61.67
+</td>
+<td style="text-align:right;">
+217
+</td>
+<td style="text-align:right;">
+32.34
+</td>
+<td style="text-align:right;">
+454
+</td>
+<td style="text-align:right;">
+67.66
+</td>
+<td style="text-align:right;">
+7825
+</td>
+<td style="text-align:right;">
+41.91
+</td>
+<td style="text-align:right;">
+10846
+</td>
+<td style="text-align:right;">
+58.09
+</td>
+<td style="text-align:right;">
+112764
+</td>
+<td style="text-align:right;">
+1143
+</td>
+<td style="text-align:right;">
+38.09
+</td>
+<td style="text-align:right;">
+1858
+</td>
+<td style="text-align:right;">
+61.91
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="two-party-preferred-by-polling-place">Two party preferred by polling place<a class="anchor" aria-label="anchor" href="#two-party-preferred-by-polling-place"></a>
+</h4>
+<p>The <code>Two party preferred by polling place</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Two party preferred by polling place"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:right;">
+DivisionID
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:right;">
+PollingPlaceID
+</th>
+<th style="text-align:left;">
+PollingPlace
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition Votes
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition Percentage
+</th>
+<th style="text-align:right;">
+Australian Labor Party Votes
+</th>
+<th style="text-align:right;">
+Australian Labor Party Percentage
+</th>
+<th style="text-align:right;">
+TotalVotes
+</th>
+<th style="text-align:right;">
+Swing
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+ACT
+</td>
+<td style="text-align:right;">
+318
+</td>
+<td style="text-align:left;">
+Bean
+</td>
+<td style="text-align:right;">
+93925
+</td>
+<td style="text-align:left;">
+Belconnen BEAN PPVC
+</td>
+<td style="text-align:right;">
+342
+</td>
+<td style="text-align:right;">
+37.87
+</td>
+<td style="text-align:right;">
+561
+</td>
+<td style="text-align:right;">
+62.13
+</td>
+<td style="text-align:right;">
+903
+</td>
+<td style="text-align:right;">
+-2.92
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="house-two-candidate-preferred">House Two Candidate Preferred<a class="anchor" aria-label="anchor" href="#house-two-candidate-preferred"></a>
+</h2>
+<div class="section level4">
+<h4 id="two-candidate-preferred-by-candidate-by-vote-type">Two candidate preferred by candidate by vote type<a class="anchor" aria-label="anchor" href="#two-candidate-preferred-by-candidate-by-vote-type"></a>
+</h4>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="two-candidate-preferred-by-candidate-by-polling-place">Two candidate preferred by candidate by polling place<a class="anchor" aria-label="anchor" href="#two-candidate-preferred-by-candidate-by-polling-place"></a>
+</h4>
+<p><br></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="house-distribution-of-preferences">House Distribution of Preferences<a class="anchor" aria-label="anchor" href="#house-distribution-of-preferences"></a>
+</h2>
+<div class="section level4">
+<h4 id="distribution-of-preferences-by-candidate-by-division">Distribution of preferences by candidate by division<a class="anchor" aria-label="anchor" href="#distribution-of-preferences-by-candidate-by-division"></a>
+</h4>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="distribution-of-preferences-by-polling-place">Distribution of preferences by polling place<a class="anchor" aria-label="anchor" href="#distribution-of-preferences-by-polling-place"></a>
+</h4>
+<p><br></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="house-flow-of-preferences">House Flow of Preferences<a class="anchor" aria-label="anchor" href="#house-flow-of-preferences"></a>
+</h2>
+<div class="section level4">
+<h4 id="two-candidate-preferred-flow-of-preferences-by-candidate-by-division">Two candidate preferred flow of preferences by candidate by
+division<a class="anchor" aria-label="anchor" href="#two-candidate-preferred-flow-of-preferences-by-candidate-by-division"></a>
+</h4>
+<p>The
+<code>Two candidate preferred flow of preferences by candidate by division</code>
+dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Two candidate preferred flow of preferences by candidate by division"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:right;">
+DivisionID
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:right;">
+FromCandidateID
+</th>
+<th style="text-align:left;">
+FromCandidatePartyAb
+</th>
+<th style="text-align:left;">
+FromCandidatePartyNm
+</th>
+<th style="text-align:left;">
+FromCandidateSurname
+</th>
+<th style="text-align:left;">
+FromCandidateGivenNm
+</th>
+<th style="text-align:right;">
+FromCandidateBallotPosition
+</th>
+<th style="text-align:right;">
+ToCandidateID
+</th>
+<th style="text-align:left;">
+ToCandidatePartyAb
+</th>
+<th style="text-align:left;">
+ToCandidatePartyNm
+</th>
+<th style="text-align:left;">
+ToCandidateSurname
+</th>
+<th style="text-align:left;">
+ToCandidateGivenNm
+</th>
+<th style="text-align:right;">
+ToCandidateBallotPosition
+</th>
+<th style="text-align:right;">
+TransferCount
+</th>
+<th style="text-align:right;">
+TransferPercentage
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+ACT
+</td>
+<td style="text-align:right;">
+318
+</td>
+<td style="text-align:left;">
+Bean
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+First Preferences
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+36231
+</td>
+<td style="text-align:left;">
+ALP
+</td>
+<td style="text-align:left;">
+Australian Labor Party
+</td>
+<td style="text-align:left;">
+SMITH
+</td>
+<td style="text-align:left;">
+David
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+41060
+</td>
+<td style="text-align:right;">
+58.41
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="two-party-preferred-flow-of-preferences-by-party">Two party preferred flow of preferences by party<a class="anchor" aria-label="anchor" href="#two-party-preferred-flow-of-preferences-by-party"></a>
+</h4>
+<p>The <code>Two party preferred flow of preferences by party</code>
+dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Two party preferred flow of preferences by party"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+PartyAb
+</th>
+<th style="text-align:left;">
+PartyNm
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition Transfer Votes
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition Transfer Percentage
+</th>
+<th style="text-align:right;">
+Australian Labor Party Transfer Votes
+</th>
+<th style="text-align:right;">
+Australian Labor Party Transfer Percentage
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+LP
+</td>
+<td style="text-align:left;">
+Liberal
+</td>
+<td style="text-align:right;">
+15492
+</td>
+<td style="text-align:right;">
+90.14
+</td>
+<td style="text-align:right;">
+1695
+</td>
+<td style="text-align:right;">
+9.86
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="two-party-preferred-flow-of-preferences-by-state-by-party">Two party preferred flow of preferences by state by party<a class="anchor" aria-label="anchor" href="#two-party-preferred-flow-of-preferences-by-state-by-party"></a>
+</h4>
+<p>The
+<code>Two party preferred flow of preferences by state by party</code>
+dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Two party preferred flow of preferences by state by party"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+PartyAb
+</th>
+<th style="text-align:left;">
+PartyNm
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition Transfer Votes
+</th>
+<th style="text-align:right;">
+Liberal/National Coalition Transfer Percentage
+</th>
+<th style="text-align:right;">
+Australian Labor Party Transfer Votes
+</th>
+<th style="text-align:right;">
+Australian Labor Party Transfer Percentage
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+NSW
+</td>
+<td style="text-align:left;">
+UAPP
+</td>
+<td style="text-align:left;">
+United Australia Party
+</td>
+<td style="text-align:right;">
+109813
+</td>
+<td style="text-align:right;">
+59.95
+</td>
+<td style="text-align:right;">
+73361
+</td>
+<td style="text-align:right;">
+40.05
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="two-candidate-preferred-flow-of-preferences-by-party">Two candidate preferred flow of preferences by party<a class="anchor" aria-label="anchor" href="#two-candidate-preferred-flow-of-preferences-by-party"></a>
+</h4>
+<p>The <code>Two candidate preferred flow of preferences by party</code>
+dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Two candidate preferred flow of preferences by party"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:right;">
+FromPartyGroupID
+</th>
+<th style="text-align:left;">
+FromPartyGroupAb
+</th>
+<th style="text-align:left;">
+FromPartyGroupNm
+</th>
+<th style="text-align:right;">
+FromPartyOrderOfAppearance
+</th>
+<th style="text-align:right;">
+ToPartyGroupID
+</th>
+<th style="text-align:left;">
+ToPartyDisplayAb
+</th>
+<th style="text-align:left;">
+ToPartyGroupNm
+</th>
+<th style="text-align:right;">
+ToPartyOrderOfAppearance
+</th>
+<th style="text-align:right;">
+TransferVotes
+</th>
+<th style="text-align:right;">
+TransferPercentage
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+LP
+</td>
+<td style="text-align:left;">
+Liberal
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+LP
+</td>
+<td style="text-align:left;">
+Liberal
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="two-candidate-preferred-flow-of-preferences-by-state-by-party">Two candidate preferred flow of preferences by state by party<a class="anchor" aria-label="anchor" href="#two-candidate-preferred-flow-of-preferences-by-state-by-party"></a>
+</h4>
+<p>The
+<code>Two candidate preferred flow of preferences by state by party</code>
+dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Two candidate preferred flow of preferences by state by party"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+State
+</th>
+<th style="text-align:right;">
+FromPartyGroupID
+</th>
+<th style="text-align:left;">
+FromPartyGroupAb
+</th>
+<th style="text-align:left;">
+FromPartyGroupNm
+</th>
+<th style="text-align:right;">
+FromPartyOrderOfAppearance
+</th>
+<th style="text-align:right;">
+ToPartyGroupID
+</th>
+<th style="text-align:left;">
+ToPartyDisplayAb
+</th>
+<th style="text-align:left;">
+ToPartyGroupNm
+</th>
+<th style="text-align:right;">
+ToPartyOrderOfAppearance
+</th>
+<th style="text-align:right;">
+TransferVotes
+</th>
+<th style="text-align:right;">
+TransferPercentage
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+NSW
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+LP
+</td>
+<td style="text-align:left;">
+Liberal
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+LP
+</td>
+<td style="text-align:left;">
+Liberal
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="two-candidate-preferred-flow-of-preferences-by-polling-place">Two candidate preferred flow of preferences by polling place<a class="anchor" aria-label="anchor" href="#two-candidate-preferred-flow-of-preferences-by-polling-place"></a>
+</h4>
+<p><br></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="votes">Votes<a class="anchor" aria-label="anchor" href="#votes"></a>
+</h2>
+<div class="section level4">
+<h4 id="informal-votes-by-state">Informal votes by state<a class="anchor" aria-label="anchor" href="#informal-votes-by-state"></a>
+</h4>
+<p>The <code>Informal votes by state</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Informal votes by state"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+StateNm
+</th>
+<th style="text-align:right;">
+FormalVotes
+</th>
+<th style="text-align:right;">
+InformalVotes
+</th>
+<th style="text-align:right;">
+TotalVotes
+</th>
+<th style="text-align:right;">
+InformalPercent
+</th>
+<th style="text-align:right;">
+InformalSwing
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+NSW
+</td>
+<td style="text-align:left;">
+New South Wales
+</td>
+<td style="text-align:right;">
+4650940
+</td>
+<td style="text-align:right;">
+308644
+</td>
+<td style="text-align:right;">
+4959584
+</td>
+<td style="text-align:right;">
+6.22
+</td>
+<td style="text-align:right;">
+-0.79
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="informal-votes-by-division">Informal votes by division<a class="anchor" aria-label="anchor" href="#informal-votes-by-division"></a>
+</h4>
+<p>The <code>Informal votes by division</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Informal votes by division"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:right;">
+DivisionID
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:right;">
+FormalVotes
+</th>
+<th style="text-align:right;">
+InformalVotes
+</th>
+<th style="text-align:right;">
+TotalVotes
+</th>
+<th style="text-align:right;">
+InformalPercent
+</th>
+<th style="text-align:right;">
+InformalSwing
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:right;">
+107
+</td>
+<td style="text-align:left;">
+Blaxland
+</td>
+<td style="text-align:left;">
+NSW
+</td>
+<td style="text-align:right;">
+81677
+</td>
+<td style="text-align:right;">
+9884
+</td>
+<td style="text-align:right;">
+91561
+</td>
+<td style="text-align:right;">
+10.79
+</td>
+<td style="text-align:right;">
+-2.51
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="turnout-by-state">Turnout by state<a class="anchor" aria-label="anchor" href="#turnout-by-state"></a>
+</h4>
+<p>The <code>Turnout by state</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Turnout by state"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+StateNm
+</th>
+<th style="text-align:right;">
+Enrolment
+</th>
+<th style="text-align:right;">
+Turnout
+</th>
+<th style="text-align:right;">
+TurnoutPercentage
+</th>
+<th style="text-align:right;">
+TurnoutSwing
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+NSW
+</td>
+<td style="text-align:left;">
+New South Wales
+</td>
+<td style="text-align:right;">
+5467993
+</td>
+<td style="text-align:right;">
+4959584
+</td>
+<td style="text-align:right;">
+90.7
+</td>
+<td style="text-align:right;">
+-1.46
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="turnout-by-division">Turnout by division<a class="anchor" aria-label="anchor" href="#turnout-by-division"></a>
+</h4>
+<p>The <code>Turnout by division</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Turnout by division"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:right;">
+DivisionID
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:right;">
+Enrolment
+</th>
+<th style="text-align:right;">
+Turnout
+</th>
+<th style="text-align:right;">
+TurnoutPercentage
+</th>
+<th style="text-align:right;">
+TurnoutSwing
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:right;">
+179
+</td>
+<td style="text-align:left;">
+Adelaide
+</td>
+<td style="text-align:left;">
+SA
+</td>
+<td style="text-align:right;">
+129960
+</td>
+<td style="text-align:right;">
+117202
+</td>
+<td style="text-align:right;">
+90.18
+</td>
+<td style="text-align:right;">
+-1.34
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="votes-by-state">Votes by state<a class="anchor" aria-label="anchor" href="#votes-by-state"></a>
+</h4>
+<p>The <code>Votes by state</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Votes by state"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+StateNm
+</th>
+<th style="text-align:right;">
+Enrolment
+</th>
+<th style="text-align:right;">
+OrdinaryVotes
+</th>
+<th style="text-align:right;">
+AbsentVotes
+</th>
+<th style="text-align:right;">
+ProvisionalVotes
+</th>
+<th style="text-align:right;">
+PrePollVotes
+</th>
+<th style="text-align:right;">
+PostalVotes
+</th>
+<th style="text-align:right;">
+TotalVotes
+</th>
+<th style="text-align:right;">
+TotalPercentage
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+NSW
+</td>
+<td style="text-align:left;">
+New South Wales
+</td>
+<td style="text-align:right;">
+5467993
+</td>
+<td style="text-align:right;">
+4118664
+</td>
+<td style="text-align:right;">
+135225
+</td>
+<td style="text-align:right;">
+14223
+</td>
+<td style="text-align:right;">
+154694
+</td>
+<td style="text-align:right;">
+536778
+</td>
+<td style="text-align:right;">
+4959584
+</td>
+<td style="text-align:right;">
+90.7
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="votes-by-division">Votes by division<a class="anchor" aria-label="anchor" href="#votes-by-division"></a>
+</h4>
+<p>The <code>Votes by division</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Votes by division"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:right;">
+DivisionID
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:right;">
+Enrolment
+</th>
+<th style="text-align:right;">
+OrdinaryVotes
+</th>
+<th style="text-align:right;">
+AbsentVotes
+</th>
+<th style="text-align:right;">
+ProvisionalVotes
+</th>
+<th style="text-align:right;">
+PrePollVotes
+</th>
+<th style="text-align:right;">
+PostalVotes
+</th>
+<th style="text-align:right;">
+TotalVotes
+</th>
+<th style="text-align:right;">
+TotalPercentage
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:right;">
+179
+</td>
+<td style="text-align:left;">
+Adelaide
+</td>
+<td style="text-align:left;">
+SA
+</td>
+<td style="text-align:right;">
+129960
+</td>
+<td style="text-align:right;">
+87699
+</td>
+<td style="text-align:right;">
+6416
+</td>
+<td style="text-align:right;">
+712
+</td>
+<td style="text-align:right;">
+3079
+</td>
+<td style="text-align:right;">
+19296
+</td>
+<td style="text-align:right;">
+117202
+</td>
+<td style="text-align:right;">
+90.18
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="general">General<a class="anchor" aria-label="anchor" href="#general"></a>
+</h2>
+<div class="section level4">
+<h4 id="political-parties">Political parties<a class="anchor" aria-label="anchor" href="#political-parties"></a>
+</h4>
+<p>The <code>Political parties</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Political parties"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"General"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+PartyAb
+</th>
+<th style="text-align:left;">
+RegisteredPartyAb
+</th>
+<th style="text-align:left;">
+PartyNm
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+NSW
+</td>
+<td style="text-align:left;">
+AJP
+</td>
+<td style="text-align:left;">
+AJP
+</td>
+<td style="text-align:left;">
+Animal Justice Party
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="polling-places">Polling places<a class="anchor" aria-label="anchor" href="#polling-places"></a>
+</h4>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="votes-by-sa1">Votes by SA1<a class="anchor" aria-label="anchor" href="#votes-by-sa1"></a>
+</h4>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="pre-poll-votes">Pre-poll votes<a class="anchor" aria-label="anchor" href="#pre-poll-votes"></a>
+</h4>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="postal-vote-applications">Postal vote applications<a class="anchor" aria-label="anchor" href="#postal-vote-applications"></a>
+</h4>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="enrolment-by-state">Enrolment by state<a class="anchor" aria-label="anchor" href="#enrolment-by-state"></a>
+</h4>
+<p>The <code>Enrolment by state</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Enrolment by state"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"General"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+StateNm
+</th>
+<th style="text-align:right;">
+CloseOfRollsEnrolment
+</th>
+<th style="text-align:right;">
+NotebookRollAdditions
+</th>
+<th style="text-align:right;">
+NotebookRollDeletions
+</th>
+<th style="text-align:right;">
+ReinstatementsPostal
+</th>
+<th style="text-align:right;">
+ReinstatementsPrePoll
+</th>
+<th style="text-align:right;">
+ReinstatementsAbsent
+</th>
+<th style="text-align:right;">
+ReinstatementsProvisional
+</th>
+<th style="text-align:right;">
+Enrolment
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+NSW
+</td>
+<td style="text-align:left;">
+New South Wales
+</td>
+<td style="text-align:right;">
+5472469
+</td>
+<td style="text-align:right;">
+92
+</td>
+<td style="text-align:right;">
+5406
+</td>
+<td style="text-align:right;">
+85
+</td>
+<td style="text-align:right;">
+228
+</td>
+<td style="text-align:right;">
+176
+</td>
+<td style="text-align:right;">
+349
+</td>
+<td style="text-align:right;">
+5467993
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="enrolment-by-division">Enrolment by division<a class="anchor" aria-label="anchor" href="#enrolment-by-division"></a>
+</h4>
+<p>The <code>Enrolment by division</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Enrolment by division"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"General"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:right;">
+DivisionID
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:right;">
+CloseOfRollsEnrolment
+</th>
+<th style="text-align:right;">
+NotebookRollAdditions
+</th>
+<th style="text-align:right;">
+NotebookRollDeletions
+</th>
+<th style="text-align:right;">
+ReinstatementsPostal
+</th>
+<th style="text-align:right;">
+ReinstatementsPrePoll
+</th>
+<th style="text-align:right;">
+ReinstatementsAbsent
+</th>
+<th style="text-align:right;">
+ReinstatementsProvisional
+</th>
+<th style="text-align:right;">
+Enrolment
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:right;">
+179
+</td>
+<td style="text-align:left;">
+Adelaide
+</td>
+<td style="text-align:left;">
+SA
+</td>
+<td style="text-align:right;">
+130151
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+209
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+129960
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="declaration-votes-issued-by-state">Declaration votes issued by state<a class="anchor" aria-label="anchor" href="#declaration-votes-issued-by-state"></a>
+</h4>
+<p>The <code>Declaration votes issued by state</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Declaration votes issued by state"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"General"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+StateNm
+</th>
+<th style="text-align:right;">
+Provisional
+</th>
+<th style="text-align:right;">
+Absent
+</th>
+<th style="text-align:right;">
+PrePoll
+</th>
+<th style="text-align:right;">
+PrePollOwnDivision
+</th>
+<th style="text-align:right;">
+Postal
+</th>
+<th style="text-align:right;">
+PostalOwnDivision
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+NSW
+</td>
+<td style="text-align:left;">
+New South Wales
+</td>
+<td style="text-align:right;">
+53708
+</td>
+<td style="text-align:right;">
+153717
+</td>
+<td style="text-align:right;">
+147645
+</td>
+<td style="text-align:right;">
+10409
+</td>
+<td style="text-align:right;">
+676268
+</td>
+<td style="text-align:right;">
+673398
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="declaration-votes-issued-by-division">Declaration votes issued by division<a class="anchor" aria-label="anchor" href="#declaration-votes-issued-by-division"></a>
+</h4>
+<p>The <code>Declaration votes issued by division</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Declaration votes issued by division"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"General"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:right;">
+DivisionID
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:right;">
+Provisional
+</th>
+<th style="text-align:right;">
+Absent
+</th>
+<th style="text-align:right;">
+PrePoll
+</th>
+<th style="text-align:right;">
+PrePollOwnDivision
+</th>
+<th style="text-align:right;">
+Postal
+</th>
+<th style="text-align:right;">
+PostalOwnDivision
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:right;">
+179
+</td>
+<td style="text-align:left;">
+Adelaide
+</td>
+<td style="text-align:left;">
+SA
+</td>
+<td style="text-align:right;">
+1606
+</td>
+<td style="text-align:right;">
+7146
+</td>
+<td style="text-align:right;">
+3074
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:right;">
+26077
+</td>
+<td style="text-align:right;">
+23045
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="declaration-votes-received-by-state">Declaration votes received by state<a class="anchor" aria-label="anchor" href="#declaration-votes-received-by-state"></a>
+</h4>
+<p>The <code>Declaration votes received by state</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Declaration votes received by state"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"General"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:left;">
+StateNm
+</th>
+<th style="text-align:right;">
+Provisional
+</th>
+<th style="text-align:right;">
+Absent
+</th>
+<th style="text-align:right;">
+PrePoll
+</th>
+<th style="text-align:right;">
+PrePollOwnDivision
+</th>
+<th style="text-align:right;">
+Postal
+</th>
+<th style="text-align:right;">
+PostalOwnDivision
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:left;">
+NSW
+</td>
+<td style="text-align:left;">
+New South Wales
+</td>
+<td style="text-align:right;">
+53708
+</td>
+<td style="text-align:right;">
+153712
+</td>
+<td style="text-align:right;">
+163550
+</td>
+<td style="text-align:right;">
+10409
+</td>
+<td style="text-align:right;">
+580434
+</td>
+<td style="text-align:right;">
+573770
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="declaration-votes-received-by-division">Declaration votes received by division<a class="anchor" aria-label="anchor" href="#declaration-votes-received-by-division"></a>
+</h4>
+<p>The <code>Declaration votes received by division</code> dataset…</p>
+<p><br></p>
+<p><em>Example Usage:</em></p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Declaration votes received by division"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"General"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><br></p>
+<p><em>Sample Data:</em></p>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:right;">
+DivisionID
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:right;">
+Provisional
+</th>
+<th style="text-align:right;">
+Absent
+</th>
+<th style="text-align:right;">
+PrePoll
+</th>
+<th style="text-align:right;">
+PrePollOwnDivision
+</th>
+<th style="text-align:right;">
+Postal
+</th>
+<th style="text-align:right;">
+PostalOwnDivision
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2022-05-21
+</td>
+<td style="text-align:left;">
+2022
+</td>
+<td style="text-align:right;">
+179
+</td>
+<td style="text-align:left;">
+Adelaide
+</td>
+<td style="text-align:left;">
+SA
+</td>
+<td style="text-align:right;">
+1606
+</td>
+<td style="text-align:right;">
+6804
+</td>
+<td style="text-align:right;">
+3165
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:right;">
+20577
+</td>
+<td style="text-align:right;">
+20528
 </td>
 </tr></tbody>
 </table>
