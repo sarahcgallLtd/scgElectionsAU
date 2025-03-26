@@ -16,7 +16,9 @@ title: "A Guide to the AEC's Federal Election Raw Datasets"
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = TRUE
+  eval = TRUE,
+  warning = FALSE,
+  message = FALSE
 )
 ```
 <br>
@@ -29,62 +31,91 @@ library(knitr)
 ```
 In the [`get_aec_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_aec_data.html) function, the `type` argument default is "Federal Election". This type extracts data from the AEC's 'Tally Room' for elections between 2004 and 2022. Both House and Senate data are extractable.
 
-## Candidates
+## Candidates & Nominations
 #### National list of candidates
-The `National list of candidates` dataset contains a list of candidates including whether or not the candidate was `Elected` or an incumbent (`HistoricElected`). This dataset exists for both `Senate` and `House` candidates.
+The `National list of candidates` dataset contains a comprehensive list of all candidates who participated in Australian federal elections. It covers both `Senate` and `House` elections from `2004` to the present. When `process = TRUE`, the dataset is standardised: for the `2004` election, the `SittingMemberFl` column is removed and replaced with `Elected` (indicating winners, derived from the `Senators elected` and `Member elected` datasets) and `HistoricElected` (indicating incumbents, based on `SittingMemberFl`). This dataset enables you to:
 
-There is the option to switch `process` to `TRUE`. In doing this, the 2004 dataset will be the same as the other election datasets by removing the `SittingMemberFl` column and replacing it with the `Elected` and `HistoricElected` columns. The `HistoricElected` column is based on the `SittingMemberFl` column and the `Elected` column is based on the `Senators elected` dataset.
+- View candidate details (`CandidateID`, `Surname`, `GivenNm`) and their party affiliations (`PartyAb`, `PartyNm`).
+- Map candidates to electoral divisions (`DivisionID`, `DivisionNm`) and states (`StateAb`).
+- Identify elected candidates (`Elected`) and incumbents (`HistoricElected`).
+
 <br>
+
+*Example Usage:*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
   file_name = "National list of candidates",
   date_range = list(from = "2004-01-01", to = "2023-01-01"),
-  category = "House", # OR "Senate",
+  category = "House", # OR "Senate"
   process = TRUE # OR FALSE
 )
 ```
+<br>
+
+*Sample Data:*
 
 ```{r, echo = FALSE}
+# Sample data (hidden execution)
 national_list_of_candidates <- suppressMessages(
   get_aec_data(file_name = "National list of candidates")
 )
 
-# Selecting only the first row and keeping all columns
+# Select the first row for display
 first_row <- national_list_of_candidates[1,]
 
-# Create the HTML table with kable
+# Display as an HTML table
 kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
 <br>
 
 #### Members/Senators elected
-The `Members elected` and `Senators elected` datasets list the elected MPs and Senators at each election. The `Senators elected` dataset contains the `ElectedOrder` column.
+The `Members elected` and `Senators elected` datasets provide comprehensive lists of the elected Members of Parliament (MPs) and Senators at federal elections. These datasets cover elections from `2004` to the present and are available for the `House` and `Senate`, respectively.
 
-There is no need to process this data as all election datasets are already standardised.
+- `Members elected` (`House`): Contains details of MPs who won their respective electoral divisions.
+- `Senators elected` (`Senate`): Contains details of Senators elected for each state or territory, including the `ElectedOrder` column, which specifies the order in which they were elected.
+
+There is no need for additional processing when `process = TRUE`, as both datasets are already standardised across all election years.
+
+This dataset enables you to:
+
+- Identify elected representatives:
+  - For the `House`: MPs by electoral division (`DivisionID`, `DivisionNm`).
+  - For the `Senate`: Senators by state or territory (`StateAb`), including their election order (`ElectedOrder`).
+- View candidate details (`CandidateID`, `Surname`, `GivenNm`) and party affiliations (`PartyNm`, `PartyAb`).
+
 <br>
 
+*Example Usage for Members Elected:*
+
 ```{r, eval = FALSE}
+# Example usage
 df <- get_aec_data(
   file_name = "Members elected",
   date_range = list(from = "2004-01-01", to = "2023-01-01"),
   category = "House"
 )
 ```
+<br>
+
+*Sample Data for Members Elected:*
 
 ```{r, echo = FALSE}
+# Sample data (hidden execution)
 members_elected <- suppressMessages(
-get_aec_data(file_name = "Members elected")
+  get_aec_data(file_name = "Members elected")
 )
 
-# Selecting only the first row and keeping all columns
+# Select the first row for display
 first_row <- members_elected[1,]
 
-# Create the HTML table with kable
+# Display as an HTML table
 kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
 
 <br>
+
+*Example Usage for Senators Elected:*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -93,14 +124,1156 @@ df <- get_aec_data(
   category = "Senate"
 )
 ```
+<br>
+
+*Sample Data for Senators Elected:*
 
 ```{r, echo = FALSE}
-members_elected <- suppressMessages(
+senators_elected <- suppressMessages(
   get_aec_data(file_name = "Senators elected", category = "Senate")
 )
 
 # Selecting only the first row and keeping all columns
-first_row <- members_elected[1,]
+first_row <- senators_elected[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+<br>
+
+#### Nominations by state
+The `Nominations by state` dataset provides a summary of nominations for federal elections, detailing:
+
+- The number of divisions (`Divisions`) and nominations (`Nominations`) per state (`StateAb`, `StateNm`) for the `House`; and
+- The number of seats (`Seats`), candidates (`Candidates`), groups (`Groups`), and ungrouped candidates (`UngroupedCandidates`) per state (`StateAb`, `StateNm`) for the `Senate`.
+
+Covering elections from `2004` to the present, these datasets are available for both the `House` and `Senate` categories. No additional processing is required, as the data is already standardised across all election years.
+
+<br>
+
+*Example Usage for House:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Nominations by state",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data for House:*
+
+```{r, echo = FALSE}
+noms_by_state <- suppressMessages(
+  get_aec_data(file_name = "Nominations by state")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- noms_by_state[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+*Example Usage for Senate:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Nominations by state",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "Senate"
+)
+```
+<br>
+
+*Sample Data for Senate:*
+
+```{r, echo = FALSE}
+noms_by_state <- suppressMessages(
+  get_aec_data(file_name = "Nominations by state", category = "Senate")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- noms_by_state[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+<br>
+
+#### Nominations by division
+The `Nominations by division` dataset provides a summary of nominations for federal elections, detailing the number of nominations (`Nominations`) per division (`DivisionID`, `DivisionNm`, `DivisionAb`) for the `House`. It also includes enrolment figures (`Enrolment`) and demographic classifications (`Demographics`) for each electorate.
+
+Covering elections from `2011` to the present, these datasets are available for the `House` only. No additional processing is required, as the data is already standardised across all election years.
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Nominations by division",
+  date_range = list(from = "2011-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+noms_by_div <- suppressMessages(
+  get_aec_data(file_name = "Nominations by division")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- noms_by_div[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Nominations by gender
+The `Nominations by gender` dataset provides a summary of nominations for federal elections, detailing the number of nominations (`Nominations`) per party (`PartyAb`, `PartyNm`) for the `House` and `Senate`. Each state and territory have their own columns for the two genders (`MalesNSW`, `FemalesNSW`) and an unspecified column (`UnspecifiedNSW`). There is also a grand total (`GrandTotal`) of nominations by party which is useful for turning data into percentages.
+
+Covering elections from `2004` to the present, these datasets are available for both the `House` and `Senate` categories. No additional processing is required, as the data is already standardised across all election years.
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Nominations by gender",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House" # OR "Senate"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+noms_by_gender <- suppressMessages(
+  get_aec_data(file_name = "Nominations by gender")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- noms_by_gender[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Party representation
+The `Party representation` dataset provides a summary of elected representatives for federal elections, detailing:
+
+- The number of MPs per party (`Party`) per state and territory (`NSW`,`VIC`,`QLD`,`WA`,`SA`,`TAS`,`ACT`,`NT`) and nationally (`National`) for the `House`. It also includes the number of MPs previously representing each party at the previous election (`LastElection`).
+- The number of Senators per party (`PartyAb`, `PartyNm`) per state and territory (`NSW`,`VIC`,`QLD`,`WA`,`SA`,`TAS`,`ACT`,`NT`) and nationally (`TOTAL`) for the `Senate`.
+
+Covering elections from `2004` to the present, these datasets are available for both the `House` and `Senate` categories. In order to standardise datasets across election years, additional processing is available for election years prior to `2010`. This renames the pre-2010 columns from `Total` and `LastElectionTotal` to `National` and `LastElection`, respectively. It also removes `PartyAb`. No additional processing is required for the `Senate`, as the data is already standardised across all election years.
+
+<br>
+
+*Example Usage for House:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Party representation",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House",
+  process = TRUE # OR FALSE
+)
+```
+<br>
+
+*Sample Data for House:*
+
+```{r, echo = FALSE}
+party_rep <- suppressMessages(
+  get_aec_data(file_name = "Party representation")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- party_rep[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+*Example Usage for Senate:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Party representation",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "Senate"
+)
+```
+<br>
+
+*Sample Data for Senate:*
+
+```{r, echo = FALSE}
+party_rep <- suppressMessages(
+  get_aec_data(file_name = "Party representation", category = "Senate")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- party_rep[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+<br>
+
+## Seats
+#### Seats that changed hands
+The `Seats that changed hands` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Seats that changed hands",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Seats that changed hands")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Seats decided on preferences
+The `Seats decided on preferences` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Seats decided on preferences",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Seats decided on preferences")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Seats decided on first preferences
+The `Seats decided on first preferences` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Seats decided on first preferences",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Seats decided on first preferences")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Non-classic divisions
+The `Non-classic divisions` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Non-classic divisions",
+  date_range = list(from = "2010-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Non-classic divisions")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+## First Preferences
+### `House`
+#### First preferences by party
+The `First preferences by party` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "First preferences by party",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Seats decided on first preferences")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### First preferences by state by party
+
+<br>
+
+#### First preferences by candidate by vote type
+
+<br>
+
+#### First preferences by candidate by polling place
+
+<br>
+
+### `Senate`
+#### First preferences by state by vote type
+
+<br>
+
+#### First preferences by division by vote type
+
+<br>
+
+#### First preferences by group by vote type
+
+<br>
+
+#### First preferences by state by group by vote type
+
+<br>
+
+## House Two Party Preferred
+#### Two party preferred by state
+The `Two party preferred by state` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Two party preferred by state",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Two party preferred by state")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Two party preferred by division
+The `Two party preferred by division` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Two party preferred by division",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Two party preferred by division")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Two party preferred by division by vote type
+The `Two party preferred by division by vote type` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Two party preferred by division by vote type",
+  date_range = list(from = "2016-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Two party preferred by division by vote type")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Two party preferred by polling place
+The `Two party preferred by polling place` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Two party preferred by polling place",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Two party preferred by polling place")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+## House Two Candidate Preferred
+#### Two candidate preferred by candidate by vote type
+
+<br>
+
+#### Two candidate preferred by candidate by polling place
+
+<br>
+
+## House Distribution of Preferences
+#### Distribution of preferences by candidate by division
+
+<br>
+
+#### Distribution of preferences by polling place
+
+<br>
+
+## House Flow of Preferences
+#### Two candidate preferred flow of preferences by candidate by division
+The `Two candidate preferred flow of preferences by candidate by division` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Two candidate preferred flow of preferences by candidate by division",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Two candidate preferred flow of preferences by candidate by division")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Two party preferred flow of preferences by party
+The `Two party preferred flow of preferences by party` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Two party preferred flow of preferences by party",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Two party preferred flow of preferences by party")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Two party preferred flow of preferences by state by party
+The `Two party preferred flow of preferences by state by party` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Two party preferred flow of preferences by state by party",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Two party preferred flow of preferences by state by party")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Two candidate preferred flow of preferences by party
+The `Two candidate preferred flow of preferences by party` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Two candidate preferred flow of preferences by party",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Two candidate preferred flow of preferences by party")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Two candidate preferred flow of preferences by state by party
+The `Two candidate preferred flow of preferences by state by party` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Two candidate preferred flow of preferences by state by party",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Two candidate preferred flow of preferences by state by party")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Two candidate preferred flow of preferences by polling place
+
+<br>
+
+## Votes
+#### Informal votes by state
+The `Informal votes by state` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Informal votes by state",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House" # OR "Senate"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Informal votes by state")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Informal votes by division
+The `Informal votes by division` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Informal votes by division",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House" # OR "Senate"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Informal votes by division")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Turnout by state
+The `Turnout by state` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Turnout by state",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House" # OR "Senate"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Turnout by state")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Turnout by division
+The `Turnout by division` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Turnout by division",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House" # OR "Senate"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Turnout by division")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Votes by state
+The `Votes by state` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Votes by state",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House" # OR "Senate"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Votes by state")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Votes by division
+The `Votes by division` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Votes by division",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "House" # OR "Senate"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Votes by division")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+## General
+#### Political parties
+The `Political parties` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Political parties",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "General"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Political parties",
+               category = "General")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Polling places
+
+<br>
+
+#### Votes by SA1
+
+<br>
+
+#### Pre-poll votes
+
+<br>
+
+#### Postal vote applications
+
+<br>
+
+#### Enrolment by state
+The `Enrolment by state` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Enrolment by state",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "General"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Enrolment by state",
+               category = "General")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Enrolment by division
+The `Enrolment by division` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Enrolment by division",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "General"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Enrolment by division",
+               category = "General")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Declaration votes issued by state
+The `Declaration votes issued by state` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Declaration votes issued by state",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "General"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Declaration votes issued by state",
+               category = "General")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Declaration votes issued by division
+The `Declaration votes issued by division` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Declaration votes issued by division",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "General"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Declaration votes issued by division",
+               category = "General")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Declaration votes received by state
+The `Declaration votes received by state` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Declaration votes received by state",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "General"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Declaration votes received by state",
+               category = "General")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+#### Declaration votes received by division
+The `Declaration votes received by division` dataset...
+
+<br>
+
+*Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Declaration votes received by division",
+  date_range = list(from = "2004-01-01", to = "2023-01-01"),
+  category = "General"
+)
+```
+<br>
+
+*Sample Data:*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Declaration votes received by division",
+               category = "General")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
 
 # Create the HTML table with kable
 kable(first_row, format = "html", table.attr = "class='table table-bordered'")

@@ -129,7 +129,7 @@ check_file_exists <- function(
 
     # Check if the event year column contains "Y" in check_df
     # Also handle potential NA values in the column data
-    if (!all(check_df[[event]] == "Y", na.rm = TRUE)) {
+    if (!any(check_df[[event]] == "Y", na.rm = TRUE)) {
       stop(paste0("`", file_name, "` for the year `", event, "` is not available. Check availability and try again."))
     }
   }
@@ -146,6 +146,7 @@ check_file_exists <- function(
 #' @param ref A character string specifying the reference ID associated with the election year
 #'        or event. Different areas ('results' or 'Website') of the AEC website are used based
 #'        on the value of `ref`. Each `ref` corresponds to an election year.
+#' @param event A
 #' @param file_name A character string specifying the name of the file to download, as recorded
 #'        in the `aec_names_fed` dataset. This corresponds to a particular type of election data.
 #' @param prefix A character string specifying the prefix that categorises the file within
@@ -168,6 +169,7 @@ check_file_exists <- function(
 #' @keywords internal
 construct_url <- function(
   ref,
+  event,
   file_name,
   prefix
 ) {
@@ -182,8 +184,10 @@ construct_url <- function(
     stop("Data 'aec_names_fed' not found in 'scgElectionsAU' package. Contact the package maintainer.")
   }
 
-  # Filter by file_name and prefix
-  filtered_names <- names[names$file_name == file_name & names$prefix == prefix,]
+  # Filter by file_name, prefix, and event availability
+  filtered_names <- names[names$file_name == file_name &
+                          names$prefix == prefix &
+                          names[[event]] == "Y", ]
 
   # Check if any entries are found
   if (nrow(filtered_names) == 0) {

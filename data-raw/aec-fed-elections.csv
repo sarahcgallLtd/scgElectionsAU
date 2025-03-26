@@ -4,8 +4,8 @@ Members elected,Downloads,House,MembersElected,.csv,Y,Y,Y,Y,Y,Y,Y,NA
 Nominations by state,Downloads,House,NominationsByState,.csv,Y,Y,Y,Y,Y,Y,Y,NA
 Nominations by division,Downloads,House,NominationsByDivision,.csv,Y,Y,Y,Y,N,N,N,NA
 Nominations by gender,Downloads,House,NominationsByGender,.csv,Y,Y,Y,Y,Y,Y,Y,NA
-Party representation,Downloads,House,PartyRepresentationLeading,.csv,Y,Y,Y,Y,N,N,N,
-Party representation,Downloads,House,PartyRepresentation,.csv,N,N,N,N,Y,Y,Y,
+Party representation,Downloads,House,PartyRepresentationLeading,.csv,Y,Y,Y,Y,N,N,N,NA
+Party representation,Downloads,House,PartyRepresentation,.csv,N,N,N,N,Y,Y,Y,process_party_rep
 Seats that changed hands,Downloads,House,SeatsWhichChangedHands,.csv,Y,Y,Y,Y,Y,Y,Y,NA
 Seats decided on preferences,Downloads,House,SeatsDecidedOnPrefs,.csv,Y,Y,Y,Y,Y,Y,Y,NA
 Seats decided on first preferences,Downloads,House,SeatsDecidedOnFirstPrefs,.csv,Y,Y,Y,Y,Y,Y,Y,NA
@@ -61,7 +61,7 @@ Declaration votes issued by division,Downloads,General,DecVotesIssuedByDivision,
 Declaration votes received by state,Downloads,General,DecVotesReceivedByState,.csv,Y,Y,Y,Y,Y,Y,Y,NA
 Declaration votes received by division,Downloads,General,DecVotesReceivedByDivision,.csv,Y,Y,Y,Y,Y,Y,Y,NA
 Polling places,Downloads,General,PollingPlaces,.csv,Y,Y,Y,Y,Y,Y,Y,TBC
-National list of candidates,Downloads,Senate,Candidates,.csv,Y,Y,Y,Y,Y,Y,Y,NA
+National list of candidates,Downloads,Senate,Candidates,.csv,Y,Y,Y,Y,Y,Y,Y,process_candidates
 Senators elected,Downloads,Senate,SenatorsElected,.csv,Y,Y,Y,Y,Y,Y,Y,NA
 Nominations by state,Downloads,Senate,NominationsByState,.csv,Y,Y,Y,Y,Y,Y,Y,NA
 Nominations by gender,Downloads,Senate,NominationsByGender,.csv,Y,Y,Y,Y,Y,Y,Y,NA

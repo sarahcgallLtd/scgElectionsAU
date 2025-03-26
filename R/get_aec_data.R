@@ -37,7 +37,7 @@ get_aec_data <- function(
   file_name,
   date_range = list(from = "2022-01-01", to = "2023-01-01"),
   type = c("Federal Election", "Referendum"),
-  category = c("House","Senate","General"),
+  category = c("House", "Senate", "General"),
   process = FALSE
 ) {
   # =====================================#
@@ -74,10 +74,12 @@ get_aec_data <- function(
   # Initliase an empty df to store all data
   combined_df <- data.frame()
 
-  for (ref in info$aec_reference) {
+  for (i in seq_along(info$aec_reference)) {
+    ref <- info$aec_reference[i]
+    event <- info$event[i]
     # =====================================#
     # Construct URL
-    url <- construct_url(ref, file_name, category)
+    url <- construct_url(ref, event, file_name, category)
 
     # =====================================#
     # GET DATA FILE FROM URL
@@ -105,17 +107,39 @@ get_aec_data <- function(
   # =====================================#
   # PROCESS DATA
   if (process) {
-    # Process data, e.g., standardise column names across all years
-    combined_df <- switch(
-      file_name,
-      # Processing functions:
-      "National list of candidates" = process_candidates(data=combined_df, prefix=category),
+    # Get names from the 'aec_names_fed' data available in scgElectionsAU package
+    names <- get0("aec_names_fed", envir = asNamespace("scgElectionsAU"))
 
-      # Default return if none of the cases match
-      combined_df
-    )
+    # Look up the processing function from the CSV index
+    proc_func_name <- names$processing_function[
+        names$file_name == file_name &
+        names$prefix == category &
+        names[[event]] == "Y"  # Check the specific event column
+    ]
+
+    # Remove NAs
+    proc_func_name <- proc_func_name[is.na(proc_func_name) == FALSE]
+
+    # Proceed if there’s exactly one valid function name
+    if (length(proc_func_name) == 1 && !is.na(proc_func_name)) {
+      # Get the function name
+      proc_func <- tryCatch(
+        match.fun(proc_func_name),
+        error = function(e) stop(paste("Processing function", proc_func_name, "not found."))
+      )
+
+      # Apply the function
+      combined_df <- proc_func(data = combined_df, prefix = category)
+
+    } else if (length(proc_func_name) > 1) {
+      stop("Multiple processing functions found for this file_name and category.")
+
+    } else {
+      message("No processing required. Data returned unprocessed.")
+    }
   }
-
+  # =====================================#
+  # RETURN DATA
   return(combined_df)
 }
 
@@ -132,10 +156,10 @@ get_internal_info <- function(
   }
 
   # Filter info by date range provided
-  info <- info[info$date >= date_range$from & info$date <= date_range$to, ]
+  info <- info[info$date >= date_range$from & info$date <= date_range$to,]
 
   # Filter by Type
-  info <- info[info$type == type, ]
+  info <- info[info$type == type,]
 
   return(info)
 }
@@ -167,8 +191,6 @@ process_candidates <- function(
   # Amend 2004 data (Make `SittingMemberFl` = `HistoricElected`)
   data$HistoricElected <- ifelse(data$event == "2004" & !is.na(data$SittingMemberFl), "Y", "N")
 
-  print("Processing data to ensure all columns align across all elections.")
-
   # Remove `SittingMemberFl` column
   data <- data[, !names(data) %in% "SittingMemberFl"]
 
@@ -177,7 +199,7 @@ process_candidates <- function(
 
   # Add Elected column for 2004 election
   file_name <- ifelse(prefix == "House", "Members elected", "Senators elected")
-  url <- construct_url(ref = "12246", file_name = file_name, prefix)
+  url <- construct_url(ref = "12246", event = "2004", file_name = file_name, prefix)
   tmp_df <- scgUtils::get_file(url, source = "web", row_no = 1)
 
   if (prefix == "Senate") {
@@ -201,6 +223,26 @@ process_candidates <- function(
 
   # Clean up added composite key column if it exists
   if ("CompositeKey" %in% names(data)) data$CompositeKey <- NULL
+
+  # Return updated data
+  return(data)
+}
+
+
+process_party_rep <- function(
+  data,
+  prefix
+) {
+  message("Processing data to ensure all columns align across all elections.")
+
+  # Amend 2004-2010 data (Make `National` = `Total` & `LastElection` = `LastElectionTotal`)
+  data$National <- ifelse(data$event %in% c("2004", "2007", "2010") & !is.na(data$Total),
+                          data$Total, data$National)
+  data$LastElection <- ifelse(data$event %in% c("2004", "2007", "2010") & !is.na(data$LastElectionTotal),
+                          data$LastElectionTotal, data$LastElection)
+
+  # Remove `Total`, `LastElectionTotal` and `PartyAb` columns
+  data <- data[, !names(data) %in% c("Total","LastElectionTotal","PartyAb")]
 
   # Return updated data
   return(data)
