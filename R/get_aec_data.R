@@ -107,36 +107,7 @@ get_aec_data <- function(
   # =====================================#
   # PROCESS DATA
   if (process) {
-    # Get names from the 'aec_names_fed' data available in scgElectionsAU package
-    names <- get0("aec_names_fed", envir = asNamespace("scgElectionsAU"))
-
-    # Look up the processing function from the CSV index
-    proc_func_name <- names$processing_function[
-        names$file_name == file_name &
-        names$prefix == category &
-        names[[event]] == "Y"  # Check the specific event column
-    ]
-
-    # Remove NAs
-    proc_func_name <- proc_func_name[is.na(proc_func_name) == FALSE]
-
-    # Proceed if there’s exactly one valid function name
-    if (length(proc_func_name) == 1 && !is.na(proc_func_name)) {
-      # Get the function name
-      proc_func <- tryCatch(
-        match.fun(proc_func_name),
-        error = function(e) stop(paste("Processing function", proc_func_name, "not found."))
-      )
-
-      # Apply the function
-      combined_df <- proc_func(data = combined_df, prefix = category)
-
-    } else if (length(proc_func_name) > 1) {
-      stop("Multiple processing functions found for this file_name and category.")
-
-    } else {
-      message("No processing required. Data returned unprocessed.")
-    }
+    combined_df <- process_init(combined_df, file_name, category, event)
   }
   # =====================================#
   # RETURN DATA
@@ -166,7 +137,43 @@ get_internal_info <- function(
 
 # ======================================================================================================================
 # PROCESSING
-#' Processing function for National List of Candidates
+process_init <- function(data, file_name, category, event) {
+  # Get names from the 'aec_names_fed' data available in scgElectionsAU package
+  names <- get0("aec_names_fed", envir = asNamespace("scgElectionsAU"))
+
+  # Look up the processing function from the CSV index
+  proc_func_name <- names$processing_function[
+    names$file_name == file_name &
+      names$prefix == category &
+      names[[event]] == "Y"  # Check the specific event column
+  ]
+
+  # Remove NAs
+  proc_func_name <- proc_func_name[is.na(proc_func_name) == FALSE]
+
+  # Proceed if there’s exactly one valid function name
+  if (length(proc_func_name) == 1 && !is.na(proc_func_name)) {
+    # Get the function name
+    proc_func <- tryCatch(
+      match.fun(proc_func_name),
+      error = function(e) stop(paste("Processing function", proc_func_name, "not found."))
+    )
+
+    # Apply the function
+    processed_df <- proc_func(data = data)
+
+  } else if (length(proc_func_name) > 1) {
+    stop("Multiple processing functions found for this file_name and category.")
+
+  } else {
+    message("No processing required. Data returned unprocessed.")
+  }
+
+  return(processed_df)
+}
+
+
+#' Processing function for adding Elected Columns
 #'
 #' This function addresses the issue that the 2004 dataset lacks 'Elected' or 'HistoricElected' columns.
 #' It updates the 'HistoricElected' status based on the 'SittingMemberFl' field for the 2004 election,
@@ -175,74 +182,118 @@ get_internal_info <- function(
 #' composite keys for matching, while the House uses direct CandidateID matching.
 #'
 #' @param data A dataframe containing the national list of candidates.
-#' @param prefix A character string indicating whether the data pertains to the "House" or "Senate".
-#'               This affects which file is fetched for cross-referencing elected members.
 #'
 #' @return A modified dataframe with updated 'HistoricElected' and 'Elected' statuses for 2004 and the
 #'         'SittingMemberFl' column removed.
 #'
 #' @noRd
-process_candidates <- function(
-  data,
-  prefix
-) {
+process_elected <- function(data) {
   message("Processing data to ensure all columns align across all elections.")
 
-  # Amend 2004 data (Make `SittingMemberFl` = `HistoricElected`)
-  data$HistoricElected <- ifelse(data$event == "2004" & !is.na(data$SittingMemberFl), "Y", "N")
+  # Amend 2004 data (Make `SittingMemberFl` = `Elected`)
+  data$Elected <- ifelse(data$event == "2004" & !is.na(data$SittingMemberFl), "Y", "N")
+  data$HistoricElected <- ifelse(data$event == "2004", NA, data$HistoricElected)
 
   # Remove `SittingMemberFl` column
   data <- data[, !names(data) %in% "SittingMemberFl"]
 
-  # Create a logical vector to select rows where the year is 2004
-  update_index <- data$event == "2004"
+  # TODO: Find a way to add HistoricVote for 2004 - which dataset contains this?
 
+  # # Create a logical vector to select rows where the year is 2004
+  # update_index <- data$event == "2004"
+  #
   # Add Elected column for 2004 election
-  file_name <- ifelse(prefix == "House", "Members elected", "Senators elected")
-  url <- construct_url(ref = "12246", event = "2004", file_name = file_name, prefix)
-  tmp_df <- scgUtils::get_file(url, source = "web", row_no = 1)
-
-  if (prefix == "Senate") {
-    # Create composite keys in both data and tmp_df for matching
-    data$CompositeKey <- with(data, paste(PartyAb, StateAb, GivenNm, Surname, sep = "_"))
-    tmp_df$CompositeKey <- with(tmp_df, paste(PartyAb, StateAb, GivenNm, Surname, sep = "_"))
-
-    # Match using the composite key
-    tmp_df <- tmp_df$CompositeKey
-
-    # Update the Elected column based on whether the CandidateID is in the elected_ids_2004
-    data$Elected[update_index] <- ifelse(data$CompositeKey[update_index] %in% tmp_df, "Y", "N")
-
-  } else {
-    # Create a vector of CandidateIDs from the 2004 elected members
-    tmp_df <- tmp_df$CandidateID
-
-    # Update the Elected column based on whether the CandidateID is in the elected_ids_2004
-    data$Elected[update_index] <- ifelse(data$CandidateID[update_index] %in% tmp_df, "Y", "N")
-  }
-
-  # Clean up added composite key column if it exists
-  if ("CompositeKey" %in% names(data)) data$CompositeKey <- NULL
+  # file_name <- ifelse(prefix == "House", "Members elected", "Senators elected")
+  # url <- construct_url(ref = "12246", event = "2004", file_name = file_name, prefix)
+  # tmp_df <- scgUtils::get_file(url, source = "web", row_no = 1)
+  #
+  # if (prefix == "Senate") {
+  #   # Create composite keys in both data and tmp_df for matching
+  #   data$CompositeKey <- with(data, paste(PartyAb, StateAb, GivenNm, Surname, sep = "_"))
+  #   tmp_df$CompositeKey <- with(tmp_df, paste(PartyAb, StateAb, GivenNm, Surname, sep = "_"))
+  #
+  #   # Match using the composite key
+  #   tmp_df <- tmp_df$CompositeKey
+  #
+  #   # Update the Elected column based on whether the CandidateID is in the elected_ids_2004
+  #   data$Elected[update_index] <- ifelse(data$CompositeKey[update_index] %in% tmp_df, "Y", "N")
+  #
+  # } else {
+  #   # Create a vector of CandidateIDs from the 2004 elected members
+  #   tmp_df <- tmp_df$CandidateID
+  #
+  #   # Update the Elected column based on whether the CandidateID is in the elected_ids_2004
+  #   data$Elected[update_index] <- ifelse(data$CandidateID[update_index] %in% tmp_df, "Y", "N")
+  # }
+  #
+  # # Clean up added composite key column if it exists
+  # if ("CompositeKey" %in% names(data)) data$CompositeKey <- NULL
 
   # Return updated data
   return(data)
 }
 
 
-process_party_rep <- function(
-  data,
-  prefix
-) {
+process_reps <- function(data) {
   message("Processing data to ensure all columns align across all elections.")
 
   # Amend 2004-2010 data (Make `National` = `Total` & `LastElection` = `LastElectionTotal`)
   data$National <- ifelse(data$event %in% c("2004", "2007", "2010") & !is.na(data$Total),
                           data$Total, data$National)
   data$LastElection <- ifelse(data$event %in% c("2004", "2007", "2010") & !is.na(data$LastElectionTotal),
-                          data$LastElectionTotal, data$LastElection)
+                              data$LastElectionTotal, data$LastElection)
 
   # Remove `Total`, `LastElectionTotal` and `PartyAb` columns
-  data <- data[, !names(data) %in% c("Total","LastElectionTotal","PartyAb")]
+  data <- data[, !names(data) %in% c("Total", "LastElectionTotal", "PartyAb")]
+
+  # Return updated data
+  return(data)
+}
+
+process_coords <- function(data) {
+  message("Processing to ensure all data aligns across all election years.")
+
+  # Create reference dataframe with non-NA coordinates
+  ref <- data[!is.na(data$Latitude) & !is.na(data$Longitude), c("PollingPlaceID", "Latitude", "Longitude")]
+  ref <- unique(ref)
+
+  # Fill in missing Latitude and Longitude values
+  data$Latitude[is.na(data$Latitude)] <- ref$Latitude[match(data$PollingPlaceID[is.na(data$Latitude)], ref$PollingPlaceID)]
+  data$Longitude[is.na(data$Longitude)] <- ref$Longitude[match(data$PollingPlaceID[is.na(data$Longitude)], ref$PollingPlaceID)]
+
+  # Return updated data
+  return(data)
+}
+
+process_prepoll <- function(data) {
+  message("Processing data to ensure all columns align across all elections.")
+
+  # Amend 2004-2010 data (Make `DeclarationPrePollVotes` = `PrePollVotes` & `DeclarationPrePollPercentage` = `PrePollPercentage`)
+  data$DeclarationPrePollVotes <- ifelse(data$event %in% c("2004", "2007", "2010", "2013") & !is.na(data$PrePollVotes),
+                                         data$PrePollVotes, data$DeclarationPrePollVotes)
+  data$DeclarationPrePollPercentage <- ifelse(data$event %in% c("2004", "2007", "2010", "2013") & !is.na(data$PrePollPercentage),
+                                              data$PrePollPercentage, data$DeclarationPrePollPercentage)
+
+  # Remove `PrePollVotes` and `PrePollPercentage` columns
+  data <- data[, !names(data) %in% c("PrePollVotes", "PrePollPercentage")]
+
+  # Return updated data
+  return(data)
+}
+
+process_group <- function(data) {
+  message("Processing data to ensure all columns align across all elections.")
+
+  # Amend 2004-2010 data (Make `Group` = `Ticket`)
+  data$Group <- ifelse(data$event %in% c("2004", "2007", "2010", "2013", "2016", "2019") & !is.na(data$Ticket),
+                       data$Ticket, data$Group)
+
+  # Remove `Ticket` column
+  data <- data[, !names(data) %in% "Ticket"]
+
+  if ("SittingMemberFl" %in% colnames(data)) {
+    data <- process_elected(data)
+  }
 
   # Return updated data
   return(data)
