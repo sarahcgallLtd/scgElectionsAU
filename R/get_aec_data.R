@@ -114,7 +114,30 @@ get_aec_data <- function(
   return(combined_df)
 }
 
-
+#' Get Internal Election Information
+#'
+#' Retrieves and filters internal metadata about Australian elections based on a specified date range
+#' and election type.
+#'
+#' @param date_range A list with 'from' and 'to' dates in 'YYYY-MM-DD' format specifying the
+#'        period of interest.
+#' @param type The type of election, either "Federal Election" or "Referendum".
+#'
+#' @return A data frame containing filtered election metadata, including columns
+#'         such as `date`, `event`, `type`, and `aec_reference`.
+#'
+#' @details This function accesses the internal `info` dataset from the `scgElectionsAU`
+#' package namespace. It filters the data to include only records within the specified `date_range`
+#' and matching the given `type`. If the `info` dataset is not available, it stops with an error.
+#'
+#' @examples
+#' \dontrun{
+#' info <- get_internal_info(date_range = list(from = "2004-01-01", to = "2022-12-31"),
+#'                           type = "Federal Election")
+#' }
+#'
+#' @noRd
+#' @keywords internal
 get_internal_info <- function(
   date_range,
   type
@@ -137,6 +160,35 @@ get_internal_info <- function(
 
 # ======================================================================================================================
 # PROCESSING
+#' Initialise Data Processing
+#'
+#' Determines and applies the appropriate processing function to election data based
+#' on file name, category, and event.
+#'
+#' @param data The data frame to be processed.
+#' @param file_name The name of the file being processed (e.g., "National list of candidates").
+#' @param category The category of the data, one of "House", "Senate", or "General".
+#' @param event The specific election event (e.g., "2022"), typically a year or identifier.
+#'
+#' @return The processed data frame if a processing function is applied, or the original
+#'         data frame if no processing is required.
+#'
+#' @details This function uses the `aec_names_fed` dataset from the `scgElectionsAU` package
+#' to look up a processing function based on the `file_name`, `category`, and `event`. If
+#' exactly one matching function is found, it is applied to the data. If multiple functions
+#' match, it stops with an error. If no function is found, it returns the data unchanged
+#' with a message indicating no processing was required.
+#'
+#' @examples
+#' \dontrun{
+#' processed_data <- process_init(data,
+#'                                file_name = "National list of candidates",
+#'                                category = "House",
+#'                                event = "2022")
+#' }
+#'
+#' @noRd
+#' @keywords internal
 process_init <- function(data, file_name, category, event) {
   # Get names from the 'aec_names_fed' data available in scgElectionsAU package
   names <- get0("aec_names_fed", envir = asNamespace("scgElectionsAU"))
@@ -187,6 +239,7 @@ process_init <- function(data, file_name, category, event) {
 #'         'SittingMemberFl' column removed.
 #'
 #' @noRd
+#' @keywords internal
 process_elected <- function(data) {
   message("Processing data to ensure all columns align across all elections.")
 
@@ -199,41 +252,34 @@ process_elected <- function(data) {
 
   # TODO: Find a way to add HistoricVote for 2004 - which dataset contains this?
 
-  # # Create a logical vector to select rows where the year is 2004
-  # update_index <- data$event == "2004"
-  #
-  # Add Elected column for 2004 election
-  # file_name <- ifelse(prefix == "House", "Members elected", "Senators elected")
-  # url <- construct_url(ref = "12246", event = "2004", file_name = file_name, prefix)
-  # tmp_df <- scgUtils::get_file(url, source = "web", row_no = 1)
-  #
-  # if (prefix == "Senate") {
-  #   # Create composite keys in both data and tmp_df for matching
-  #   data$CompositeKey <- with(data, paste(PartyAb, StateAb, GivenNm, Surname, sep = "_"))
-  #   tmp_df$CompositeKey <- with(tmp_df, paste(PartyAb, StateAb, GivenNm, Surname, sep = "_"))
-  #
-  #   # Match using the composite key
-  #   tmp_df <- tmp_df$CompositeKey
-  #
-  #   # Update the Elected column based on whether the CandidateID is in the elected_ids_2004
-  #   data$Elected[update_index] <- ifelse(data$CompositeKey[update_index] %in% tmp_df, "Y", "N")
-  #
-  # } else {
-  #   # Create a vector of CandidateIDs from the 2004 elected members
-  #   tmp_df <- tmp_df$CandidateID
-  #
-  #   # Update the Elected column based on whether the CandidateID is in the elected_ids_2004
-  #   data$Elected[update_index] <- ifelse(data$CandidateID[update_index] %in% tmp_df, "Y", "N")
-  # }
-  #
-  # # Clean up added composite key column if it exists
-  # if ("CompositeKey" %in% names(data)) data$CompositeKey <- NULL
-
   # Return updated data
   return(data)
 }
 
 
+#' Process Representative Data
+#'
+#' Standardises column names for representative election data from older
+#' elections (2004-2010).
+#'
+#' @param data The data frame containing representative election data, with
+#'        columns such as `event`, `Total`, `LastElectionTotal`, and `PartyAb`.
+#'
+#' @return The data frame with standardised column names (`National` and `LastElection`)
+#'         and unnecessary columns removed.
+#'
+#' @details For elections in 2004, 2007, and 2010, this function maps `Total` to
+#' `National` and `LastElectionTotal` to `LastElection` where `Total` and `LastElectionTotal`
+#' are not NA. It then removes the `Total`, `LastElectionTotal`, and `PartyAb` columns to
+#' align the data with newer election formats.
+#'
+#' @examples
+#' \dontrun{
+#' standardised_data <- process_reps(data)
+#' }
+#'
+#' @noRd
+#' @keywords internal
 process_reps <- function(data) {
   message("Processing data to ensure all columns align across all elections.")
 
@@ -250,6 +296,30 @@ process_reps <- function(data) {
   return(data)
 }
 
+
+#' Process Coordinate Data
+#'
+#' Fills in missing latitude and longitude values for polling places using a
+#' reference set derived from the data.
+#'
+#' @param data The data frame containing polling place data, with columns
+#'        `PollingPlaceID`, `Latitude`, and `Longitude`.
+#'
+#' @return The data frame with missing `Latitude` and `Longitude`
+#'         values filled in where possible.
+#'
+#' @details This function creates a reference set of unique polling places
+#' with non-missing coordinates (`Latitude` and `Longitude`) based on `PollingPlaceID`.
+#' It then uses this reference to impute missing coordinate values in the main dataset,
+#' ensuring all polling places have location data where available.
+#'
+#' @examples
+#' \dontrun{
+#' complete_data <- process_coords(data)
+#' }
+#'
+#' @noRd
+#' @keywords internal
 process_coords <- function(data) {
   message("Processing to ensure all data aligns across all election years.")
 
@@ -265,6 +335,30 @@ process_coords <- function(data) {
   return(data)
 }
 
+
+#' Process Pre-Poll Data
+#'
+#' Standardises column names for pre-poll voting data from elections
+#' between 2004 and 2013.
+#'
+#' @param data The data frame containing pre-poll voting data, with columns
+#'        such as `event`, `PrePollVotes`, and `PrePollPercentage`.
+#'
+#' @return The data frame with standardised column names (`DeclarationPrePollVotes`
+#'         and `DeclarationPrePollPercentage`) and original columns removed.
+#'
+#' @details For elections in 2004, 2007, 2010, and 2013, this function maps
+#' `PrePollVotes` to `DeclarationPrePollVotes` and `PrePollPercentage` to
+#' `DeclarationPrePollPercentage` where the original columns are not NA. It then
+#' removes `PrePollVotes` and `PrePollPercentage` to align with newer data formats.
+#'
+#' @examples
+#' \dontrun{
+#' standardised_data <- process_prepoll(data)
+#' }
+#'
+#' @noRd
+#' @keywords internal
 process_prepoll <- function(data) {
   message("Processing data to ensure all columns align across all elections.")
 
@@ -281,6 +375,29 @@ process_prepoll <- function(data) {
   return(data)
 }
 
+
+#' Process Group Data
+#'
+#' Standardises group or ticket information for elections from 2004 to 2019.
+#'
+#' @param data The data frame containing group or ticket data, with columns
+#'        such as `event`, `Ticket`, and optionally `SittingMemberFl`.
+#'
+#' @return The data frame with standardised `Group` column and `Ticket`
+#'         column removed, and elected status processed if applicable.
+#'
+#' @details For elections in 2004, 2007, 2010, 2013, 2016, and 2019, this function
+#' maps `Ticket` to `Group` where `Ticket` is not NA and removes the `Ticket` column.
+#' If a `SittingMemberFl` column is present, it calls `process_elected` to handle elected
+#' status, ensuring compatibility across election years.
+#'
+#' @examples
+#' \dontrun{
+#' standardised_data <- process_group(data)
+#' }
+#'
+#' @noRd
+#' @keywords internal
 process_group <- function(data) {
   message("Processing data to ensure all columns align across all elections.")
 
