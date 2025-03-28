@@ -538,7 +538,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "First preferences by state by vote type"), category = "Senate"
+  get_aec_data(file_name = "First preferences by state by vote type", category = "Senate")
 )
 
 # Selecting only the first row and keeping all columns
@@ -567,7 +567,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "First preferences by division by vote type"), category = "Senate"
+  get_aec_data(file_name = "First preferences by division by vote type", category = "Senate")
 )
 
 # Selecting only the first row and keeping all columns
@@ -597,7 +597,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "First preferences by group by vote type"), category = "Senate"
+  get_aec_data(file_name = "First preferences by group by vote type", category = "Senate")
 )
 
 # Selecting only the first row and keeping all columns
@@ -627,7 +627,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "First preferences by state by group by vote type"), category = "Senate"
+  get_aec_data(file_name = "First preferences by state by group by vote type", category = "Senate")
 )
 
 # Selecting only the first row and keeping all columns
