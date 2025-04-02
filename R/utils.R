@@ -71,143 +71,6 @@ validate_date <- function(date_string) {
 }
 
 
-#' Check Availability of Specified File in Dataset
-#'
-#' This utility function checks the availability of a specified file within the 'aec_names_fed' dataset
-#' from the 'scgElectionsAU' package. It ensures that the file name, category, and each year (event)
-#' requested have corresponding entries marked as available ('Y') in the dataset. This function is
-#' intended to be a helper function for `get_aec_data` and is not exported.
-#'
-#' @param file_name The name of the file to check within the dataset. This should match one of the
-#'        entries in the 'file_name' column of the 'aec_names_fed' dataset.
-#' @param category The category associated with the file, typically reflecting the data's segmentation
-#'        such as 'General', 'House', or 'Senate'. This should match an entry in the 'prefix' column
-#'        of the dataset.
-#' @param events A character vector of years (events) for which the availability needs verification.
-#'        Each year should correspond to a column in the dataset, which should contain 'Y' to
-#'        indicate availability.
-#'
-#' @return Invisible NULL. The function is used for its side effect of stopping if any check fails
-#'         with an informative error message.
-#'
-#' @examples
-#' # Assuming that 'aec_names_fed' data and necessary variables are correctly set:
-#' check_file_exists("National list of candidates", "House", c("2022", "2016"))
-#'
-#' @noRd
-#' @keywords internal
-check_file_exists <- function(
-  file_name,
-  category,
-  events
-) {
-  # Get names from the 'aec_names_fed' data available in scgElectionsAU package
-  names <- get0("aec_names_fed", envir = asNamespace("scgElectionsAU"))
-
-  # Check if 'names' data is available
-  if (is.null(names)) {
-    stop("Data 'aec_names_fed' not found in 'scgElectionsAU' package. Contact the package maintainer.")
-  }
-
-  # Check if file_name exists
-  if (!all(file_name %in% names$file_name)) {
-    stop(paste0("`", file_name, "` does not exist. Check the `file_name` and try again."))
-  }
-
-  # Check that the corresponding category for the file_name exists
-  check_df <- names[names$file_name == file_name & names$prefix == category,]
-  if (!all(category %in% check_df$prefix)) {
-    stop(paste0("`", file_name, "` for the `", category, "` category ", "does not exist. Check that the `category` is one of only 'General', 'House', or 'Senate' and try again."))
-  }
-
-  # Loop through the list of events and check corresponding columns
-  for (event in events) {
-    # First, ensure the column for the event year exists
-    if (!event %in% names(check_df)) {
-      stop(paste0("`", file_name, "` does not have data available for the year `", event, "`."))
-    }
-
-    # Check if the event year column contains "Y" in check_df
-    # Also handle potential NA values in the column data
-    if (!any(check_df[[event]] == "Y", na.rm = TRUE)) {
-      stop(paste0("`", file_name, "` for the year `", event, "` is not available. Check availability and try again."))
-    }
-  }
-}
-
-
-#' Construct AEC Data Download URL
-#'
-#' This function constructs a URL for downloading files from the Australian Electoral Commission.
-#' It is designed as a helper function for `get_aec_data()` and uses specific lookup data from
-#' the 'scgElectionsAU' package. It forms URLs based on a reference ID, file name, and prefix
-#' associated with the data to be downloaded.
-#'
-#' @param ref A character string specifying the reference ID associated with the election year
-#'        or event. Different areas ('results' or 'Website') of the AEC website are used based
-#'        on the value of `ref`. Each `ref` corresponds to an election year.
-#' @param event A
-#' @param file_name A character string specifying the name of the file to download, as recorded
-#'        in the `aec_names_fed` dataset. This corresponds to a particular type of election data.
-#' @param prefix A character string specifying the prefix that categorises the file within
-#'        the AEC structure, used to correctly format the download URL. E.g., House, Senate, of
-#'        General.
-#'
-#' @return A character string containing the fully constructed URL for the data file.
-#'
-#' @details This function accesses the 'aec_names_fed' dataset stored within the 'scgElectionsAU'
-#'          package environment. It filters this dataset based on the `file_name` and `prefix`
-#'          provided, constructs a URL, and ensures that exactly one entry matches the given
-#'          parameters to prevent errors in URL construction. Error handling is robust, providing
-#'          clear messages for potential issues such as missing data or multiple matching entries.
-#'
-#' @examples
-#' # Assuming 'aec_names_fed' and the necessary variables are properly defined:
-#' construct_url("27966", "National list of candidates", "House")
-#'
-#' @noRd
-#' @keywords internal
-construct_url <- function(
-  ref,
-  event,
-  file_name,
-  prefix
-) {
-  base_url <- "https://results.aec.gov.au/"
-  area <- ifelse(ref == "12246", "results", "Website")
-
-  # Get names from the 'aec_names_fed' data available in scgElectionsAU package
-  names <- get0("aec_names_fed", envir = asNamespace("scgElectionsAU"))
-
-  # Check if names is non-null
-  if (is.null(names)) {
-    stop("Data 'aec_names_fed' not found in 'scgElectionsAU' package. Contact the package maintainer.")
-  }
-
-  # Filter by file_name, prefix, and event availability
-  filtered_names <- names[names$file_name == file_name &
-                          names$prefix == prefix &
-                          names[[event]] == "Y", ]
-
-  # Check if any entries are found
-  if (nrow(filtered_names) == 0) {
-    stop("No entries found for specified file_name and prefix.")
-  }
-
-  # Assuming only one entry should be found for each unique file_name and prefix combination
-  if (nrow(filtered_names) > 1) {
-    stop("Multiple entries found for specified file_name and prefix. Expected only one.")
-  }
-
-  # Construct URL
-  url <- paste0(base_url, ref, "/", area, "/", filtered_names$download_folder, "/",
-                filtered_names$prefix, filtered_names$download_name, "Download-", ref,
-                filtered_names$file_type)
-
-  return(url)
-}
-
-
 #' Combine Two Data Frames Robustly
 #'
 #' This utility function attempts to combine two data frames by rows even if
@@ -250,7 +113,7 @@ try_combine <- function(df1, df2) {
     message <- conditionMessage(e)
     if (stringr::str_detect(message, "Can't combine")) {
       col_name <- stringr::str_extract(message, "(?<=\\$)[^`]+")
-      message(paste("Attempting to fix columns:", paste(col_name, collapse=", ")))
+      message(paste("Attempting to fix columns:", paste(col_name, collapse = ", ")))
 
       # Convert the problematic column to numeric, replacing non-numeric characters
       df1[[col_name]] <- as.numeric(as.character(df1[[col_name]]))
@@ -262,4 +125,91 @@ try_combine <- function(df1, df2) {
       stop("Unhandled error:", message)
     }
   })
+}
+
+
+#' Pivot Event Data to Long Format
+#'
+#' This internal utility function transforms a dataframe from wide to long format,
+#' focusing on columns that represent dates and their associated values (e.g., vote totals).
+#' It allows dynamic specification of identifier columns and custom naming of the output
+#' columns for dates and values, making it adaptable for use within various functions.
+#' This function is not exported and is intended for internal package use.
+#'
+#' @param df A dataframe containing the data to be transformed. It should include
+#'        identifier columns and columns to be pivoted (typically date columns with values).
+#' @param id_cols A character vector of column names that serve as identifiers
+#'        (e.g., "Division", "State"). These columns are preserved in the long format.
+#' @param long_cols A character vector of column names that should be excluded from
+#'        pivoting but are not directly used in the current implementation. Included
+#'        for clarity and potential future extensions (e.g., additional metadata columns).
+#' @param names_to A string specifying the name of the output column that will
+#'        contain the pivoted date values (default is "Issue Date").
+#' @param values_to A string specifying the name of the output column that will
+#'        contain the values associated with each date (default is "Total Votes").
+#'
+#' @return A dataframe in long format where each row corresponds to a unique combination
+#'         of identifier columns and a date, with the associated value for that date.
+#'         The date and value columns are named according to `date_col_name` and
+#'         `value_col_name`, respectively.
+#'
+#' @examples
+#' \dontrun{
+#'   # Sample data
+#'   df <- data.frame(
+#'     Division = c("Div1", "Div2"),
+#'     State = c("State1", "State2"),
+#'     `2020-01-01` = c(100, 200),
+#'     `2020-01-02` = c(150, 250),
+#'     check.names = FALSE
+#'   )
+#'
+#'   # Pivot with default column names
+#'   long_df <- pivot_event(df, id_cols = c("Division", "State"), long_cols = NULL)
+#'   print(long_df)
+#'
+#'   # Pivot with custom column names
+#'   long_df_custom <- pivot_event(
+#'     df,
+#'     id_cols = c("Division", "State"),
+#'     long_cols = NULL,
+#'     names_to = "EventDate",
+#'     values_to = "VoteCount"
+#'   )
+#'   print(long_df_custom)
+#' }
+#'
+#' @noRd
+#' @keywords internal
+pivot_event <- function(
+  df,
+  id_cols,
+  long_cols,
+  names_to = "Issue Date",
+  values_to = "Total Votes"
+) {
+  # Identify date columns (all columns not in id_cols or long_cols)
+  date_cols <- setdiff(names(df), c(id_cols, long_cols))
+  long_list <- list()
+
+  # For each row, create long-format entries
+  for (i in 1:nrow(df)) {
+    row <- df[i,]
+    for (date_col in date_cols) {
+      # Skip NA values to avoid unnecessary rows (remove this condition if NAs are desired)
+      if (!is.na(row[[date_col]])) {
+        long_row <- data.frame(
+          row[id_cols],
+          stats::setNames(list(date_col), names_to),
+          stats::setNames(list(row[[date_col]]), values_to),
+          check.names = FALSE # Preserve spaces
+        )
+        long_list[[length(long_list) + 1]] <- long_row
+      }
+    }
+  }
+
+  # Combine into a single dataframe
+  long_df <- do.call(rbind, long_list)
+  return(long_df)
 }

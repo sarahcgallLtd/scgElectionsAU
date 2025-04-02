@@ -11,10 +11,3 @@ test_that("test that check_file_exists returns error when category does not matc
     "`National list of candidates` for the `General` category does not exist. Check that the `category` is one of only 'General', 'House', or 'Senate' and try again."
   )
 })
-
-test_that("test that check_file_exists returns error when date range does not include file", {
-  expect_error(
-    get_aec_data(file_name = "Non-classic divisions", date_range = list(from = "2004-01-01", to = "2005-01-01")),
-    "`Non-classic divisions` for the year `2004` is not available. Check availability and try again."
-  )
-})

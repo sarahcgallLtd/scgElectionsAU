@@ -16,4 +16,11 @@ test_that("test that get_aec_data returns both 2022 and 2019 election data", {
   expect_length(df, 12)
 })
 
+test_that("test that check_file_exists returns message when date range does not include file", {
+  expect_error(
+    get_aec_data(file_name = "Non-classic divisions", date_range = list(from = "2004-01-01", to = "2005-01-01")),
+    "No data was available for `Non-classic divisions` with the parameters used. Check the date range and try again."
+  )
+})
+
 

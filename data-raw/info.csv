@@ -1,8 +1,9 @@
-aec_reference,date,type,event
-27966,2022-05-21T00:00:00Z,Federal Election,2022
-24310,2019-05-18T00:00:00Z,Federal Election,2019
-20499,2016-07-02T00:00:00Z,Federal Election,2016
-17496,2013-09-07T00:00:00Z,Federal Election,2013
-15508,2010-08-21T00:00:00Z,Federal Election,2010
-13745,2007-11-24T00:00:00Z,Federal Election,2007
-12246,2004-10-09T00:00:00Z,Federal Election,2004
+aec_reference,date,type,event,postal,prepoll,votes,overseas
+,2025-05-03T00:00:00Z,Federal Election,2025,,,,
+27966,2022-05-21T00:00:00Z,Federal Election,2022,https://www.aec.gov.au/Elections/Federal_Elections/2022/files/downloads/Postal-Votes-220521-v2.csv,https://www.aec.gov.au/Elections/Federal_Elections/2022/files/downloads/20220620_WEB_FINAL_Pre-poll_report_FE2022.csv,https://www.aec.gov.au/Elections/Federal_Elections/2022/files/downloads/2022-federal-election-votes-sa1.csv,https://www.aec.gov.au/Elections/Federal_Elections/2022/files/downloads/2022-os-votes-by-post-state-division.csv
+24310,2019-05-18T00:00:00Z,Federal Election,2019,https://www.aec.gov.au/Elections/federal_elections/2019/files/downloads/20190518_WEB_Postal_Report_FE2019.csv,https://www.aec.gov.au/Elections/federal_elections/2019/files/downloads/20190518_WEB_Pre-poll_Report_FE2019.csv,https://www.aec.gov.au/Elections/federal_elections/2019/files/downloads/polling-place-by-sa1s-2019.csv,https://www.aec.gov.au/Elections/federal_elections/2019/files/downloads/2019-os-votes-by-post-state-division.xlsx
+20499,2016-07-02T00:00:00Z,Federal Election,2016,https://www.aec.gov.au/Elections/Federal_Elections/2016/files/20160702_WEB_Postal_Report.csv,https://www.aec.gov.au/Elections/federal_elections/2016/files/20160702_WEB_Pre-Poll_Report.csv,https://www.aec.gov.au/Elections/Federal_Elections/2016/files/polling-place-by-sa1s-2016.xlsx,
+17496,2013-09-07T00:00:00Z,Federal Election,2013,https://www.aec.gov.au/Elections/Federal_Elections/2013/files/statistics/e2013-pva-stats-07-09.csv,https://www.aec.gov.au/Elections/Federal_Elections/2013/files/statistics/e2013-prepoll-stats-07-09.csv,https://results.aec.gov.au/17496/Website/External/GeneralPollingplaceStatisticsByCcdDownload-17496.zip,https://www.aec.gov.au/Elections/Federal_Elections/2013/files/e2013-os-stats-all.csv
+15508,2010-08-21T00:00:00Z,Federal Election,2010,https://www.aec.gov.au/Elections/Federal_Elections/2010/files/e2010-pva-stats-19-08.csv,https://www.aec.gov.au/Elections/Federal_Elections/2010/files/e2010-prepoll-stats-19-08.csv,,https://www.aec.gov.au/Elections/Federal_Elections/2010/files/e2010-os-stats-division.csv
+13745,2007-11-24T00:00:00Z,Federal Election,2007,,,,
+12246,2004-10-09T00:00:00Z,Federal Election,2004,,,,

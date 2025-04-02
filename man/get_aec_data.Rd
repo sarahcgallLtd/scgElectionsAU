@@ -8,7 +8,7 @@ get_aec_data(
   file_name,
   date_range = list(from = "2022-01-01", to = "2023-01-01"),
   type = c("Federal Election", "Referendum"),
-  category = c("House", "Senate", "General"),
+  category = c("House", "Senate", "General", "Statistics"),
   process = FALSE
 )
 }
