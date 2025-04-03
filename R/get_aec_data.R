@@ -79,7 +79,7 @@ get_aec_data <- function(
     event <- info$event[i]
 
     # Check if data is available for this event
-    if (check_df[[event]] != "Y") {
+    if (!any(check_df[[event]] == "Y", na.rm = TRUE)) {
       message(paste0("Skipping `", file_name, "` for the year `", event, "` as it is not available."))
       next
     }
