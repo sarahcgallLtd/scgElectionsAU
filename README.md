@@ -21,8 +21,7 @@ presented through a variety of datasets and functions.
 To install the development version of `scgElectionsAU`, use:
 
 ``` r
-# Install the development version from GitHub
-devtools::install_github("sarahcgall/scgElectionsAU")
+devtools::install_github("sarahcgallLtd/scgElectionsAU")
 ```
 
 ## Usage
