@@ -484,7 +484,7 @@ process_ppvpva <- function(data, file_name) {
 
     # Remove columns
     data <- data[, !names(data) %in% c("State_Cd", "PVA_Web_1_Party_Div", "Enrolment Division", "Enrolment",
-                                       "PVA_Web_2_Date_Div","PVA_Web_2_Date_V2_Div","TOTAL to date",
+                                       "PVA_Web_2_Date_Div", "PVA_Web_2_Date_V2_Div", "TOTAL to date",
                                        "TOTAL to date (Inc GPV)")]
 
     # Filter out total row in 2013
@@ -644,16 +644,21 @@ process_init <- function(data, file_name, category, event) {
 #' @noRd
 #' @keywords internal
 process_elected <- function(data) {
-  message("Processing data to ensure all columns align across all elections.")
+  if (unique(data$event == "2004")) {
+    message("Processing data to ensure all columns align across all elections.")
 
-  # Amend 2004 data (Make `SittingMemberFl` = `Elected`)
-  data$Elected <- ifelse(data$event == "2004" & !is.na(data$SittingMemberFl), "Y", "N")
-  data$HistoricElected <- ifelse(data$event == "2004", NA, data$HistoricElected)
+    # Amend 2004 data (Make `SittingMemberFl` = `Elected`)
+    data$Elected <- ifelse(data$event == "2004" & !is.na(data$SittingMemberFl), "Y", "N")
+    data$HistoricElected <- ifelse(data$event == "2004", NA, data$HistoricElected)
 
-  # Remove `SittingMemberFl` column
-  data <- data[, !names(data) %in% "SittingMemberFl"]
+    # Remove `SittingMemberFl` column
+    data <- data[, !names(data) %in% "SittingMemberFl"]
 
-  # TODO: Find a way to add HistoricVote for 2004 - which dataset contains this?
+    # TODO: Find a way to add HistoricVote for 2004 - which dataset contains this?
+
+  } else {
+    message("No processing required. Data returned unprocessed.")
+  }
 
   # Return updated data
   return(data)
@@ -684,16 +689,21 @@ process_elected <- function(data) {
 #' @noRd
 #' @keywords internal
 process_reps <- function(data) {
-  message("Processing data to ensure all columns align across all elections.")
+  if (unique(data$event %in% c("2004", "2007", "2010"))) {
+    message("Processing data to ensure all columns align across all elections.")
 
-  # Amend 2004-2010 data (Make `National` = `Total` & `LastElection` = `LastElectionTotal`)
-  data$National <- ifelse(data$event %in% c("2004", "2007", "2010") & !is.na(data$Total),
-                          data$Total, data$National)
-  data$LastElection <- ifelse(data$event %in% c("2004", "2007", "2010") & !is.na(data$LastElectionTotal),
-                              data$LastElectionTotal, data$LastElection)
+    # Amend 2004-2010 data (Make `National` = `Total` & `LastElection` = `LastElectionTotal`)
+    data$National <- ifelse(data$event %in% c("2004", "2007", "2010") & !is.na(data$Total),
+                            data$Total, data$National)
+    data$LastElection <- ifelse(data$event %in% c("2004", "2007", "2010") & !is.na(data$LastElectionTotal),
+                                data$LastElectionTotal, data$LastElection)
 
-  # Remove `Total`, `LastElectionTotal` and `PartyAb` columns
-  data <- data[, !names(data) %in% c("Total", "LastElectionTotal", "PartyAb")]
+    # Remove `Total`, `LastElectionTotal` and `PartyAb` columns
+    data <- data[, !names(data) %in% c("Total", "LastElectionTotal", "PartyAb")]
+
+  } else {
+    message("No processing required. Data returned unprocessed.")
+  }
 
   # Return updated data
   return(data)
@@ -763,16 +773,21 @@ process_coords <- function(data) {
 #' @noRd
 #' @keywords internal
 process_prepoll <- function(data) {
-  message("Processing data to ensure all columns align across all elections.")
+  if (unique(data$event) %in% c("2004", "2007", "2010", "2013")) {
+    message("Processing data to ensure all columns align across all elections.")
 
-  # Amend 2004-2010 data (Make `DeclarationPrePollVotes` = `PrePollVotes` & `DeclarationPrePollPercentage` = `PrePollPercentage`)
-  data$DeclarationPrePollVotes <- ifelse(data$event %in% c("2004", "2007", "2010", "2013") & !is.na(data$PrePollVotes),
-                                         data$PrePollVotes, data$DeclarationPrePollVotes)
-  data$DeclarationPrePollPercentage <- ifelse(data$event %in% c("2004", "2007", "2010", "2013") & !is.na(data$PrePollPercentage),
-                                              data$PrePollPercentage, data$DeclarationPrePollPercentage)
+    # Amend 2004-2010 data (Make `DeclarationPrePollVotes` = `PrePollVotes` & `DeclarationPrePollPercentage` = `PrePollPercentage`)
+    data$DeclarationPrePollVotes <- ifelse(data$event %in% c("2004", "2007", "2010", "2013") & !is.na(data$PrePollVotes),
+                                           data$PrePollVotes, data$DeclarationPrePollVotes)
+    data$DeclarationPrePollPercentage <- ifelse(data$event %in% c("2004", "2007", "2010", "2013") & !is.na(data$PrePollPercentage),
+                                                data$PrePollPercentage, data$DeclarationPrePollPercentage)
 
-  # Remove `PrePollVotes` and `PrePollPercentage` columns
-  data <- data[, !names(data) %in% c("PrePollVotes", "PrePollPercentage")]
+    # Remove `PrePollVotes` and `PrePollPercentage` columns
+    data <- data[, !names(data) %in% c("PrePollVotes", "PrePollPercentage")]
+
+  } else {
+    message("No processing required. Data returned unprocessed.")
+  }
 
   # Return updated data
   return(data)
@@ -802,14 +817,19 @@ process_prepoll <- function(data) {
 #' @noRd
 #' @keywords internal
 process_group <- function(data) {
-  message("Processing data to ensure all columns align across all elections.")
+  if (unique(data$event %in% c("2004", "2007", "2010", "2013", "2016", "2019"))) {
+    message("Processing data to ensure all columns align across all elections.")
 
-  # Amend 2004-2010 data (Make `Group` = `Ticket`)
-  data$Group <- ifelse(data$event %in% c("2004", "2007", "2010", "2013", "2016", "2019") & !is.na(data$Ticket),
-                       data$Ticket, data$Group)
+    # Amend 2004-2010 data (Make `Group` = `Ticket`)
+    data$Group <- ifelse(data$event %in% c("2004", "2007", "2010", "2013", "2016", "2019") & !is.na(data$Ticket),
+                         data$Ticket, data$Group)
 
-  # Remove `Ticket` column
-  data <- data[, !names(data) %in% "Ticket"]
+    # Remove `Ticket` column
+    data <- data[, !names(data) %in% "Ticket"]
+
+  } else {
+    message("No processing required. Data returned unprocessed.")
+  }
 
   if ("SittingMemberFl" %in% colnames(data)) {
     data <- process_elected(data)
@@ -836,16 +856,22 @@ process_group <- function(data) {
 #' @noRd
 #' @keywords internal
 process_ccd <- function(data) {
-  message("Processing data to ensure all columns align across all elections.")
+  if (unique(data$event %in% c("2013", "2016", "2019"))) {
+    message("Processing data to ensure all columns align across all elections.")
+    if (unique(data$event == "2013")) {
+      # Amend 2013 data (Make `votes` = `count`)
+      data$votes <- ifelse(data$event == "2013", data$count, data$votes)
 
-  # Amend 2013 data (Make `votes` = `count`)
-  data$votes <- ifelse(data$event == "2013", data$count, data$votes)
+    } else if (unique(data$event %in% c("2016", "2019"))) {
+      # Amend 2016-2019 data (Make `ccd_id` = `SA1_id`)
+      data$ccd_id <- ifelse(data$event %in% c("2016", "2019"), data$SA1_id, data$ccd_id)
+    }
 
-  # Amend 2016-2019 data (Make `ccd_id` = `SA1_id`)
-  data$ccd_id <- ifelse(data$event %in% c("2016", "2019"), data$SA1_id, data$ccd_id)
-
-  # Remove `SA1_id` and `count` columns
-  data <- data[, !names(data) %in% c("SA1_id", "count")]
+    # Remove `SA1_id` and `count` columns
+    data <- data[, !names(data) %in% c("SA1_id", "count")]
+  } else {
+    message("No processing required. Data returned unprocessed.")
+  }
 
   # Return updated data
   return(data)
