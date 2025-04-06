@@ -78,9 +78,9 @@ Turnout by state,Downloads,Senate,TurnoutByState,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Turnout by division,Downloads,Senate,TurnoutByDivision,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Votes by state,Downloads,Senate,VotesCountedByState,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Votes by division,Downloads,Senate,VotesCountedByDivision,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
-Postal vote applications by total,Elections,Statistics,see info spreadsheet,.csv,N,Y,N,N,N,N,N,N,process_ppvpva
-Postal vote applications by date,Elections,Statistics,see info spreadsheet,.csv,N,N,Y,Y,Y,Y,N,N,process_ppvpva
-Postal vote applications by party,Elections,Statistics,see info spreadsheet,.csv,N,N,Y,Y,Y,Y,N,N,process_ppvpva
-Pre-poll votes,Elections,Statistics,see info spreadsheet,.csv,N,Y,Y,Y,Y,Y,N,N,process_ppvpva
+Postal vote applications by total,Elections,Statistics,see info spreadsheet,.csv,N,Y,N,N,N,N,N,N,NA
+Postal vote applications by date,Elections,Statistics,see info spreadsheet,.csv,N,N,Y,Y,Y,Y,N,N,process_pva_date
+Postal vote applications by party,Elections,Statistics,see info spreadsheet,.csv,N,N,Y,Y,Y,Y,N,N,process_pva_party
+Pre-poll votes,Elections,Statistics,see info spreadsheet,.csv,N,Y,Y,Y,Y,Y,N,N,process_ppv
 Votes by SA1,Elections,Statistics,see info spreadsheet,Mixed,N,Y,Y,Y,Y,N,N,N,process_ccd
 Overseas,Elections,Statistics,see info spreadsheet,.csv,N,Y,Y,N,Y,N,N,N,process_overseas

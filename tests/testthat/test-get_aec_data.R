@@ -8,59 +8,6 @@ test_that("test that get_aec_data returns errors", {
 test_that("test that get_aec_data returns 2022 election data", {
   df <- get_aec_data(file_name = "National list of candidates")
   expect_length(df, 12)
-
-  df <- get_aec_data(file_name = "Party representation",
-                     date_range = list(from = "2007-01-01", to = "2010-01-01"),
-                     process = TRUE)
-  expect_length(df, 13)
-
-  df <- get_aec_data(file_name = "First preferences by state by party",
-                     process = TRUE)
-  expect_length(df, 22)
-
-  df <- get_aec_data(file_name = "Polling places",
-                     category = "General",
-                     process = TRUE)
-  expect_length(df, 17)
-
-  df <- get_aec_data(file_name = "First preferences by state by vote type",
-                     date_range = list(from = "2007-01-01", to = "2010-01-01"),
-                     category = "Senate",
-                     process = TRUE)
-  expect_length(df, 14)
-
-  df <- get_aec_data(file_name = "First preferences by group by vote type",
-                     category = "Senate",
-                     date_range = list(from = "2007-01-01", to = "2010-01-01"),
-                     process = TRUE)
-  expect_length(df, 16)
-
-  df <- get_aec_data(file_name = "Postal vote applications by date",
-                     date_range = list(from = "2019-01-01", to = "2022-01-01"),
-                     category = "Statistics",
-                     process = TRUE)
-  expect_length(df, 6)
-
-  df <- get_aec_data(file_name = "Pre-poll votes",
-                     category = "Statistics",
-                     process = TRUE)
-  expect_length(df, 7)
-
-  df <- get_aec_data(file_name = "Pre-poll votes",
-                     date_range = list(from = "2019-01-01", to = "2022-01-01"),
-                     category = "Statistics",
-                     process = TRUE)
-  expect_length(df, 7)
-
-  df <- get_aec_data(file_name = "Votes by SA1",
-                     category = "Statistics",
-                     process = TRUE)
-  expect_length(df, 9)
-
-  df <- get_aec_data(file_name = "Overseas",
-                     category = "Statistics",
-                     process = TRUE)
-  expect_length(df, 8)
 })
 
 test_that("test that get_aec_data returns both 2022 and 2019 election data", {

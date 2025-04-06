@@ -22,6 +22,7 @@ Depends:
     R (>= 3.5.0)
 Imports:
     dplyr,
+    rlang,
     stats,
     stringr,
     scgUtils
@@ -34,6 +35,17 @@ Config/testthat/edition: 3
 Config/Needs/website: tidyverse/tidytemplate
 VignetteBuilder: knitr
 Collate: 
+    'amend_names.R'
     'utils.R'
     'get_aec_data.R'
+    'process_ccd.R'
+    'process_coords.R'
+    'process_elected.R'
+    'process_group.R'
+    'process_overseas.R'
+    'process_ppv.R'
+    'process_prepoll.R'
+    'process_pva_date.R'
+    'process_pva_party.R'
+    'process_reps.R'
     'scgElectionsAU_package.R'

@@ -185,8 +185,8 @@ pivot_event <- function(
   df,
   id_cols,
   long_cols,
-  names_to = "Issue Date",
-  values_to = "Total Votes"
+  names_to,
+  values_to
 ) {
   # Identify date columns (all columns not in id_cols or long_cols)
   date_cols <- setdiff(names(df), c(id_cols, long_cols))
@@ -212,4 +212,49 @@ pivot_event <- function(
   # Combine into a single dataframe
   long_df <- do.call(rbind, long_list)
   return(long_df)
+}
+
+
+#' Rename Columns in a Data Frame
+#'
+#' Renames columns in a data frame using a tidyverse-style syntax where new names are specified
+#' on the left and old names on the right (e.g., `new_name = "old_name"`).
+#'
+#' @param .data A data frame whose columns are to be renamed.
+#' @param ... Name-value pairs where the name is the new column name and the value is the old column name
+#'   (as a quoted string). Multiple renamings can be specified.
+#'
+#' @return The input data frame with renamed columns. Unmatched old names result in an error.
+#'
+#' @examples
+#' df <- data.frame(`Old Name` = 1:3, Other = 4:6, check.names = FALSE)
+#' rename_cols(df, NewName = "Old Name")
+#' # Returns data frame with "NewName" and "Other" columns
+#'
+#' df <- data.frame(`Pre-poll Votes` = 1:3, `Postal Votes` = 4:6, check.names = FALSE)
+#' rename_cols(df, PrePollVotes = "Pre-poll Votes", PostalVotes = "Postal Votes")
+#'
+#' @noRd
+#' @keywords internal
+rename_cols <- function(.data, ...) {
+  # Capture the renaming arguments as a list
+  dots <- rlang::enquos(...)
+
+  # Extract new names (unquoted) and old names (quoted strings)
+  new_names <- names(dots)
+  if (length(new_names) == 0 || any(new_names == "")) {
+    stop("All arguments must be named with new column names.")
+  }
+  old_names <- vapply(dots, rlang::eval_tidy, character(1), data = .data)
+
+  # Check that old names exist in the data frame
+  missing <- !old_names %in% names(.data)
+  if (any(missing)) {
+    stop("The following old names were not found in the data: ",
+         paste(old_names[missing], collapse = ", "))
+  }
+
+  # Perform the renaming
+  names(.data)[match(old_names, names(.data))] <- new_names
+  return(.data)
 }

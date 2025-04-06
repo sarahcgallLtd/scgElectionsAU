@@ -1,0 +1,72 @@
+#' Process Election Data for Elected Candidates
+#'
+#' Standardises election data related to elected candidates for a single Australian federal election
+#' event. This function aligns column names across datasets, specifically processing the 2004 election
+#' year by converting the `SittingMemberFl` column to a standardized `Elected` column with "Y" or "N"
+#' values. For all other election years, the data is returned unprocessed with a message. Applies to
+#' datasets including "National list of candidates" (House and Senate), "First preferences by candidate
+#' by vote type" (House only), "Two candidate preferred by candidate by vote type" (House only),
+#' "Two candidate preferred by candidate by polling place" (House only), and "Distribution of preferences
+#' by candidate by division" (House only).
+#'
+#' @param data A data frame containing election data for a single election event. Must include an
+#'   `event` column with a single unique value (e.g., "2004"). For 2004 processing, must include the
+#'   `SittingMemberFl` column. Additional columns depend on the specific dataset.
+#' @param event A character string specifying the election year to process. Currently, only "2004" is
+#'   processed; other values result in the data being returned unprocessed.
+#'
+#' @return A data frame. For the 2004 election year, it contains the standardised column:
+#'   \itemize{
+#'     \item `Elected` (indicates if the candidate was elected, with values "Y" for yes or "N" for no)
+#'   }
+#'   along with all other input columns. For unrecognised years, the original data frame is returned
+#'   unchanged.
+#'
+#' @details
+#' This function processes election data by:
+#' \enumerate{
+#'   \item **Standardising column names**: For 2004, renames `SittingMemberFl` to `Elected` using `rename_cols()`.
+#'   \item **Formatting**: Converts `Elected` values to "Y" (elected) or "N" (not elected), replacing NA with "N".
+#'   \item **Unrecognised years**: Returns the data unprocessed with an informative message for years other than 2004.
+#' }
+#' The function assumes the input data frame contains the required columns for the specified `event`
+#' year and dataset, with processing currently implemented only for 2004. Future enhancements may
+#' include adding `HistoricVote` data for 2004 (pending identification of the source dataset).
+#'
+#' @examples
+#' # Sample 2004 data
+#' data_2004 <- data.frame(
+#'   date = "2004-10-09",
+#'   event = "2004",
+#'   CandidateID = 123,
+#'   SittingMemberFl = "Y"
+#' )
+#' process_elected(data_2004, "2004")
+#'
+#' # Sample unprocessed year (e.g., 2010)
+#' data_2010 <- data.frame(
+#'   date = "2010-08-21",
+#'   event = "2010",
+#'   CandidateID = 456,
+#'   Elected = "Y"
+#' )
+#' process_elected(data_2010, "2010")
+#'
+#' @export
+process_elected <- function(data, event) {
+  if (event == "2004") {
+    message(paste0("Processing `", event, "` data to ensure all columns align across all elections."))
+
+    # Amend 2004 data (Make `SittingMemberFl` = `Elected`)
+    data <- rename_cols(data, Elected = "SittingMemberFl")
+    data$Elected <- ifelse(!is.na(data$Elected), "Y", "N")
+
+    # TODO: Find a way to add HistoricVote for 2004 - which dataset contains this?
+
+  } else {
+    message(paste0("No processing required for `", event, "`. Data returned unprocessed."))
+  }
+
+  # Return updated data
+  return(data)
+}

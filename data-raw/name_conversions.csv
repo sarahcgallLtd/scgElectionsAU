@@ -1,0 +1,17 @@
+﻿type,original,standardised
+state_to_abbr,New South Wales,NSW
+state_to_abbr,Victoria,VIC
+state_to_abbr,Queensland,QLD
+state_to_abbr,South Australia,SA
+state_to_abbr,Western Australia,WA
+state_to_abbr,Tasmania,TAS
+state_to_abbr,Northern Territory,NT
+state_to_abbr,Australian Capital Territory,ACT
+abbr_to_state,NSW,New South Wales
+abbr_to_state,VIC,Victoria
+abbr_to_state,QLD,Queensland
+abbr_to_state,SA,South Australia
+abbr_to_state,WA,Western Australia
+abbr_to_state,TAS,Tasmania
+abbr_to_state,NT,Northern Territory
+abbr_to_state,ACT,Australian Capital Territory
