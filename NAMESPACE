@@ -3,6 +3,7 @@
 export(amend_names)
 export(get_aec_data)
 export(process_ccd)
+export(process_coords)
 export(process_elected)
 export(process_group)
 export(process_overseas)
