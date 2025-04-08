@@ -4,10 +4,10 @@ NULL
 #'
 #' This function downloads and processes data from the Australian Electoral Commission (AEC) based
 #' on user-specified criteria such as file name, date range, election type, and data category. It
-#' retrieves raw data files from the AEC, optionally applies standardization processes (e.g., column
+#' retrieves raw data files from the AEC, optionally applies standardisation processes (e.g., column
 #' name consistency), and returns a combined data frame for analysis. The function is designed to
-#' handle various types of election-related datasets, including federal elections, referendums, and
-#' by-elections.
+#' handle various types of election-related datasets, including federal elections, referendums,
+#' by-elections, and the AEC transparency register.
 #'
 #' @param file_name A character string specifying the name of the AEC dataset to retrieve (e.g.,
 #'        "National list of candidates"). This name must match entries in the internal index datasets.
@@ -15,7 +15,7 @@ NULL
 #'        and end dates (in "YYYY-MM-DD" format) for the election events to include. Defaults to
 #'        \code{list(from = "2022-01-01", to = "2025-01-01")}.
 #' @param type A character string specifying the type of election or event. Must be one of:
-#'        "Federal Election", "Referendum", or "Federal By-Election". Defaults to the first option.
+#'        "Federal Election", "Referendum", "Federal By-Election", or "Transparency". Defaults to the first option.
 #' @param category A character string specifying the category of the data. Must be one of: "House",
 #'        "Senate", "Referendum", "General", or "Statistics". Defaults to the first option.
 #' @param process A logical value indicating whether to apply additional processing to the downloaded
@@ -62,7 +62,7 @@ NULL
 get_aec_data <- function(
   file_name,
   date_range = list(from = "2022-01-01", to = "2025-01-01"),
-  type = c("Federal Election", "Referendum", "Federal By-Election"),
+  type = c("Federal Election", "Referendum", "Federal By-Election", "Transparency"),
   category = c("House", "Senate", "Referendum", "General", "Statistics"),
   process = TRUE
 ) {
