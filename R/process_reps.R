@@ -62,6 +62,9 @@ process_reps <- function(data, event) {
     # Amend 2004-2010 data (Make `National` = `Total` & `LastElection` = `LastElectionTotal`)
     data <- rename_cols(data, National = "Total", LastElection = "LastElectionTotal")
 
+    # Remove PartyAb column
+    data <- data[, !names(data) == "PartyAb", drop = FALSE]
+
   } else {
     message(paste0("No processing required for `", event, "`. Data returned unprocessed."))
   }

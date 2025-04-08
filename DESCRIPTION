@@ -41,7 +41,6 @@ Collate:
     'process_ccd.R'
     'process_coords.R'
     'process_elected.R'
-    'process_group.R'
     'process_overseas.R'
     'process_ppv.R'
     'process_prepoll.R'

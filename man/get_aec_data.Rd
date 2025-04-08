@@ -6,10 +6,10 @@
 \usage{
 get_aec_data(
   file_name,
-  date_range = list(from = "2022-01-01", to = "2023-01-01"),
-  type = c("Federal Election", "Referendum"),
-  category = c("House", "Senate", "General", "Statistics"),
-  process = FALSE
+  date_range = list(from = "2022-01-01", to = "2025-01-01"),
+  type = c("Federal Election", "Referendum", "Federal By-Election"),
+  category = c("House", "Senate", "Referendum", "General", "Statistics"),
+  process = TRUE
 )
 }
 \arguments{
@@ -20,7 +20,7 @@ and to filter internal metadata for validations.}
 is required. Dates should be formatted as 'YYYY-MM-DD'.}
 
 \item{type}{The type of election or event to filter the data, possible values are
-'Federal Election' and 'Referendum'.}
+'Federal Election','Referendum', and 'Federal By-Election'.}
 
 \item{category}{The category of the data to be downloaded, possible options are 'House', 'Senate',
 and 'General'.}

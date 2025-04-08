@@ -14,14 +14,14 @@ Political parties,Downloads,General,PartyDetails,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 First preferences by party,Downloads,House,FirstPrefsByParty,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 First preferences by state by party,Downloads,House,FirstPrefsByStateByParty,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_prepoll
 First preferences by candidate by vote type,Downloads,House,FirstPrefsByCandidateByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_elected
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,NSW.csv,N,Y,Y,Y,Y,Y,Y,Y,
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,VIC.csv,N,Y,Y,Y,Y,Y,Y,Y,
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,QLD.csv,N,Y,Y,Y,Y,Y,Y,Y,
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,WA.csv,N,Y,Y,Y,Y,Y,Y,Y,
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,SA.csv,N,Y,Y,Y,Y,Y,Y,Y,
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,TAS.csv,N,Y,Y,Y,Y,Y,Y,Y,
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,ACT.csv,N,Y,Y,Y,Y,Y,Y,Y,
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,NT.csv,N,Y,Y,Y,Y,Y,Y,Y,
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-NSW.csv,N,Y,Y,Y,Y,Y,Y,Y,
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-VIC.csv,N,Y,Y,Y,Y,Y,Y,Y,
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-QLD.csv,N,Y,Y,Y,Y,Y,Y,Y,
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-WA.csv,N,Y,Y,Y,Y,Y,Y,Y,
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-SA.csv,N,Y,Y,Y,Y,Y,Y,Y,
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-TAS.csv,N,Y,Y,Y,Y,Y,Y,Y,
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-ACT.csv,N,Y,Y,Y,Y,Y,Y,Y,
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-NT.csv,N,Y,Y,Y,Y,Y,Y,Y,
 Two candidate preferred by candidate by vote type,Downloads,House,TcpByCandidateByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_elected
 Two candidate preferred by candidate by polling place,Downloads,House,TcpByCandidateByPollingPlace,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_elected
 Two party preferred by state,Downloads,House,TppByState,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
@@ -34,22 +34,22 @@ Two party preferred flow of preferences by party,Downloads,House,TppFlowByParty,
 Two party preferred flow of preferences by state by party,Downloads,House,TppFlowByStateByParty,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Two candidate preferred flow of preferences by party,Downloads,House,TcpFlowByParty,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Two candidate preferred flow of preferences by state by party,Downloads,House,TcpFlowByStateByParty,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
-Distribution of preferences by polling place,Extrernal,House,DopByPPDownload,NSW.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Distribution of preferences by polling place,Extrernal,House,DopByPPDownload,VIC.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Distribution of preferences by polling place,Extrernal,House,DopByPPDownload,QLD.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Distribution of preferences by polling place,Extrernal,House,DopByPPDownload,WA.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Distribution of preferences by polling place,Extrernal,House,DopByPPDownload,SA.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Distribution of preferences by polling place,Extrernal,House,DopByPPDownload,TAS.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Distribution of preferences by polling place,Extrernal,House,DopByPPDownload,ACT.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Distribution of preferences by polling place,Extrernal,House,DopByPPDownload,NT.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Two candidate preferred flow of preferences by polling place,Extrernal,House,TcpFlowByPP,NSW.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Two candidate preferred flow of preferences by polling place,Extrernal,House,TcpFlowByPP,VIC.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Two candidate preferred flow of preferences by polling place,Extrernal,House,TcpFlowByPP,QLD.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Two candidate preferred flow of preferences by polling place,Extrernal,House,TcpFlowByPP,WA.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Two candidate preferred flow of preferences by polling place,Extrernal,House,TcpFlowByPP,SA.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Two candidate preferred flow of preferences by polling place,Extrernal,House,TcpFlowByPP,TAS.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Two candidate preferred flow of preferences by polling place,Extrernal,House,TcpFlowByPP,ACT.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Two candidate preferred flow of preferences by polling place,Extrernal,House,TcpFlowByPP,NT.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Distribution of preferences by polling place,External,House,DopByPP,-NSW.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Distribution of preferences by polling place,External,House,DopByPP,-VIC.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Distribution of preferences by polling place,External,House,DopByPP,-QLD.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Distribution of preferences by polling place,External,House,DopByPP,-WA.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Distribution of preferences by polling place,External,House,DopByPP,-SA.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Distribution of preferences by polling place,External,House,DopByPP,-TAS.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Distribution of preferences by polling place,External,House,DopByPP,-ACT.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Distribution of preferences by polling place,External,House,DopByPP,-NT.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-NSW.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-VIC.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-QLD.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-WA.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-SA.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-TAS.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-ACT.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-NT.zip,N,Y,Y,Y,Y,Y,Y,Y,
 Enrolment by state,Downloads,General,EnrolmentByState,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Enrolment by division,Downloads,General,EnrolmentByDivision,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Informal votes by state,Downloads,House,InformalByState,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
@@ -68,8 +68,8 @@ Senators elected,Downloads,Senate,SenatorsElected,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Nominations by state,Downloads,Senate,NominationsByState,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Nominations by gender,Downloads,Senate,NominationsByGender,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Party representation,Downloads,Senate,PartyRepresentation,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
-First preferences by state by vote type,Downloads,Senate,FirstPrefsByStateByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_group
-First preferences by division by vote type,Downloads,Senate,FirstPrefsByDivisionByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_group
+First preferences by state by vote type,Downloads,Senate,FirstPrefsByStateByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
+First preferences by division by vote type,Downloads,Senate,FirstPrefsByDivisionByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 First preferences by group by vote type,Downloads,Senate,FirstPrefsByGroupByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_prepoll
 First preferences by state by group by vote type,Downloads,Senate,FirstPrefsByStateByGroupByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_prepoll
 Informal votes by state,Downloads,Senate,InformalByState,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA

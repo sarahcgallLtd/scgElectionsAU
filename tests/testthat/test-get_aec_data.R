@@ -11,12 +11,14 @@ test_that("test that get_aec_data returns 2022 election data", {
 
   df <- get_aec_data(file_name = "Postal vote applications by party",
                      date_range = list(from = "2016-01-01", to = "2019-01-01"),
-                     category = "Statistics")
+                     category = "Statistics",
+                     process = FALSE)
   expect_length(df, 14)
 
   df <- get_aec_data(file_name = "Postal vote applications by date",
                      date_range = list(from = "2016-01-01", to = "2019-01-01"),
-                     category = "Statistics")
+                     category = "Statistics",
+                     process = FALSE)
   expect_length(df, 58)
 })
 
