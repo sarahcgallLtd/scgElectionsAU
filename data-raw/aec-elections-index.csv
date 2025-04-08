@@ -14,14 +14,14 @@ Political parties,Downloads,General,PartyDetails,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 First preferences by party,Downloads,House,FirstPrefsByParty,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 First preferences by state by party,Downloads,House,FirstPrefsByStateByParty,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_prepoll
 First preferences by candidate by vote type,Downloads,House,FirstPrefsByCandidateByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_elected
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-NSW.csv,N,Y,Y,Y,Y,Y,Y,Y,
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-VIC.csv,N,Y,Y,Y,Y,Y,Y,Y,
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-QLD.csv,N,Y,Y,Y,Y,Y,Y,Y,
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-WA.csv,N,Y,Y,Y,Y,Y,Y,Y,
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-SA.csv,N,Y,Y,Y,Y,Y,Y,Y,
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-TAS.csv,N,Y,Y,Y,Y,Y,Y,Y,
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-ACT.csv,N,Y,Y,Y,Y,Y,Y,Y,
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-NT.csv,N,Y,Y,Y,Y,Y,Y,Y,
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-NSW.csv,N,Y,Y,Y,Y,Y,Y,Y,process_elected
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-VIC.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-QLD.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-WA.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-SA.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-TAS.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-ACT.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-NT.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Two candidate preferred by candidate by vote type,Downloads,House,TcpByCandidateByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_elected
 Two candidate preferred by candidate by polling place,Downloads,House,TcpByCandidateByPollingPlace,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_elected
 Two party preferred by state,Downloads,House,TppByState,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA

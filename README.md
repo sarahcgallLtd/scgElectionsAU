@@ -14,7 +14,7 @@ presented through a variety of datasets and functions.
 
 #### Datasets Included:
 
-* [`X`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/summary.html): Data description.
+* [`get_aec_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/et_aec_data.html): download and process data from the Australian Electoral Commission (AEC).
 
 ## Installation
 
@@ -33,7 +33,13 @@ Example usage:
 library(scgElectionsAU)
 
 # Load a dataset
-df <- scgUtils::get_data("majority")
+df <- get_aec_data(
+  file_name = "National list of candidates",
+  date_range = list(from = "2022-01-01", to = "2025-01-01"), # for elections between 2022 and 2025 (default)
+  type = "Federal Election", # Default (other options: "Referendum" and "Federal By-Election")
+  category = "House", # Default (other options: "Senate", "Referendum", "General", or "Statistics")
+  process = TRUE # default (can turn off automated processing by selecting FALSE)
+)
 
 
 ```

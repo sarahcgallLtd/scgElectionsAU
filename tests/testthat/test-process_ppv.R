@@ -23,10 +23,10 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
     "Processing `2010` data to ensure all columns align across all elections."
   )
   expect_equal(nrow(result_2010), 2)  # 1 row pivoted into 2
-  expect_equal(names(result_2010), c("date", "event", "StateAb", "DivisionNm", "IssueDate", "TotalVotes"))
+  expect_equal(names(result_2010), c("date", "event", "StateAb", "DivisionNm", "IssueDate", "TotalPPVs"))
   expect_equal(result_2010$StateAb, c("NSW", "NSW"))
   expect_equal(result_2010$IssueDate, as.Date(c("2010-08-02", "2010-08-03")))
-  expect_equal(result_2010$TotalVotes, c(100, 150))
+  expect_equal(result_2010$TotalPPVs, c(100, 150))
   expect_false("PollingPlaceNm" %in% names(result_2010))
 
   # Test 3: 2013 data processing
@@ -45,11 +45,11 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
     "Processing `2013` data to ensure all columns align across all elections."
   )
   expect_equal(nrow(result_2013), 2)
-  expect_equal(names(result_2013), c("date", "event", "StateAb", "DivisionNm", "PollingPlaceNm", "IssueDate", "TotalVotes"))
+  expect_equal(names(result_2013), c("date", "event", "StateAb", "DivisionNm", "PollingPlaceNm", "IssueDate", "TotalPPVs"))
   expect_equal(result_2013$StateAb, c("New South Wales", "New South Wales"))
   expect_equal(result_2013$PollingPlaceNm, c("Sydney PPVC", "Sydney PPVC"))
   #expect_equal(result_2013$IssueDate, as.Date(c("2013-08-20", "2013-08-21")))
-  expect_equal(result_2013$TotalVotes, c(100, 150))
+  expect_equal(result_2013$TotalPPVs, c(100, 150))
 
   # Test 4: 2016 data processing
   data_2016 <- data.frame(
@@ -67,10 +67,10 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
     "Processing `2016` data to ensure all columns align across all elections."
   )
   expect_equal(nrow(result_2016), 2)
-  expect_equal(names(result_2016), c("date", "event", "StateAb", "DivisionNm", "PollingPlaceNm", "IssueDate", "TotalVotes"))
+  expect_equal(names(result_2016), c("date", "event", "StateAb", "DivisionNm", "PollingPlaceNm", "IssueDate", "TotalPPVs"))
   expect_equal(result_2016$StateAb, c("Victoria", "Victoria"))
   #expect_equal(result_2016$IssueDate, as.Date(c("2016-06-14", "2016-06-15")))
-  expect_equal(result_2016$TotalVotes, c(200, 250))
+  expect_equal(result_2016$TotalPPVs, c(200, 250))
 
   # Test 5: 2019 data processing (same as 2016)
   data_2019 <- data.frame(
@@ -88,10 +88,10 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
     "Processing `2019` data to ensure all columns align across all elections."
   )
   expect_equal(nrow(result_2019), 2)
-  expect_equal(names(result_2019), c("date", "event", "StateAb", "DivisionNm", "PollingPlaceNm", "IssueDate", "TotalVotes"))
+  expect_equal(names(result_2019), c("date", "event", "StateAb", "DivisionNm", "PollingPlaceNm", "IssueDate", "TotalPPVs"))
   expect_equal(result_2019$StateAb, c("Queensland", "Queensland"))
   expect_equal(result_2019$IssueDate, as.Date(c("2019-04-29", "2019-04-30")))
-  expect_equal(result_2019$TotalVotes, c(300, 350))
+  expect_equal(result_2019$TotalPPVs, c(300, 350))
 
   # Test 6: 2022 data processing (no pivoting)
   data_2022 <- data.frame(
@@ -109,9 +109,9 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
     "Processing `2022` data to ensure all columns align across all elections."
   )
   expect_equal(nrow(result_2022), 1)
-  expect_equal(names(result_2022), c("date", "event", "StateAb", "DivisionNm", "PollingPlaceNm", "IssueDate", "TotalVotes"))
+  expect_equal(names(result_2022), c("date", "event", "StateAb", "DivisionNm", "PollingPlaceNm", "IssueDate", "TotalPPVs"))
   expect_equal(result_2022$StateAb, "South Australia")
   expect_equal(result_2022$PollingPlaceNm, "Adelaide PPVC")
   expect_equal(result_2022$IssueDate, as.Date("2022-05-09"))
-  expect_equal(result_2022$TotalVotes, 200)
+  expect_equal(result_2022$TotalPPVs, 200)
 })

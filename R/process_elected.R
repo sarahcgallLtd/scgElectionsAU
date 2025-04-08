@@ -2,7 +2,7 @@
 #'
 #' Standardises election data related to elected candidates for a single Australian federal election
 #' event. This function aligns column names across datasets, specifically processing the 2004 election
-#' year by converting the `SittingMemberFl` column to a standardized `Elected` column with "Y" or "N"
+#' year by converting the `SittingMemberFl` column to a standardised `Elected` column with "Y" or "N"
 #' values. For all other election years, the data is returned unprocessed with a message. Applies to
 #' datasets including "National list of candidates" (House and Senate), "First preferences by candidate
 #' by vote type" (House only), "Two candidate preferred by candidate by vote type" (House only),

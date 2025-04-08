@@ -126,16 +126,16 @@ process_ppv <- function(data, event) {
         DivisionNm = "Division",
         PollingPlaceNm = "PPVC",
         IssueDate = "Issue Date",
-        TotalVotes = "Total Votes",
+        TotalPPVs = "Total Votes",
       )
     }
 
     # Step 2: Define columns for output
     id_cols <- c("date", "event", "StateAb", "DivisionNm")
     if (event != "2010") id_cols <- c(id_cols, "PollingPlaceNm")
-    long_cols <- c("IssueDate", "TotalVotes")
+    long_cols <- c("IssueDate", "TotalPPVs")
     names_to <- "IssueDate"
-    values_to <- "TotalVotes"
+    values_to <- "TotalPPVs"
 
     # Step 3: Process based on event year
     if (event == "2022") {

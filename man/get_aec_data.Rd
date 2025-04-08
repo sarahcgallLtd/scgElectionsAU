@@ -13,39 +13,65 @@ get_aec_data(
 )
 }
 \arguments{
-\item{file_name}{The name of the file to download, which is used to construct the download URL
-and to filter internal metadata for validations.}
+\item{file_name}{A character string specifying the name of the AEC dataset to retrieve (e.g.,
+"National list of candidates"). This name must match entries in the internal index datasets.}
 
-\item{date_range}{A list containing the 'from' and 'to' dates defining the period for which data
-is required. Dates should be formatted as 'YYYY-MM-DD'.}
+\item{date_range}{A list with two elements, \code{"from"} and \code{"to"}, specifying the start
+and end dates (in "YYYY-MM-DD" format) for the election events to include. Defaults to
+\code{list(from = "2022-01-01", to = "2025-01-01")}.}
 
-\item{type}{The type of election or event to filter the data, possible values are
-'Federal Election','Referendum', and 'Federal By-Election'.}
+\item{type}{A character string specifying the type of election or event. Must be one of:
+"Federal Election", "Referendum", or "Federal By-Election". Defaults to the first option.}
 
-\item{category}{The category of the data to be downloaded, possible options are 'House', 'Senate',
-and 'General'.}
+\item{category}{A character string specifying the category of the data. Must be one of: "House",
+"Senate", "Referendum", "General", or "Statistics". Defaults to the first option.}
 
-\item{process}{A logical flag indicating whether additional processing steps (like standardising
-column names) should be performed on the downloaded data. Defaults to FALSE.}
+\item{process}{A logical value indicating whether to apply additional processing to the downloaded
+data, such as standardizing column names. Defaults to \code{TRUE}.}
 }
 \value{
-A data frame combining all downloaded data, supplemented with relevant information from
-internal metadata, and optionally processed for standardisation.
+A data frame containing the combined AEC data for the specified criteria. The data frame
+includes metadata columns (e.g., \code{date}, \code{event}) and is optionally processed
+for consistency if \code{process = TRUE}. If no data is available for the given parameters,
+the function stops with an informative error message.
 }
 \description{
-This function is designed to download and process data from the Australian Electoral Commission
-(AEC) based on specified criteria. It utilises several internal helper functions to validate
-input parameters, construct URLs, and check file availability before downloading and processing the data.
+This function downloads and processes data from the Australian Electoral Commission (AEC) based
+on user-specified criteria such as file name, date range, election type, and data category. It
+retrieves raw data files from the AEC, optionally applies standardization processes (e.g., column
+name consistency), and returns a combined data frame for analysis. The function is designed to
+handle various types of election-related datasets, including federal elections, referendums, and
+by-elections.
+}
+\details{
+The \code{get_aec_data} function automates the retrieval and processing of AEC datasets by:
+\enumerate{
+\item Validating input parameters to ensure correctness.
+\item Retrieving internal metadata about election events within the specified \code{date_range}
+and matching the \code{type}.
+\item Checking the availability of the requested \code{file_name} and \code{category} in the
+internal index datasets.
+\item Constructing download URLs and retrieving the raw data files from the AEC website.
+\item Optionally preprocessing postal vote data and standardizing column names.
+\item Combining data from multiple election events into a single data frame.
+}
+The function relies on internal helper functions (e.g., \code{check_params}, \code{construct_url},
+\code{preprocess_pva}) and datasets (e.g., \code{info}, \code{aec_elections_index}) within the
+\code{scgElectionsAU} package. It also uses \code{scgUtils::get_file} for downloading files.
+The function is designed to be robust, providing clear messages and errors to guide users through
+the data retrieval process.
 }
 \examples{
 \dontrun{
-get_aec_data(
-  file_name = "National list of candidates",
-  date_range = list(from = "2022-01-01", to = "2023-01-01"),
-  type = "Federal Election",
-  category = "House",
-  process = FALSE
-)
+  # Retrieve and process the national list of candidates for House elections in 2022
+  data <- get_aec_data(
+    file_name = "National list of candidates",
+    date_range = list(from = "2022-01-01", to = "2023-01-01"),
+    type = "Federal Election",
+    category = "House",
+    process = FALSE
+  )
+  head(data)
 }
 
 }

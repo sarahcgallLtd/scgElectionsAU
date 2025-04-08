@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 )
 ```
 <br>
-This article explores the [`get_aec_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_aec_data.html) function and the data that it is able to retrieve from the Australian Electoral Commission's website. This function is primarily retrieving the raw data with limited processing. For a more processed and 'analysis-ready' function, check out [`get_XXX`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_XXX.html).
+This article explores the [`get_aec_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_aec_data.html) function and the data that it is able to retrieve from the Australian Electoral Commission's (AEC) website. This function is primarily used to retrieve the raw data with limited processing. To remove any processing, ensure the function's `process` param is set to `FALSE`. For a more processed and 'analysis-ready' function, check out [`get_XXX`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_XXX.html).
 <br>
 
 ```{r setup, include = FALSE}
@@ -33,7 +33,12 @@ In the [`get_aec_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference
 
 ## Candidates & Nominations
 ### National list of candidates
-The `National list of candidates` dataset contains a comprehensive list of all candidates who participated in Australian federal elections. It covers both `Senate` and `House` elections from `2004` to the present. When `process = TRUE`, the dataset is standardised: for the `2004` election, the `SittingMemberFl` column is removed and replaced with `Elected` (indicating winners, based on the `SittingMemberFl` column) and `HistoricElected` (indicating incumbents, currently contains `NAs`). This dataset enables you to:
+The `National list of candidates` dataset contains a comprehensive list of all candidates who participated in Australian federal elections. It covers both `Senate` and `House` elections from `2004` to the present. The `2004` dataset is processed in the following way:
+
+- The `SittingMemberFl` column is renamed to `Elected` using the [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html) function.
+- Based on this column, the data are further standardised to match later years with "Y" and "N" values inputted. This replaces the original corresponding "#" and NA values.
+
+This dataset enables you to:
 
 - View candidate details (`CandidateID`, `Surname`, `GivenNm`) and their party affiliations (`PartyAb`, `PartyNm`).
 - Map candidates to electoral divisions (`DivisionID`, `DivisionNm`) and states (`StateAb`).
@@ -46,7 +51,6 @@ df <- get_aec_data(
   file_name = "National list of candidates",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House", # OR "Senate"
-  process = TRUE # OR FALSE
 )
 ```
 
@@ -67,12 +71,14 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ### Members/Senators elected
-The `Members elected` and `Senators elected` datasets provide comprehensive lists of the elected Members of Parliament (MPs) and Senators at federal elections. These datasets cover elections from `2004` to the present and are available for the `House` and `Senate`, respectively.
+The `Members elected` and `Senators elected` datasets provide comprehensive lists of the elected Members of Parliament
+(MPs) and Senators at federal elections. These datasets cover elections from `2004` to the present and are available
+for the `House` and `Senate`, respectively.
 
 - `Members elected` (`House`): Contains details of MPs who won their respective electoral divisions.
 - `Senators elected` (`Senate`): Contains details of Senators elected for each state or territory, including the `ElectedOrder` column, which specifies the order in which they were elected.
 
-There is no need for additional processing when `process = TRUE`, as both datasets are already standardised across all election years.
+There is no additional processing for these datasets, as both are already standardised across all election years.
 
 This dataset enables you to:
 
@@ -135,10 +141,10 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ### Nominations by state
 The `Nominations by state` dataset provides a summary of nominations for federal elections, detailing:
 
-- The number of divisions (`Divisions`) and nominations (`Nominations`) per state (`StateAb`, `StateNm`) for the `House`; and
+- The number of divisions (`Divisions`) and nominations (`Nominations`) per state (`StateAb`, `StateNm`) for the `House`.
 - The number of seats (`Seats`), candidates (`Candidates`), groups (`Groups`), and ungrouped candidates (`UngroupedCandidates`) per state (`StateAb`, `StateNm`) for the `Senate`.
 
-Covering elections from `2004` to the present, these datasets are available for both the `House` and `Senate` categories. No additional processing is required, as the data is already standardised across all election years.
+Covering elections from `2004` to the present, these datasets are available for both the `House` and `Senate` categories. No additional processing is required, as the data are already standardised across all election years.
 
 #### *Example Usage for House:*
 
@@ -190,9 +196,12 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ### Nominations by division
-The `Nominations by division` dataset provides a summary of nominations for federal elections, detailing the number of nominations (`Nominations`) per division (`DivisionID`, `DivisionNm`, `DivisionAb`) for the `House`. It also includes enrolment figures (`Enrolment`) and demographic classifications (`Demographics`) for each electorate.
+The `Nominations by division` dataset provides a summary of nominations for federal elections, detailing:
 
-Covering elections from `2011` to the present, these datasets are available for the `House` only. No additional processing is required, as the data is already standardised across all election years.
+- The number of nominations (`Nominations`) per division (`DivisionID`, `DivisionNm`, `DivisionAb`) for the `House`.
+- Enrolment figures (`Enrolment`) and demographic classifications (`Demographics`) for each electorate.
+
+Covering elections from `2011` to the present, these datasets are available for the `House` only. Minor amendments are made to the original dataset, changing `TransactionId` to `TransactionID` and `DivisionId` to `DivisionID`. This ensures consistency in column names across all datasets.
 
 #### *Example Usage:*
 
@@ -221,7 +230,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ### Nominations by gender
 The `Nominations by gender` dataset provides a summary of nominations for federal elections, detailing the number of nominations (`Nominations`) per party (`PartyAb`, `PartyNm`) for the `House` and `Senate`. Each state and territory have their own columns for the two genders (`MalesNSW`, `FemalesNSW`) and an unspecified column (`UnspecifiedNSW`). There is also a grand total (`GrandTotal`) of nominations by party which is useful for turning data into percentages.
 
-Covering elections from `2004` to the present, these datasets are available for both the `House` and `Senate` categories. No additional processing is required, as the data is already standardised across all election years.
+Covering elections from `2004` to the present, these datasets are available for both the `House` and `Senate` categories. No additional processing is required, as the data are already standardised across all election years.
 
 #### *Example Usage:*
 
@@ -255,7 +264,12 @@ The `Party representation` dataset provides a summary of elected representatives
 - The number of MPs per party (`Party`) per state and territory (`NSW`,`VIC`,`QLD`,`WA`,`SA`,`TAS`,`ACT`,`NT`) and nationally (`National`) for the `House`. It also includes the number of MPs previously representing each party at the previous election (`LastElection`).
 - The number of Senators per party (`PartyAb`, `PartyNm`) per state and territory (`NSW`,`VIC`,`QLD`,`WA`,`SA`,`TAS`,`ACT`,`NT`) and nationally (`TOTAL`) for the `Senate`.
 
-Covering elections from `2004` to the present, these datasets are available for both the `House` and `Senate` categories. In order to standardise datasets across election years, additional processing is available for election years prior to `2010` in the `House`. This renames the pre-2010 columns from `Total` and `LastElectionTotal` to `National` and `LastElection`, respectively. It also removes `PartyAb`. No additional processing is required for the `Senate`, as the data is already standardised across all election years.
+Covering elections from `2004` to the present, these datasets are available for both the `House` and `Senate` categories. In order to standardise datasets across election years, additional processing is conducted for election years prior to `2010` in the `House`. Using the [`process_reps()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_reps.html) function:
+
+- Pre-2010 columns are renamed from `Total` to `National` and from `LastElectionTotal` to `LastElection`.
+- The `PartyAb` column is removed.
+
+No additional processing is required for the `Senate`, as the data are already standardised across all election years.
 
 #### *Example Usage for House:*
 
@@ -309,7 +323,13 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 ## Seats
 ### Seats that changed hands
-The `Seats that changed hands` dataset...
+The `Seats that changed hands` dataset provides a summary of the seats that have changed from one party to another, detailing:
+
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The previous party that held the seat (`PreviousPartyAb`, `PreviousPartyNm`).
+- The details of the newly elected MP who won that seat at the election (`CadidateID`, `Surname`, `GivenNm`, `PartyAb`, `PartyNm`).
+
+Covering elections from `2004` to the present, these datasets are available for the `House` only. No additional processing is required, as the data are already standardised across all election years.
 
 #### *Example Usage:*
 
@@ -338,7 +358,12 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ### Seats decided on preferences
-The `Seats decided on preferences` dataset...
+The `Seats decided on preferences` dataset provides a summary of the seats that were decided on preferences (i.e., no candidate in a division achieved more than 50% of the primary vote), detailing:
+
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The winning party (`PartyAb`, `PartyNm`).
+
+Covering elections from `2004` to the present, these datasets are available for the `House` only. No additional processing is required, as the data are already standardised across all election years.
 
 #### *Example Usage:*
 
@@ -367,7 +392,12 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ### Seats decided on first preferences
-The `Seats decided on first preferences` dataset...
+The `Seats decided on first preferences` dataset provides a summary of the seats that were decided on first preferences (i.e., the winning candidate in a division achieved equal to or more than 50% of the primary vote), detailing:
+
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The winning party (`PartyAb`, `PartyNm`).
+
+Covering elections from `2004` to the present, these datasets are available for the `House` only. No additional processing is required, as the data are already standardised across all election years.
 
 #### *Example Usage:*
 
@@ -396,7 +426,14 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ### Non-classic divisions
-The `Non-classic divisions` dataset...
+The `Non-classic divisions` dataset provides a summary of the seats in which the two-party contest included a non-major party candidate, detailing:
+
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The latest time and date that the data were updated (`Updated`).
+- The first candidate details (`PartyAb1`, `PartyNm1`, `CandidateID1`, `Surname1`, `GivenNm1`, `Elected1`, `HistoricElected1`).
+- The second candidate details (`PartyAb2`, `PartyNm2`, `CandidateID2`, `Surname2`, `GivenNm2`, `Elected2`, `HistoricElected2`).
+
+Covering elections from `2010` to the present, these datasets are available for the `House` only. Minor amendments are made to the original dataset, changing `CandidateId` to `CandidateID` and `DivisionId` to `DivisionID`. This ensures consistency in column names across all datasets.
 
 #### *Example Usage:*
 
@@ -425,10 +462,18 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ## First Preferences
-### First preferences by party (House-only)
-The `First preferences by party` dataset...
+### First preferences by party
+The `First preferences by party` dataset provides a summary of the first preferences received by each party, detailing:
 
-#### *Example Usage:*
+- The party details (`PartyAb`, `PartyNm`).
+- The number of divisions that the party stood a candidate (`Contested`), the number of candidate nominations submitted by the party (`Nominations`), and the number of candidates who were elected/won their division (`Elected`).
+- The number of votes that the party received by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `PrePollVotes`, `PostalVotes`, `TotalVotes`).
+- The percentage of votes received by each party by vote type (`OrdinaryPercentage`, `AbsentPercentage`, `ProvisionalPercentage`, `PrePollPercentage`, `PostalPercentage`, `TotalPercentage`).
+- The overall swing in total votes received by the party compared to the previous election (`TotalSwing`).
+
+Covering elections from `2004` to the present, these datasets are available for the `House` only. No additional processing is required, as the data are already standardised across all election years.
+
+#### *Example Usage 'by party' (House):*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -438,11 +483,11 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by party' (House):*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Seats decided on first preferences")
+  get_aec_data(file_name = "First preferences by party")
 )
 
 # Selecting only the first row and keeping all columns
@@ -452,23 +497,19 @@ first_row <- df[1,]
 kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
 
-<br>
+The `First preferences by state by party` dataset further breaks down the above figures by state (`StateAb`).
 
-### First preferences by state by party (House-only)
-The `First preferences by state by party` dataset...
-
-#### *Example Usage:*
+#### *Example Usage of 'by state by party' (House):*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
   file_name = "First preferences by state by party",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
-  category = "House",
-  process = TRUE # OR FALSE
+  category = "House"
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data of 'by state by party' (House):*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -481,15 +522,85 @@ first_row <- df[1,]
 # Create the HTML table with kable
 kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
-
 <br>
 
-### First preferences by candidate by vote type (House-only)
-The `First preferences by candidate by vote type` dataset...
+The `First preferences by group by vote type` dataset is the Senate-equivalent and provides first preference vote totals by party groupings, detailing:
 
-When `process = TRUE`, the dataset is standardised: for the `2004` election, the `SittingMemberFl` column is removed and replaced with `Elected` (indicating winners, based on the `SittingMemberFl` column) and `HistoricElected` (indicating incumbents, currently contains `NAs`).
+- The party details (`PartyAb`, `PartyNm`).
+- The number of votes that the party received by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `DeclarationPrePollVotes`, `PostalVotes`, `TotalVotes`).
+- The percentage of votes received by each party by vote type (`OrdinaryPercentage`, `AbsentPercentage`, `ProvisionalPercentage`, `DeclarationPrePollPercentage`, `PostalPercentage`, `TotalPercentage`).
 
-#### *Example Usage:*
+Covering elections from `2004` to the present, these datasets are available for the `Senate` only. The `2004` dataset is processed in the following way:
+
+- The `SittingMemberFl` column is renamed to `Elected` using the [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html) function.
+- Based on this column, the data are further standardised to match later years with "Y" and "N" values inputted. This replaces the original corresponding "#" and NA values.
+
+#### *Example Usage 'by group' (Senate):*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "First preferences by group by vote type",
+  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  category = "Senate",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data 'by group' (Senate):*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "First preferences by group by vote type", category = "Senate")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+The `First preferences by state by group by vote type` dataset further breaks down the above figures by state (`StateAb`).
+
+#### *Example Usage 'by state by group' (Senate):*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "First preferences by state by group by vote type",
+  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  category = "Senate",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data 'by state by group' (Senate):*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "First preferences by state by group by vote type", category = "Senate")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+### First preferences by candidate by vote type
+The `First preferences by candidate by vote type` dataset provides a summary of the first preferences received by each individual candidate, detailing:
+
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The cadndiate details (`CandidateID`, `Surname`, `GivenNm`), including their position on the ballot position (`BallotPosition`), and whether they were elected (`Elected`) or an incumbent (`HistoricElected`), and their the party (`PartyAb`, `PartyNm`) that they represent.
+- The number of votes that the candidate received by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `PrePollVotes`, `PostalVotes`, `TotalVotes`).
+- The overall swing in total votes received by the candidate compared to the previous election (`TotalSwing`).
+
+Covering elections from `2004` to the present, this dataset is available for the `House` only. The `2004` dataset is processed in the following way:
+
+- The `SittingMemberFl` column is renamed to `Elected` using the [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html) function.
+- Based on this column, the data are further standardised to match later years with "Y" and "N" values inputted. This replaces the original corresponding "#" and NA values.
+
+#### *Example Usage (House):*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -500,7 +611,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data (House):*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -514,16 +625,40 @@ first_row <- df[1,]
 kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
 
-<br>
+The `First preferences by state by vote type` dataset is the equivalent for the Senate, albeit it differs in some columns. The dataset details:
 
-### First preferences by candidate by polling place (House-only)
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The cadndiate details (`CandidateID`), including their ballot details (`BallotPosition`,`CandidateDetails`, `Group`), and whether they were elected (`Elected`) or an incumbent (`HistoricElected`), and their the party (`PartyAb`, `PartyNm`) that they represent.
+- The number of votes that the candidate received by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `PrePollVotes`, `PostalVotes`, `TotalVotes`).
 
-<br>
+Covering elections from `2004` to the present, this dataset is available for the `Senate` only. Minor amendments are made to the original dataset, changing `PartyName` to `PartyNm`. This ensures consistency in column names across all datasets.
 
-### First preferences by state by vote type (Senate-only)
-The `First preferences by state by vote type` dataset...
+*Example Usage (Senate Division-level):*
 
-#### *Example Usage:*
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "First preferences by division by vote type",
+  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  category = "Senate"
+)
+```
+
+#### *Sample Data (Senate Division-level):*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "First preferences by division by vote type", category = "Senate")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+The state-level version of this `Senate` dataset is also available by calling `First preferences by state by vote type`.
+
+#### *Example Usage (Senate State-level):*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -534,7 +669,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data (Senate State-level):*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -549,47 +684,35 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
 <br>
 
-### First preferences by division by vote type (Senate-only)
-The `First preferences by division by vote type` dataset...
+### First preferences by candidate by polling place
+The `First preferences by candidate by polling place` dataset provides first preference vote totals of each candidate by polling place, detailing:
 
-*Example Usage:*
+- The polling place details (`StateAb`, `DivisionID`, `DivisionNm`, `PollingPlaceID`, `PollingPlaceNm`).
+- The candiate details (`CandidateID`, `Surname`, `GivenNm`), including their position on the ballot position (`BallotPosition`), and whether they were elected (`Elected`) or an incumbent (`HistoricElected`), and the party (`PartyAb`, `PartyNm`) they represent.
+- The number of votes that the party received (`OrdinaryVotes`).
+- The overall swing in ordinary votes received by the candidate compared to the previous election (`Swing`).
 
-```{r, eval = FALSE}
-df <- get_aec_data(
-  file_name = "First preferences by division by vote type",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
-  category = "Senate",
-  process = TRUE # OR FALSE
-)
-```
+Covering elections from `2004` to the present, these datasets are available for the `House` only. The `2004` dataset is processed in the following way:
 
-#### *Sample Data:*
+- The `SittingMemberFl` column is renamed to `Elected` using the [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html) function.
+- Based on this column, the data are further standardised to match later years with "Y" and "N" values inputted. This replaces the original corresponding "#" and NA values.
 
-```{r, echo = FALSE}
-df <- suppressMessages(
-  get_aec_data(file_name = "First preferences by division by vote type", category = "Senate")
-)
+*Caution should be taken if retrieving multiple election years as this dataset is large. Sizes include:
 
-# Selecting only the first row and keeping all columns
-first_row <- df[1,]
-
-# Create the HTML table with kable
-kable(first_row, format = "html", table.attr = "class='table table-bordered'")
-```
-
-<br>
-
-### First preferences by group by vote type (Senate-only)
-The `First preferences by group by vote type` dataset...
+- 2022: 17 columns by 76,452 rows (1,299,684 cells)
+- 2019: 17 columns by 71,805 rows (1,220,685 cells)
+- 2016: 17 columns by 64,112 rows (1,089,904 cells)
+- 2013: 17 columns by 82,398 rows (1,400,766 cells)
+- 2010: 17 columns by 60,663 rows (1,031,271 cells)
+- 2007: 17 columns by 66,269 rows (1,126,573 cells)
+- 2004: 16 columns by 69,098 rows (1,105,568 cells)
 
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
-  file_name = "First preferences by group by vote type",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
-  category = "Senate",
-  process = TRUE # OR FALSE
+  file_name = "First preferences by candidate by polling place",
+  date_range = list(from = "2004-01-01", to = "2025-01-01")
 )
 ```
 
@@ -597,37 +720,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "First preferences by group by vote type", category = "Senate")
-)
-
-# Selecting only the first row and keeping all columns
-first_row <- df[1,]
-
-# Create the HTML table with kable
-kable(first_row, format = "html", table.attr = "class='table table-bordered'")
-```
-
-<br>
-
-#### First preferences by state by group by vote type (Senate-only)
-The `First preferences by state by group by vote type` dataset...
-
-#### *Example Usage:*
-
-```{r, eval = FALSE}
-df <- get_aec_data(
-  file_name = "First preferences by state by group by vote type",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
-  category = "Senate",
-  process = TRUE # OR FALSE
-)
-```
-
-#### *Sample Data:*
-
-```{r, echo = FALSE}
-df <- suppressMessages(
-  get_aec_data(file_name = "First preferences by state by group by vote type", category = "Senate")
+  get_aec_data(file_name = "First preferences by candidate by polling place")
 )
 
 # Selecting only the first row and keeping all columns

@@ -2,33 +2,59 @@
 NULL
 #' Download and Process AEC Data
 #'
-#' This function is designed to download and process data from the Australian Electoral Commission
-#' (AEC) based on specified criteria. It utilises several internal helper functions to validate
-#' input parameters, construct URLs, and check file availability before downloading and processing the data.
+#' This function downloads and processes data from the Australian Electoral Commission (AEC) based
+#' on user-specified criteria such as file name, date range, election type, and data category. It
+#' retrieves raw data files from the AEC, optionally applies standardization processes (e.g., column
+#' name consistency), and returns a combined data frame for analysis. The function is designed to
+#' handle various types of election-related datasets, including federal elections, referendums, and
+#' by-elections.
 #'
-#' @param file_name The name of the file to download, which is used to construct the download URL
-#'        and to filter internal metadata for validations.
-#' @param date_range A list containing the 'from' and 'to' dates defining the period for which data
-#'        is required. Dates should be formatted as 'YYYY-MM-DD'.
-#' @param type The type of election or event to filter the data, possible values are
-#'        'Federal Election','Referendum', and 'Federal By-Election'.
-#' @param category The category of the data to be downloaded, possible options are 'House', 'Senate',
-#'        and 'General'.
-#' @param process A logical flag indicating whether additional processing steps (like standardising
-#'        column names) should be performed on the downloaded data. Defaults to FALSE.
+#' @param file_name A character string specifying the name of the AEC dataset to retrieve (e.g.,
+#'        "National list of candidates"). This name must match entries in the internal index datasets.
+#' @param date_range A list with two elements, \code{"from"} and \code{"to"}, specifying the start
+#'        and end dates (in "YYYY-MM-DD" format) for the election events to include. Defaults to
+#'        \code{list(from = "2022-01-01", to = "2025-01-01")}.
+#' @param type A character string specifying the type of election or event. Must be one of:
+#'        "Federal Election", "Referendum", or "Federal By-Election". Defaults to the first option.
+#' @param category A character string specifying the category of the data. Must be one of: "House",
+#'        "Senate", "Referendum", "General", or "Statistics". Defaults to the first option.
+#' @param process A logical value indicating whether to apply additional processing to the downloaded
+#'        data, such as standardizing column names. Defaults to \code{TRUE}.
 #'
-#' @return A data frame combining all downloaded data, supplemented with relevant information from
-#'         internal metadata, and optionally processed for standardisation.
+#' @return A data frame containing the combined AEC data for the specified criteria. The data frame
+#'         includes metadata columns (e.g., \code{date}, \code{event}) and is optionally processed
+#'         for consistency if \code{process = TRUE}. If no data is available for the given parameters,
+#'         the function stops with an informative error message.
+#'
+#' @details
+#' The \code{get_aec_data} function automates the retrieval and processing of AEC datasets by:
+#' \enumerate{
+#'   \item Validating input parameters to ensure correctness.
+#'   \item Retrieving internal metadata about election events within the specified \code{date_range}
+#'         and matching the \code{type}.
+#'   \item Checking the availability of the requested \code{file_name} and \code{category} in the
+#'         internal index datasets.
+#'   \item Constructing download URLs and retrieving the raw data files from the AEC website.
+#'   \item Optionally preprocessing postal vote data and standardizing column names.
+#'   \item Combining data from multiple election events into a single data frame.
+#' }
+#' The function relies on internal helper functions (e.g., \code{check_params}, \code{construct_url},
+#' \code{preprocess_pva}) and datasets (e.g., \code{info}, \code{aec_elections_index}) within the
+#' \code{scgElectionsAU} package. It also uses \code{scgUtils::get_file} for downloading files.
+#' The function is designed to be robust, providing clear messages and errors to guide users through
+#' the data retrieval process.
 #'
 #' @examples
 #' \dontrun{
-#' get_aec_data(
-#'   file_name = "National list of candidates",
-#'   date_range = list(from = "2022-01-01", to = "2023-01-01"),
-#'   type = "Federal Election",
-#'   category = "House",
-#'   process = FALSE
-#' )
+#'   # Retrieve and process the national list of candidates for House elections in 2022
+#'   data <- get_aec_data(
+#'     file_name = "National list of candidates",
+#'     date_range = list(from = "2022-01-01", to = "2023-01-01"),
+#'     type = "Federal Election",
+#'     category = "House",
+#'     process = FALSE
+#'   )
+#'   head(data)
 #' }
 #'
 #' @importFrom scgUtils get_file
@@ -181,30 +207,36 @@ get_aec_data <- function(
 
 
 # ======================================================================================================================
-  #' Get Internal Election Information
-  #'
-  #' Retrieves and filters internal metadata about Australian elections based on a specified date range
-  #' and election type.
-  #'
-  #' @param date_range A list with 'from' and 'to' dates in 'YYYY-MM-DD' format specifying the
-  #'        period of interest.
-  #' @param type The type of election, either "Federal Election" or "Referendum".
-  #'
-  #' @return A data frame containing filtered election metadata, including columns
-  #'         such as `date`, `event`, `type`, and `aec_reference`.
-  #'
-  #' @details This function accesses the internal `info` dataset from the `scgElectionsAU`
-  #' package namespace. It filters the data to include only records within the specified `date_range`
-  #' and matching the given `type`. If the `info` dataset is not available, it stops with an error.
-  #'
-  #' @examples
-  #' \dontrun{
-  #' info <- get_internal_info(date_range = list(from = "2004-01-01", to = "2022-12-31"),
-  #'                           type = "Federal Election")
-  #' }
-  #'
-  #' @noRd
-  #' @keywords internal
+#' Get Internal Election Information
+#'
+#' Retrieves and filters internal metadata about Australian elections from the `info` dataset in the
+#' `scgElectionsAU` package, based on a specified date range and election type.
+#'
+#' @param date_range A list with two elements: 'from' and 'to', specifying the start and end dates
+#'        in 'YYYY-MM-DD' format for the period of interest.
+#' @param type A character string specifying the type of election, either "Federal Election" or
+#'        "Referendum".
+#'
+#' @return A data frame containing a subset of the `info` dataset, filtered to include only records
+#'         within the specified `date_range` and matching the given `type`. The data frame includes
+#'         columns such as `date`, `event`, `type`, and `aec_reference`.
+#'
+#' @details This function accesses the internal `info` dataset from the `scgElectionsAU` package
+#'          namespace. It filters the data to include only records where the `date` is within the
+#'          specified `date_range` and the `type` matches the provided `type`. If the `info` dataset
+#'          is not available, the function stops with an error. The function assumes that the `info`
+#'          dataset contains columns `date` and `type`, among others, and uses these for filtering.
+#'          It is designed to be used within other functions in the package, such as `get_aec_data`,
+#'          to retrieve relevant election metadata.
+#'
+#' @examples
+#' \dontrun{
+#'   info <- get_internal_info(date_range = list(from = "2004-01-01", to = "2022-12-31"),
+#'                             type = "Federal Election")
+#' }
+#'
+#' @noRd
+#' @keywords internal
 get_internal_info <- function(
   date_range,
   type
@@ -226,32 +258,47 @@ get_internal_info <- function(
 }
 
 
-  #' Check File and Category in AEC Dataset
-  #'
-  #' This internal function verifies the existence of a specified `file_name` and `category` in the
-  #' 'aec_elections_index' dataset from the 'scgElectionsAU' package. It ensures that the `file_name` is
-  #' present and that there is at least one corresponding entry for the given `category`. If the
-  #' checks pass, it returns a subset of the dataset for further use, such as checking
-  #' event-specific availability in `get_aec_data`. This function is a helper for `get_aec_data`
-  #' and is not exported.
-  #'
-  #' @param file_name The name of the file to check, corresponding to the 'file_name' column in
-  #'        'aec_elections_index'.
-  #' @param category The category (e.g., 'General', 'House', 'Senate') to check, corresponding to
-  #'        the 'prefix' column in 'aec_elections_index'.
-  #'
-  #' @return A data frame subset of 'aec_elections_index' filtered by the specified `file_name` and
-  #'         `category`. This subset can be used to verify availability for specific events (years)
-  #'         in `get_aec_data`.
-  #'
-  #' @examples
-  #' dontrun{
-  #'   check_df <- check_file_exists("National list of candidates", "House")
-  #'   # Use check_df in get_aec_data to check event-specific availability
-  #' }
-  #'
-  #' @noRd
-  #' @keywords internal
+#' Check File and Category in AEC Dataset Index
+#'
+#' This internal function verifies that a specified `file_name` and `category` combination exists
+#' in the provided `index` data frame, which is typically the `aec_elections_index` dataset from
+#' the `scgElectionsAU` package. It ensures that the `file_name` is present and that there is at
+#' least one corresponding entry for the given `category` (which corresponds to the `prefix`
+#' column in `index`). If the checks pass, it returns a subset of `index` filtered by
+#' `file_name` and `category` for further use, such as verifying event-specific availability in
+#' `get_aec_data`.
+#'
+#' @param file_name A character string specifying the name of the file to check, corresponding
+#'   to the 'file_name' column in `index`.
+#' @param category A character string specifying the category (e.g., 'General', 'House', 'Referendum',
+#'   'Senate') to check, corresponding to the 'prefix' column in `index`.
+#' @param index A data frame containing the index of available files, typically
+#'   `aec_elections_index` from the `scgElectionsAU` package. Must include at least the columns
+#'   'file_name' and 'prefix'.
+#'
+#' @return A data frame subset of `index` filtered by the specified `file_name` and `category`.
+#'   This subset can be used to verify availability for specific events (years) in `get_aec_data`.
+#'
+#' @details This function is a helper for `get_aec_data` and is not exported. It performs two main
+#'   checks:
+#'   \enumerate{
+#'     \item Ensures that the specified `file_name` exists in the `index` data frame.
+#'     \item Ensures that there is at least one entry in `index` where both `file_name` and
+#'       `category` (as 'prefix') match.
+#'   }
+#'   If either check fails, the function stops with an informative error message. If both checks
+#'   pass, it returns the filtered subset of `index` for further processing.
+#'
+#' @examples
+#' \dontrun{
+#'   check_df <- check_file_exists(file_name = "National list of candidates",
+#'                                 category = "House",
+#'                                 index = aec_elections_index)
+#'   # Use check_df in get_aec_data to check event-specific availability
+#' }
+#'
+#' @noRd
+#' @keywords internal
 check_file_exists <- function(
   file_name,
   category,
@@ -272,37 +319,75 @@ check_file_exists <- function(
 }
 
 
-  #' Construct AEC Data Download URL
-  #'
-  #' This function constructs a URL for downloading files from the Australian Electoral Commission.
-  #' It is designed as a helper function for `get_aec_data()` and uses specific lookup data from
-  #' the 'scgElectionsAU' package. It forms URLs based on a reference ID, file name, and prefix
-  #' associated with the data to be downloaded.
-  #'
-  #' @param ref A character string specifying the reference ID associated with the election year
-  #'        or event. Different areas ('results' or 'Website') of the AEC website are used based
-  #'        on the value of `ref`. Each `ref` corresponds to an election year.
-  #' @param event A
-  #' @param file_name A character string specifying the name of the file to download, as recorded
-  #'        in the `aec_elections_index` dataset. This corresponds to a particular type of election data.
-  #' @param prefix A character string specifying the prefix that categorises the file within
-  #'        the AEC structure, used to correctly format the download URL. E.g., House, Senate, of
-  #'        General.
-  #'
-  #' @return A character string containing the fully constructed URL for the data file.
-  #'
-  #' @details This function accesses the 'aec_elections_index' dataset stored within the 'scgElectionsAU'
-  #'          package environment. It filters this dataset based on the `file_name` and `prefix`
-  #'          provided, constructs a URL, and ensures that exactly one entry matches the given
-  #'          parameters to prevent errors in URL construction. Error handling is robust, providing
-  #'          clear messages for potential issues such as missing data or multiple matching entries.
-  #'
-  #' @examples
-  #' # Assuming 'aec_elections_index' and the necessary variables are properly defined:
-  #' construct_url("27966", "National list of candidates", "House")
-  #'
-  #' @noRd
-  #' @keywords internal
+#' Construct AEC Data Download URL
+#'
+#' This internal helper function constructs a URL for downloading files from the Australian Electoral
+#' Commission (AEC). It supports `get_aec_data()` by generating URLs based on a reference ID, election
+#' event, file name, prefix, and additional parameters, using lookup data from the `scgElectionsAU`
+#' package. The function handles two distinct URL construction methods depending on the `prefix` value:
+#' one for "Statistics" files and another for all other file types.
+#'
+#' @param ref A character string specifying the reference ID associated with the election year or
+#'   event. This ID determines the base path on the AEC website, with "results" used for `ref == "12246"`
+#'   and "Website" for all other values.
+#' @param event A character string specifying the specific election event (e.g., "2022"), typically a
+#'   year or identifier, used to filter data in both "Statistics" and non-"Statistics" cases.
+#' @param file_name A character string specifying the name of the file to download, as recorded in
+#'   the `aec_elections_index` dataset. This identifies the specific election data file.
+#' @param prefix A character string categorizing the file within the AEC structure (e.g., "House",
+#'   "Senate", "General", or "Statistics"). This determines the URL construction method.
+#' @param type A character string specifying the type of statistics data (e.g., "party", "date"),
+#'   used only when `prefix` is "Statistics" to select the appropriate URL from the `info` dataset.
+#' @param file_type A character string specifying the file format (e.g., ".csv", ".xml"), used in
+#'   URL construction for non-"Statistics" files.
+#' @param index A data frame (typically `aec_elections_index` from the `scgElectionsAU` package)
+#'   containing metadata to map `file_name`, `prefix`, `file_type`, and `event` to URL components.
+#'
+#' @return A character string containing the fully constructed URL for the data file.
+#'
+#' @details
+#' The function constructs URLs in two ways based on the `prefix`:
+#' - **When `prefix` is "Statistics"**:
+#'   - Retrieves the URL from the `info` dataset within the `scgElectionsAU` package.
+#'   - A `key` is derived from `file_name` via pattern matching (e.g., "Postal vote applications"
+#'     for files starting with that phrase, otherwise `file_name` itself).
+#'   - The URL is selected using a `switch` statement based on the `key`, filtered by `event` and
+#'     `type` (e.g., `info$postal[info$event == event & info$type == type]`).
+#' - **For all other `prefix` values**:
+#'   - Constructs the URL using a base URL ("https://results.aec.gov.au/"), `ref`, an `area`
+#'     ("results" or "Website" based on `ref`), and components from the `index` dataset.
+#'   - Filters the `index` by `file_name`, `prefix`, `file_type`, and the `event` column (e.g.,
+#'     `index[[event]] == "Y"`).
+#'   - Expects exactly one matching row in the filtered `index`; stops with an error if zero or
+#'     multiple matches are found.
+#'
+#' The function assumes that the `info` and `index` datasets are available and correctly formatted
+#' within the `scgElectionsAU` package. It includes error handling to ensure a single, valid match
+#' for non-"Statistics" files.
+#'
+#' @examples
+#' \dontrun{
+#'   # Example for a "Statistics" file
+#'   construct_url(ref = "27966",
+#'                 event = "2022",
+#'                 file_name = "Postal vote applications by party",
+#'                 prefix = "Statistics",
+#'                 type = "party",
+#'                 file_type = ".csv",
+#'                 index = aec_elections_index)
+#'
+#'   # Example for a non-"Statistics" file
+#'   construct_url(ref = "27966",
+#'                 event = "2022",
+#'                 file_name = "National list of candidates",
+#'                 prefix = "House",
+#'                 type = NULL,  # Not applicable
+#'                 file_type = ".csv",
+#'                 index = aec_elections_index)
+#' }
+#'
+#' @noRd
+#' @keywords internal
 construct_url <- function(
   ref,
   event,
@@ -366,16 +451,33 @@ construct_url <- function(
 }
 
 # ======================================================================================================================
-  #' Preprocess Postal Vote Application Data
-  #'
-  #' @param data A data frame containing postal vote application data.
-  #' @param file_name A character string specifying the type of data file, either
-  #'   "Postal vote applications by party" or "Postal vote applications by date".
-  #'
-  #' @return A data frame with columns filtered based on the specified file type.
-  #'
-  #' @noRd
-  #' @keywords internal
+#' Preprocess Postal Vote Application Data
+#'
+#' This internal helper function preprocesses postal vote application data based on the specified
+#' file type. For "Postal vote applications by party", it retains columns related to state, division,
+#' AEC applications, and party-specific data. For "Postal vote applications by date", it removes
+#' columns related to party-specific data and any columns with names starting with three dots ("...").
+#' The function is used within the package to prepare data for further processing.
+#'
+#' @param data A data frame containing postal vote application data. The specific columns present
+#'   depend on the file type specified in `file_name`.
+#' @param file_name A character string specifying the type of data file. Must be either
+#'   "Postal vote applications by party" or "Postal vote applications by date". Determines which
+#'   columns are retained or removed.
+#'
+#' @return A data frame with columns filtered based on the specified file type. For
+#'   "Postal vote applications by party", it includes columns related to state, division, AEC
+#'   applications, and party-specific data. For "Postal vote applications by date", it excludes
+#'   party-specific columns and any columns with names starting with three dots ("...").
+#'
+#' @details
+#' The function assumes that the input data frame contains the columns it attempts to keep or remove,
+#' based on the file type. If a column is not present, it is simply ignored. This function is part of
+#' the internal processing pipeline for postal vote data and is not intended for direct use by package
+#' users.
+#'
+#' @noRd
+#' @keywords internal
 preprocess_pva <- function(data, file_name) {
   if (file_name == "Postal vote applications by party") {
     # Keep columns
@@ -403,37 +505,42 @@ preprocess_pva <- function(data, file_name) {
 
 # ======================================================================================================================
 # PROCESSING
-  #' Initialise Data Processing
-  #'
-  #' Determines and applies the appropriate processing function to election data based
-  #' on file name, category, and event.
-  #'
-  #' @param data The data frame to be processed.
-  #' @param file_name The name of the file being processed (e.g., "National list of candidates").
-  #' @param category The category of the data, one of "House", "Senate", or "General".
-  #' @param event The specific election event (e.g., "2022"), typically a year or identifier.
-  #'
-  #' @return The processed data frame if a processing function is applied, or the original
-  #'         data frame if no processing is required.
-  #'
-  #' @details This function uses the `aec_elections_index` dataset from the `scgElectionsAU` package
-  #' to look up a processing function based on the `file_name`, `category`, and `event`. If
-  #' exactly one matching function is found, it is applied to the data. If multiple functions
-  #' match, it stops with an error. If no function is found, it returns the data unchanged
-  #' with a message indicating no processing was required.
-  #'
-  #' @examples
-  #' \dontrun{
-  #' processed_data <- process_init(data,
-  #'                                file_name = "National list of candidates",
-  #'                                category = "House",
-  #'                                event = "2022",
-  #'                                index
-  #' )
-  #' }
-  #'
-  #' @noRd
-  #' @keywords internal
+#' Initialise Data Processing
+#'
+#' Determines and applies the appropriate processing function to election data based
+#' on file name, category, and event.
+#'
+#' @param data The data frame to be processed.
+#' @param file_name The name of the file being processed (e.g., "National list of candidates").
+#' @param category The category of the data, one of "House", "Senate", or "General".
+#' @param event The specific election event (e.g., "2022"), typically a year or identifier.
+#' @param index A data frame or dataset that maps combinations of `file_name`, `category`, and
+#'   `event` to specific processing functions. Typically, this is the `aec_elections_index` dataset
+#'   from the `scgElectionsAU` package.
+#'
+#' @return The processed data frame if a processing function is applied, or the original
+#'         data frame if no processing is required.
+#'
+#' @details This function uses the provided `index` dataset to look up a processing function based
+#' on the `file_name`, `category`, and `event`. The `index` is expected to have columns for
+#' `file_name`, `prefix` (matching `category`), and a column for each `event` (e.g., "2004", "2010")
+#' with values like "Y" indicating applicability. If exactly one matching function is found for the
+#' given `file_name`, `category`, and `event`, it is applied to the data. If multiple functions match,
+#' the function stops with an error. If no function is found, the data is returned unchanged with a
+#' message indicating no processing was required.
+#'
+#' @examples
+#' \dontrun{
+#' # Assuming aec_elections_index is loaded
+#' processed_data <- process_init(data = my_data,
+#'                                file_name = "National list of candidates",
+#'                                category = "House",
+#'                                event = "2022",
+#'                                index = aec_elections_index)
+#' }
+#'
+#' @noRd
+#' @keywords internal
 process_init <- function(data, file_name, category, event, index) {
   # Look up the processing function from the CSV index
   proc_func_index <- index$processing_function[
@@ -465,7 +572,51 @@ process_init <- function(data, file_name, category, event, index) {
 }
 
 
-
+#' Standardise Column Names for Consistency
+#'
+#' This internal helper function renames specific columns in a data frame to ensure consistency across
+#' datasets. It checks for predefined column names and renames them to standardised equivalents using
+#' the `rename_cols` function. The function is designed to facilitate uniform data processing within
+#' the package by aligning column names to a consistent format.
+#'
+#' @param data A data frame containing columns to be renamed. The function checks for the presence of
+#'   specific columns and renames them if found. Columns checked and their corresponding new names include:
+#'   \itemize{
+#'     \item "State" to "StateAb"
+#'     \item "Division" to "DivisionNm"
+#'     \item "DivisionId" to "DivisionID"
+#'     \item "PollingPlace" to "PollingPlaceNm"
+#'     \item "Party" to "PartyNm"
+#'     \item "PartyName" to "PartyNm"
+#'     \item "CandidateId1" to "CandidateID1"
+#'     \item "CandidateId2" to "CandidateID2"
+#'     \item "Ticket" to "Group"
+#'     \item "GroupAb" to "PartyGroupAb"
+#'     \item "GroupNm" to "PartyGroupNm"
+#'   }
+#'
+#' @return A data frame with the same structure as the input, but with renamed columns where applicable.
+#'   Columns not listed above remain unchanged.
+#'
+#' @details
+#' This function is an internal helper and is not exported. It is used to standardise column names
+#' across different datasets to ensure consistency in data processing workflows. The renaming is
+#' conditional, only occurring if the specified columns are present in the input data frame.
+#'
+#' @examples
+#' # Sample data with columns to be renamed
+#' \dontrun{
+#'      data <- data.frame(
+#'          State = "VIC",
+#'          Division = "Melbourne",
+#'          Party = "ALP",
+#'          CandidateId1 = 12345
+#'      )
+#'      amend_colnames(data)
+#' }
+#'
+#' @noRd
+#' @keywords internal
 amend_colnames <- function(data) {
   if ("State" %in% names(data)) {
     data <- rename_cols(data, StateAb = "State")
@@ -479,8 +630,28 @@ amend_colnames <- function(data) {
     data <- rename_cols(data, DivisionID = "DivisionId")
   }
 
+  if ("TransactionId" %in% names(data)) {
+    data <- rename_cols(data, TransactionID = "TransactionId")
+  }
+
   if ("PollingPlace" %in% names(data)) {
     data <- rename_cols(data, PollingPlaceNm = "PollingPlace")
+  }
+
+  if ("Party" %in% names(data)) {
+    data <- rename_cols(data, PartyNm = "Party")
+  }
+
+  if ("PartyName" %in% names(data)) {
+    data <- rename_cols(data, PartyNm = "PartyName")
+  }
+
+  if ("CandidateId1" %in% names(data)) {
+    data <- rename_cols(data, CandidateID1 = "CandidateId1")
+  }
+
+  if ("CandidateId2" %in% names(data)) {
+    data <- rename_cols(data, CandidateID2 = "CandidateId2")
   }
 
   if ("Ticket" %in% names(data)) {
@@ -488,11 +659,11 @@ amend_colnames <- function(data) {
   }
 
   if ("GroupAb" %in% names(data)) {
-    data <- rename_cols(data, PartyAb = "GroupAb")
+    data <- rename_cols(data, PartyGroupAb = "GroupAb")
   }
 
   if ("GroupNm" %in% names(data)) {
-    data <- rename_cols(data, PartyNm = "GroupNm")
+    data <- rename_cols(data, PartyGroupNm = "GroupNm")
   }
 
   return(data)
