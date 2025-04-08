@@ -50,10 +50,10 @@ input parameters, construct URLs, and check file availability before downloading
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_aec_data</span><span class="op">(</span></span>
 <span>  <span class="va">file_name</span>,</span>
-<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2022-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span>,</span>
-<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"Referendum"</span><span class="op">)</span>,</span>
-<span>  category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"House"</span>, <span class="st">"Senate"</span>, <span class="st">"General"</span>, <span class="st">"Statistics"</span><span class="op">)</span>,</span>
-<span>  process <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2022-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"Referendum"</span>, <span class="st">"Federal By-Election"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"House"</span>, <span class="st">"Senate"</span>, <span class="st">"Referendum"</span>, <span class="st">"General"</span>, <span class="st">"Statistics"</span><span class="op">)</span>,</span>
+<span>  process <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -73,7 +73,7 @@ is required. Dates should be formatted as 'YYYY-MM-DD'.</p></dd>
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>The type of election or event to filter the data, possible values are
-'Federal Election' and 'Referendum'.</p></dd>
+'Federal Election','Referendum', and 'Federal By-Election'.</p></dd>
 
 
 <dt id="arg-category">category<a class="anchor" aria-label="anchor" href="#arg-category"></a></dt>
