@@ -2191,12 +2191,12 @@ candidate, detailing:</p>
 <ul>
 <li>The division details (<code>StateAb</code>, <code>DivisionID</code>,
 <code>DivisionNm</code>).</li>
-<li>The cadndiate details (<code>CandidateID</code>,
+<li>The canddiate details (<code>CandidateID</code>,
 <code>Surname</code>, <code>GivenNm</code>), including their position on
 the ballot position (<code>BallotPosition</code>), and whether they were
 elected (<code>Elected</code>) or an incumbent
-(<code>HistoricElected</code>), and their the party
-(<code>PartyAb</code>, <code>PartyNm</code>) that they represent.</li>
+(<code>HistoricElected</code>), and the party (<code>PartyAb</code>,
+<code>PartyNm</code>) that they represent.</li>
 <li>The number of votes that the candidate received by vote type
 (<code>OrdinaryVotes</code>, <code>AbsentVotes</code>,
 <code>ProvisionalVotes</code>, <code>PrePollVotes</code>,
@@ -2363,13 +2363,13 @@ dataset details:</p>
 <ul>
 <li>The division details (<code>StateAb</code>, <code>DivisionID</code>,
 <code>DivisionNm</code>).</li>
-<li>The cadndiate details (<code>CandidateID</code>), including their
+<li>The canddiate details (<code>CandidateID</code>), including their
 ballot details
 (<code>BallotPosition</code>,<code>CandidateDetails</code>,
 <code>Group</code>), and whether they were elected
 (<code>Elected</code>) or an incumbent (<code>HistoricElected</code>),
-and their the party (<code>PartyAb</code>, <code>PartyNm</code>) that
-they represent.</li>
+and the party (<code>PartyAb</code>, <code>PartyNm</code>) that they
+represent.</li>
 <li>The number of votes that the candidate received by vote type
 (<code>OrdinaryVotes</code>, <code>AbsentVotes</code>,
 <code>ProvisionalVotes</code>, <code>PrePollVotes</code>,
@@ -2380,7 +2380,11 @@ dataset is available for the <code>Senate</code> only. Minor amendments
 are made to the original dataset, changing <code>PartyName</code> to
 <code>PartyNm</code>. This ensures consistency in column names across
 all datasets.</p>
-<p><em>Example Usage (Senate Division-level):</em></p>
+</div>
+<div class="section level4">
+<h4 id="example-usage-senate-division-level">
+<em>Example Usage (Senate Division-level):</em><a class="anchor" aria-label="anchor" href="#example-usage-senate-division-level"></a>
+</h4>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"First preferences by division by vote type"</span>,</span>
@@ -2677,7 +2681,11 @@ this dataset is large. Sizes include:</p>
 <span>  file_name <span class="op">=</span> <span class="st">"First preferences by candidate by polling place"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><em>Sample Data:</em></p>
+</div>
+<div class="section level4">
+<h4 id="sample-data-7">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-7"></a>
+</h4>
 <table class="table table table-bordered">
 <thead><tr>
 <th style="text-align:left;">
@@ -2794,12 +2802,27 @@ Liberal
 <h2 id="two-party-preferred">Two Party Preferred<a class="anchor" aria-label="anchor" href="#two-party-preferred"></a>
 </h2>
 <div class="section level3">
-<h3 id="two-party-preferred-by-state-house-only">Two party preferred by state (House-only)<a class="anchor" aria-label="anchor" href="#two-party-preferred-by-state-house-only"></a>
+<h3 id="two-party-preferred-by-state">Two party preferred by state<a class="anchor" aria-label="anchor" href="#two-party-preferred-by-state"></a>
 </h3>
-<p>The <code>Two party preferred by state</code> dataset…</p>
+<p>The <code>Two party preferred by state</code> dataset provides the
+two party preferred (TPP) vote by state (<code>StateAb</code>)
+detailing:</p>
+<ul>
+<li>The Coalition votes and percentage
+(<code>Liberal/National Coalition Votes</code>,
+<code>Liberal/National Coalition Percentage</code>)</li>
+<li>The ALP votes and percentage
+(<code>Australian Labor Party Votes</code>,
+<code>Australian Labor Party Percentage</code>.</li>
+<li>The total votes (<code>TotalVotes</code>) and swing
+(<code>Swing</code>).</li>
+</ul>
+<p>Covering elections from <code>2004</code> to the present, this
+dataset is available for the <code>Senate</code> only. No changes are
+made.</p>
 <div class="section level4">
-<h4 id="example-usage-8">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-8"></a>
+<h4 id="example-usage-by-state">
+<em>Example Usage ‘by state’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-state"></a>
 </h4>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -2809,8 +2832,8 @@ Liberal
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-7">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-7"></a>
+<h4 id="sample-data-by-state">
+<em>Sample Data ‘by state’:</em><a class="anchor" aria-label="anchor" href="#sample-data-by-state"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -2878,16 +2901,14 @@ New South Wales
 </td>
 </tr></tbody>
 </table>
-<p><br></p>
+<p>The <code>Two party preferred by division</code> dataset further
+breaks down the above figures by division (<code>DivisionID</code>,
+<code>DivisionNm</code>) and includes the winning party of the seat
+(<code>PartyAb</code>).</p>
 </div>
-</div>
-<div class="section level3">
-<h3 id="two-party-preferred-by-division-house-only">Two party preferred by division (House-only)<a class="anchor" aria-label="anchor" href="#two-party-preferred-by-division-house-only"></a>
-</h3>
-<p>The <code>Two party preferred by division</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-9">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-9"></a>
+<h4 id="example-usage-by-division">
+<em>Example Usage ‘by division’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-division"></a>
 </h4>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -2897,8 +2918,8 @@ New South Wales
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-8">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-8"></a>
+<h4 id="sample-data-by-division">
+<em>Sample Data ‘by division’:</em><a class="anchor" aria-label="anchor" href="#sample-data-by-division"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -2982,20 +3003,41 @@ ALP
 </div>
 </div>
 <div class="section level3">
-<h3 id="two-party-preferred-by-division-by-vote-type-house-only">Two party preferred by division by vote type (House-only)<a class="anchor" aria-label="anchor" href="#two-party-preferred-by-division-by-vote-type-house-only"></a>
+<h3 id="two-party-preferred-by-division-by-vote-type">Two party preferred by division by vote type<a class="anchor" aria-label="anchor" href="#two-party-preferred-by-division-by-vote-type"></a>
 </h3>
-<p>The <code>Two party preferred by division by vote type</code>
-dataset…</p>
-<p><em>Example Usage:</em></p>
+<p>The <code>Two party preferred by division by vote type</code> dataset
+provides the two party preferred (TPP) vote by vote type detailing:</p>
+<ul>
+<li>The division details (<code>StateAb</code>, <code>DivisionNm</code>,
+<code>DivisionID</code>).</li>
+<li>The winning party of the seat (<code>PartyAb</code>).</li>
+<li>The Coalition votes by vote type
+(<code>Liberal/National Coalition OrdinaryVotes</code>,<code>Liberal/National Coalition AbsentVotes</code>,<code>Liberal/National Coalition ProvisionalVotes</code>,<code>Liberal/National Coalition PostalVotes</code>,<code>Liberal/National Coalition DeclarationPrePollVotes</code>).</li>
+<li>The Coalition percentage by vote type
+(<code>Liberal/National Coalition OrdinaryPercentage</code>,<code>Liberal/National Coalition AbsentPercentage</code>,<code>Liberal/National Coalition ProvisionalPercentage</code>,<code>Liberal/National Coalition PostalPercentage</code>,<code>Liberal/National Coalition DeclarationPrePollPercentage</code>).</li>
+<li>The ALP votes by vote type
+(<code>Australian Labor Party OrdinaryVotes</code>,<code>Australian Labor Party AbsentVotes</code>,<code>Australian Labor Party ProvisionalVotes</code>,<code>Australian Labor Party PostalVotes</code>,<code>Australian Labor Party DeclarationPrePollVotes</code>).</li>
+<li>The ALP percentage by vote type
+(<code>Australian Labor Party OrdinaryPercentage</code>,<code>Australian Labor Party AbsentPercentage</code>,<code>Australian Labor Party ProvisionalPercentage</code>,<code>Australian Labor Party PostalPercentage</code>,<code>Australian Labor Party DeclarationPrePollPercentage</code>).</li>
+<li>The total number of votes (<code>TotalVotes</code>).</li>
+</ul>
+<p>Covering elections from <code>2004</code> to the present, this
+dataset is available for the <code>Senate</code> only. No changes are
+made.</p>
+<div class="section level4">
+<h4 id="example-usage-by-division-1">
+<em>Example Usage ‘by division’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-division-1"></a>
+</h4>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Two party preferred by division by vote type"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2016-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
 <span>  category <span class="op">=</span> <span class="st">"House"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+</div>
 <div class="section level4">
-<h4 id="sample-data-9">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-9"></a>
+<h4 id="sample-data-by-division-1">
+<em>Sample Data ‘by division’:</em><a class="anchor" aria-label="anchor" href="#sample-data-by-division-1"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -3165,16 +3207,13 @@ ALP
 </td>
 </tr></tbody>
 </table>
-<p><br></p>
+<p>The <code>Two party preferred by polling place</code> dataset further
+breaks down the above figures by polling place
+(<code>PollingPlaceID</code>, <code>PollingPlaceNm</code>).</p>
 </div>
-</div>
-<div class="section level3">
-<h3 id="two-party-preferred-by-polling-place-house-only">Two party preferred by polling place (House-only)<a class="anchor" aria-label="anchor" href="#two-party-preferred-by-polling-place-house-only"></a>
-</h3>
-<p>The <code>Two party preferred by polling place</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-10">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-10"></a>
+<h4 id="example-usage-by-polling-place">
+<em>Example Usage ‘by polling place’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-polling-place"></a>
 </h4>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -3184,8 +3223,8 @@ ALP
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-10">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-10"></a>
+<h4 id="sample-data-by-polling-place">
+<em>Sample Data ‘by polling place’:</em><a class="anchor" aria-label="anchor" href="#sample-data-by-polling-place"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -3290,8 +3329,8 @@ based on the <code>SittingMemberFl</code> column) and
 <code>HistoricElected</code> (indicating incumbents, currently contains
 <code>NAs</code>).</p>
 <div class="section level4">
-<h4 id="example-usage-11">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-11"></a>
+<h4 id="example-usage-8">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-8"></a>
 </h4>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -3302,8 +3341,8 @@ based on the <code>SittingMemberFl</code> column) and
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-11">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-11"></a>
+<h4 id="sample-data-8">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-8"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -3448,8 +3487,8 @@ based on the <code>SittingMemberFl</code> column) and
 <code>HistoricElected</code> (indicating incumbents, currently contains
 <code>NAs</code>).</p>
 <div class="section level4">
-<h4 id="example-usage-12">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-12"></a>
+<h4 id="example-usage-9">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-9"></a>
 </h4>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -3460,8 +3499,8 @@ based on the <code>SittingMemberFl</code> column) and
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-12">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-12"></a>
+<h4 id="sample-data-9">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-9"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -3591,8 +3630,8 @@ based on the <code>SittingMemberFl</code> column) and
 <code>HistoricElected</code> (indicating incumbents, currently contains
 <code>NAs</code>).</p>
 <div class="section level4">
-<h4 id="example-usage-13">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-13"></a>
+<h4 id="example-usage-10">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-10"></a>
 </h4>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -3603,8 +3642,8 @@ based on the <code>SittingMemberFl</code> column) and
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-13">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-13"></a>
+<h4 id="sample-data-10">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-10"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -3728,8 +3767,8 @@ Preference Count
 <code>Two candidate preferred flow of preferences by candidate by division</code>
 dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-14">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-14"></a>
+<h4 id="example-usage-11">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-11"></a>
 </h4>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -3739,8 +3778,8 @@ dataset…</p>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-14">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-14"></a>
+<h4 id="sample-data-11">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-11"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -3871,8 +3910,8 @@ David
 <p>The <code>Two party preferred flow of preferences by party</code>
 dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-15">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-15"></a>
+<h4 id="example-usage-12">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-12"></a>
 </h4>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -3882,8 +3921,8 @@ dataset…</p>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-15">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-15"></a>
+<h4 id="sample-data-12">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-12"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -3950,8 +3989,8 @@ Liberal
 <code>Two party preferred flow of preferences by state by party</code>
 dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-16">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-16"></a>
+<h4 id="example-usage-13">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-13"></a>
 </h4>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -3961,8 +4000,8 @@ dataset…</p>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-16">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-16"></a>
+<h4 id="sample-data-13">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-13"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -4034,8 +4073,8 @@ United Australia Party
 <p>The <code>Two candidate preferred flow of preferences by party</code>
 dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-17">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-17"></a>
+<h4 id="example-usage-14">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-14"></a>
 </h4>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -4045,8 +4084,8 @@ dataset…</p>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-17">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-17"></a>
+<h4 id="sample-data-14">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-14"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -4137,8 +4176,8 @@ Liberal
 <code>Two candidate preferred flow of preferences by state by party</code>
 dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-18">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-18"></a>
+<h4 id="example-usage-15">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-15"></a>
 </h4>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -4148,8 +4187,8 @@ dataset…</p>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-18">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-18"></a>
+<h4 id="sample-data-15">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-15"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -4260,8 +4299,8 @@ Liberal
 <span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
-<h4 id="sample-data-19">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-19"></a>
+<h4 id="sample-data-16">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-16"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -4331,8 +4370,8 @@ New South Wales
 </h3>
 <p>The <code>Informal votes by division</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-19">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-19"></a>
+<h4 id="example-usage-16">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-16"></a>
 </h4>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -4342,8 +4381,8 @@ New South Wales
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-20">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-20"></a>
+<h4 id="sample-data-17">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-17"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -4419,8 +4458,8 @@ NSW
 </h3>
 <p>The <code>Turnout by state</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-20">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-20"></a>
+<h4 id="example-usage-17">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-17"></a>
 </h4>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -4491,8 +4530,8 @@ New South Wales
 </h3>
 <p>The <code>Turnout by division</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-21">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-21"></a>
+<h4 id="example-usage-18">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-18"></a>
 </h4>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -4569,8 +4608,8 @@ SA
 </h3>
 <p>The <code>Votes by state</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-22">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-22"></a>
+<h4 id="example-usage-19">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-19"></a>
 </h4>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -4665,8 +4704,8 @@ New South Wales
 </h3>
 <p>The <code>Votes by division</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-23">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-23"></a>
+<h4 id="example-usage-20">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-20"></a>
 </h4>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -4676,8 +4715,8 @@ New South Wales
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-21">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-21"></a>
+<h4 id="sample-data-18">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-18"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -4775,8 +4814,8 @@ SA
 </h3>
 <p>The <code>Political parties</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-24">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-24"></a>
+<h4 id="example-usage-21">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-21"></a>
 </h4>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -4786,8 +4825,8 @@ SA
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-22">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-22"></a>
+<h4 id="sample-data-19">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-19"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -4839,8 +4878,8 @@ Animal Justice Party
 </h3>
 <p>The <code>Polling places</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-25">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-25"></a>
+<h4 id="example-usage-22">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-22"></a>
 </h4>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -4851,8 +4890,8 @@ Animal Justice Party
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-23">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-23"></a>
+<h4 id="sample-data-20">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-20"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -4970,8 +5009,8 @@ ACT
 </h3>
 <p>The <code>Enrolment by state</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-26">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-26"></a>
+<h4 id="example-usage-23">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-23"></a>
 </h4>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -4981,8 +5020,8 @@ ACT
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-24">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-24"></a>
+<h4 id="sample-data-21">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-21"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -5070,8 +5109,8 @@ New South Wales
 </h3>
 <p>The <code>Enrolment by division</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-27">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-27"></a>
+<h4 id="example-usage-24">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-24"></a>
 </h4>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -5081,8 +5120,8 @@ New South Wales
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-25">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-25"></a>
+<h4 id="sample-data-22">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-22"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -5176,8 +5215,8 @@ SA
 </h3>
 <p>The <code>Declaration votes issued by state</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-28">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-28"></a>
+<h4 id="example-usage-25">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-25"></a>
 </h4>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -5187,8 +5226,8 @@ SA
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-26">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-26"></a>
+<h4 id="sample-data-23">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-23"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -5264,8 +5303,8 @@ New South Wales
 </h3>
 <p>The <code>Declaration votes issued by division</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-29">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-29"></a>
+<h4 id="example-usage-26">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-26"></a>
 </h4>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -5275,8 +5314,8 @@ New South Wales
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-27">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-27"></a>
+<h4 id="sample-data-24">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-24"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -5358,8 +5397,8 @@ SA
 </h3>
 <p>The <code>Declaration votes received by state</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-30">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-30"></a>
+<h4 id="example-usage-27">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-27"></a>
 </h4>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -5369,8 +5408,8 @@ SA
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-28">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-28"></a>
+<h4 id="sample-data-25">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-25"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -5446,8 +5485,8 @@ New South Wales
 </h3>
 <p>The <code>Declaration votes received by division</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-31">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-31"></a>
+<h4 id="example-usage-28">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-28"></a>
 </h4>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -5457,8 +5496,8 @@ New South Wales
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-29">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-29"></a>
+<h4 id="sample-data-26">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-26"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -5544,8 +5583,8 @@ SA
 </h3>
 <p>The <code>Postal vote applications by total</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-32">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-32"></a>
+<h4 id="example-usage-29">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-29"></a>
 </h4>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -5555,8 +5594,8 @@ SA
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-30">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-30"></a>
+<h4 id="sample-data-27">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-27"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -5608,8 +5647,8 @@ Bean
 </h3>
 <p>The <code>Postal vote applications by date</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-33">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-33"></a>
+<h4 id="example-usage-30">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-30"></a>
 </h4>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -5620,8 +5659,8 @@ Bean
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-31">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-31"></a>
+<h4 id="sample-data-28">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-28"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -5673,8 +5712,8 @@ BEAN
 </h3>
 <p>The <code>Postal vote applications by party</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-34">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-34"></a>
+<h4 id="example-usage-31">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-31"></a>
 </h4>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -5685,8 +5724,8 @@ BEAN
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-32">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-32"></a>
+<h4 id="sample-data-29">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-29"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -5798,8 +5837,8 @@ NA
 </h3>
 <p>The <code>Pre-poll votes</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-35">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-35"></a>
+<h4 id="example-usage-32">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-32"></a>
 </h4>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -5810,8 +5849,8 @@ NA
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-33">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-33"></a>
+<h4 id="sample-data-30">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-30"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -5869,8 +5908,8 @@ Belconnen BEAN PPVC
 </h3>
 <p>The <code>Votes by SA1</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-36">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-36"></a>
+<h4 id="example-usage-33">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-33"></a>
 </h4>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -5881,8 +5920,8 @@ Belconnen BEAN PPVC
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-34">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-34"></a>
+<h4 id="sample-data-31">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-31"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
@@ -5946,8 +5985,8 @@ Absent
 </h3>
 <p>The <code>Overseas</code> dataset…</p>
 <div class="section level4">
-<h4 id="example-usage-37">
-<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-37"></a>
+<h4 id="example-usage-34">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-34"></a>
 </h4>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
@@ -5958,8 +5997,8 @@ Absent
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="sample-data-35">
-<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-35"></a>
+<h4 id="sample-data-32">
+<em>Sample Data:</em><a class="anchor" aria-label="anchor" href="#sample-data-32"></a>
 </h4>
 <table class="table table table-bordered">
 <thead><tr>
