@@ -8,8 +8,7 @@ process_elected(data, event)
 }
 \arguments{
 \item{data}{A data frame containing election data for a single election event. Must include an
-\code{event} column with a single unique value (e.g., "2004"). For 2004 processing, must include the
-\code{SittingMemberFl} column. Additional columns depend on the specific dataset.}
+\code{event} column with a single unique value (e.g., "2004"). Additional columns depend on the specific dataset.}
 
 \item{event}{A character string specifying the election year to process. Currently, only "2004" is
 processed; other values result in the data being returned unprocessed.}
@@ -25,7 +24,7 @@ unchanged.
 \description{
 Standardises election data related to elected candidates for a single Australian federal election
 event. This function aligns column names across datasets, specifically processing the 2004 election
-year by converting the \code{SittingMemberFl} column to a standardised \code{Elected} column with "Y" or "N"
+year by standardising the \code{Elected} column with "Y" or "N"
 values. For all other election years, the data is returned unprocessed with a message. Applies to
 datasets including "National list of candidates" (House and Senate), "First preferences by candidate
 by vote type" (House only), "Two candidate preferred by candidate by vote type" (House only),
@@ -35,7 +34,6 @@ by candidate by division" (House only).
 \details{
 This function processes election data by:
 \enumerate{
-\item \strong{Standardising column names}: For 2004, renames \code{SittingMemberFl} to \code{Elected} using \code{rename_cols()}.
 \item \strong{Formatting}: Converts \code{Elected} values to "Y" (elected) or "N" (not elected), replacing NA with "N".
 \item \strong{Unrecognised years}: Returns the data unprocessed with an informative message for years other than 2004.
 }
@@ -49,7 +47,7 @@ data_2004 <- data.frame(
   date = "2004-10-09",
   event = "2004",
   CandidateID = 123,
-  SittingMemberFl = "Y"
+  Elected = "#"
 )
 process_elected(data_2004, "2004")
 

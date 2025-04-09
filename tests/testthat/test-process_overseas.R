@@ -3,8 +3,8 @@ test_that("process_overseas handles event values and data processing correctly",
   # Test 1: Unrecognised event returns unprocessed data with message
   invalid_data <- data.frame(
     event = "2025",
-    State = "Queensland",
-    Division = "Brisbane",
+    StateAb = "Queensland",
+    DivisionNm = "Brisbane",
     Votes = 100
   )
   expect_message(
@@ -16,8 +16,8 @@ test_that("process_overseas handles event values and data processing correctly",
   # Test 2: 2013 data processing
   data_2013 <- data.frame(
     event = "2013",
-    State = c("New South Wales", "Victoria", NA),
-    Division = c("Sydney", "Melbourne", "Total"),
+    StateAb = c("New South Wales", "Victoria", NA),
+    DivisionNm = c("Sydney", "Melbourne", "Total"),
     pp_nm = c("London", "Paris", "All"),
     `Pre-poll Votes` = c(100, 150, 250),
     `Postal Votes` = c(50, 75, 125),
@@ -40,8 +40,8 @@ test_that("process_overseas handles event values and data processing correctly",
   # Test 3: 2019 data processing
   data_2019 <- data.frame(
     event = "2019",
-    State = c("Queensland", "Tasmania"),
-    Division = c("Brisbane", "Hobart"),
+    StateAb = c("Queensland", "Tasmania"),
+    DivisionNm = c("Brisbane", "Hobart"),
     `Diplomatic Post\r\n(Nb. Colombo did not operate due to security issues)` = c("Tokyo", "Berlin"),
     `Pre-Poll Votes Issued` = c(200, 300),
     `Postal Votes Received` = c(100, 150),
@@ -60,8 +60,8 @@ test_that("process_overseas handles event values and data processing correctly",
   # Test 4: 2022 data processing
   data_2022 <- data.frame(
     event = "2022",
-    State = c("South Australia", "Western Australia"),
-    Division = c("Adelaide", "Perth"),
+    StateAb = c("South Australia", "Western Australia"),
+    DivisionNm = c("Adelaide", "Perth"),
     `Overseas Post` = c("New York", "London"),
     `Pre-Poll (in-person) Votes` = c(120, 180),
     `Postal Vote Envelopes Received at Post` = c(80, 120),

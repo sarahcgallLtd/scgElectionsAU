@@ -10,8 +10,8 @@
 #'   column with a single unique value (e.g., "2010", "2013", "2016", "2019"). Additional required
 #'   columns vary by year:
 #'   \itemize{
-#'     \item 2010: `State`, `Enrolment`, and party-specific columns (e.g., `Labor`, `Liberal`, `AEC`).
-#'     \item 2013: `State`, `Enrolment Division`, and additional party columns (e.g., `Liberal-National`).
+#'     \item 2010: `Enrolment`, and party-specific columns (e.g., `Labor`, `Liberal`, `AEC`).
+#'     \item 2013: `Enrolment Division`, and additional party columns (e.g., `Liberal-National`).
 #'     \item 2016 and 2019: `State_Cd`, `PVA_Web_1_Party_Div`, and AEC-specific columns (e.g., `AEC - OPVA`).
 #'   }
 #'   A `date` column is optional.
@@ -43,8 +43,8 @@
 #' @details
 #' This function processes PVA data by:
 #'   1. **Standardising column names** across recognised election years using `rename_cols()`:
-#'      - 2010: `State` to `StateAb`, `Enrolment` to `DivisionNm`, party names (e.g., `Labor` to `ALP`).
-#'      - 2013: `State` to `StateAb`, `Enrolment Division` to `DivisionNm`, additional party names (e.g., `Liberal-National` to `LNP`).
+#'      - 2010: `Enrolment` to `DivisionNm`, party names (e.g., `Labor` to `ALP`).
+#'      - 2013: `Enrolment Division` to `DivisionNm`, additional party names (e.g., `Liberal-National` to `LNP`).
 #'      - 2016 and 2019: `State_Cd` to `StateAb`, `PVA_Web_1_Party_Div` to `DivisionNm`, AEC columns (e.g., `AEC - OPVA` to `AEC (Online)`).
 #'   2. **Handling missing states**: For 2013, NA in `StateAb` is replaced with "ZZZ".
 #'   3. **Filtering rows**: For 2010 and 2013, rows with NA in `DivisionNm` (e.g., notes or totals) are removed.
@@ -64,7 +64,7 @@
 #' data_2010 <- data.frame(
 #'   date = "2010-08-21",
 #'   event = "2010",
-#'   State = "Victoria",
+#'   StateAb = "VIC",
 #'   Enrolment = "Melbourne",
 #'   Labor = 120,
 #'   Liberal = 180,
@@ -76,7 +76,7 @@
 #' data_2013 <- data.frame(
 #'   date = "2013-08-21",
 #'   event = "2013",
-#'   State = NA,
+#'   StateAb = NSW,
 #'   `Enrolment Division` = "Sydney",
 #'   `Liberal-National` = 150,
 #'   `AEC - OPVA` = 25,
@@ -86,7 +86,7 @@
 #' process_pva_party(data_2013, "2013")
 #'
 #' # Sample invalid year
-#' data_2022 <- data.frame(event = "2022", State = "Queensland", Votes = 90)
+#' data_2022 <- data.frame(event = "2022", StateAb = "Queensland", Votes = 90)
 #' process_pva_party(data_2022, "2022")
 #' }
 #'
@@ -100,7 +100,6 @@ process_pva_party <- function(data, event) {
     if (event %in% c("2010", "2013")) {
       data <- rename_cols(
         data,
-        StateAb = "State",
         ALP = "Labor",
         CLP = "Country Liberal",
         GRN = "Greens",

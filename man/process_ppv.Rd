@@ -45,17 +45,17 @@ This function processes PPVC data by:
 \enumerate{
 \item Standardising column names across recognised election years using \code{rename_cols()}:
 \itemize{
-\item 2010: \code{State} to \code{StateAb}, \code{Division} to \code{DivisionNm}.
-\item 2013: \code{State} to \code{StateAb}, \code{Division} to \code{DivisionNm}, \code{m_pp_nm} to \code{PollingPlaceNm}.
-\item 2016 and 2019: \code{m_state_ab} to \code{StateAb}, \code{m_div_nm} to \code{DivisionNm}, \code{m_pp_nm} to \code{PollingPlaceNm}.
-\item 2022: \code{State} to \code{StateAb}, \code{Division} to \code{DivisionNm}, \code{PPVC} to \code{PollingPlaceNm},
-\verb{Issue Date} to \code{IssueDate}, \verb{Total Votes} to \code{TotalVotes}.
+\item 2010: \code{Division} to \code{DivisionNm}.
+\item 2013: ``Division\code{to}DivisionNm`, `m_pp_nm` to `PollingPlaceNm`.
+\item 2016 and 2019: `m_state_ab` to `StateAb`, `m_div_nm` to `DivisionNm`, `m_pp_nm` to `PollingPlaceNm`.
+\item 2022: `Division` to `DivisionNm`, `PPVC` to `PollingPlaceNm`,
+`Issue Date` to `IssueDate`, `Total Votes` to `TotalVotes`.
 }
-\item For 2010: Filtering out rows with NA in \code{DivisionNm} (e.g., notes or totals).
-\item For 2010–2019: Pivoting date-specific vote columns into long format with \code{pivot_event()},
-creating \code{IssueDate} and \code{TotalVotes} columns.
+\item For 2010: Filtering out rows with NA in `DivisionNm` (e.g., notes or totals).
+\item For 2010–2019: Pivoting date-specific vote columns into long format with `pivot_event()`,
+creating `IssueDate` and `TotalVotes` columns.
 \item For 2022: Selecting standardised columns without pivoting.
-\item Converting \code{IssueDate} to a Date object using year-specific formats:
+\item Converting `IssueDate` to a Date object using year-specific formats:
 \itemize{
 \item 2022: "\%d/\%m/\%y" (e.g., "09/05/22")
 \item 2019: "\%d/\%m/\%Y" (e.g., "29/04/2019")
@@ -65,16 +65,16 @@ creating \code{IssueDate} and \code{TotalVotes} columns.
 }
 \item For unrecognised years: Returning the data unprocessed with an informative message.
 }
-The function assumes the input data frame contains the required columns for the specified \code{event}
-year and that the \code{event} column has a single unique value matching the \code{event} argument.
+The function assumes the input data frame contains the required columns for the specified `event`
+year and that the `event` column has a single unique value matching the `event` argument.
 }
 \examples{
 # Sample 2013 data (wide format)
 data_2013 <- data.frame(
   date = 2013-09-07,
   event = "2013",
-  State = "New South Wales",
-  Division = "Sydney",
+  StateAb = "New South Wales",
+  DivisionNm = "Sydney",
   m_pp_nm = "Sydney PPVC",
   `20/08/2013` = 100,
   `21/08/2013` = 150,
@@ -86,8 +86,8 @@ process_ppv(data_2013, "2013")
 data_2022 <- data.frame(
   date = 2022-05-21,
   event = "2022",
-  State = "Victoria",
-  Division = "Melbourne",
+  StateAb = "Victoria",
+  DivisionNm = "Melbourne",
   PPVC = "Melbourne PPVC",
   `Issue Date` = "09/05/22",
   `Total Votes` = 200,
@@ -96,7 +96,7 @@ data_2022 <- data.frame(
 process_ppv(data_2022, "2022")
 
 # Sample invalid year
-data_2025 <- data.frame(event = "2025", State = "Queensland", Votes = 100)
+data_2025 <- data.frame(event = "2025", StateAb = "Queensland", Votes = 100)
 process_ppv(data_2025, "2025")
 
 }

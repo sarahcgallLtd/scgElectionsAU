@@ -35,6 +35,7 @@ Config/testthat/edition: 3
 Config/Needs/website: tidyverse/tidytemplate
 VignetteBuilder: knitr
 Collate: 
+    'amend_colnames.R'
     'amend_names.R'
     'utils.R'
     'get_aec_data.R'
@@ -43,7 +44,6 @@ Collate:
     'process_elected.R'
     'process_overseas.R'
     'process_ppv.R'
-    'process_prepoll.R'
     'process_pva_date.R'
     'process_pva_party.R'
     'process_reps.R'

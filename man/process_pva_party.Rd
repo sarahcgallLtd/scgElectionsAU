@@ -11,8 +11,8 @@ process_pva_party(data, event)
 column with a single unique value (e.g., "2010", "2013", "2016", "2019"). Additional required
 columns vary by year:
 \itemize{
-\item 2010: \code{State}, \code{Enrolment}, and party-specific columns (e.g., \code{Labor}, \code{Liberal}, \code{AEC}).
-\item 2013: \code{State}, \verb{Enrolment Division}, and additional party columns (e.g., \code{Liberal-National}).
+\item 2010: \code{Enrolment}, and party-specific columns (e.g., \code{Labor}, \code{Liberal}, \code{AEC}).
+\item 2013: \verb{Enrolment Division}, and additional party columns (e.g., \code{Liberal-National}).
 \item 2016 and 2019: \code{State_Cd}, \code{PVA_Web_1_Party_Div}, and AEC-specific columns (e.g., \code{AEC - OPVA}).
 }
 A \code{date} column is optional.}
@@ -55,8 +55,8 @@ This function processes PVA data by:
 \enumerate{
 \item \strong{Standardising column names} across recognised election years using \code{rename_cols()}:
 \itemize{
-\item 2010: \code{State} to \code{StateAb}, \code{Enrolment} to \code{DivisionNm}, party names (e.g., \code{Labor} to \code{ALP}).
-\item 2013: \code{State} to \code{StateAb}, \verb{Enrolment Division} to \code{DivisionNm}, additional party names (e.g., \code{Liberal-National} to \code{LNP}).
+\item 2010: \code{Enrolment} to \code{DivisionNm}, party names (e.g., \code{Labor} to \code{ALP}).
+\item 2013: \verb{Enrolment Division} to \code{DivisionNm}, additional party names (e.g., \code{Liberal-National} to \code{LNP}).
 \item 2016 and 2019: \code{State_Cd} to \code{StateAb}, \code{PVA_Web_1_Party_Div} to \code{DivisionNm}, AEC columns (e.g., \code{AEC - OPVA} to \code{AEC (Online)}).
 }
 \item \strong{Handling missing states}: For 2013, NA in \code{StateAb} is replaced with "ZZZ".
@@ -80,7 +80,7 @@ year and that the \code{event} column matches the \code{event} argument.
 data_2010 <- data.frame(
   date = "2010-08-21",
   event = "2010",
-  State = "Victoria",
+  StateAb = "VIC",
   Enrolment = "Melbourne",
   Labor = 120,
   Liberal = 180,
@@ -92,7 +92,7 @@ process_pva_party(data_2010, "2010")
 data_2013 <- data.frame(
   date = "2013-08-21",
   event = "2013",
-  State = NA,
+  StateAb = NSW,
   `Enrolment Division` = "Sydney",
   `Liberal-National` = 150,
   `AEC - OPVA` = 25,
@@ -102,7 +102,7 @@ data_2013 <- data.frame(
 process_pva_party(data_2013, "2013")
 
 # Sample invalid year
-data_2022 <- data.frame(event = "2022", State = "Queensland", Votes = 90)
+data_2022 <- data.frame(event = "2022", StateAb = "Queensland", Votes = 90)
 process_pva_party(data_2022, "2022")
 }
 

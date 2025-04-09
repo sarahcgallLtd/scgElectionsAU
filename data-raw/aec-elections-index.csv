@@ -12,7 +12,7 @@ Seats decided on first preferences,Downloads,House,SeatsDecidedOnFirstPrefs,.csv
 Non-classic divisions,Downloads,House,NonClassicDivisions,.csv,N,Y,Y,Y,Y,Y,N,N,NA
 Political parties,Downloads,General,PartyDetails,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 First preferences by party,Downloads,House,FirstPrefsByParty,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
-First preferences by state by party,Downloads,House,FirstPrefsByStateByParty,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_prepoll
+First preferences by state by party,Downloads,House,FirstPrefsByStateByParty,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 First preferences by candidate by vote type,Downloads,House,FirstPrefsByCandidateByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_elected
 First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-NSW.csv,N,Y,Y,Y,Y,Y,Y,Y,process_elected
 First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-VIC.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
@@ -34,14 +34,14 @@ Two party preferred flow of preferences by party,Downloads,House,TppFlowByParty,
 Two party preferred flow of preferences by state by party,Downloads,House,TppFlowByStateByParty,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Two candidate preferred flow of preferences by party,Downloads,House,TcpFlowByParty,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Two candidate preferred flow of preferences by state by party,Downloads,House,TcpFlowByStateByParty,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
-Distribution of preferences by polling place,External,House,DopByPP,-NSW.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Distribution of preferences by polling place,External,House,DopByPP,-VIC.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Distribution of preferences by polling place,External,House,DopByPP,-QLD.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Distribution of preferences by polling place,External,House,DopByPP,-WA.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Distribution of preferences by polling place,External,House,DopByPP,-SA.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Distribution of preferences by polling place,External,House,DopByPP,-TAS.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Distribution of preferences by polling place,External,House,DopByPP,-ACT.zip,N,Y,Y,Y,Y,Y,Y,Y,
-Distribution of preferences by polling place,External,House,DopByPP,-NT.zip,N,Y,Y,Y,Y,Y,Y,Y,
+Distribution of preferences by polling place,External,House,DopByPP,-NSW.zip,N,Y,Y,Y,Y,Y,Y,Y,process_elected
+Distribution of preferences by polling place,External,House,DopByPP,-VIC.zip,N,Y,Y,Y,Y,Y,Y,Y,NA
+Distribution of preferences by polling place,External,House,DopByPP,-QLD.zip,N,Y,Y,Y,Y,Y,Y,Y,NA
+Distribution of preferences by polling place,External,House,DopByPP,-WA.zip,N,Y,Y,Y,Y,Y,Y,Y,NA
+Distribution of preferences by polling place,External,House,DopByPP,-SA.zip,N,Y,Y,Y,Y,Y,Y,Y,NA
+Distribution of preferences by polling place,External,House,DopByPP,-TAS.zip,N,Y,Y,Y,Y,Y,Y,Y,NA
+Distribution of preferences by polling place,External,House,DopByPP,-ACT.zip,N,Y,Y,Y,Y,Y,Y,Y,NA
+Distribution of preferences by polling place,External,House,DopByPP,-NT.zip,N,Y,Y,Y,Y,Y,Y,Y,NA
 Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-NSW.zip,N,Y,Y,Y,Y,Y,Y,Y,
 Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-VIC.zip,N,Y,Y,Y,Y,Y,Y,Y,
 Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-QLD.zip,N,Y,Y,Y,Y,Y,Y,Y,
@@ -70,8 +70,8 @@ Nominations by gender,Downloads,Senate,NominationsByGender,.csv,N,Y,Y,Y,Y,Y,Y,Y,
 Party representation,Downloads,Senate,PartyRepresentation,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 First preferences by state by vote type,Downloads,Senate,FirstPrefsByStateByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 First preferences by division by vote type,Downloads,Senate,FirstPrefsByDivisionByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
-First preferences by group by vote type,Downloads,Senate,FirstPrefsByGroupByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_prepoll
-First preferences by state by group by vote type,Downloads,Senate,FirstPrefsByStateByGroupByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,process_prepoll
+First preferences by group by vote type,Downloads,Senate,FirstPrefsByGroupByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
+First preferences by state by group by vote type,Downloads,Senate,FirstPrefsByStateByGroupByVoteType,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Informal votes by state,Downloads,Senate,InformalByState,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Informal votes by division,Downloads,Senate,InformalByDivision,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA
 Turnout by state,Downloads,Senate,TurnoutByState,.csv,N,Y,Y,Y,Y,Y,Y,Y,NA

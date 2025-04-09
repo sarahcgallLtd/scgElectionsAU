@@ -35,10 +35,10 @@
 #' \enumerate{
 #'   \item Standardising column names across recognised election years using `rename_cols()`:
 #'         \itemize{
-#'           \item 2010: `State` to `StateAb`, `Division` to `DivisionNm`.
-#'           \item 2013: `State` to `StateAb`, `Division` to `DivisionNm`, `m_pp_nm` to `PollingPlaceNm`.
+#'           \item 2010: `Division` to `DivisionNm`.
+#'           \item 2013: ``Division` to `DivisionNm`, `m_pp_nm` to `PollingPlaceNm`.
 #'           \item 2016 and 2019: `m_state_ab` to `StateAb`, `m_div_nm` to `DivisionNm`, `m_pp_nm` to `PollingPlaceNm`.
-#'           \item 2022: `State` to `StateAb`, `Division` to `DivisionNm`, `PPVC` to `PollingPlaceNm`,
+#'           \item 2022: `Division` to `DivisionNm`, `PPVC` to `PollingPlaceNm`,
 #'                 `Issue Date` to `IssueDate`, `Total Votes` to `TotalVotes`.
 #'         }
 #'   \item For 2010: Filtering out rows with NA in `DivisionNm` (e.g., notes or totals).
@@ -63,8 +63,8 @@
 #' data_2013 <- data.frame(
 #'   date = 2013-09-07,
 #'   event = "2013",
-#'   State = "New South Wales",
-#'   Division = "Sydney",
+#'   StateAb = "New South Wales",
+#'   DivisionNm = "Sydney",
 #'   m_pp_nm = "Sydney PPVC",
 #'   `20/08/2013` = 100,
 #'   `21/08/2013` = 150,
@@ -76,8 +76,8 @@
 #' data_2022 <- data.frame(
 #'   date = 2022-05-21,
 #'   event = "2022",
-#'   State = "Victoria",
-#'   Division = "Melbourne",
+#'   StateAb = "Victoria",
+#'   DivisionNm = "Melbourne",
 #'   PPVC = "Melbourne PPVC",
 #'   `Issue Date` = "09/05/22",
 #'   `Total Votes` = 200,
@@ -86,7 +86,7 @@
 #' process_ppv(data_2022, "2022")
 #'
 #' # Sample invalid year
-#' data_2025 <- data.frame(event = "2025", State = "Queensland", Votes = 100)
+#' data_2025 <- data.frame(event = "2025", StateAb = "Queensland", Votes = 100)
 #' process_ppv(data_2025, "2025")
 #'
 #' @export
@@ -96,22 +96,12 @@ process_ppv <- function(data, event) {
 
     # Step 1: Standardise columns across years
     if (event == "2010") {
-      data <- rename_cols(
-        data,
-        StateAb = "State",
-        DivisionNm = "Division"
-      )
-
       # Filter out rows with NA by DivisionAb (these contain notes and thus are removed)
       data <- data[!is.na(data$DivisionNm),]
 
     } else if (event == "2013") {
-      data <- rename_cols(
-        data,
-        StateAb = "State",
-        DivisionNm = "Division",
-        PollingPlaceNm = "m_pp_nm"
-      )
+      data <- rename_cols(data, PollingPlaceNm = "m_pp_nm")
+
     } else if (event %in% c("2016", "2019")) {
       data <- rename_cols(
         data,
@@ -122,8 +112,6 @@ process_ppv <- function(data, event) {
     } else if (event == "2022") {
       data <- rename_cols(
         data,
-        StateAb = "State",
-        DivisionNm = "Division",
         PollingPlaceNm = "PPVC",
         IssueDate = "Issue Date",
         TotalPPVs = "Total Votes",

@@ -42,8 +42,8 @@
 #' # Sample 2013 data
 #' data_2013 <- data.frame(
 #'   event = "2013",
-#'   State = c("New South Wales", "Victoria", NA),
-#'   Division = c("Sydney", "Melbourne", "Total"),
+#'   StateAb = c("New South Wales", "Victoria", NA),
+#'   DivisionNm = c("Sydney", "Melbourne", "Total"),
 #'   pp_nm = c("London", "Paris", "All"),
 #'   `Pre-poll Votes` = c(100, 150, 250),
 #'   `Postal Votes` = c(50, 75, 125),
@@ -54,7 +54,7 @@
 #' process_overseas(data_2013, "2013")
 #'
 #' # Sample invalid year
-#' data_2025 <- data.frame(event = "2025", State = "Queensland", Votes = 100)
+#' data_2025 <- data.frame(event = "2025", StateAb = "Queensland", Votes = 100)
 #' process_overseas(data_2025, "2025")
 #'
 #' @seealso \code{\link{amend_names}}) for state name standardisation.
@@ -67,9 +67,6 @@ process_overseas <- function(
   # Check only 2013, 2019, and 2022 election years are passed
   if (event %in% c("2013", "2019", "2022")) {
     message(paste0("Processing `", event, "` data to ensure all columns align across all elections."))
-
-    # Base renaming for all years
-    data <- rename_cols(data, StateAb = "State", DivisionNm = "Division")
 
     # Standardise columns to goal 8 column data frame
     if (event == "2013") {

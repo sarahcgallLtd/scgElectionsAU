@@ -4,7 +4,7 @@ test_that("process_pva_date standardises and transforms PVA data by date correct
   data_2022 <- data.frame(
     date = "2022-05-21",
     event = "2022",
-    State = "Queensland",
+    StateAb = "Queensland",
     Votes = 90
   )
   expect_message(
@@ -17,7 +17,7 @@ test_that("process_pva_date standardises and transforms PVA data by date correct
   data_2010 <- data.frame(
     date = "2010-08-21",
     event = "2010",
-    State = "Victoria",
+    StateAb = "Victoria",
     Enrolment = "Melbourne",
     `02 Aug 10` = 50,
     `03 Aug 10` = 60,
@@ -38,7 +38,7 @@ test_that("process_pva_date standardises and transforms PVA data by date correct
   data_2013 <- data.frame(
     date = "2013-09-07",
     event = "2013",
-    State = NA,
+    StateAb = NA,
     `Enrolment Division` = "Sydney",
     `20-Aug-13` = 100,
     `21-Aug-13` = 150,

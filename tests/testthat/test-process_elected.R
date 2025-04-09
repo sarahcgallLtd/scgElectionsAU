@@ -5,7 +5,7 @@ test_that("process_elected standardises elected candidate data correctly", {
     date = "2004-10-09",
     event = "2004",
     CandidateID = 123,
-    SittingMemberFl = "Y"
+    Elected = "#"
   )
   expect_message(
     result_2004 <- process_elected(data_2004, "2004"),
@@ -14,12 +14,12 @@ test_that("process_elected standardises elected candidate data correctly", {
   expect_equal(names(result_2004), c("date", "event", "CandidateID", "Elected"))
   expect_equal(result_2004$Elected, "Y")
 
-  # Test 2: 2004 data processing with NA in SittingMemberFl
+  # Test 2: 2004 data processing with NA in Elected
   data_2004_na <- data.frame(
     date = "2004-10-09",
     event = "2004",
     CandidateID = 456,
-    SittingMemberFl = NA
+    Elected = NA
   )
   expect_message(
     result_2004_na <- process_elected(data_2004_na, "2004"),

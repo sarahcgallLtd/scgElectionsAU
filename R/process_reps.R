@@ -38,7 +38,7 @@
 #' data_2004 <- data.frame(
 #'   date = "2004-10-09",
 #'   event = "2004",
-#'   Party = "ALP",
+#'   PartyNm = "ALP",
 #'   Total = 60,
 #'   LastElectionTotal = 65
 #' )
@@ -48,7 +48,7 @@
 #' data_2013 <- data.frame(
 #'   date = "2013-09-07",
 #'   event = "2013",
-#'   Party = "LIB",
+#'   PartyNm = "LIB",
 #'   National = 90,
 #'   LastElection = 72
 #' )

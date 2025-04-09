@@ -598,7 +598,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 The `First preferences by candidate by vote type` dataset provides a summary of the first preferences received by each individual candidate, detailing:
 
 - The division details (`StateAb`, `DivisionID`, `DivisionNm`).
-- The canddiate details (`CandidateID`, `Surname`, `GivenNm`), including their position on the ballot position (`BallotPosition`), and whether they were elected (`Elected`) or an incumbent (`HistoricElected`), and the party (`PartyAb`, `PartyNm`) that they represent.
+- The candidate details (`CandidateID`, `Surname`, `GivenNm`), including their position on the ballot position (`BallotPosition`), and whether they were elected (`Elected`) or an incumbent (`HistoricElected`), and the party (`PartyAb`, `PartyNm`) that they represent.
 - The number of votes that the candidate received by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `PrePollVotes`, `PostalVotes`, `TotalVotes`).
 - The overall swing in total votes received by the candidate compared to the previous election (`TotalSwing`).
 
@@ -637,7 +637,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 The `First preferences by state by vote type` dataset is the equivalent for the Senate, albeit it differs in some columns. The dataset details:
 
 - The division details (`StateAb`, `DivisionID`, `DivisionNm`).
-- The canddiate details (`CandidateID`), including their ballot details (`BallotPosition`,`CandidateDetails`, `Group`), and whether they were elected (`Elected`) or an incumbent (`HistoricElected`), and the party (`PartyAb`, `PartyNm`) that they represent.
+- The candidate details (`CandidateID`), including their ballot details (`BallotPosition`,`CandidateDetails`, `Group`), and whether they were elected (`Elected`) or an incumbent (`HistoricElected`), and the party (`PartyAb`, `PartyNm`) that they represent.
 - The number of votes that the candidate received by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `PrePollVotes`, `PostalVotes`, `TotalVotes`).
 
 Covering elections from `2004` to the present, this dataset is available for the `Senate` only. Minor amendments are made to the original dataset, changing `PartyName` to `PartyNm`. This ensures consistency in column names across all datasets.
@@ -880,7 +880,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 The `Two candidate preferred by candidate by vote type` dataset provides details of the two candidate preferred (TCP) votes by vote type for each candidate, detailing:
 
 - The division details (`StateAb`, `DivisionID`, `DivisionNm`).
-- The canddiate details (`CandidateID`, `Surname`, `GivenNm`), including their position on the ballot position (`BallotPosition`), and whether they were elected (`Elected`) or an incumbent (`HistoricElected`), and the party (`PartyAb`, `PartyNm`) that they represent.
+- The candidate details (`CandidateID`, `Surname`, `GivenNm`), including their position on the ballot position (`BallotPosition`), and whether they were elected (`Elected`) or an incumbent (`HistoricElected`), and the party (`PartyAb`, `PartyNm`) that they represent.
 - The number of votes that the candidate received by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `PrePollVotes`, `PostalVotes`, `TotalVotes`).
 - The overall swing in total votes received by the candidate compared to the previous election (`Swing`).
 
@@ -920,7 +920,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 The `Two candidate preferred by candidate by polling place` dataset provides details of the two candidate preferred (TCP) votes for each candidate and the polling place-level, detailing:
 
 - The polling place details (`StateAb`, `DivisionID`, `DivisionNm`, `PollingPlaceID`, `PollingPlaceNm`).
-- The canddiate details (`CandidateID`, `Surname`, `GivenNm`), including their position on the ballot position (`BallotPosition`), and whether they were elected (`Elected`) or an incumbent (`HistoricElected`), and the party (`PartyAb`, `PartyNm`) that they represent.
+- The candidate details (`CandidateID`, `Surname`, `GivenNm`), including their position on the ballot position (`BallotPosition`), and whether they were elected (`Elected`) or an incumbent (`HistoricElected`), and the party (`PartyAb`, `PartyNm`) that they represent.
 - The number of ordinary votes that the candidate received (`OrdinaryVotes`).
 - The overall swing in total votes received by the candidate compared to the previous election (`Swing`).
 
@@ -928,8 +928,6 @@ Covering elections from `2004` to the present, this dataset is available for the
 
 - The `SittingMemberFl` column is renamed to `Elected` using the [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html) function.
 - Based on this column, the data are further standardised to match later years with "Y" and "N" values inputted. This replaces the original corresponding "#" and NA values.
-
-When `process = TRUE`, the dataset is standardised: for the `2004` election, the `SittingMemberFl` column is removed and replaced with `Elected` (indicating winners, based on the `SittingMemberFl` column) and `HistoricElected` (indicating incumbents, currently contains `NAs`).
 
 #### *Example Usage:*
 
@@ -959,12 +957,19 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ## Distribution of Preferences
-### Distribution of preferences by candidate by division (House-only)
-The `Distribution of preferences by candidate by division` dataset...
+### Distribution of preferences by candidate
+The `Distribution of preferences by candidate by division` dataset provides details of the distribution of preferences by division, detailing:
 
-When `process = TRUE`, the dataset is standardised: for the `2004` election, the `SittingMemberFl` column is removed and replaced with `Elected` (indicating winners, based on the `SittingMemberFl` column) and `HistoricElected` (indicating incumbents, currently contains `NAs`).
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The candidate details (`CandidateID`, `Surname`, `GivenNm`), including their position on the ballot position (`BallotPosition`), and whether they were elected (`Elected`) or an incumbent (`HistoricElected`), and the party (`PartyAb`, `PartyNm`) that they represent.
+- The distrbution details (`CountNumber`, `CalculationType`, `CalculationValue`).
 
-#### *Example Usage:*
+Covering elections from `2004` to the present, this dataset is available for the `House` only. The `2004` dataset is processed in the following way:
+
+- The `SittingMemberFl` column is renamed to `Elected` using the [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html) function.
+- Based on this column, the data are further standardised to match later years with "Y" and "N" values inputted. This replaces the original corresponding "#" and NA values.
+
+#### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -975,7 +980,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by division':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -991,7 +996,32 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Distribution of preferences by polling place (House-only)
+The `Distribution of preferences by polling place` dataset further breaks down the above figures by polling place (`PollingPlaceID`, `PollingPlaceNm`). Additional amendments are made to the original dataset, changing `CountNum` to `CountNumber`, `PPId` to `PollingPlaceID`,  `PPNm` to `PollingPlaceNm`, `CandidateId` to `CandidateID`, and `SittingMemberFl` to `Elected`. This ensures consistency in column names across all datasets.
+
+#### *Example Usage 'by polling place':*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Distribution of preferences by polling place",
+  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  category = "House",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data 'by polling place':*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Distribution of preferences by polling place")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
 
 <br>
 

@@ -13,8 +13,8 @@
 #'   }
 #'   Additional required columns vary by year:
 #'   \itemize{
-#'     \item 2010: `State`, `Enrolment`, and date-specific columns (e.g., "02 Aug 10").
-#'     \item 2013: `State`, `Enrolment Division`, and date-specific columns (e.g., "20-Aug-13").
+#'     \item 2010: `Enrolment`, and date-specific columns (e.g., "02 Aug 10").
+#'     \item 2013: `Enrolment Division`, and date-specific columns (e.g., "20-Aug-13").
 #'     \item 2016: `State_Cd`, `PVA_Web_2_Date_Div`, and date-specific columns (e.g., "20160614").
 #'     \item 2019: `State_Cd`, `PVA_Web_2_Date_V2_Div`, and date-specific columns (e.g., "20190411").
 #'   }
@@ -37,8 +37,8 @@
 #' \enumerate{
 #'   \item **Standardising column names** across recognised election years using `rename_cols()`:
 #'         \itemize{
-#'           \item 2010: `State` to `StateAb`, `Enrolment` to `DivisionNm`.
-#'           \item 2013: `State` to `StateAb`, `Enrolment Division` to `DivisionNm`.
+#'           \item 2010: `Enrolment` to `DivisionNm`.
+#'           \item 2013: `Enrolment Division` to `DivisionNm`.
 #'           \item 2016: `State_Cd` to `StateAb`, `PVA_Web_2_Date_Div` to `DivisionNm`.
 #'           \item 2019: `State_Cd` to `StateAb`, `PVA_Web_2_Date_V2_Div` to `DivisionNm`.
 #'         }
@@ -68,7 +68,7 @@
 #' data_2010 <- data.frame(
 #'   date = "2010-08-21",
 #'   event = "2010",
-#'   State = "Victoria",
+#'   StateAb = "Victoria",
 #'   Enrolment = "Melbourne",
 #'   `02 Aug 10` = 50,
 #'   `03 Aug 10` = 60
@@ -79,7 +79,7 @@
 #' data_2022 <- data.frame(
 #'   date = "2022-05-21",
 #'   event = "2022",
-#'   State = "Queensland",
+#'   StateAb = "Queensland",
 #'   Votes = 90
 #' )
 #' process_pva_date(data_2022, "2022")
@@ -90,10 +90,7 @@ process_pva_date <- function(data, event) {
     message(paste0("Processing `", event, "` data to ensure all columns align across all elections."))
 
     # Step 1: Standardise columns across years
-    # Amend State and Division Metadata
     if (event %in% c("2010", "2013")) {
-      data <- rename_cols(data, StateAb = "State")
-
       if (event == "2010") {
         data <- rename_cols(data, DivisionNm = "Enrolment")
 

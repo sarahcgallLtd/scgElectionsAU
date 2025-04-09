@@ -14,8 +14,8 @@ process_pva_date(data, event)
 }
 Additional required columns vary by year:
 \itemize{
-\item 2010: \code{State}, \code{Enrolment}, and date-specific columns (e.g., "02 Aug 10").
-\item 2013: \code{State}, \verb{Enrolment Division}, and date-specific columns (e.g., "20-Aug-13").
+\item 2010: \code{Enrolment}, and date-specific columns (e.g., "02 Aug 10").
+\item 2013: \verb{Enrolment Division}, and date-specific columns (e.g., "20-Aug-13").
 \item 2016: \code{State_Cd}, \code{PVA_Web_2_Date_Div}, and date-specific columns (e.g., "20160614").
 \item 2019: \code{State_Cd}, \code{PVA_Web_2_Date_V2_Div}, and date-specific columns (e.g., "20190411").
 }}
@@ -47,8 +47,8 @@ This function processes PVA data by:
 \enumerate{
 \item \strong{Standardising column names} across recognised election years using \code{rename_cols()}:
 \itemize{
-\item 2010: \code{State} to \code{StateAb}, \code{Enrolment} to \code{DivisionNm}.
-\item 2013: \code{State} to \code{StateAb}, \verb{Enrolment Division} to \code{DivisionNm}.
+\item 2010: \code{Enrolment} to \code{DivisionNm}.
+\item 2013: \verb{Enrolment Division} to \code{DivisionNm}.
 \item 2016: \code{State_Cd} to \code{StateAb}, \code{PVA_Web_2_Date_Div} to \code{DivisionNm}.
 \item 2019: \code{State_Cd} to \code{StateAb}, \code{PVA_Web_2_Date_V2_Div} to \code{DivisionNm}.
 }
@@ -78,7 +78,7 @@ the \code{DateReceived} and \code{TotalPVAs} columns.
 data_2010 <- data.frame(
   date = "2010-08-21",
   event = "2010",
-  State = "Victoria",
+  StateAb = "Victoria",
   Enrolment = "Melbourne",
   `02 Aug 10` = 50,
   `03 Aug 10` = 60
@@ -89,7 +89,7 @@ process_pva_date(data_2010, "2010")
 data_2022 <- data.frame(
   date = "2022-05-21",
   event = "2022",
-  State = "Queensland",
+  StateAb = "Queensland",
   Votes = 90
 )
 process_pva_date(data_2022, "2022")

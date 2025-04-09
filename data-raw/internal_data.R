@@ -46,6 +46,7 @@ coords <- data[, names(data) %in% c("PollingPlaceID", "Latitude", "Longitude")]
 coords <- unique(coords)
 
 # Save to internal data
-sysdata_filenames <- load("R/sysdata.rda")
+# sysdata_filenames <- load("R/sysdata.rda")
 save(info, aec_elections_index, aec_referendums_index, name_conversions, coords,
      file = "R/sysdata.rda", compress = "xz")
+devtools::load_all()

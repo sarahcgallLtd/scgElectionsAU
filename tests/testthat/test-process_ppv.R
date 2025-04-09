@@ -12,8 +12,8 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
   data_2010 <- data.frame(
     date="2010-08-21",
     event = "2010",
-    State = c("NSW", "Notes"),
-    Division = c("Sydney", NA),
+    StateAb = c("NSW", "Notes"),
+    DivisionNm = c("Sydney", NA),
     `02 Aug 10` = c(100, NA),
     `03 Aug 10` = c(150, NA),
     check.names = FALSE
@@ -33,8 +33,8 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
   data_2013 <- data.frame(
     date = "2013-09-07",
     event = "2013",
-    State = "New South Wales",
-    Division = "Sydney",
+    StateAb = "New South Wales",
+    DivisionNm = "Sydney",
     m_pp_nm = "Sydney PPVC",
     `20/08/2013` = 100,
     `21/08/2013` = 150,
@@ -97,8 +97,8 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
   data_2022 <- data.frame(
     date = "2022-05-21",
     event = "2022",
-    State = "South Australia",
-    Division = "Adelaide",
+    StateAb = "South Australia",
+    DivisionNm = "Adelaide",
     PPVC = "Adelaide PPVC",
     `Issue Date` = "09/05/22",
     `Total Votes` = 200,

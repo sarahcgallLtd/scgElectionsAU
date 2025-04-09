@@ -52,8 +52,8 @@ when it is "2013", "2019", or "2022", though column names may vary as per the or
 # Sample 2013 data
 data_2013 <- data.frame(
   event = "2013",
-  State = c("New South Wales", "Victoria", NA),
-  Division = c("Sydney", "Melbourne", "Total"),
+  StateAb = c("New South Wales", "Victoria", NA),
+  DivisionNm = c("Sydney", "Melbourne", "Total"),
   pp_nm = c("London", "Paris", "All"),
   `Pre-poll Votes` = c(100, 150, 250),
   `Postal Votes` = c(50, 75, 125),
@@ -64,7 +64,7 @@ data_2013 <- data.frame(
 process_overseas(data_2013, "2013")
 
 # Sample invalid year
-data_2025 <- data.frame(event = "2025", State = "Queensland", Votes = 100)
+data_2025 <- data.frame(event = "2025", StateAb = "Queensland", Votes = 100)
 process_overseas(data_2025, "2025")
 
 }
