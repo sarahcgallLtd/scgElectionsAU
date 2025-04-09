@@ -755,7 +755,7 @@ The `Two party preferred by state` dataset provides the two party preferred (TPP
 - The ALP votes and percentage (`Australian Labor Party Votes`, `Australian Labor Party Percentage`.
 - The total votes (`TotalVotes`) and swing (`Swing`).
 
-Covering elections from `2004` to the present, this dataset is available for the `Senate` only. No changes are made.
+Covering elections from `2004` to the present, this dataset is available for the `House` only. No changes are made.
 
 #### *Example Usage 'by state':*
 
@@ -821,7 +821,7 @@ The `Two party preferred by division by vote type` dataset provides the two part
 - The ALP percentage by vote type (`Australian Labor Party OrdinaryPercentage`,`Australian Labor Party AbsentPercentage`,`Australian Labor Party ProvisionalPercentage`,`Australian Labor Party PostalPercentage`,`Australian Labor Party DeclarationPrePollPercentage`).
 - The total number of votes (`TotalVotes`).
 
-Covering elections from `2004` to the present, this dataset is available for the `Senate` only. No changes are made.
+Covering elections from `2004` to the present, this dataset is available for the `House` only. No changes are made.
 
 #### *Example Usage 'by division':*
 
@@ -1039,39 +1039,16 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ## Flow of Preferences
-### Two candidate preferred flow of preferences by candidate by division
-The `Two candidate preferred flow of preferences by candidate by division` dataset...
-
-#### *Example Usage:*
-
-```{r, eval = FALSE}
-df <- get_aec_data(
-  file_name = "Two candidate preferred flow of preferences by candidate by division",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
-  category = "House"
-)
-```
-
-#### *Sample Data:*
-
-```{r, echo = FALSE}
-df <- suppressMessages(
-  get_aec_data(file_name = "Two candidate preferred flow of preferences by candidate by division")
-)
-
-# Selecting only the first row and keeping all columns
-first_row <- df[1,]
-
-# Create the HTML table with kable
-kable(first_row, format = "html", table.attr = "class='table table-bordered'")
-```
-
-<br>
-
 ### Two party preferred flow of preferences by party
-The `Two party preferred flow of preferences by party` dataset...
+The `Two party preferred flow of preferences by party` dataset provides the TPP flow of preferences, detailing:
 
-#### *Example Usage:*
+- the party details from whom the votes are transferred (`PartyAb`,`PartyNm`).
+- The votes and percentage of votes transferred to the Coalition (`Liberal/National Coalition Transfer Votes`, `Liberal/National Coalition Tansfer Percentage`)
+- The votes and percentage of votes transferred to the ALP (`Australian Labor Party Transfer Votes`, `Australian Labor Party Transfer Percentage`.
+
+Covering elections from `2004` to the present, this dataset is available for the `House` only. No changes are made.
+
+#### *Example Usage 'by party':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1081,7 +1058,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by party':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -1097,9 +1074,9 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-The `Two party preferred flow of preferences by state by party` dataset...
+The `Two party preferred flow of preferences by state by party` dataset further breaks down the above figures by state (`StateAb`).
 
-#### *Example Usage:*
+#### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1109,7 +1086,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by state':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -1126,9 +1103,15 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ### Two candidate preferred flow of preferences by party
-The `Two candidate preferred flow of preferences by party` dataset...
+The `Two candidate preferred flow of preferences by party` dataset provides the TCP flow of preferences, detailing:
 
-#### *Example Usage:*
+- the party details from whom the votes are transferred (`FromPartyGroupID`,`FromPartyGroupAb`,`FromPartyGroupNm`,`FromPartyOrderOfAppearance`).
+- the party details to whom the votes are transferred (`ToPartyGroupID`,`ToPartyGroupAb`,`ToPartyGroupNm`,`ToPartyOrderOfAppearance`).
+- The number of votes and percentage of votes transferred (`TransferVotes`, `TransferPercentage`)
+
+Covering elections from `2004` to the present, this dataset is available for the `House` only. No changes are made.
+
+#### *Example Usage 'by party':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1138,7 +1121,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by party':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -1154,9 +1137,20 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-The `Two candidate preferred flow of preferences by state by party` dataset...
+The `Two candidate preferred flow of preferences by state by party` dataset further breaks down the above figures by state (`StateAb`).
 
-#### *Example Usage:*
+*Caution should be taken if retrieving multiple election years as this dataset is large. Sizes include:
+
+- 2022: 21 columns by 127,404 rows (2,675,484 cells)
+- 2019: 21 columns by 115,350 rows (2,422,350 cells)
+- 2016: 21 columns by 101,664 rows (2,134,944 cells)
+-
+- 2013: 17 columns by 2,335,760 rows (39,707,920 cells)
+- 2010: 17 columns by 1,155,304 rows (19,640,168 cells)
+- 2007: 17 columns by 1,597,048 rows (27,149,816 cells)
+- 2004: 17 columns by 1,770,184 rows (30,093,128 cells)
+
+#### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1166,7 +1160,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by state':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -1182,7 +1176,67 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Two candidate preferred flow of preferences by polling place
+### Two candidate preferred flow of preferences by candidate
+The `Two candidate preferred flow of preferences by candidate by division` dataset provides the TCP flow of preferences by candidate, detailing:
+
+- the division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- the candidate details from whom the votes are transferred (`FromCandidateID`,`FromCandidatePartyAb`,`FromCandidatePartyNm`,`FromCandidateSurname`,`FromCandidateGivenNm`, `FromCandidateBallotPosition`).
+- the candidate details to whom the votes are transferred (`ToCandidateID`,`ToCandidatePartyAb`,`ToCandidatePartyNm`,`ToCandidateSurname`,`ToGivenNm`, `ToCandidateBallotPosition`).
+- The number of votes and percentage of votes transferred (`TransferVotes`, `TransferPercentage`)
+
+Covering elections from `2004` to the present, this dataset is available for the `House` only. No changes are made.
+
+#### *Example Usage 'by division':*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Two candidate preferred flow of preferences by candidate by division",
+  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data 'by division':*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Two candidate preferred flow of preferences by candidate by division")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+The `Two candidate preferred flow of preferences by polling place` dataset further breaks down the above figures by polling place (`PollingPlaceID`,`PollingPlaceNm`).
+
+#### *Example Usage 'by polling place':*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Two candidate preferred flow of preferences by polling place",
+  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data 'by polling place':*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Two candidate preferred flow of preferences by polling place")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
 
 <br>
 

@@ -20,6 +20,8 @@
 #'     \item "CandidateId" to "CandidateID"
 #'     \item "CandidateId1" to "CandidateID1"
 #'     \item "CandidateId2" to "CandidateID2"
+#'     \item "ToCandidateId" to "ToCandidateID"
+#'     \item "FromCandidateId" to "FromCandidateID"
 #'     \item "Ticket" to "Group"
 #'     \item "GroupAb" to "PartyGroupAb"
 #'     \item "GroupNm" to "PartyGroupNm"
@@ -27,6 +29,7 @@
 #'     \item "CountNum" to "CountNumber"
 #'     \item "DeclarationPrePollVotes" to "PrePollVotes"
 #'     \item "DeclarationPrePollPercentage" to "PrePollPercentage"
+#'     \item "TransferPercent" to "TransferPercentage"
 #'   }
 #'
 #' @return A data frame with the same structure as the input, but with renamed columns where applicable.
@@ -105,6 +108,14 @@ amend_colnames <- function(data) {
     data <- rename_cols(data, CandidateID2 = "CandidateId2")
   }
 
+  if ("ToCandidateId" %in% names(data)) {
+    data <- rename_cols(data, ToCandidateID = "ToCandidateId")
+  }
+
+  if ("FromCandidateId" %in% names(data)) {
+    data <- rename_cols(data, FromCandidateID = "FromCandidateId")
+  }
+
   # Group =================================================================#
   if ("Ticket" %in% names(data)) {
     data <- rename_cols(data, Group = "Ticket")
@@ -135,6 +146,11 @@ amend_colnames <- function(data) {
 
   if ("PrePollPercentage" %in% names(data)) {
     data <- rename_cols(data, DeclarationPrePollPercentage = "PrePollPercentage")
+  }
+
+  # Transfer  ==============================================================#
+  if ("TransferPercent" %in% names(data)) {
+    data <- rename_cols(data, TransferPercentage = "TransferPercent")
   }
 
   return(data)

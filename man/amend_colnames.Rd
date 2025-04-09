@@ -22,6 +22,8 @@ specific columns and renames them if found. Columns checked and their correspond
 \item "CandidateId" to "CandidateID"
 \item "CandidateId1" to "CandidateID1"
 \item "CandidateId2" to "CandidateID2"
+\item "ToCandidateId" to "ToCandidateID"
+\item "FromCandidateId" to "FromCandidateID"
 \item "Ticket" to "Group"
 \item "GroupAb" to "PartyGroupAb"
 \item "GroupNm" to "PartyGroupNm"
@@ -29,6 +31,7 @@ specific columns and renames them if found. Columns checked and their correspond
 \item "CountNum" to "CountNumber"
 \item "DeclarationPrePollVotes" to "PrePollVotes"
 \item "DeclarationPrePollPercentage" to "PrePollPercentage"
+\item "TransferPercent" to "TransferPercentage"
 }}
 }
 \value{

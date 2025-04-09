@@ -1,4 +1,6 @@
-df <- get_aec_data("Two candidate preferred flow of preferences by polling place")
+df <- get_aec_data("Two candidate preferred flow of preferences by polling place",
+                   date_range = list(from = "2016-01-01", to = "2019-01-01"),
+                   )
 
 
 df <- get_aec_data("Party representation",
