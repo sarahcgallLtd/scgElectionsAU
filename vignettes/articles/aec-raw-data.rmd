@@ -87,7 +87,7 @@ This dataset enables you to:
 - For the `Senate`: Senators by state or territory (`StateAb`), including their election order (`ElectedOrder`).
 - View candidate details (`CandidateID`, `Surname`, `GivenNm`) and party affiliations (`PartyNm`, `PartyAb`).
 
-#### *Example Usage for Members Elected:*
+#### *Example Usage (Members Elected):*
 
 ```{r, eval = FALSE}
 # Example usage
@@ -98,7 +98,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data for Members Elected:*
+#### *Sample Data (Members Elected):*
 
 ```{r, echo = FALSE}
 # Sample data (hidden execution)
@@ -112,8 +112,9 @@ first_row <- members_elected[1,]
 # Display as an HTML table
 kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
+<br>
 
-#### *Example Usage for Senators Elected:*
+#### *Example Usage (Senators Elected):*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -123,7 +124,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data for Senators Elected:*
+#### *Sample Data (Senators Elected):*
 
 ```{r, echo = FALSE}
 senators_elected <- suppressMessages(
@@ -138,7 +139,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
 <br>
 
-### Nominations by state
+### Nominations
 The `Nominations by state` dataset provides a summary of nominations for federal elections, detailing:
 
 - The number of divisions (`Divisions`) and nominations (`Nominations`) per state (`StateAb`, `StateNm`) for the `House`.
@@ -146,7 +147,7 @@ The `Nominations by state` dataset provides a summary of nominations for federal
 
 Covering elections from `2004` to the present, these datasets are available for both the `House` and `Senate` categories. No additional processing is required, as the data are already standardised across all election years.
 
-#### *Example Usage for House:*
+#### *Example Usage 'by state' (House):*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -156,7 +157,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data for House:*
+#### *Sample Data 'by state' (House):*
 
 ```{r, echo = FALSE}
 noms_by_state <- suppressMessages(
@@ -169,8 +170,9 @@ first_row <- noms_by_state[1,]
 # Create the HTML table with kable
 kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
+<br>
 
-#### *Example Usage for Senate:*
+#### *Example Usage 'by state' (Senate):*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -180,7 +182,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data for Senate:*
+#### *Sample Data 'by state' (Senate):*
 
 ```{r, echo = FALSE}
 noms_by_state <- suppressMessages(
@@ -195,7 +197,6 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
 <br>
 
-### Nominations by division
 The `Nominations by division` dataset provides a summary of nominations for federal elections, detailing:
 
 - The number of nominations (`Nominations`) per division (`DivisionID`, `DivisionNm`, `DivisionAb`) for the `House`.
@@ -203,7 +204,7 @@ The `Nominations by division` dataset provides a summary of nominations for fede
 
 Covering elections from `2011` to the present, these datasets are available for the `House` only. Minor amendments are made to the original dataset, changing `TransactionId` to `TransactionID` and `DivisionId` to `DivisionID`. This ensures consistency in column names across all datasets.
 
-#### *Example Usage:*
+#### *Example Usage 'by division' (House):*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -213,7 +214,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by division' (House):*
 
 ```{r, echo = FALSE}
 noms_by_div <- suppressMessages(
@@ -226,13 +227,13 @@ first_row <- noms_by_div[1,]
 # Create the HTML table with kable
 kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
+<br>
 
-### Nominations by gender
 The `Nominations by gender` dataset provides a summary of nominations for federal elections, detailing the number of nominations (`Nominations`) per party (`PartyAb`, `PartyNm`) for the `House` and `Senate`. Each state and territory have their own columns for the two genders (`MalesNSW`, `FemalesNSW`) and an unspecified column (`UnspecifiedNSW`). There is also a grand total (`GrandTotal`) of nominations by party which is useful for turning data into percentages.
 
 Covering elections from `2004` to the present, these datasets are available for both the `House` and `Senate` categories. No additional processing is required, as the data are already standardised across all election years.
 
-#### *Example Usage:*
+#### *Example Usage 'by gender' (House):*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -242,7 +243,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by gender' (House):*
 
 ```{r, echo = FALSE}
 noms_by_gender <- suppressMessages(
@@ -271,7 +272,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 
 No additional processing is required for the `Senate`, as the data are already standardised across all election years.
 
-#### *Example Usage for House:*
+#### *Example Usage (House):*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -282,7 +283,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data for House:*
+#### *Sample Data (House):*
 
 ```{r, echo = FALSE}
 party_rep <- suppressMessages(
@@ -295,8 +296,9 @@ first_row <- party_rep[1,]
 # Create the HTML table with kable
 kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
+<br>
 
-#### *Example Usage for Senate:*
+#### *Example Usage (Senate):*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -306,7 +308,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data for Senate:*
+#### *Sample Data (Senate):*
 
 ```{r, echo = FALSE}
 party_rep <- suppressMessages(
@@ -357,7 +359,39 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Seats decided on preferences
+### Seats decided on FPTP or preferences
+The `Seats decided on first preferences` dataset provides a summary of the seats that were decided on first preferences (i.e., the winning candidate in a division achieved equal to or more than 50% of the primary vote - similar to First-Past-The-Post), detailing:
+
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The winning party (`PartyAb`, `PartyNm`).
+
+Covering elections from `2004` to the present, these datasets are available for the `House` only. No additional processing is required, as the data are already standardised across all election years.
+
+#### *Example Usage 'first':*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Seats decided on first preferences",
+  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data 'first':*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Seats decided on first preferences")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+<br>
+
 The `Seats decided on preferences` dataset provides a summary of the seats that were decided on preferences (i.e., no candidate in a division achieved more than 50% of the primary vote), detailing:
 
 - The division details (`StateAb`, `DivisionID`, `DivisionNm`).
@@ -365,7 +399,7 @@ The `Seats decided on preferences` dataset provides a summary of the seats that 
 
 Covering elections from `2004` to the present, these datasets are available for the `House` only. No additional processing is required, as the data are already standardised across all election years.
 
-#### *Example Usage:*
+#### *Example Usage 'preference':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -375,7 +409,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'preference':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -389,39 +423,6 @@ first_row <- df[1,]
 kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
 
-<br>
-
-### Seats decided on first preferences
-The `Seats decided on first preferences` dataset provides a summary of the seats that were decided on first preferences (i.e., the winning candidate in a division achieved equal to or more than 50% of the primary vote), detailing:
-
-- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
-- The winning party (`PartyAb`, `PartyNm`).
-
-Covering elections from `2004` to the present, these datasets are available for the `House` only. No additional processing is required, as the data are already standardised across all election years.
-
-#### *Example Usage:*
-
-```{r, eval = FALSE}
-df <- get_aec_data(
-  file_name = "Seats decided on first preferences",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
-  category = "House"
-)
-```
-
-#### *Sample Data:*
-
-```{r, echo = FALSE}
-df <- suppressMessages(
-  get_aec_data(file_name = "Seats decided on first preferences")
-)
-
-# Selecting only the first row and keeping all columns
-first_row <- df[1,]
-
-# Create the HTML table with kable
-kable(first_row, format = "html", table.attr = "class='table table-bordered'")
-```
 
 <br>
 
@@ -467,11 +468,11 @@ The `First preferences by party` dataset provides a summary of the first prefere
 
 - The party details (`PartyAb`, `PartyNm`).
 - The number of divisions that the party stood a candidate (`Contested`), the number of candidate nominations submitted by the party (`Nominations`), and the number of candidates who were elected/won their division (`Elected`).
-- The number of votes that the party received by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `PrePollVotes`, `PostalVotes`, `TotalVotes`).
+- The number of votes that the party received by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `DeclarationPrePollVotes`, `PostalVotes`, `TotalVotes`).
 - The percentage of votes received by each party by vote type (`OrdinaryPercentage`, `AbsentPercentage`, `ProvisionalPercentage`, `PrePollPercentage`, `PostalPercentage`, `TotalPercentage`).
 - The overall swing in total votes received by the party compared to the previous election (`TotalSwing`).
 
-Covering elections from `2004` to the present, these datasets are available for the `House` only. No additional processing is required, as the data are already standardised across all election years.
+Covering elections from `2004` to the present, these datasets are available for the `House` only. `PrePollVotes` is renamed `DeclarationPrePollVotes` for consistency and clarification.
 
 #### *Example Usage 'by party' (House):*
 
@@ -599,13 +600,14 @@ The `First preferences by candidate by vote type` dataset provides a summary of 
 
 - The division details (`StateAb`, `DivisionID`, `DivisionNm`).
 - The candidate details (`CandidateID`, `Surname`, `GivenNm`), including their position on the ballot position (`BallotPosition`), and whether they were elected (`Elected`) or an incumbent (`HistoricElected`), and the party (`PartyAb`, `PartyNm`) that they represent.
-- The number of votes that the candidate received by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `PrePollVotes`, `PostalVotes`, `TotalVotes`).
+- The number of votes that the candidate received by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `DeclarationPrePollVotes`, `PostalVotes`, `TotalVotes`).
 - The overall swing in total votes received by the candidate compared to the previous election (`TotalSwing`).
 
 Covering elections from `2004` to the present, this dataset is available for the `House` only. The `2004` dataset is processed in the following way:
 
 - The `SittingMemberFl` column is renamed to `Elected` using the [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html) function.
 - Based on this column, the data are further standardised to match later years with "Y" and "N" values inputted. This replaces the original corresponding "#" and NA values.
+- `PrePollVotes` is renamed `DeclarationPrePollVotes` for consistency and clarification.
 
 #### *Example Usage (House):*
 
@@ -638,9 +640,9 @@ The `First preferences by state by vote type` dataset is the equivalent for the 
 
 - The division details (`StateAb`, `DivisionID`, `DivisionNm`).
 - The candidate details (`CandidateID`), including their ballot details (`BallotPosition`,`CandidateDetails`, `Group`), and whether they were elected (`Elected`) or an incumbent (`HistoricElected`), and the party (`PartyAb`, `PartyNm`) that they represent.
-- The number of votes that the candidate received by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `PrePollVotes`, `PostalVotes`, `TotalVotes`).
+- The number of votes that the candidate received by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `DeclarationPrePollVotes`, `PostalVotes`, `TotalVotes`).
 
-Covering elections from `2004` to the present, this dataset is available for the `Senate` only. Minor amendments are made to the original dataset, changing `PartyName` to `PartyNm`. This ensures consistency in column names across all datasets.
+Covering elections from `2004` to the present, this dataset is available for the `Senate` only. Minor amendments are made to the original dataset, changing `PartyName` to `PartyNm` and `PrePollVotes` to `DeclarationPrePollVotes`. This ensures consistency in column names across all datasets.
 
 #### *Example Usage (Senate Division-level):*
 
@@ -881,13 +883,14 @@ The `Two candidate preferred by candidate by vote type` dataset provides details
 
 - The division details (`StateAb`, `DivisionID`, `DivisionNm`).
 - The candidate details (`CandidateID`, `Surname`, `GivenNm`), including their position on the ballot position (`BallotPosition`), and whether they were elected (`Elected`) or an incumbent (`HistoricElected`), and the party (`PartyAb`, `PartyNm`) that they represent.
-- The number of votes that the candidate received by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `PrePollVotes`, `PostalVotes`, `TotalVotes`).
+- The number of votes that the candidate received by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `DeclarationPrePollVotes`, `PostalVotes`, `TotalVotes`).
 - The overall swing in total votes received by the candidate compared to the previous election (`Swing`).
 
 Covering elections from `2004` to the present, this dataset is available for the `House` only. The `2004` dataset is processed in the following way:
 
 - The `SittingMemberFl` column is renamed to `Elected` using the [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html) function.
 - Based on this column, the data are further standardised to match later years with "Y" and "N" values inputted. This replaces the original corresponding "#" and NA values.
+- `PrePollVotes` is renamed `DeclarationPrePollVotes` for consistency and clarification.
 
 #### *Example Usage:*
 
@@ -998,6 +1001,16 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 The `Distribution of preferences by polling place` dataset further breaks down the above figures by polling place (`PollingPlaceID`, `PollingPlaceNm`). Additional amendments are made to the original dataset, changing `CountNum` to `CountNumber`, `PPId` to `PollingPlaceID`,  `PPNm` to `PollingPlaceNm`, `CandidateId` to `CandidateID`, and `SittingMemberFl` to `Elected`. This ensures consistency in column names across all datasets.
 
+*Caution should be taken if retrieving multiple election years as this dataset is large. Sizes include:
+
+- 2022: 17 columns by 2,132,816 rows (36,257,872 cells)
+- 2019: 17 columns by 1,719,736 rows (29,235,512 cells)
+- 2016: 17 columns by 1,475,704 rows (25,086,968 cells)
+- 2013: 17 columns by 2,335,760 rows (39,707,920 cells)
+- 2010: 17 columns by 1,155,304 rows (19,640,168 cells)
+- 2007: 17 columns by 1,597,048 rows (27,149,816 cells)
+- 2004: 17 columns by 1,770,184 rows (30,093,128 cells)
+
 #### *Example Usage 'by polling place':*
 
 ```{r, eval = FALSE}
@@ -1026,7 +1039,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ## Flow of Preferences
-### Two candidate preferred flow of preferences by candidate by division (House-only)
+### Two candidate preferred flow of preferences by candidate by division
 The `Two candidate preferred flow of preferences by candidate by division` dataset...
 
 #### *Example Usage:*
@@ -1055,7 +1068,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Two party preferred flow of preferences by party (House-only)
+### Two party preferred flow of preferences by party
 The `Two party preferred flow of preferences by party` dataset...
 
 #### *Example Usage:*
@@ -1084,7 +1097,6 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Two party preferred flow of preferences by state by party (House-only)
 The `Two party preferred flow of preferences by state by party` dataset...
 
 #### *Example Usage:*
@@ -1113,7 +1125,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Two candidate preferred flow of preferences by party (House-only)
+### Two candidate preferred flow of preferences by party
 The `Two candidate preferred flow of preferences by party` dataset...
 
 #### *Example Usage:*
@@ -1142,7 +1154,6 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Two candidate preferred flow of preferences by state by party (House-only)
 The `Two candidate preferred flow of preferences by state by party` dataset...
 
 #### *Example Usage:*
@@ -1171,15 +1182,15 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Two candidate preferred flow of preferences by polling place (House-only)
+### Two candidate preferred flow of preferences by polling place
 
 <br>
 
 ## Votes
-### Informal votes by state
+### Informal votes
 The `Informal votes by state` dataset...
 
-*Example Usage:*
+#### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1189,7 +1200,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by state':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -1205,10 +1216,9 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Informal votes by division
 The `Informal votes by division` dataset...
 
-#### *Example Usage:*
+#### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1218,7 +1228,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by division':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -1234,10 +1244,10 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Turnout by state
+### Turnout
 The `Turnout by state` dataset...
 
-#### *Example Usage:*
+#### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1247,7 +1257,7 @@ df <- get_aec_data(
 )
 ```
 
-*Sample Data:*
+#### *Sample Data 'by state':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -1263,10 +1273,9 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Turnout by division
 The `Turnout by division` dataset...
 
-#### *Example Usage:*
+#### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1276,7 +1285,7 @@ df <- get_aec_data(
 )
 ```
 
-*Sample Data:*
+#### *Sample Data 'by division':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -1292,10 +1301,10 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Votes by state
+### Votes Type
 The `Votes by state` dataset...
 
-#### *Example Usage:*
+#### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1305,7 +1314,7 @@ df <- get_aec_data(
 )
 ```
 
-*Sample Data:*
+#### *Sample Data 'by state':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -1321,10 +1330,9 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Votes by division
 The `Votes by division` dataset...
 
-#### *Example Usage:*
+#### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1334,7 +1342,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by division':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -1412,10 +1420,10 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Enrolment by state
+### Enrolment
 The `Enrolment by state` dataset...
 
-#### *Example Usage:*
+#### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1425,7 +1433,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by state':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -1442,10 +1450,9 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Enrolment by division
 The `Enrolment by division` dataset...
 
-#### *Example Usage:*
+#### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1455,7 +1462,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by division':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -1472,10 +1479,10 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Declaration votes issued by state
+### Declaration votes issued
 The `Declaration votes issued by state` dataset...
 
-#### *Example Usage:*
+#### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1485,7 +1492,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by state':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -1502,10 +1509,9 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Declaration votes issued by division
 The `Declaration votes issued by division` dataset...
 
-#### *Example Usage:*
+#### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1515,7 +1521,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by division':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -1532,10 +1538,10 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Declaration votes received by state
+### Declaration votes received
 The `Declaration votes received by state` dataset...
 
-#### *Example Usage:*
+#### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1545,7 +1551,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by state':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
@@ -1562,10 +1568,9 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Declaration votes received by division
 The `Declaration votes received by division` dataset...
 
-#### *Example Usage:*
+#### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
@@ -1575,7 +1580,7 @@ df <- get_aec_data(
 )
 ```
 
-#### *Sample Data:*
+#### *Sample Data 'by division':*
 
 ```{r, echo = FALSE}
 df <- suppressMessages(

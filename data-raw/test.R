@@ -1,10 +1,3 @@
-df <- get_aec_data("Distribution of preferences by polling place")
-df <- get_aec_data(
-  file_name = "Distribution of preferences by polling place",
-  date_range = list(from = "2004-01-01", to = "2007-01-01")
-) # check this after
-
-
 df <- get_aec_data("Two candidate preferred flow of preferences by polling place")
 
 
