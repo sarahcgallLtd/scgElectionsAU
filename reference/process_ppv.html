@@ -91,25 +91,25 @@ the original data frame is returned unchanged.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function processes PPVC data by:</p><ol><li><p>Standardising column names across recognised election years using <code>rename_cols()</code>:</p><ul><li><p>2010: <code>State</code> to <code>StateAb</code>, <code>Division</code> to <code>DivisionNm</code>.</p></li>
-<li><p>2013: <code>State</code> to <code>StateAb</code>, <code>Division</code> to <code>DivisionNm</code>, <code>m_pp_nm</code> to <code>PollingPlaceNm</code>.</p></li>
-<li><p>2016 and 2019: <code>m_state_ab</code> to <code>StateAb</code>, <code>m_div_nm</code> to <code>DivisionNm</code>, <code>m_pp_nm</code> to <code>PollingPlaceNm</code>.</p></li>
-<li><p>2022: <code>State</code> to <code>StateAb</code>, <code>Division</code> to <code>DivisionNm</code>, <code>PPVC</code> to <code>PollingPlaceNm</code>,
-<code>Issue Date</code> to <code>IssueDate</code>, <code>Total Votes</code> to <code>TotalVotes</code>.</p></li>
+    <p>This function processes PPVC data by:</p><ol><li><p>Standardising column names across recognised election years using <code>rename_cols()</code>:</p><ul><li><p>2010: <code>Division</code> to <code>DivisionNm</code>.</p></li>
+<li><p>2013: “Division<code>to</code>DivisionNm`, `m_pp_nm` to `PollingPlaceNm`.</p></li>
+<li><p>2016 and 2019: `m_state_ab` to `StateAb`, `m_div_nm` to `DivisionNm`, `m_pp_nm` to `PollingPlaceNm`.</p></li>
+<li><p>2022: `Division` to `DivisionNm`, `PPVC` to `PollingPlaceNm`,
+`Issue Date` to `IssueDate`, `Total Votes` to `TotalVotes`.</p></li>
 </ul></li>
-<li><p>For 2010: Filtering out rows with NA in <code>DivisionNm</code> (e.g., notes or totals).</p></li>
-<li><p>For 2010–2019: Pivoting date-specific vote columns into long format with <code>pivot_event()</code>,
-creating <code>IssueDate</code> and <code>TotalVotes</code> columns.</p></li>
+<li><p>For 2010: Filtering out rows with NA in `DivisionNm` (e.g., notes or totals).</p></li>
+<li><p>For 2010–2019: Pivoting date-specific vote columns into long format with `pivot_event()`,
+creating `IssueDate` and `TotalVotes` columns.</p></li>
 <li><p>For 2022: Selecting standardised columns without pivoting.</p></li>
-<li><p>Converting <code>IssueDate</code> to a Date object using year-specific formats:</p><ul><li><p>2022: "%d/%m/%y" (e.g., "09/05/22")</p></li>
+<li><p>Converting `IssueDate` to a Date object using year-specific formats:</p><ul><li><p>2022: "%d/%m/%y" (e.g., "09/05/22")</p></li>
 <li><p>2019: "%d/%m/%Y" (e.g., "29/04/2019")</p></li>
 <li><p>2016: "%Y-%m-%d" (e.g., "2016-06-14")</p></li>
 <li><p>2013: "%d/%m/%Y" (e.g., "20/08/2013")</p></li>
 <li><p>2010: "%d %b %y" (e.g., "02 Aug 10")</p></li>
 </ul></li>
 <li><p>For unrecognised years: Returning the data unprocessed with an informative message.</p></li>
-</ol><p>The function assumes the input data frame contains the required columns for the specified <code>event</code>
-year and that the <code>event</code> column has a single unique value matching the <code>event</code> argument.</p>
+</ol><p>The function assumes the input data frame contains the required columns for the specified `event`
+year and that the `event` column has a single unique value matching the `event` argument.</p>
     </div>
 
     <div class="section level2">
@@ -118,8 +118,8 @@ year and that the <code>event</code> column has a single unique value matching t
 <span class="r-in"><span><span class="va">data_2013</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  date <span class="op">=</span> <span class="fl">2013</span><span class="op">-</span><span class="fl">09</span><span class="op">-</span><span class="fl">07</span>,</span></span>
 <span class="r-in"><span>  event <span class="op">=</span> <span class="st">"2013"</span>,</span></span>
-<span class="r-in"><span>  State <span class="op">=</span> <span class="st">"New South Wales"</span>,</span></span>
-<span class="r-in"><span>  Division <span class="op">=</span> <span class="st">"Sydney"</span>,</span></span>
+<span class="r-in"><span>  StateAb <span class="op">=</span> <span class="st">"New South Wales"</span>,</span></span>
+<span class="r-in"><span>  DivisionNm <span class="op">=</span> <span class="st">"Sydney"</span>,</span></span>
 <span class="r-in"><span>  m_pp_nm <span class="op">=</span> <span class="st">"Sydney PPVC"</span>,</span></span>
 <span class="r-in"><span>  `20/08/2013` <span class="op">=</span> <span class="fl">100</span>,</span></span>
 <span class="r-in"><span>  `21/08/2013` <span class="op">=</span> <span class="fl">150</span>,</span></span>
@@ -138,8 +138,8 @@ year and that the <code>event</code> column has a single unique value matching t
 <span class="r-in"><span><span class="va">data_2022</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  date <span class="op">=</span> <span class="fl">2022</span><span class="op">-</span><span class="fl">05</span><span class="op">-</span><span class="fl">21</span>,</span></span>
 <span class="r-in"><span>  event <span class="op">=</span> <span class="st">"2022"</span>,</span></span>
-<span class="r-in"><span>  State <span class="op">=</span> <span class="st">"Victoria"</span>,</span></span>
-<span class="r-in"><span>  Division <span class="op">=</span> <span class="st">"Melbourne"</span>,</span></span>
+<span class="r-in"><span>  StateAb <span class="op">=</span> <span class="st">"Victoria"</span>,</span></span>
+<span class="r-in"><span>  DivisionNm <span class="op">=</span> <span class="st">"Melbourne"</span>,</span></span>
 <span class="r-in"><span>  PPVC <span class="op">=</span> <span class="st">"Melbourne PPVC"</span>,</span></span>
 <span class="r-in"><span>  `Issue Date` <span class="op">=</span> <span class="st">"09/05/22"</span>,</span></span>
 <span class="r-in"><span>  `Total Votes` <span class="op">=</span> <span class="fl">200</span>,</span></span>
@@ -151,10 +151,10 @@ year and that the <code>event</code> column has a single unique value matching t
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 1996  2022 Victoria  Melbourne Melbourne PPVC 2022-05-09       200</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Sample invalid year</span></span></span>
-<span class="r-in"><span><span class="va">data_2025</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>event <span class="op">=</span> <span class="st">"2025"</span>, State <span class="op">=</span> <span class="st">"Queensland"</span>, Votes <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data_2025</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>event <span class="op">=</span> <span class="st">"2025"</span>, StateAb <span class="op">=</span> <span class="st">"Queensland"</span>, Votes <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">process_ppv</span><span class="op">(</span><span class="va">data_2025</span>, <span class="st">"2025"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> No processing required for `2025`. Data returned unprocessed.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   event      State Votes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   event    StateAb Votes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  2025 Queensland   100</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

@@ -64,8 +64,8 @@ election years, the data is returned unprocessed with a message.</p>
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>A data frame containing PVA data for a single election event. Must include:</p><ul><li><p><code>date</code> (the date of the election or data snapshot)</p></li>
 <li><p><code>event</code> (the election year, matching the <code>event</code> argument)</p></li>
-</ul><p>Additional required columns vary by year:</p><ul><li><p>2010: <code>State</code>, <code>Enrolment</code>, and date-specific columns (e.g., "02 Aug 10").</p></li>
-<li><p>2013: <code>State</code>, <code>Enrolment Division</code>, and date-specific columns (e.g., "20-Aug-13").</p></li>
+</ul><p>Additional required columns vary by year:</p><ul><li><p>2010: <code>Enrolment</code>, and date-specific columns (e.g., "02 Aug 10").</p></li>
+<li><p>2013: <code>Enrolment Division</code>, and date-specific columns (e.g., "20-Aug-13").</p></li>
 <li><p>2016: <code>State_Cd</code>, <code>PVA_Web_2_Date_Div</code>, and date-specific columns (e.g., "20160614").</p></li>
 <li><p>2019: <code>State_Cd</code>, <code>PVA_Web_2_Date_V2_Div</code>, and date-specific columns (e.g., "20190411").</p></li>
 </ul></dd>
@@ -88,8 +88,8 @@ election years, the data is returned unprocessed with a message.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function processes PVA data by:</p><ol><li><p><strong>Standardising column names</strong> across recognised election years using <code>rename_cols()</code>:</p><ul><li><p>2010: <code>State</code> to <code>StateAb</code>, <code>Enrolment</code> to <code>DivisionNm</code>.</p></li>
-<li><p>2013: <code>State</code> to <code>StateAb</code>, <code>Enrolment Division</code> to <code>DivisionNm</code>.</p></li>
+    <p>This function processes PVA data by:</p><ol><li><p><strong>Standardising column names</strong> across recognised election years using <code>rename_cols()</code>:</p><ul><li><p>2010: <code>Enrolment</code> to <code>DivisionNm</code>.</p></li>
+<li><p>2013: <code>Enrolment Division</code> to <code>DivisionNm</code>.</p></li>
 <li><p>2016: <code>State_Cd</code> to <code>StateAb</code>, <code>PVA_Web_2_Date_Div</code> to <code>DivisionNm</code>.</p></li>
 <li><p>2019: <code>State_Cd</code> to <code>StateAb</code>, <code>PVA_Web_2_Date_V2_Div</code> to <code>DivisionNm</code>.</p></li>
 </ul></li>
@@ -118,7 +118,7 @@ the <code>DateReceived</code> and <code>TotalPVAs</code> columns.</p>
 <span class="r-in"><span><span class="va">data_2010</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  date <span class="op">=</span> <span class="st">"2010-08-21"</span>,</span></span>
 <span class="r-in"><span>  event <span class="op">=</span> <span class="st">"2010"</span>,</span></span>
-<span class="r-in"><span>  State <span class="op">=</span> <span class="st">"Victoria"</span>,</span></span>
+<span class="r-in"><span>  StateAb <span class="op">=</span> <span class="st">"Victoria"</span>,</span></span>
 <span class="r-in"><span>  Enrolment <span class="op">=</span> <span class="st">"Melbourne"</span>,</span></span>
 <span class="r-in"><span>  `02 Aug 10` <span class="op">=</span> <span class="fl">50</span>,</span></span>
 <span class="r-in"><span>  `03 Aug 10` <span class="op">=</span> <span class="fl">60</span></span></span>
@@ -133,12 +133,12 @@ the <code>DateReceived</code> and <code>TotalPVAs</code> columns.</p>
 <span class="r-in"><span><span class="va">data_2022</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  date <span class="op">=</span> <span class="st">"2022-05-21"</span>,</span></span>
 <span class="r-in"><span>  event <span class="op">=</span> <span class="st">"2022"</span>,</span></span>
-<span class="r-in"><span>  State <span class="op">=</span> <span class="st">"Queensland"</span>,</span></span>
+<span class="r-in"><span>  StateAb <span class="op">=</span> <span class="st">"Queensland"</span>,</span></span>
 <span class="r-in"><span>  Votes <span class="op">=</span> <span class="fl">90</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">process_pva_date</span><span class="op">(</span><span class="va">data_2022</span>, <span class="st">"2022"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> No processing required for `2022`. Data returned unprocessed.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         date event      State Votes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         date event    StateAb Votes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 2022-05-21  2022 Queensland    90</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

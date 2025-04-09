@@ -95,27 +95,27 @@ dataset for the House of Representatives.</p>
 <span class="r-in"><span><span class="va">data_2004</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  date <span class="op">=</span> <span class="st">"2004-10-09"</span>,</span></span>
 <span class="r-in"><span>  event <span class="op">=</span> <span class="st">"2004"</span>,</span></span>
-<span class="r-in"><span>  Party <span class="op">=</span> <span class="st">"ALP"</span>,</span></span>
+<span class="r-in"><span>  PartyNm <span class="op">=</span> <span class="st">"ALP"</span>,</span></span>
 <span class="r-in"><span>  Total <span class="op">=</span> <span class="fl">60</span>,</span></span>
 <span class="r-in"><span>  LastElectionTotal <span class="op">=</span> <span class="fl">65</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">process_reps</span><span class="op">(</span><span class="va">data_2004</span>, <span class="st">"2004"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Processing `2004` data to ensure all columns align across all elections.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         date event Party National LastElection</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2004-10-09  2004   ALP       60           65</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         date event PartyNm National LastElection</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2004-10-09  2004     ALP       60           65</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Sample unprocessed year (e.g., 2013)</span></span></span>
 <span class="r-in"><span><span class="va">data_2013</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  date <span class="op">=</span> <span class="st">"2013-09-07"</span>,</span></span>
 <span class="r-in"><span>  event <span class="op">=</span> <span class="st">"2013"</span>,</span></span>
-<span class="r-in"><span>  Party <span class="op">=</span> <span class="st">"LIB"</span>,</span></span>
+<span class="r-in"><span>  PartyNm <span class="op">=</span> <span class="st">"LIB"</span>,</span></span>
 <span class="r-in"><span>  National <span class="op">=</span> <span class="fl">90</span>,</span></span>
 <span class="r-in"><span>  LastElection <span class="op">=</span> <span class="fl">72</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">process_reps</span><span class="op">(</span><span class="va">data_2013</span>, <span class="st">"2013"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> No processing required for `2013`. Data returned unprocessed.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         date event Party National LastElection</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2013-09-07  2013   LIB       90           72</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         date event PartyNm National LastElection</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2013-09-07  2013     LIB       90           72</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -64,8 +64,8 @@ set of columns. For unrecognised election years, the data is returned unprocesse
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>A data frame containing PVA data for a single election event. Must include an <code>event</code>
 column with a single unique value (e.g., "2010", "2013", "2016", "2019"). Additional required
-columns vary by year:</p><ul><li><p>2010: <code>State</code>, <code>Enrolment</code>, and party-specific columns (e.g., <code>Labor</code>, <code>Liberal</code>, <code>AEC</code>).</p></li>
-<li><p>2013: <code>State</code>, <code>Enrolment Division</code>, and additional party columns (e.g., <code>Liberal-National</code>).</p></li>
+columns vary by year:</p><ul><li><p>2010: <code>Enrolment</code>, and party-specific columns (e.g., <code>Labor</code>, <code>Liberal</code>, <code>AEC</code>).</p></li>
+<li><p>2013: <code>Enrolment Division</code>, and additional party columns (e.g., <code>Liberal-National</code>).</p></li>
 <li><p>2016 and 2019: <code>State_Cd</code>, <code>PVA_Web_1_Party_Div</code>, and AEC-specific columns (e.g., <code>AEC - OPVA</code>).</p></li>
 </ul><p>A <code>date</code> column is optional.</p></dd>
 
@@ -98,8 +98,8 @@ columns vary by year:</p><ul><li><p>2010: <code>State</code>, <code>Enrolment</c
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function processes PVA data by:</p><ol><li><p><strong>Standardising column names</strong> across recognised election years using <code>rename_cols()</code>:</p><ul><li><p>2010: <code>State</code> to <code>StateAb</code>, <code>Enrolment</code> to <code>DivisionNm</code>, party names (e.g., <code>Labor</code> to <code>ALP</code>).</p></li>
-<li><p>2013: <code>State</code> to <code>StateAb</code>, <code>Enrolment Division</code> to <code>DivisionNm</code>, additional party names (e.g., <code>Liberal-National</code> to <code>LNP</code>).</p></li>
+    <p>This function processes PVA data by:</p><ol><li><p><strong>Standardising column names</strong> across recognised election years using <code>rename_cols()</code>:</p><ul><li><p>2010: <code>Enrolment</code> to <code>DivisionNm</code>, party names (e.g., <code>Labor</code> to <code>ALP</code>).</p></li>
+<li><p>2013: <code>Enrolment Division</code> to <code>DivisionNm</code>, additional party names (e.g., <code>Liberal-National</code> to <code>LNP</code>).</p></li>
 <li><p>2016 and 2019: <code>State_Cd</code> to <code>StateAb</code>, <code>PVA_Web_1_Party_Div</code> to <code>DivisionNm</code>, AEC columns (e.g., <code>AEC - OPVA</code> to <code>AEC (Online)</code>).</p></li>
 </ul></li>
 <li><p><strong>Handling missing states</strong>: For 2013, NA in <code>StateAb</code> is replaced with "ZZZ".</p></li>
@@ -121,7 +121,7 @@ year and that the <code>event</code> column matches the <code>event</code> argum
 <span class="r-in"><span><span class="va">data_2010</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  date <span class="op">=</span> <span class="st">"2010-08-21"</span>,</span></span>
 <span class="r-in"><span>  event <span class="op">=</span> <span class="st">"2010"</span>,</span></span>
-<span class="r-in"><span>  State <span class="op">=</span> <span class="st">"Victoria"</span>,</span></span>
+<span class="r-in"><span>  StateAb <span class="op">=</span> <span class="st">"VIC"</span>,</span></span>
 <span class="r-in"><span>  Enrolment <span class="op">=</span> <span class="st">"Melbourne"</span>,</span></span>
 <span class="r-in"><span>  Labor <span class="op">=</span> <span class="fl">120</span>,</span></span>
 <span class="r-in"><span>  Liberal <span class="op">=</span> <span class="fl">180</span>,</span></span>
@@ -133,7 +133,7 @@ year and that the <code>event</code> column matches the <code>event</code> argum
 <span class="r-in"><span><span class="va">data_2013</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  date <span class="op">=</span> <span class="st">"2013-08-21"</span>,</span></span>
 <span class="r-in"><span>  event <span class="op">=</span> <span class="st">"2013"</span>,</span></span>
-<span class="r-in"><span>  State <span class="op">=</span> <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>  StateAb <span class="op">=</span> <span class="va">NSW</span>,</span></span>
 <span class="r-in"><span>  `Enrolment Division` <span class="op">=</span> <span class="st">"Sydney"</span>,</span></span>
 <span class="r-in"><span>  `Liberal-National` <span class="op">=</span> <span class="fl">150</span>,</span></span>
 <span class="r-in"><span>  `AEC - OPVA` <span class="op">=</span> <span class="fl">25</span>,</span></span>
@@ -143,7 +143,7 @@ year and that the <code>event</code> column matches the <code>event</code> argum
 <span class="r-in"><span><span class="fu">process_pva_party</span><span class="op">(</span><span class="va">data_2013</span>, <span class="st">"2013"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Sample invalid year</span></span></span>
-<span class="r-in"><span><span class="va">data_2022</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>event <span class="op">=</span> <span class="st">"2022"</span>, State <span class="op">=</span> <span class="st">"Queensland"</span>, Votes <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data_2022</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>event <span class="op">=</span> <span class="st">"2022"</span>, StateAb <span class="op">=</span> <span class="st">"Queensland"</span>, Votes <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">process_pva_party</span><span class="op">(</span><span class="va">data_2022</span>, <span class="st">"2022"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
