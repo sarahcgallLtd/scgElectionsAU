@@ -1750,6 +1750,7 @@ Liberal
 </td>
 </tr></tbody>
 </table>
+<p><br></p>
 <p>The <code>First preferences by state by party</code> dataset further
 breaks down the above figures by state (<code>StateAb</code>).</p>
 </div>
@@ -2052,6 +2053,7 @@ Liberal
 </td>
 </tr></tbody>
 </table>
+<p><br></p>
 <p>The <code>First preferences by state by group by vote type</code>
 dataset further breaks down the above figures by state
 (<code>StateAb</code>).</p>
@@ -2180,6 +2182,7 @@ Liberal Party of Australia,NSW Division-National Party of Australia NSW
 </td>
 </tr></tbody>
 </table>
+<p><br></p>
 </div>
 </div>
 <div class="section level3">
@@ -2357,6 +2360,7 @@ United Australia Party
 </td>
 </tr></tbody>
 </table>
+<p><br></p>
 <p>The <code>First preferences by state by vote type</code> dataset is
 the equivalent for the Senate, albeit it differs in some columns. The
 dataset details:</p>
@@ -2516,6 +2520,7 @@ N
 </td>
 </tr></tbody>
 </table>
+<p><br></p>
 <p>The state-level version of this <code>Senate</code> dataset is also
 available by calling
 <code>First preferences by state by vote type</code>.</p>
@@ -2901,6 +2906,7 @@ New South Wales
 </td>
 </tr></tbody>
 </table>
+<p><br></p>
 <p>The <code>Two party preferred by division</code> dataset further
 breaks down the above figures by division (<code>DivisionID</code>,
 <code>DivisionNm</code>) and includes the winning party of the seat
@@ -3207,6 +3213,7 @@ ALP
 </td>
 </tr></tbody>
 </table>
+<p><br></p>
 <p>The <code>Two party preferred by polling place</code> dataset further
 breaks down the above figures by polling place
 (<code>PollingPlaceID</code>, <code>PollingPlaceNm</code>).</p>
@@ -3318,16 +3325,38 @@ Belconnen BEAN PPVC
 <h2 id="two-candidate-preferred">Two Candidate Preferred<a class="anchor" aria-label="anchor" href="#two-candidate-preferred"></a>
 </h2>
 <div class="section level3">
-<h3 id="two-candidate-preferred-by-candidate-by-vote-type-house-only">Two candidate preferred by candidate by vote type (House-only)<a class="anchor" aria-label="anchor" href="#two-candidate-preferred-by-candidate-by-vote-type-house-only"></a>
+<h3 id="two-candidate-preferred-by-candidate-by-vote-type">Two candidate preferred by candidate by vote type<a class="anchor" aria-label="anchor" href="#two-candidate-preferred-by-candidate-by-vote-type"></a>
 </h3>
 <p>The <code>Two candidate preferred by candidate by vote type</code>
-dataset…</p>
-<p>When <code>process = TRUE</code>, the dataset is standardised: for
-the <code>2004</code> election, the <code>SittingMemberFl</code> column
-is removed and replaced with <code>Elected</code> (indicating winners,
-based on the <code>SittingMemberFl</code> column) and
-<code>HistoricElected</code> (indicating incumbents, currently contains
-<code>NAs</code>).</p>
+dataset provides details of the two candidate preferred (TCP) votes by
+vote type for each candidate, detailing:</p>
+<ul>
+<li>The division details (<code>StateAb</code>, <code>DivisionID</code>,
+<code>DivisionNm</code>).</li>
+<li>The canddiate details (<code>CandidateID</code>,
+<code>Surname</code>, <code>GivenNm</code>), including their position on
+the ballot position (<code>BallotPosition</code>), and whether they were
+elected (<code>Elected</code>) or an incumbent
+(<code>HistoricElected</code>), and the party (<code>PartyAb</code>,
+<code>PartyNm</code>) that they represent.</li>
+<li>The number of votes that the candidate received by vote type
+(<code>OrdinaryVotes</code>, <code>AbsentVotes</code>,
+<code>ProvisionalVotes</code>, <code>PrePollVotes</code>,
+<code>PostalVotes</code>, <code>TotalVotes</code>).</li>
+<li>The overall swing in total votes received by the candidate compared
+to the previous election (<code>Swing</code>).</li>
+</ul>
+<p>Covering elections from <code>2004</code> to the present, this
+dataset is available for the <code>House</code> only. The
+<code>2004</code> dataset is processed in the following way:</p>
+<ul>
+<li>The <code>SittingMemberFl</code> column is renamed to
+<code>Elected</code> using the <a href="https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html"><code>process_elected()</code></a>
+function.</li>
+<li>Based on this column, the data are further standardised to match
+later years with “Y” and “N” values inputted. This replaces the original
+corresponding “#” and NA values.</li>
+</ul>
 <div class="section level4">
 <h4 id="example-usage-8">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-8"></a>
@@ -3474,12 +3503,38 @@ Australian Labor Party
 </div>
 </div>
 <div class="section level3">
-<h3 id="two-candidate-preferred-by-candidate-by-polling-place-house-only">Two candidate preferred by candidate by polling place
-(House-only)<a class="anchor" aria-label="anchor" href="#two-candidate-preferred-by-candidate-by-polling-place-house-only"></a>
+<h3 id="two-candidate-preferred-by-candidate-by-polling-place">Two candidate preferred by candidate by polling place<a class="anchor" aria-label="anchor" href="#two-candidate-preferred-by-candidate-by-polling-place"></a>
 </h3>
 <p>The
 <code>Two candidate preferred by candidate by polling place</code>
-dataset…</p>
+dataset provides details of the two candidate preferred (TCP) votes for
+each candidate and the polling place-level, detailing:</p>
+<ul>
+<li>The polling place details (<code>StateAb</code>,
+<code>DivisionID</code>, <code>DivisionNm</code>,
+<code>PollingPlaceID</code>, <code>PollingPlaceNm</code>).</li>
+<li>The canddiate details (<code>CandidateID</code>,
+<code>Surname</code>, <code>GivenNm</code>), including their position on
+the ballot position (<code>BallotPosition</code>), and whether they were
+elected (<code>Elected</code>) or an incumbent
+(<code>HistoricElected</code>), and the party (<code>PartyAb</code>,
+<code>PartyNm</code>) that they represent.</li>
+<li>The number of ordinary votes that the candidate received
+(<code>OrdinaryVotes</code>).</li>
+<li>The overall swing in total votes received by the candidate compared
+to the previous election (<code>Swing</code>).</li>
+</ul>
+<p>Covering elections from <code>2004</code> to the present, this
+dataset is available for the <code>House</code> only. The
+<code>2004</code> dataset is processed in the following way:</p>
+<ul>
+<li>The <code>SittingMemberFl</code> column is renamed to
+<code>Elected</code> using the <a href="https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html"><code>process_elected()</code></a>
+function.</li>
+<li>Based on this column, the data are further standardised to match
+later years with “Y” and “N” values inputted. This replaces the original
+corresponding “#” and NA values.</li>
+</ul>
 <p>When <code>process = TRUE</code>, the dataset is standardised: for
 the <code>2004</code> election, the <code>SittingMemberFl</code> column
 is removed and replaced with <code>Elected</code> (indicating winners,
