@@ -1144,11 +1144,10 @@ The `Two candidate preferred flow of preferences by state by party` dataset furt
 - 2022: 21 columns by 127,404 rows (2,675,484 cells)
 - 2019: 21 columns by 115,350 rows (2,422,350 cells)
 - 2016: 21 columns by 101,664 rows (2,134,944 cells)
--
-- 2013: 17 columns by 2,335,760 rows (39,707,920 cells)
-- 2010: 17 columns by 1,155,304 rows (19,640,168 cells)
-- 2007: 17 columns by 1,597,048 rows (27,149,816 cells)
-- 2004: 17 columns by 1,770,184 rows (30,093,128 cells)
+- 2013: 21 columns by 136,516 rows (2,866,836 cells)
+- 2010: 21 columns by 91,136 rows (1,913,856 cells)
+- 2007: 21 columns by 106,838 rows (2,243,598 cells)
+- 2004: 21 columns by 112,788 rows (2,368,548 cells)
 
 #### *Example Usage 'by state':*
 
@@ -1242,7 +1241,15 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 ## Votes
 ### Informal votes
-The `Informal votes by state` dataset...
+The `Informal votes by state` dataset provides a summary of formal and informal votes, detailing:
+
+- the state details (`StateAb`, `StateNm`).
+- the number of formal and informal votes (`FormalVotes`,`InformalVotes`).
+- the total number of votes (formal + informal) (`TotalVotes`).
+- The percentage of informal votes (`InformalPercent`).
+- the overall swing in informal votes received compared to the previous election (`InformalSwing`).
+
+Covering elections from `2004` to the present, this dataset is available for both the `House` and `Senate`. No changes are made.
 
 #### *Example Usage 'by state':*
 
@@ -1270,7 +1277,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-The `Informal votes by division` dataset...
+The `Informal votes by division` dataset further breaks down the above figures by division (`DivisionID`,`DivisionNm`).
 
 #### *Example Usage 'by division':*
 
@@ -1299,7 +1306,14 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ### Turnout
-The `Turnout by state` dataset...
+The `Turnout by state` dataset provides a summary of voter turnout, detailing:
+
+- the state details (`StateAb`, `StateNm`).
+- the number of voters enrolled (`Enrolment`).
+- the number and percentage of voters who voted (`Turnout`, `TurnoutPercentage`).
+- the overall swing in turnout compared to the previous election (`TurnoutSwing`).
+
+Covering elections from `2004` to the present, this dataset is available for both the `House` and `Senate`. No changes are made.
 
 #### *Example Usage 'by state':*
 
@@ -1327,7 +1341,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-The `Turnout by division` dataset...
+The `Turnout by division` dataset further breaks down the above figures by division (`DivisionID`,`DivisionNm`).
 
 #### *Example Usage 'by division':*
 
@@ -1356,7 +1370,14 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ### Votes Type
-The `Votes by state` dataset...
+The `Votes by state` dataset provides the number of votes by vote type, detailing:
+
+- the state details (`StateAb`, `StateNm`).
+- the number of voters enrolled (`Enrolment`).
+- the number votes by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `DeclarationPrePollVotes`, `PostalVotes`).
+- the total number of votes and percentage (`TotalVotes`, `TotalPercentage`).
+
+Covering elections from `2004` to the present, this dataset is available for both the `House` and `Senate`. Minor amendments are made to the original dataset, changing `PrePollVotes` to `DeclarationPrePollVotes`. This ensures consistency in column names across all datasets.
 
 #### *Example Usage 'by state':*
 
@@ -1384,7 +1405,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-The `Votes by division` dataset...
+The `Votes by division` dataset further breaks down the above figures by division (`DivisionID`,`DivisionNm`).
 
 #### *Example Usage 'by division':*
 
@@ -1414,7 +1435,12 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 ## General
 ### Political parties
-The `Political parties` dataset...
+The `Political parties` dataset provides a summary of the political parties being represented at each election, detailing:
+
+- the state details (`StateAb`).
+- the party details (`PartyAb`, `PartyNm`), including the registered party name (`RegisteredPartyAb`).
+
+Covering elections from `2004` to the present, this dataset is available for the `General` category. No changes are made.
 
 #### *Example Usage:*
 
@@ -1444,7 +1470,17 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ### Polling places
-The `Polling places` dataset...
+The `Polling places` dataset provides a summary of the polling places used at each election, detailing:
+
+- the division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- the polling place details (`PollingPlaceID`, `PollingPlaceTypeID`, `PollingPlaceNm`).
+- the address of the polling place (`PremisesAddress1`, `PremisesAddress2`, `PremisesAddress3`, `PremisesSubrub`, `PremisesStateAb`, `PremisesPostCode`).
+- the coordinates of the polling place (`Latitude`, `Longitude`).
+
+Covering elections from `2004` to the present, this dataset is available for the `General` category. The dataset is processed in the following way, using the [`process_coords()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_coords.html) function:
+
+- `NA` or `0` values in `Latitude` and `Longitude` are replaced if known, based on matching of the `PollingPlaceID` column within an internal dataset and the dataset retrieved from the AEC.
+
 
 #### *Example Usage:*
 
@@ -1475,7 +1511,13 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ### Enrolment
-The `Enrolment by state` dataset...
+The `Enrolment by state` dataset provides a summary of the enrolment, detailing:
+
+- the state details (`StateAb`, `StateNm`).
+- the number of enrolments based on type (`CloseOfRollsEnrolment`,`NotebookRollAdditions`,`NotebookRollDeletions`,`ReinstatementsPrePoll`,`ReinstatementsAbsent`,`ReinstatementsProvisional`).
+- the overall number of enrolled voters (`Enrolment`).
+
+Covering elections from `2004` to the present, this dataset is available for the `General` category. No changes are made.
 
 #### *Example Usage 'by state':*
 
@@ -1504,7 +1546,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-The `Enrolment by division` dataset...
+The `Enrolment by division` dataset further breaks down the above figures by division (`DivisionID`,`DivisionNm`).
 
 #### *Example Usage 'by division':*
 
@@ -1533,14 +1575,19 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-### Declaration votes issued
-The `Declaration votes issued by state` dataset...
+### Declaration votes
+The `Declaration votes issued by state` and `Declaration votes received by state` datasets provide a summary of the number of declaration votes issued and received, respectively, detailing:
+
+- the state details (`StateAb`, `StateNm`).
+- the number of declaration votes by type (`Provisional`,`Absent`,`PrePoll`,`PrePollOwnDivision`,`Postal`,`PostalOwnDivision`).
+
+Covering elections from `2004` to the present, this dataset is available for the `General` category. No changes are made.
 
 #### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
-  file_name = "Declaration votes issued by state",
+  file_name = "Declaration votes issued by state", # OR Declaration votes received by state
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "General"
 )
@@ -1563,13 +1610,13 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
-The `Declaration votes issued by division` dataset...
+The `Declaration votes issued by division` and `Declaration votes received by division` datasets further break down the above figures by division (`DivisionID`,`DivisionNm`).
 
 #### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
-  file_name = "Declaration votes issued by division",
+  file_name = "Declaration votes issued by division", # OR Declaration votes received by division
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "General"
 )
@@ -1590,49 +1637,7 @@ first_row <- df[1,]
 kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
 
-<br>
-
-### Declaration votes received
-The `Declaration votes received by state` dataset...
-
-#### *Example Usage 'by state':*
-
-```{r, eval = FALSE}
-df <- get_aec_data(
-  file_name = "Declaration votes received by state",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
-  category = "General"
-)
-```
-
-#### *Sample Data 'by state':*
-
-```{r, echo = FALSE}
-df <- suppressMessages(
-  get_aec_data(file_name = "Declaration votes received by state",
-               category = "General")
-)
-
-# Selecting only the first row and keeping all columns
-first_row <- df[1,]
-
-# Create the HTML table with kable
-kable(first_row, format = "html", table.attr = "class='table table-bordered'")
-```
-
-<br>
-
-The `Declaration votes received by division` dataset...
-
-#### *Example Usage 'by division':*
-
-```{r, eval = FALSE}
-df <- get_aec_data(
-  file_name = "Declaration votes received by division",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
-  category = "General"
-)
-```
+<br
 
 #### *Sample Data 'by division':*
 
@@ -1650,9 +1655,6 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```
 
 <br>
-
-
-
 
 ## Statistics
 ### Postal vote applications by total

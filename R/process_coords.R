@@ -45,7 +45,7 @@
 #' data_2010 <- data.frame(
 #'   date = "2010-08-21",
 #'   event = "2010",
-#'   PollingPlaceID = c("PP001", "PP002"),
+#'   PollingPlaceID = c(93925.0, 11877.0),
 #'   Latitude = c(NA, 0),
 #'   Longitude = c(0, NA)
 #' )
@@ -55,9 +55,9 @@
 #' data_2013 <- data.frame(
 #'   date = "2013-09-07",
 #'   event = "2013",
-#'   PollingPlaceID = c("PP003", "PP004"),
-#'   Latitude = c(-37.8, NA),
-#'   Longitude = c(144.9, 0)
+#'   PollingPlaceID = c(93925.0, 11877.0),
+#'   Latitude = c(-37.81, -33.87),
+#'   Longitude = c(144.96, 151.21)
 #' )
 #' process_coords(data_2013, "2013")
 #'

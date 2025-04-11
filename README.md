@@ -36,7 +36,7 @@ library(scgElectionsAU)
 df <- get_aec_data(
   file_name = "National list of candidates",
   date_range = list(from = "2022-01-01", to = "2025-01-01"), # for elections between 2022 and 2025 (default)
-  type = "Federal Election", # Default (other options: "Referendum" and "Federal By-Election")
+  type = "Federal Election", # Default (other options: "Referendum", "Federal By-Election", or "Transparency")
   category = "House", # Default (other options: "Senate", "Referendum", "General", or "Statistics")
   process = TRUE # default (can turn off automated processing by selecting FALSE)
 )
