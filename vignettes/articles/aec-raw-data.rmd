@@ -1658,7 +1658,13 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 ## Statistics
 ### Postal vote applications by total
-The `Postal vote applications by total` dataset...
+The `Postal vote applications by total` dataset provides a summary of the number of postal vote applications received and postal votes returned, detailing:
+
+- the division details (`StateAb`, `DivisionNm`).
+- the number of valid applications received (`Valid Applications Received`).
+- the number of postal votes returned (`Postal Votes Returned`).
+
+Covering the`2022` election only, this dataset is available for the `Statistics` category. No changes are made.
 
 #### *Example Usage:*
 
@@ -1689,7 +1695,17 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ### Postal vote applications by date
-The `Postal vote applications by date` dataset...
+The `Postal vote applications by date` dataset provides a summary of the number of postal votes returned each day, detailing:
+
+- the division details (`StateAb`, `DivisionNm`).
+- the date the postal vote was received (`DateReceived`).
+- the total number of postal votes received (`TotalPVAs`).
+
+Covering elections from `2010` to `2019`, this dataset is available for the `Statistics` category. The dataset is processed in the following way, using the [`process_pva_date()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_pva_date.html) function:
+
+- column names are standardised, including `Enrolment`, `Enrolment Division`, `PVA_Web_2_Date_Div` and `PVA_Web_2_V2_Div` are renamed to `DivisionNm` and `State_Cd` to `StateAb`.
+- Unnecessary columns are dropped, including `<>`, `TOTAL to date(Inc GPV)`, and `Date out of range`.
+- the date columns are pivoted from wide to long and converted into a date format for ease of comparison across years.
 
 #### *Example Usage:*
 
@@ -1721,7 +1737,17 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ### Postal vote applications by party
-The `Postal vote applications by party` dataset...
+The `Postal vote applications by party` dataset provides a summary of the number of postal votes returned each day, detailing:
+
+- the division details (`StateAb`, `DivisionNm`).
+- the number of General Postal Voters (`GPV`) - these are voters who automatically receive ballot papers via post and generally include voters with a disability, silent electors, prisoners, those in remote areas, and those who are unable to attend a polling place on election day due to religious objections.
+- the number of AEC-received postal vote applications and by the method in which they were received (`AEC (Online)`, `AEC (Paper)`, `AEC (Total)`).
+- the number of party-received postal vote applications (`ALP`, `CLP`, `DEM`, `LIB`, `LNP`, `NAT`, `OTH`).
+- the total number of AEC and party received postal vote applications (`Total (AEC + Parties)`).
+
+Covering elections from `2010` to `2019`, this dataset is available for the `Statistics` category. The dataset is processed in the following way, using the [`process_pva_party()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_pva_party.html) function:
+
+- column names are standardised, including abbreviating party names.
 
 #### *Example Usage:*
 
@@ -1753,7 +1779,16 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ### Pre-poll votes
-The `Pre-poll votes` dataset...
+The `Pre-poll votes` dataset provides a summary of the number of prepoll votes issued, detailing:
+
+- the polling place details (`StateAb`, `DivisionNm`, `PollingPlaceNm`).
+- the date the pre-poll vote was issued (`IssueDate`).
+- the total number of prepoll votes issued (`TotalPPVs`).
+
+Covering elections from `2010` to `2019`, this dataset is available for the `Statistics` category. The dataset is processed in the following way, using the [`process_ppv()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_ppv.html) function:
+
+- column names are standardised.
+- the date columns are pivoted from wide to long and converted into a date format for ease of comparison across years.
 
 #### *Example Usage:*
 
@@ -1785,7 +1820,14 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ### Votes by SA1
-The `Votes by SA1` dataset...
+The `Votes by SA1` dataset provides a summary of the number of votes by SA1, detailing:
+
+- the SA1 details (`StateAb`, `DivisionNm`, `PollingPlaceID`, `PollingPlaceNm`, `StatisticalAreaID`).
+- the total number of votes (`Votes`).
+
+Covering elections from `2013` to present, this dataset is available for the `Statistics` category. The dataset is processed in the following way, using the [`process_ccd()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_ccd.html) function:
+
+- column names are standardised and the `year` column is removed.
 
 #### *Example Usage:*
 
@@ -1817,7 +1859,16 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 <br>
 
 ### Overseas
-The `Overseas` dataset...
+The `Overseas` dataset provides a summary of the breakdown of overseas voting, detailing:
+
+- the the overseas post (`OverseasPost`).
+- the division that the votes were cast (`StateAb`, `DivisionNm`).
+- the total number of votes (`TotalVotes`), broken down by postal and prepoll voting types (`PostalVotes`,`PrePollVotes`).
+
+Covering elections from `2013` to present, this dataset is available for the `Statistics` category. The dataset is processed in the following way, using the [`process_overseas()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_overseas.html) function:
+
+- column names are standardised and the `pp_sort_nm` and `Total` columns are removed.
+- the `TotalVotes` column is calculated based on the sum of `PostalVotes` and `PrePollVotes`.
 
 #### *Example Usage:*
 

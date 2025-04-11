@@ -68,7 +68,7 @@
 #' data_2010 <- data.frame(
 #'   date = "2010-08-21",
 #'   event = "2010",
-#'   StateAb = "Victoria",
+#'   StateAb = "VIC",
 #'   Enrolment = "Melbourne",
 #'   `02 Aug 10` = 50,
 #'   `03 Aug 10` = 60
@@ -79,7 +79,7 @@
 #' data_2022 <- data.frame(
 #'   date = "2022-05-21",
 #'   event = "2022",
-#'   StateAb = "Queensland",
+#'   StateAb = "QLD",
 #'   Votes = 90
 #' )
 #' process_pva_date(data_2022, "2022")

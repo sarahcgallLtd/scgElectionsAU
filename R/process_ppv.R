@@ -63,7 +63,7 @@
 #' data_2013 <- data.frame(
 #'   date = 2013-09-07,
 #'   event = "2013",
-#'   StateAb = "New South Wales",
+#'   StateAb = "NSW",
 #'   DivisionNm = "Sydney",
 #'   m_pp_nm = "Sydney PPVC",
 #'   `20/08/2013` = 100,
@@ -76,7 +76,7 @@
 #' data_2022 <- data.frame(
 #'   date = 2022-05-21,
 #'   event = "2022",
-#'   StateAb = "Victoria",
+#'   StateAb = "VIC",
 #'   DivisionNm = "Melbourne",
 #'   PPVC = "Melbourne PPVC",
 #'   `Issue Date` = "09/05/22",
@@ -86,7 +86,7 @@
 #' process_ppv(data_2022, "2022")
 #'
 #' # Sample invalid year
-#' data_2025 <- data.frame(event = "2025", StateAb = "Queensland", Votes = 100)
+#' data_2025 <- data.frame(event = "2025", StateAb = "QLD", Votes = 100)
 #' process_ppv(data_2025, "2025")
 #'
 #' @export

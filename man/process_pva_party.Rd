@@ -102,7 +102,7 @@ data_2013 <- data.frame(
 process_pva_party(data_2013, "2013")
 
 # Sample invalid year
-data_2022 <- data.frame(event = "2022", StateAb = "Queensland", Votes = 90)
+data_2022 <- data.frame(event = "2022", StateAb = "QLD", Votes = 90)
 process_pva_party(data_2022, "2022")
 }
 
