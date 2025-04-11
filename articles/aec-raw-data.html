@@ -4260,12 +4260,10 @@ this dataset is large. Sizes include:</p>
 <li>2022: 21 columns by 127,404 rows (2,675,484 cells)</li>
 <li>2019: 21 columns by 115,350 rows (2,422,350 cells)</li>
 <li>2016: 21 columns by 101,664 rows (2,134,944 cells)</li>
-<li>
-</li>
-<li>2013: 17 columns by 2,335,760 rows (39,707,920 cells)</li>
-<li>2010: 17 columns by 1,155,304 rows (19,640,168 cells)</li>
-<li>2007: 17 columns by 1,597,048 rows (27,149,816 cells)</li>
-<li>2004: 17 columns by 1,770,184 rows (30,093,128 cells)</li>
+<li>2013: 21 columns by 136,516 rows (2,866,836 cells)</li>
+<li>2010: 21 columns by 91,136 rows (1,913,856 cells)</li>
+<li>2007: 21 columns by 106,838 rows (2,243,598 cells)</li>
+<li>2004: 21 columns by 112,788 rows (2,368,548 cells)</li>
 </ul>
 </div>
 <div class="section level4">
@@ -4690,7 +4688,22 @@ David
 <div class="section level3">
 <h3 id="informal-votes">Informal votes<a class="anchor" aria-label="anchor" href="#informal-votes"></a>
 </h3>
-<p>The <code>Informal votes by state</code> dataset…</p>
+<p>The <code>Informal votes by state</code> dataset provides a summary
+of formal and informal votes, detailing:</p>
+<ul>
+<li>the state details (<code>StateAb</code>, <code>StateNm</code>).</li>
+<li>the number of formal and informal votes
+(<code>FormalVotes</code>,<code>InformalVotes</code>).</li>
+<li>the total number of votes (formal + informal)
+(<code>TotalVotes</code>).</li>
+<li>The percentage of informal votes
+(<code>InformalPercent</code>).</li>
+<li>the overall swing in informal votes received compared to the
+previous election (<code>InformalSwing</code>).</li>
+</ul>
+<p>Covering elections from <code>2004</code> to the present, this
+dataset is available for both the <code>House</code> and
+<code>Senate</code>. No changes are made.</p>
 <div class="section level4">
 <h4 id="example-usage-by-state-3">
 <em>Example Usage ‘by state’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-state-3"></a>
@@ -4767,7 +4780,9 @@ New South Wales
 </tr></tbody>
 </table>
 <p><br></p>
-<p>The <code>Informal votes by division</code> dataset…</p>
+<p>The <code>Informal votes by division</code> dataset further breaks
+down the above figures by division
+(<code>DivisionID</code>,<code>DivisionNm</code>).</p>
 </div>
 <div class="section level4">
 <h4 id="example-usage-by-division-4">
@@ -4856,7 +4871,19 @@ NSW
 <div class="section level3">
 <h3 id="turnout">Turnout<a class="anchor" aria-label="anchor" href="#turnout"></a>
 </h3>
-<p>The <code>Turnout by state</code> dataset…</p>
+<p>The <code>Turnout by state</code> dataset provides a summary of voter
+turnout, detailing:</p>
+<ul>
+<li>the state details (<code>StateAb</code>, <code>StateNm</code>).</li>
+<li>the number of voters enrolled (<code>Enrolment</code>).</li>
+<li>the number and percentage of voters who voted (<code>Turnout</code>,
+<code>TurnoutPercentage</code>).</li>
+<li>the overall swing in turnout compared to the previous election
+(<code>TurnoutSwing</code>).</li>
+</ul>
+<p>Covering elections from <code>2004</code> to the present, this
+dataset is available for both the <code>House</code> and
+<code>Senate</code>. No changes are made.</p>
 <div class="section level4">
 <h4 id="example-usage-by-state-4">
 <em>Example Usage ‘by state’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-state-4"></a>
@@ -4927,7 +4954,9 @@ New South Wales
 </tr></tbody>
 </table>
 <p><br></p>
-<p>The <code>Turnout by division</code> dataset…</p>
+<p>The <code>Turnout by division</code> dataset further breaks down the
+above figures by division
+(<code>DivisionID</code>,<code>DivisionNm</code>).</p>
 </div>
 <div class="section level4">
 <h4 id="example-usage-by-division-5">
@@ -5010,7 +5039,23 @@ SA
 <div class="section level3">
 <h3 id="votes-type">Votes Type<a class="anchor" aria-label="anchor" href="#votes-type"></a>
 </h3>
-<p>The <code>Votes by state</code> dataset…</p>
+<p>The <code>Votes by state</code> dataset provides the number of votes
+by vote type, detailing:</p>
+<ul>
+<li>the state details (<code>StateAb</code>, <code>StateNm</code>).</li>
+<li>the number of voters enrolled (<code>Enrolment</code>).</li>
+<li>the number votes by vote type (<code>OrdinaryVotes</code>,
+<code>AbsentVotes</code>, <code>ProvisionalVotes</code>,
+<code>DeclarationPrePollVotes</code>, <code>PostalVotes</code>).</li>
+<li>the total number of votes and percentage (<code>TotalVotes</code>,
+<code>TotalPercentage</code>).</li>
+</ul>
+<p>Covering elections from <code>2004</code> to the present, this
+dataset is available for both the <code>House</code> and
+<code>Senate</code>. Minor amendments are made to the original dataset,
+changing <code>PrePollVotes</code> to
+<code>DeclarationPrePollVotes</code>. This ensures consistency in column
+names across all datasets.</p>
 <div class="section level4">
 <h4 id="example-usage-by-state-5">
 <em>Example Usage ‘by state’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-state-5"></a>
@@ -5105,7 +5150,9 @@ New South Wales
 </tr></tbody>
 </table>
 <p><br></p>
-<p>The <code>Votes by division</code> dataset…</p>
+<p>The <code>Votes by division</code> dataset further breaks down the
+above figures by division
+(<code>DivisionID</code>,<code>DivisionNm</code>).</p>
 </div>
 <div class="section level4">
 <h4 id="example-usage-by-division-6">
@@ -5216,7 +5263,17 @@ SA
 <div class="section level3">
 <h3 id="political-parties">Political parties<a class="anchor" aria-label="anchor" href="#political-parties"></a>
 </h3>
-<p>The <code>Political parties</code> dataset…</p>
+<p>The <code>Political parties</code> dataset provides a summary of the
+political parties being represented at each election, detailing:</p>
+<ul>
+<li>the state details (<code>StateAb</code>).</li>
+<li>the party details (<code>PartyAb</code>, <code>PartyNm</code>),
+including the registered party name
+(<code>RegisteredPartyAb</code>).</li>
+</ul>
+<p>Covering elections from <code>2004</code> to the present, this
+dataset is available for the <code>General</code> category. No changes
+are made.</p>
 <div class="section level4">
 <h4 id="example-usage-6">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-6"></a>
@@ -5280,7 +5337,31 @@ Animal Justice Party
 <div class="section level3">
 <h3 id="polling-places">Polling places<a class="anchor" aria-label="anchor" href="#polling-places"></a>
 </h3>
-<p>The <code>Polling places</code> dataset…</p>
+<p>The <code>Polling places</code> dataset provides a summary of the
+polling places used at each election, detailing:</p>
+<ul>
+<li>the division details (<code>StateAb</code>, <code>DivisionID</code>,
+<code>DivisionNm</code>).</li>
+<li>the polling place details (<code>PollingPlaceID</code>,
+<code>PollingPlaceTypeID</code>, <code>PollingPlaceNm</code>).</li>
+<li>the address of the polling place (<code>PremisesAddress1</code>,
+<code>PremisesAddress2</code>, <code>PremisesAddress3</code>,
+<code>PremisesSubrub</code>, <code>PremisesStateAb</code>,
+<code>PremisesPostCode</code>).</li>
+<li>the coordinates of the polling place (<code>Latitude</code>,
+<code>Longitude</code>).</li>
+</ul>
+<p>Covering elections from <code>2004</code> to the present, this
+dataset is available for the <code>General</code> category. The dataset
+is processed in the following way, using the <a href="https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_coords.html"><code>process_coords()</code></a>
+function:</p>
+<ul>
+<li>
+<code>NA</code> or <code>0</code> values in <code>Latitude</code>
+and <code>Longitude</code> are replaced if known, based on matching of
+the <code>PollingPlaceID</code> column within an internal dataset and
+the dataset retrieved from the AEC.</li>
+</ul>
 <div class="section level4">
 <h4 id="example-usage-7">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-7"></a>
@@ -5411,7 +5492,17 @@ ACT
 <div class="section level3">
 <h3 id="enrolment">Enrolment<a class="anchor" aria-label="anchor" href="#enrolment"></a>
 </h3>
-<p>The <code>Enrolment by state</code> dataset…</p>
+<p>The <code>Enrolment by state</code> dataset provides a summary of the
+enrolment, detailing:</p>
+<ul>
+<li>the state details (<code>StateAb</code>, <code>StateNm</code>).</li>
+<li>the number of enrolments based on type
+(<code>CloseOfRollsEnrolment</code>,<code>NotebookRollAdditions</code>,<code>NotebookRollDeletions</code>,<code>ReinstatementsPrePoll</code>,<code>ReinstatementsAbsent</code>,<code>ReinstatementsProvisional</code>).</li>
+<li>the overall number of enrolled voters (<code>Enrolment</code>).</li>
+</ul>
+<p>Covering elections from <code>2004</code> to the present, this
+dataset is available for the <code>General</code> category. No changes
+are made.</p>
 <div class="section level4">
 <h4 id="example-usage-by-state-6">
 <em>Example Usage ‘by state’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-state-6"></a>
@@ -5506,7 +5597,9 @@ New South Wales
 </tr></tbody>
 </table>
 <p><br></p>
-<p>The <code>Enrolment by division</code> dataset…</p>
+<p>The <code>Enrolment by division</code> dataset further breaks down
+the above figures by division
+(<code>DivisionID</code>,<code>DivisionNm</code>).</p>
 </div>
 <div class="section level4">
 <h4 id="example-usage-by-division-7">
@@ -5611,16 +5704,27 @@ SA
 </div>
 </div>
 <div class="section level3">
-<h3 id="declaration-votes-issued">Declaration votes issued<a class="anchor" aria-label="anchor" href="#declaration-votes-issued"></a>
+<h3 id="declaration-votes">Declaration votes<a class="anchor" aria-label="anchor" href="#declaration-votes"></a>
 </h3>
-<p>The <code>Declaration votes issued by state</code> dataset…</p>
+<p>The <code>Declaration votes issued by state</code> and
+<code>Declaration votes received by state</code> datasets provide a
+summary of the number of declaration votes issued and received,
+respectively, detailing:</p>
+<ul>
+<li>the state details (<code>StateAb</code>, <code>StateNm</code>).</li>
+<li>the number of declaration votes by type
+(<code>Provisional</code>,<code>Absent</code>,<code>PrePoll</code>,<code>PrePollOwnDivision</code>,<code>Postal</code>,<code>PostalOwnDivision</code>).</li>
+</ul>
+<p>Covering elections from <code>2004</code> to the present, this
+dataset is available for the <code>General</code> category. No changes
+are made.</p>
 <div class="section level4">
 <h4 id="example-usage-by-state-7">
 <em>Example Usage ‘by state’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-state-7"></a>
 </h4>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
-<span>  file_name <span class="op">=</span> <span class="st">"Declaration votes issued by state"</span>,</span>
+<span>  file_name <span class="op">=</span> <span class="st">"Declaration votes issued by state"</span>, <span class="co"># OR Declaration votes received by state</span></span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
 <span>  category <span class="op">=</span> <span class="st">"General"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -5696,7 +5800,10 @@ New South Wales
 </tr></tbody>
 </table>
 <p><br></p>
-<p>The <code>Declaration votes issued by division</code> dataset…</p>
+<p>The <code>Declaration votes issued by division</code> and
+<code>Declaration votes received by division</code> datasets further
+break down the above figures by division
+(<code>DivisionID</code>,<code>DivisionNm</code>).</p>
 </div>
 <div class="section level4">
 <h4 id="example-usage-by-division-8">
@@ -5704,7 +5811,7 @@ New South Wales
 </h4>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
-<span>  file_name <span class="op">=</span> <span class="st">"Declaration votes issued by division"</span>,</span>
+<span>  file_name <span class="op">=</span> <span class="st">"Declaration votes issued by division"</span>, <span class="co"># OR Declaration votes received by division</span></span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
 <span>  category <span class="op">=</span> <span class="st">"General"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -5785,107 +5892,7 @@ SA
 </td>
 </tr></tbody>
 </table>
-<p><br></p>
-</div>
-</div>
-<div class="section level3">
-<h3 id="declaration-votes-received">Declaration votes received<a class="anchor" aria-label="anchor" href="#declaration-votes-received"></a>
-</h3>
-<p>The <code>Declaration votes received by state</code> dataset…</p>
-<div class="section level4">
-<h4 id="example-usage-by-state-8">
-<em>Example Usage ‘by state’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-state-8"></a>
-</h4>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
-<span>  file_name <span class="op">=</span> <span class="st">"Declaration votes received by state"</span>,</span>
-<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
-<span>  category <span class="op">=</span> <span class="st">"General"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="sample-data-by-state-8">
-<em>Sample Data ‘by state’:</em><a class="anchor" aria-label="anchor" href="#sample-data-by-state-8"></a>
-</h4>
-<table class="table table table-bordered">
-<thead><tr>
-<th style="text-align:left;">
-date
-</th>
-<th style="text-align:left;">
-event
-</th>
-<th style="text-align:left;">
-StateAb
-</th>
-<th style="text-align:left;">
-StateNm
-</th>
-<th style="text-align:right;">
-Provisional
-</th>
-<th style="text-align:right;">
-Absent
-</th>
-<th style="text-align:right;">
-PrePoll
-</th>
-<th style="text-align:right;">
-PrePollOwnDivision
-</th>
-<th style="text-align:right;">
-Postal
-</th>
-<th style="text-align:right;">
-PostalOwnDivision
-</th>
-</tr></thead>
-<tbody><tr>
-<td style="text-align:left;">
-2022-05-21
-</td>
-<td style="text-align:left;">
-2022
-</td>
-<td style="text-align:left;">
-NSW
-</td>
-<td style="text-align:left;">
-New South Wales
-</td>
-<td style="text-align:right;">
-53708
-</td>
-<td style="text-align:right;">
-153712
-</td>
-<td style="text-align:right;">
-163550
-</td>
-<td style="text-align:right;">
-10409
-</td>
-<td style="text-align:right;">
-580434
-</td>
-<td style="text-align:right;">
-573770
-</td>
-</tr></tbody>
-</table>
-<p><br></p>
-<p>The <code>Declaration votes received by division</code> dataset…</p>
-</div>
-<div class="section level4">
-<h4 id="example-usage-by-division-9">
-<em>Example Usage ‘by division’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-division-9"></a>
-</h4>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
-<span>  file_name <span class="op">=</span> <span class="st">"Declaration votes received by division"</span>,</span>
-<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
-<span>  category <span class="op">=</span> <span class="st">"General"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<p>&lt;br</p>
 </div>
 <div class="section level4">
 <h4 id="sample-data-by-division-9">
@@ -5978,7 +5985,7 @@ SA
 <h4 id="example-usage-8">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-8"></a>
 </h4>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Postal vote applications by total"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2022-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
@@ -6042,7 +6049,7 @@ Bean
 <h4 id="example-usage-9">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-9"></a>
 </h4>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Postal vote applications by date"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2010-01-01"</span>, to <span class="op">=</span> <span class="st">"2022-01-01"</span><span class="op">)</span>,</span>
@@ -6107,7 +6114,7 @@ BEAN
 <h4 id="example-usage-10">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-10"></a>
 </h4>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Postal vote applications by party"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2010-01-01"</span>, to <span class="op">=</span> <span class="st">"2022-01-01"</span><span class="op">)</span>,</span>
@@ -6232,7 +6239,7 @@ NA
 <h4 id="example-usage-11">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-11"></a>
 </h4>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Pre-poll votes"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2010-01-01"</span>, to <span class="op">=</span> <span class="st">"2022-01-01"</span><span class="op">)</span>,</span>
@@ -6303,7 +6310,7 @@ Belconnen BEAN PPVC
 <h4 id="example-usage-12">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-12"></a>
 </h4>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Votes by SA1"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2013-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
@@ -6380,7 +6387,7 @@ Absent
 <h4 id="example-usage-13">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-13"></a>
 </h4>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Overseas"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2013-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
