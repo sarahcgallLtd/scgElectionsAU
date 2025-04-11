@@ -5980,7 +5980,20 @@ SA
 <div class="section level3">
 <h3 id="postal-vote-applications-by-total">Postal vote applications by total<a class="anchor" aria-label="anchor" href="#postal-vote-applications-by-total"></a>
 </h3>
-<p>The <code>Postal vote applications by total</code> dataset…</p>
+<p>The <code>Postal vote applications by total</code> dataset provides a
+summary of the number of postal vote applications received and postal
+votes returned, detailing:</p>
+<ul>
+<li>the division details (<code>StateAb</code>,
+<code>DivisionNm</code>).</li>
+<li>the number of valid applications received
+(<code>Valid Applications Received</code>).</li>
+<li>the number of postal votes returned
+(<code>Postal Votes Returned</code>).</li>
+</ul>
+<p>Covering the<code>2022</code> election only, this dataset is
+available for the <code>Statistics</code> category. No changes are
+made.</p>
 <div class="section level4">
 <h4 id="example-usage-8">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-8"></a>
@@ -6044,7 +6057,31 @@ Bean
 <div class="section level3">
 <h3 id="postal-vote-applications-by-date">Postal vote applications by date<a class="anchor" aria-label="anchor" href="#postal-vote-applications-by-date"></a>
 </h3>
-<p>The <code>Postal vote applications by date</code> dataset…</p>
+<p>The <code>Postal vote applications by date</code> dataset provides a
+summary of the number of postal votes returned each day, detailing:</p>
+<ul>
+<li>the division details (<code>StateAb</code>,
+<code>DivisionNm</code>).</li>
+<li>the date the postal vote was received
+(<code>DateReceived</code>).</li>
+<li>the total number of postal votes received
+(<code>TotalPVAs</code>).</li>
+</ul>
+<p>Covering elections from <code>2010</code> to <code>2019</code>, this
+dataset is available for the <code>Statistics</code> category. The
+dataset is processed in the following way, using the <a href="https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_pva_date.html"><code>process_pva_date()</code></a>
+function:</p>
+<ul>
+<li>column names are standardised, including <code>Enrolment</code>,
+<code>Enrolment Division</code>, <code>PVA_Web_2_Date_Div</code> and
+<code>PVA_Web_2_V2_Div</code> are renamed to <code>DivisionNm</code> and
+<code>State_Cd</code> to <code>StateAb</code>.</li>
+<li>Unnecessary columns are dropped, including <code>&lt;&gt;</code>,
+<code>TOTAL to date(Inc GPV)</code>, and
+<code>Date out of range</code>.</li>
+<li>the date columns are pivoted from wide to long and converted into a
+date format for ease of comparison across years.</li>
+</ul>
 <div class="section level4">
 <h4 id="example-usage-9">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-9"></a>
@@ -6109,7 +6146,33 @@ BEAN
 <div class="section level3">
 <h3 id="postal-vote-applications-by-party">Postal vote applications by party<a class="anchor" aria-label="anchor" href="#postal-vote-applications-by-party"></a>
 </h3>
-<p>The <code>Postal vote applications by party</code> dataset…</p>
+<p>The <code>Postal vote applications by party</code> dataset provides a
+summary of the number of postal votes returned each day, detailing:</p>
+<ul>
+<li>the division details (<code>StateAb</code>,
+<code>DivisionNm</code>).</li>
+<li>the number of General Postal Voters (<code>GPV</code>) - these are
+voters who automatically receive ballot papers via post and generally
+include voters with a disability, silent electors, prisoners, those in
+remote areas, and those who are unable to attend a polling place on
+election day due to religious objections.</li>
+<li>the number of AEC-received postal vote applications and by the
+method in which they were received (<code>AEC (Online)</code>,
+<code>AEC (Paper)</code>, <code>AEC (Total)</code>).</li>
+<li>the number of party-received postal vote applications
+(<code>ALP</code>, <code>CLP</code>, <code>DEM</code>, <code>LIB</code>,
+<code>LNP</code>, <code>NAT</code>, <code>OTH</code>).</li>
+<li>the total number of AEC and party received postal vote applications
+(<code>Total (AEC + Parties)</code>).</li>
+</ul>
+<p>Covering elections from <code>2010</code> to <code>2019</code>, this
+dataset is available for the <code>Statistics</code> category. The
+dataset is processed in the following way, using the <a href="https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_pva_party.html"><code>process_pva_party()</code></a>
+function:</p>
+<ul>
+<li>column names are standardised, including abbreviating party
+names.</li>
+</ul>
 <div class="section level4">
 <h4 id="example-usage-10">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-10"></a>
@@ -6234,7 +6297,24 @@ NA
 <div class="section level3">
 <h3 id="pre-poll-votes">Pre-poll votes<a class="anchor" aria-label="anchor" href="#pre-poll-votes"></a>
 </h3>
-<p>The <code>Pre-poll votes</code> dataset…</p>
+<p>The <code>Pre-poll votes</code> dataset provides a summary of the
+number of prepoll votes issued, detailing:</p>
+<ul>
+<li>the polling place details (<code>StateAb</code>,
+<code>DivisionNm</code>, <code>PollingPlaceNm</code>).</li>
+<li>the date the pre-poll vote was issued (<code>IssueDate</code>).</li>
+<li>the total number of prepoll votes issued
+(<code>TotalPPVs</code>).</li>
+</ul>
+<p>Covering elections from <code>2010</code> to <code>2019</code>, this
+dataset is available for the <code>Statistics</code> category. The
+dataset is processed in the following way, using the <a href="https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_ppv.html"><code>process_ppv()</code></a>
+function:</p>
+<ul>
+<li>column names are standardised.</li>
+<li>the date columns are pivoted from wide to long and converted into a
+date format for ease of comparison across years.</li>
+</ul>
 <div class="section level4">
 <h4 id="example-usage-11">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-11"></a>
@@ -6305,7 +6385,22 @@ Belconnen BEAN PPVC
 <div class="section level3">
 <h3 id="votes-by-sa1">Votes by SA1<a class="anchor" aria-label="anchor" href="#votes-by-sa1"></a>
 </h3>
-<p>The <code>Votes by SA1</code> dataset…</p>
+<p>The <code>Votes by SA1</code> dataset provides a summary of the
+number of votes by SA1, detailing:</p>
+<ul>
+<li>the SA1 details (<code>StateAb</code>, <code>DivisionNm</code>,
+<code>PollingPlaceID</code>, <code>PollingPlaceNm</code>,
+<code>StatisticalAreaID</code>).</li>
+<li>the total number of votes (<code>Votes</code>).</li>
+</ul>
+<p>Covering elections from <code>2013</code> to present, this dataset is
+available for the <code>Statistics</code> category. The dataset is
+processed in the following way, using the <a href="https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_ccd.html"><code>process_ccd()</code></a>
+function:</p>
+<ul>
+<li>column names are standardised and the <code>year</code> column is
+removed.</li>
+</ul>
 <div class="section level4">
 <h4 id="example-usage-12">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-12"></a>
@@ -6382,7 +6477,26 @@ Absent
 <div class="section level3">
 <h3 id="overseas">Overseas<a class="anchor" aria-label="anchor" href="#overseas"></a>
 </h3>
-<p>The <code>Overseas</code> dataset…</p>
+<p>The <code>Overseas</code> dataset provides a summary of the breakdown
+of overseas voting, detailing:</p>
+<ul>
+<li>the the overseas post (<code>OverseasPost</code>).</li>
+<li>the division that the votes were cast (<code>StateAb</code>,
+<code>DivisionNm</code>).</li>
+<li>the total number of votes (<code>TotalVotes</code>), broken down by
+postal and prepoll voting types
+(<code>PostalVotes</code>,<code>PrePollVotes</code>).</li>
+</ul>
+<p>Covering elections from <code>2013</code> to present, this dataset is
+available for the <code>Statistics</code> category. The dataset is
+processed in the following way, using the <a href="https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_overseas.html"><code>process_overseas()</code></a>
+function:</p>
+<ul>
+<li>column names are standardised and the <code>pp_sort_nm</code> and
+<code>Total</code> columns are removed.</li>
+<li>the <code>TotalVotes</code> column is calculated based on the sum of
+<code>PostalVotes</code> and <code>PrePollVotes</code>.</li>
+</ul>
 <div class="section level4">
 <h4 id="example-usage-13">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-13"></a>

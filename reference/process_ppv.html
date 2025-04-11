@@ -118,7 +118,7 @@ year and that the `event` column has a single unique value matching the `event` 
 <span class="r-in"><span><span class="va">data_2013</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  date <span class="op">=</span> <span class="fl">2013</span><span class="op">-</span><span class="fl">09</span><span class="op">-</span><span class="fl">07</span>,</span></span>
 <span class="r-in"><span>  event <span class="op">=</span> <span class="st">"2013"</span>,</span></span>
-<span class="r-in"><span>  StateAb <span class="op">=</span> <span class="st">"New South Wales"</span>,</span></span>
+<span class="r-in"><span>  StateAb <span class="op">=</span> <span class="st">"NSW"</span>,</span></span>
 <span class="r-in"><span>  DivisionNm <span class="op">=</span> <span class="st">"Sydney"</span>,</span></span>
 <span class="r-in"><span>  m_pp_nm <span class="op">=</span> <span class="st">"Sydney PPVC"</span>,</span></span>
 <span class="r-in"><span>  `20/08/2013` <span class="op">=</span> <span class="fl">100</span>,</span></span>
@@ -127,18 +127,15 @@ year and that the `event` column has a single unique value matching the `event` 
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">process_ppv</span><span class="op">(</span><span class="va">data_2013</span>, <span class="st">"2013"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Processing `2013` data to ensure all columns align across all elections.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   date event         StateAb DivisionNm PollingPlaceNm  IssueDate</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1997  2013 New South Wales     Sydney    Sydney PPVC 2013-08-20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1997  2013 New South Wales     Sydney    Sydney PPVC 2013-08-21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   TotalPPVs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       150</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   date event StateAb DivisionNm PollingPlaceNm  IssueDate TotalPPVs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1997  2013     NSW     Sydney    Sydney PPVC 2013-08-20       100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1997  2013     NSW     Sydney    Sydney PPVC 2013-08-21       150</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Sample 2022 data (long format)</span></span></span>
 <span class="r-in"><span><span class="va">data_2022</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  date <span class="op">=</span> <span class="fl">2022</span><span class="op">-</span><span class="fl">05</span><span class="op">-</span><span class="fl">21</span>,</span></span>
 <span class="r-in"><span>  event <span class="op">=</span> <span class="st">"2022"</span>,</span></span>
-<span class="r-in"><span>  StateAb <span class="op">=</span> <span class="st">"Victoria"</span>,</span></span>
+<span class="r-in"><span>  StateAb <span class="op">=</span> <span class="st">"VIC"</span>,</span></span>
 <span class="r-in"><span>  DivisionNm <span class="op">=</span> <span class="st">"Melbourne"</span>,</span></span>
 <span class="r-in"><span>  PPVC <span class="op">=</span> <span class="st">"Melbourne PPVC"</span>,</span></span>
 <span class="r-in"><span>  `Issue Date` <span class="op">=</span> <span class="st">"09/05/22"</span>,</span></span>
@@ -147,15 +144,15 @@ year and that the `event` column has a single unique value matching the `event` 
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">process_ppv</span><span class="op">(</span><span class="va">data_2022</span>, <span class="st">"2022"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Processing `2022` data to ensure all columns align across all elections.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   date event  StateAb DivisionNm PollingPlaceNm  IssueDate TotalPPVs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1996  2022 Victoria  Melbourne Melbourne PPVC 2022-05-09       200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   date event StateAb DivisionNm PollingPlaceNm  IssueDate TotalPPVs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1996  2022     VIC  Melbourne Melbourne PPVC 2022-05-09       200</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Sample invalid year</span></span></span>
-<span class="r-in"><span><span class="va">data_2025</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>event <span class="op">=</span> <span class="st">"2025"</span>, StateAb <span class="op">=</span> <span class="st">"Queensland"</span>, Votes <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data_2025</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>event <span class="op">=</span> <span class="st">"2025"</span>, StateAb <span class="op">=</span> <span class="st">"QLD"</span>, Votes <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">process_ppv</span><span class="op">(</span><span class="va">data_2025</span>, <span class="st">"2025"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> No processing required for `2025`. Data returned unprocessed.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   event    StateAb Votes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  2025 Queensland   100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   event StateAb Votes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  2025     QLD   100</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
