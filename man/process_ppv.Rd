@@ -14,15 +14,15 @@ for 2010; \code{State}, \code{Division}, \code{m_pp_nm} for 2013; \code{m_state_
 2016 and 2019; \code{State}, \code{Division}, \code{PPVC}, \verb{Issue Date}, \verb{Total Votes} for 2022. A \code{date}
 column is optional.}
 
-\item{event}{A character string specifying the election year to process. Recognised values are
-"2010", "2013", "2016", "2019", or "2022". Other values result in the data being returned
-unprocessed.}
+\item{event}{A character string specifying the election event to process. Recognised values are
+"2010 Federal Election", "2013 Federal Election", "2016 Federal Election", "2019 Federal Election",
+or "2022 Federal Election". Other values result in the data being returned unprocessed.}
 }
 \value{
 A data frame with standardised columns for recognised election years:
 \itemize{
 \item \code{date} (if present in the input)
-\item \code{event} (the election year)
+\item \code{event} (the election event)
 \item \code{StateAb} (state abbreviation)
 \item \code{DivisionNm} (division name)
 \item \code{PollingPlaceNm} (polling place name; included for 2013, 2016, 2019, and 2022 only)
@@ -72,7 +72,7 @@ year and that the `event` column has a single unique value matching the `event` 
 # Sample 2013 data (wide format)
 data_2013 <- data.frame(
   date = 2013-09-07,
-  event = "2013",
+  event = "2013 Federal Election",
   StateAb = "NSW",
   DivisionNm = "Sydney",
   m_pp_nm = "Sydney PPVC",
@@ -80,12 +80,12 @@ data_2013 <- data.frame(
   `21/08/2013` = 150,
   check.names = FALSE
 )
-process_ppv(data_2013, "2013")
+process_ppv(data_2013, "2013 Federal Election")
 
 # Sample 2022 data (long format)
 data_2022 <- data.frame(
   date = 2022-05-21,
-  event = "2022",
+  event = "2022 Federal Election",
   StateAb = "VIC",
   DivisionNm = "Melbourne",
   PPVC = "Melbourne PPVC",
@@ -93,10 +93,10 @@ data_2022 <- data.frame(
   `Total Votes` = 200,
   check.names = FALSE
 )
-process_ppv(data_2022, "2022")
+process_ppv(data_2022, "2022 Federal Election")
 
 # Sample invalid year
-data_2025 <- data.frame(event = "2025", StateAb = "QLD", Votes = 100)
-process_ppv(data_2025, "2025")
+data_2025 <- data.frame(event = "2025 Federal Election", StateAb = "QLD", Votes = 100)
+process_ppv(data_2025, "2025 Federal Election")
 
 }

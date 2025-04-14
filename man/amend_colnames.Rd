@@ -13,7 +13,9 @@ specific columns and renames them if found. Columns checked and their correspond
 \item "State" to "StateAb"
 \item "Division" to "DivisionNm"
 \item "DivisionId" to "DivisionID"
+\item "DivisionName" to "DivisionNm"
 \item "TransactionId" to "TransactionID"
+\item "PollingPlaceId" to "PollingPlaceID"
 \item "PPId" to "PollingPlaceID"
 \item "PPNm" to "PollingPlaceNm"
 \item "PollingPlace" to "PollingPlaceNm"
@@ -32,6 +34,9 @@ specific columns and renames them if found. Columns checked and their correspond
 \item "DeclarationPrePollVotes" to "PrePollVotes"
 \item "DeclarationPrePollPercentage" to "PrePollPercentage"
 \item "TransferPercent" to "TransferPercentage"
+\item "Valid PVAs Received" to "Valid Applications Received"
+\item "Valid Apps Received" to "Valid Applications Received"
+\item "PVCs Returned" to "Postal Votes Returned"
 }}
 }
 \value{

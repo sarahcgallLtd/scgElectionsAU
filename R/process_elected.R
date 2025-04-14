@@ -11,10 +11,10 @@
 #'
 #' @param data A data frame containing election data for a single election event. Must include an
 #'   `event` column with a single unique value (e.g., "2004"). Additional columns depend on the specific dataset.
-#' @param event A character string specifying the election year to process. Currently, only "2004" is
+#' @param event A character string specifying the election event to process. Currently, only "2004 Federal Election" is
 #'   processed; other values result in the data being returned unprocessed.
 #'
-#' @return A data frame. For the 2004 election year, it contains the standardised column:
+#' @return A data frame. For the 2004 Federal Election, it contains the standardised column:
 #'   \itemize{
 #'     \item `Elected` (indicates if the candidate was elected, with values "Y" for yes or "N" for no)
 #'   }
@@ -25,34 +25,35 @@
 #' This function processes election data by:
 #' \enumerate{
 #'   \item **Formatting**: Converts `Elected` values to "Y" (elected) or "N" (not elected), replacing NA with "N".
-#'   \item **Unrecognised years**: Returns the data unprocessed with an informative message for years other than 2004.
+#'   \item **Unrecognised years**: Returns the data unprocessed with an informative message for years other than
+#' the 2004 Federal Election.
 #' }
 #' The function assumes the input data frame contains the required columns for the specified `event`
-#' year and dataset, with processing currently implemented only for 2004. Future enhancements may
-#' include adding `HistoricVote` data for 2004 (pending identification of the source dataset).
+#' year and dataset, with processing currently implemented only for the 2004 Federal Election. Future enhancements may
+#' include adding `HistoricVote` data for the 2004 Federal Election (pending identification of the source dataset).
 #'
 #' @examples
 #' # Sample 2004 data
 #' data_2004 <- data.frame(
 #'   date = "2004-10-09",
-#'   event = "2004",
+#'   event = "2004 Federal Election",
 #'   CandidateID = 123,
 #'   Elected = "#"
 #' )
-#' process_elected(data_2004, "2004")
+#' process_elected(data_2004, "2004 Federal Election")
 #'
 #' # Sample unprocessed year (e.g., 2010)
 #' data_2010 <- data.frame(
 #'   date = "2010-08-21",
-#'   event = "2010",
+#'   event = "2010 Federal Election",
 #'   CandidateID = 456,
 #'   Elected = "Y"
 #' )
-#' process_elected(data_2010, "2010")
+#' process_elected(data_2010, "2010 Federal Election")
 #'
 #' @export
 process_elected <- function(data, event) {
-  if (event == "2004") {
+  if (event == "2004 Federal Election") {
     message(paste0("Processing `", event, "` data to ensure all columns align across all elections."))
 
     # Amend Elected column
@@ -61,7 +62,7 @@ process_elected <- function(data, event) {
     # TODO: Find a way to add HistoricVote for 2004 - which dataset contains this?
 
   } else {
-    message(paste0("No processing required for `", event, "`. Data returned unprocessed."))
+    message(paste0("No processing required for `", event, "`. Data returned unprocessed.\n"))
   }
 
   # Return updated data

@@ -1,17 +1,17 @@
 test_that("process_ppv standardises and transforms PPVC data correctly", {
 
   # Test 1: Unrecognised event returns unprocessed data with message
-  data_2025 <- data.frame(event = "2025", State = "Queensland", Votes = 100)
+  data_2025 <- data.frame(event = "2025 Federal Election", State = "Queensland", Votes = 100)
   expect_message(
-    result_2025 <- process_ppv(data_2025, "2025"),
-    "No processing required for `2025`. Data returned unprocessed."
+    result_2025 <- process_ppv(data_2025, "2025 Federal Election"),
+    "No processing required for `2025 Federal Election`. Data returned unprocessed."
   )
   expect_identical(result_2025, data_2025)
 
   # Test 2: 2010 data processing (no PollingPlaceNm, with NA filtering)
   data_2010 <- data.frame(
     date="2010-08-21",
-    event = "2010",
+    event = "2010 Federal Election",
     StateAb = c("NSW", "Notes"),
     DivisionNm = c("Sydney", NA),
     `02 Aug 10` = c(100, NA),
@@ -19,8 +19,8 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
     check.names = FALSE
   )
   expect_message(
-    result_2010 <- process_ppv(data_2010, "2010"),
-    "Processing `2010` data to ensure all columns align across all elections."
+    result_2010 <- process_ppv(data_2010, "2010 Federal Election"),
+    "Processing `2010 Federal Election` data to ensure all columns align across all elections."
   )
   expect_equal(nrow(result_2010), 2)  # 1 row pivoted into 2
   expect_equal(names(result_2010), c("date", "event", "StateAb", "DivisionNm", "IssueDate", "TotalPPVs"))
@@ -32,7 +32,7 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
   # Test 3: 2013 data processing
   data_2013 <- data.frame(
     date = "2013-09-07",
-    event = "2013",
+    event = "2013 Federal Election",
     StateAb = "New South Wales",
     DivisionNm = "Sydney",
     m_pp_nm = "Sydney PPVC",
@@ -41,8 +41,8 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
     check.names = FALSE
   )
   expect_message(
-    result_2013 <- process_ppv(data_2013, "2013"),
-    "Processing `2013` data to ensure all columns align across all elections."
+    result_2013 <- process_ppv(data_2013, "2013 Federal Election"),
+    "Processing `2013 Federal Election` data to ensure all columns align across all elections."
   )
   expect_equal(nrow(result_2013), 2)
   expect_equal(names(result_2013), c("date", "event", "StateAb", "DivisionNm", "PollingPlaceNm", "IssueDate", "TotalPPVs"))
@@ -54,7 +54,7 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
   # Test 4: 2016 data processing
   data_2016 <- data.frame(
     date = "2016-07-02",
-    event = "2016",
+    event = "2016 Federal Election",
     m_state_ab = "Victoria",
     m_div_nm = "Melbourne",
     m_pp_nm = "Melbourne PPVC",
@@ -63,8 +63,8 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
     check.names = FALSE
   )
   expect_message(
-    result_2016 <- process_ppv(data_2016, "2016"),
-    "Processing `2016` data to ensure all columns align across all elections."
+    result_2016 <- process_ppv(data_2016, "2016 Federal Election"),
+    "Processing `2016 Federal Election` data to ensure all columns align across all elections."
   )
   expect_equal(nrow(result_2016), 2)
   expect_equal(names(result_2016), c("date", "event", "StateAb", "DivisionNm", "PollingPlaceNm", "IssueDate", "TotalPPVs"))
@@ -75,7 +75,7 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
   # Test 5: 2019 data processing (same as 2016)
   data_2019 <- data.frame(
     date = "2019-05-18",
-    event = "2019",
+    event = "2019 Federal Election",
     m_state_ab = "Queensland",
     m_div_nm = "Brisbane",
     m_pp_nm = "Brisbane PPVC",
@@ -84,8 +84,8 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
     check.names = FALSE
   )
   expect_message(
-    result_2019 <- process_ppv(data_2019, "2019"),
-    "Processing `2019` data to ensure all columns align across all elections."
+    result_2019 <- process_ppv(data_2019, "2019 Federal Election"),
+    "Processing `2019 Federal Election` data to ensure all columns align across all elections."
   )
   expect_equal(nrow(result_2019), 2)
   expect_equal(names(result_2019), c("date", "event", "StateAb", "DivisionNm", "PollingPlaceNm", "IssueDate", "TotalPPVs"))
@@ -96,7 +96,7 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
   # Test 6: 2022 data processing (no pivoting)
   data_2022 <- data.frame(
     date = "2022-05-21",
-    event = "2022",
+    event = "2022 Federal Election",
     StateAb = "South Australia",
     DivisionNm = "Adelaide",
     PPVC = "Adelaide PPVC",
@@ -105,8 +105,8 @@ test_that("process_ppv standardises and transforms PPVC data correctly", {
     check.names = FALSE
   )
   expect_message(
-    result_2022 <- process_ppv(data_2022, "2022"),
-    "Processing `2022` data to ensure all columns align across all elections."
+    result_2022 <- process_ppv(data_2022, "2022 Federal Election"),
+    "Processing `2022 Federal Election` data to ensure all columns align across all elections."
   )
   expect_equal(nrow(result_2022), 1)
   expect_equal(names(result_2022), c("date", "event", "StateAb", "DivisionNm", "PollingPlaceNm", "IssueDate", "TotalPPVs"))

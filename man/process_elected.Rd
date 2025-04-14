@@ -10,11 +10,11 @@ process_elected(data, event)
 \item{data}{A data frame containing election data for a single election event. Must include an
 \code{event} column with a single unique value (e.g., "2004"). Additional columns depend on the specific dataset.}
 
-\item{event}{A character string specifying the election year to process. Currently, only "2004" is
+\item{event}{A character string specifying the election event to process. Currently, only "2004 Federal Election" is
 processed; other values result in the data being returned unprocessed.}
 }
 \value{
-A data frame. For the 2004 election year, it contains the standardised column:
+A data frame. For the 2004 Federal Election, it contains the standardised column:
 \itemize{
 \item \code{Elected} (indicates if the candidate was elected, with values "Y" for yes or "N" for no)
 }
@@ -35,29 +35,30 @@ by candidate by division" (House only).
 This function processes election data by:
 \enumerate{
 \item \strong{Formatting}: Converts \code{Elected} values to "Y" (elected) or "N" (not elected), replacing NA with "N".
-\item \strong{Unrecognised years}: Returns the data unprocessed with an informative message for years other than 2004.
+\item \strong{Unrecognised years}: Returns the data unprocessed with an informative message for years other than
+the 2004 Federal Election.
 }
 The function assumes the input data frame contains the required columns for the specified \code{event}
-year and dataset, with processing currently implemented only for 2004. Future enhancements may
-include adding \code{HistoricVote} data for 2004 (pending identification of the source dataset).
+year and dataset, with processing currently implemented only for the 2004 Federal Election. Future enhancements may
+include adding \code{HistoricVote} data for the 2004 Federal Election (pending identification of the source dataset).
 }
 \examples{
 # Sample 2004 data
 data_2004 <- data.frame(
   date = "2004-10-09",
-  event = "2004",
+  event = "2004 Federal Election",
   CandidateID = 123,
   Elected = "#"
 )
-process_elected(data_2004, "2004")
+process_elected(data_2004, "2004 Federal Election")
 
 # Sample unprocessed year (e.g., 2010)
 data_2010 <- data.frame(
   date = "2010-08-21",
-  event = "2010",
+  event = "2010 Federal Election",
   CandidateID = 456,
   Elected = "Y"
 )
-process_elected(data_2010, "2010")
+process_elected(data_2010, "2010 Federal Election")
 
 }

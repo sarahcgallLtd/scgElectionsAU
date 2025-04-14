@@ -8,18 +8,20 @@ process_overseas(data, event)
 }
 \arguments{
 \item{data}{A data frame containing overseas voting data. Must include an \code{event} column indicating
-the election year (e.g., "2013", "2019", "2022") and, for recognised years, year-specific columns
+the election event (e.g., "2013 Federal Election", "2019 Federal Election", "2022 Federal Election",
+"2023 Referendum") and, for recognised years, year-specific columns
 for state, division, overseas post, and vote counts.}
 
-\item{event}{A character string specifying the election year to process. Recognised values are
-"2013", "2019", or "2022". Other values will result in the data being returned unprocessed.}
+\item{event}{A character string specifying the election event to process. Recognised values are
+"2013 Federal Election", "2019 Federal Election", "2022 Federal Election", or "2023 Referendum". Other values
+will result in the data being returned unprocessed.}
 }
 \value{
-A data frame. For recognised election years ("2013", "2019", "2022"), it contains standardised
+A data frame. For recognised election years ("2013", "2019", "2022", "2023"), it contains standardised
 columns:
 \itemize{
 \item \code{date} (if present in input)
-\item \code{event} (the election year)
+\item \code{event} (the election event)
 \item \code{StateAb} (state abbreviation, standardised using \code{\link[=amend_names]{amend_names()}} for 2013 and 2019)
 \item \code{DivisionNm} (division name)
 \item \code{OverseasPost} (name of the overseas voting post)
@@ -51,8 +53,8 @@ when it is "2013", "2019", or "2022", though column names may vary as per the or
 \examples{
 # Sample 2013 data
 data_2013 <- data.frame(
-  event = "2013",
-  StateAb = c("New South Wales", "Victoria", NA),
+  event = "2013 Federal Election",
+  StateAb = c("NSW", "VIC", NA),
   DivisionNm = c("Sydney", "Melbourne", "Total"),
   pp_nm = c("London", "Paris", "All"),
   `Pre-poll Votes` = c(100, 150, 250),
@@ -61,11 +63,11 @@ data_2013 <- data.frame(
   Total = c(150, 225, 375),
   check.names = FALSE
 )
-process_overseas(data_2013, "2013")
+process_overseas(data_2013, "2013 Federal Election")
 
 # Sample invalid year
-data_2025 <- data.frame(event = "2025", StateAb = "Queensland", Votes = 100)
-process_overseas(data_2025, "2025")
+data_2025 <- data.frame(event = "2025 Federal Election", StateAb = "QLD", Votes = 100)
+process_overseas(data_2025, "2025 Federal Election")
 
 }
 \seealso{

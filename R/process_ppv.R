@@ -12,14 +12,14 @@
 #'   for 2010; `State`, `Division`, `m_pp_nm` for 2013; `m_state_ab`, `m_div_nm`, `m_pp_nm` for
 #'   2016 and 2019; `State`, `Division`, `PPVC`, `Issue Date`, `Total Votes` for 2022. A `date`
 #'   column is optional.
-#' @param event A character string specifying the election year to process. Recognised values are
-#'   "2010", "2013", "2016", "2019", or "2022". Other values result in the data being returned
-#'   unprocessed.
+#' @param event A character string specifying the election event to process. Recognised values are
+#'   "2010 Federal Election", "2013 Federal Election", "2016 Federal Election", "2019 Federal Election",
+#'   or "2022 Federal Election". Other values result in the data being returned unprocessed.
 #'
 #' @return A data frame with standardised columns for recognised election years:
 #'   \itemize{
 #'     \item `date` (if present in the input)
-#'     \item `event` (the election year)
+#'     \item `event` (the election event)
 #'     \item `StateAb` (state abbreviation)
 #'     \item `DivisionNm` (division name)
 #'     \item `PollingPlaceNm` (polling place name; included for 2013, 2016, 2019, and 2022 only)
@@ -62,7 +62,7 @@
 #' # Sample 2013 data (wide format)
 #' data_2013 <- data.frame(
 #'   date = 2013-09-07,
-#'   event = "2013",
+#'   event = "2013 Federal Election",
 #'   StateAb = "NSW",
 #'   DivisionNm = "Sydney",
 #'   m_pp_nm = "Sydney PPVC",
@@ -70,12 +70,12 @@
 #'   `21/08/2013` = 150,
 #'   check.names = FALSE
 #' )
-#' process_ppv(data_2013, "2013")
+#' process_ppv(data_2013, "2013 Federal Election")
 #'
 #' # Sample 2022 data (long format)
 #' data_2022 <- data.frame(
 #'   date = 2022-05-21,
-#'   event = "2022",
+#'   event = "2022 Federal Election",
 #'   StateAb = "VIC",
 #'   DivisionNm = "Melbourne",
 #'   PPVC = "Melbourne PPVC",
@@ -83,33 +83,47 @@
 #'   `Total Votes` = 200,
 #'   check.names = FALSE
 #' )
-#' process_ppv(data_2022, "2022")
+#' process_ppv(data_2022, "2022 Federal Election")
 #'
 #' # Sample invalid year
-#' data_2025 <- data.frame(event = "2025", StateAb = "QLD", Votes = 100)
-#' process_ppv(data_2025, "2025")
+#' data_2025 <- data.frame(event = "2025 Federal Election", StateAb = "QLD", Votes = 100)
+#' process_ppv(data_2025, "2025 Federal Election")
 #'
 #' @export
 process_ppv <- function(data, event) {
-  if (event %in% c("2010", "2013", "2016", "2019", "2022")) {
+  if (event %in% c("2010 Federal Election", "2013 Federal Election", "2016 Federal Election",
+                   "2019 Federal Election", "2022 Federal Election", "2023 Fadden By-Election",
+                   "2023 Aston By-Election", "2024 Cook By-Election", "2024 Dunkley By-Election",
+                   "2020 Groom By-Election", "2020 Eden-Monaro By-Election", "2023 Referendum","2018 Batman By-Election",
+                   "2018 Wentworth By-Election","2018 Braddon By-Election","2017 Bennelong By-Election",
+                   "2017 New England By-Election","2015 North Sydney By-Election","2015 Canning By-Election",
+                   "2014 Griffith By-Election")) {
     message(paste0("Processing `", event, "` data to ensure all columns align across all elections."))
 
     # Step 1: Standardise columns across years
-    if (event == "2010") {
+    if (event == "2010 Federal Election") {
       # Filter out rows with NA by DivisionAb (these contain notes and thus are removed)
       data <- data[!is.na(data$DivisionNm),]
 
-    } else if (event == "2013") {
+    } else if (event == "2013 Federal Election") {
       data <- rename_cols(data, PollingPlaceNm = "m_pp_nm")
 
-    } else if (event %in% c("2016", "2019")) {
+    } else if (event %in% c("2016 Federal Election", "2019 Federal Election", "2020 Groom By-Election",
+                            "2020 Eden-Monaro By-Election","2018 Wentworth By-Election","2018 Braddon By-Election",
+                            "2017 Bennelong By-Election","2017 New England By-Election","2018 Batman By-Election",
+                            "2015 North Sydney By-Election","2015 Canning By-Election","2014 Griffith By-Election")) {
       data <- rename_cols(
         data,
         StateAb = "m_state_ab",
         DivisionNm = "m_div_nm",
         PollingPlaceNm = "m_pp_nm"
       )
-    } else if (event == "2022") {
+
+      # delete by_election `by_elec_nm`
+      data <- data[, !names(data) == "by_elec_nm", drop = FALSE]
+
+    } else if (event %in% c("2022 Federal Election", "2023 Fadden By-Election", "2023 Aston By-Election",
+                            "2024 Cook By-Election", "2024 Dunkley By-Election", "2023 Referendum")) {
       data <- rename_cols(
         data,
         PollingPlaceNm = "PPVC",
@@ -120,14 +134,15 @@ process_ppv <- function(data, event) {
 
     # Step 2: Define columns for output
     id_cols <- c("date", "event", "StateAb", "DivisionNm")
-    if (event != "2010") id_cols <- c(id_cols, "PollingPlaceNm")
+    if (event != "2010 Federal Election") id_cols <- c(id_cols, "PollingPlaceNm")
     long_cols <- c("IssueDate", "TotalPPVs")
     names_to <- "IssueDate"
     values_to <- "TotalPPVs"
 
     # Step 3: Process based on event year
-    if (event == "2022") {
-      # For 2022: Select identifier and long-format columns
+    if (event %in% c("2022 Federal Election", "2023 Fadden By-Election", "2023 Aston By-Election",
+                     "2024 Cook By-Election", "2024 Dunkley By-Election", "2023 Referendum")) {
+      # Select identifier and long-format columns
       data <- data[, c(id_cols, long_cols), drop = FALSE]
     } else {
       # For other years, pivot date columns into long format
@@ -135,15 +150,23 @@ process_ppv <- function(data, event) {
     }
 
     # Step 4: Convert Issue Date to date object
-    formats <- list(
-      "2022" = "%d/%m/%y",    # e.g., "09/05/22"
-      "2019" = "%d/%m/%Y",    # e.g., "29/04/2019"
-      "2016" = "%Y-%m-%d",    # e.g., "2016-06-14"
-      "2013" = "%d/%m/%Y",    # e.g., "20/08/2013"
-      "2010" = "%d %b %y"     # e.g., "02 Aug 10"
+    # Define formats with events grouped by pattern
+    format_groups <- list(
+      "%d/%m/%y" = c("2022 Federal Election"), # "09/05/22"
+      "%d/%m/%Y" = c("2019 Federal Election", "2013 Federal Election", "2023 Fadden By-Election",
+                     "2023 Aston By-Election", "2024 Cook By-Election", "2024 Dunkley By-Election",
+                     "2023 Referendum","2018 Wentworth By-Election","2018 Braddon By-Election",
+                     "2017 Bennelong By-Election","2017 New England By-Election",
+                     "2015 North Sydney By-Election","2015 Canning By-Election",
+                     "2014 Griffith By-Election","2018 Batman By-Election"), # "29/04/2019"
+      "%Y-%m-%d" = c("2016 Federal Election", "2020 Groom By-Election", "2020 Eden-Monaro By-Election"), # "2016-06-14"
+      "%d %b %y" = c("2010 Federal Election") # "02 Aug 10"
     )
-    if (event %in% names(formats)) {
-      data$"IssueDate" <- as.Date(data$"IssueDate", format = formats[[event]])
+    # Find the format for the given event
+    format <- names(format_groups)[sapply(format_groups, function(events) event %in% events)]
+    # Apply the format if the event is found
+    if (length(format) > 0) {
+      data$IssueDate <- as.Date(data$IssueDate, format = format)
     }
 
   } else {

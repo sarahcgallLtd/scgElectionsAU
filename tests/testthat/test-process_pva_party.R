@@ -3,20 +3,20 @@ test_that("process_pva_party standardises PVA data correctly", {
   # Test 1: Unrecognised event returns unprocessed data with message
   data_2022 <- data.frame(
     date = "2022-05-21",
-    event = "2022",
+    event = "2022 Federal Election",
     StateAb = "Queensland",
     Votes = 90
   )
   expect_message(
-    result_2022 <- process_pva_party(data_2022, "2022"),
-    "No processing required for `2022`. Data returned unprocessed."
+    result_2022 <- process_pva_party(data_2022, "2022 Federal Election"),
+    "No processing required for `2022 Federal Election`. Data returned unprocessed."
   )
   expect_identical(result_2022, data_2022)
 
   # Test 2: 2010 data processing
   data_2010 <- data.frame(
     date = "2010-08-21",
-    event = "2010",
+    event = "2010 Federal Election",
     StateAb = "Victoria",
     Enrolment = "Melbourne",
     `Country Liberal` = 0,
@@ -30,8 +30,8 @@ test_that("process_pva_party standardises PVA data correctly", {
     check.names = FALSE
   )
   expect_message(
-    result_2010 <- process_pva_party(data_2010, "2010"),
-    "Processing `2010` data to ensure all columns align across all elections."
+    result_2010 <- process_pva_party(data_2010, "2010 Federal Election"),
+    "Processing `2010 Federal Election` data to ensure all columns align across all elections."
   )
   expected_cols_2010 <- c("date", "event", "StateAb", "DivisionNm", "AEC (Total)","Total (AEC + Parties)",
                           "ALP","CLP","GRN","LIB","NAT", "OTH")
@@ -45,7 +45,7 @@ test_that("process_pva_party standardises PVA data correctly", {
   # Test 3: 2013 data processing with NA in State
   data_2013 <- data.frame(
     date = "2013-09-07",
-    event = "2013",
+    event = "2013 Federal Election",
     StateAb = NA,
     `Enrolment Division` = "Sydney",
     `Country Liberal` = 0,
@@ -60,8 +60,8 @@ test_that("process_pva_party standardises PVA data correctly", {
     check.names = FALSE
   )
   expect_message(
-    result_2013 <- process_pva_party(data_2013, "2013"),
-    "Processing `2013` data to ensure all columns align across all elections."
+    result_2013 <- process_pva_party(data_2013, "2013 Federal Election"),
+    "Processing `2013 Federal Election` data to ensure all columns align across all elections."
   )
   expected_cols_2013 <- c("date", "event", "StateAb", "DivisionNm", "AEC (Online)", "AEC (Paper)",
                           "AEC (Total)", "Total (AEC + Parties)", "ALP", "CLP", "GRN", "LIB", "LNP", "NAT", "OTH")
@@ -75,7 +75,7 @@ test_that("process_pva_party standardises PVA data correctly", {
   # Test 4: 2016 data processing
   data_2016 <- data.frame(
     date = "2016-07-02",
-    event = "2016",
+    event = "2016 Federal Election",
     State_Cd = "NSW",
     PVA_Web_1_Party_Div = "Sydney",
     `AEC - OPVA` = 30,
@@ -91,8 +91,8 @@ test_that("process_pva_party standardises PVA data correctly", {
     check.names = FALSE
   )
   expect_message(
-    result_2016 <- process_pva_party(data_2016, "2016"),
-    "Processing `2016` data to ensure all columns align across all elections."
+    result_2016 <- process_pva_party(data_2016, "2016 Federal Election"),
+    "Processing `2016 Federal Election` data to ensure all columns align across all elections."
   )
   expected_cols_2016 <- c("date", "event", "StateAb", "DivisionNm","GPV", "AEC (Online)", "AEC (Paper)",
                           "AEC (Total)", "Total (AEC + Parties)", "ALP", "CLP", "GRN", "LIB","LNP", "NAT", "OTH")

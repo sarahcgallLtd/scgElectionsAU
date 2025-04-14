@@ -1,4 +1,4 @@
-file_name,download_folder,prefix,download_name,file_type,2023,processing_function
+file_name,download_folder,prefix,download_name,file_type,2023 Referendum,processing_function
 Votes by polling place,Downloads,Referendum,PollingPlaceResultsByState,-NSW.csv,Y,NA
 Votes by polling place,Downloads,Referendum,PollingPlaceResultsByState,-VIC.csv,Y,NA
 Votes by polling place,Downloads,Referendum,PollingPlaceResultsByState,-QLD.csv,Y,NA

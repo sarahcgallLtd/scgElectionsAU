@@ -16,16 +16,10 @@ name_conversions <- readr::read_csv("data-raw/name_conversions.csv")
 # Get all unprocessed polling place datasets
 data <- get_aec_data(file_name = "Polling places",
                      date_range = list(from = "2004-01-01", to = "2025-01-01"),
+                     type = c("Federal Election", "Referendum", "By-Election"),
                      category = "General",
                      process = FALSE
 )
-# ref <- get_aec_data("Polling places",
-#                     type = "Referendum",
-#                     category = "General",
-#                     process = FALSE
-# )
-#
-# data <- bind_rows(data, ref)
 
 # Make any coordinates listed as 0,0, NAs
 data$Latitude1 <- ifelse(data$Latitude == 0, NA, data$Latitude)
@@ -44,6 +38,9 @@ coords <- data[, names(data) %in% c("PollingPlaceID", "Latitude", "Longitude")]
 
 # Make unique
 coords <- unique(coords)
+
+# Filter out NAs
+coords <- na.omit(coords)
 
 # Save to internal data
 # sysdata_filenames <- load("R/sysdata.rda")

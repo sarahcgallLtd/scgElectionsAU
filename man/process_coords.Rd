@@ -9,14 +9,15 @@ process_coords(data, event)
 \arguments{
 \item{data}{A data frame containing polling place data for a single election event. Must include:
 \itemize{
-\item \code{event} (the election year, e.g., "2004", "2010")
+\item \code{event} (the election event, e.g., "2004 Federal Election", "2010 Federal Election")
 \item \code{PollingPlaceID} (unique identifier for polling places)
 \item \code{Latitude} (latitude coordinate, potentially NA or 0)
 \item \code{Longitude} (longitude coordinate, potentially NA or 0)
 }
 A \code{date} column is typically present as mandatory metadata.}
 
-\item{event}{A character string specifying the election year (e.g., "2004", "2010"). Used for
+\item{event}{A character string specifying the election event (e.g., "2004 Federal Election",
+"2010 Federal Election"). Used for
 logging purposes only; processing occurs for all years.}
 }
 \value{
@@ -54,21 +55,21 @@ The function assumes the input data frame contains the required columns (\code{e
 # Sample data with missing coordinates
 data_2010 <- data.frame(
   date = "2010-08-21",
-  event = "2010",
+  event = "2010 Federal Election",
   PollingPlaceID = c(93925.0, 11877.0),
   Latitude = c(NA, 0),
   Longitude = c(0, NA)
 )
-process_coords(data_2010, "2010")
+process_coords(data_2010, "2010 Federal Election")
 
 # Sample data with some valid coordinates
 data_2013 <- data.frame(
   date = "2013-09-07",
-  event = "2013",
+  event = "2013 Federal Election",
   PollingPlaceID = c(93925.0, 11877.0),
   Latitude = c(-37.81, -33.87),
   Longitude = c(144.96, 151.21)
 )
-process_coords(data_2013, "2013")
+process_coords(data_2013, "2013 Federal Election")
 
 }

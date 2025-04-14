@@ -7,7 +7,7 @@ NULL
 #' retrieves raw data files from the AEC, optionally applies standardisation processes (e.g., column
 #' name consistency), and returns a combined data frame for analysis. The function is designed to
 #' handle various types of election-related datasets, including federal elections, referendums,
-#' by-elections, and the AEC transparency register.
+#' by-elections, and the AEC disclosure/transparency register.
 #'
 #' @param file_name A character string specifying the name of the AEC dataset to retrieve (e.g.,
 #'        "National list of candidates"). This name must match entries in the internal index datasets.
@@ -15,7 +15,7 @@ NULL
 #'        and end dates (in "YYYY-MM-DD" format) for the election events to include. Defaults to
 #'        \code{list(from = "2022-01-01", to = "2025-01-01")}.
 #' @param type A character string specifying the type of election or event. Must be one of:
-#'        "Federal Election", "Referendum", "Federal By-Election", or "Transparency". Defaults to the first option.
+#'        "Federal Election", "Referendum", "By-Election", or "Disclosure". Defaults to the first option.
 #' @param category A character string specifying the category of the data. Must be one of: "House",
 #'        "Senate", "Referendum", "General", or "Statistics". Defaults to the first option.
 #' @param process A logical value indicating whether to apply additional processing to the downloaded
@@ -62,19 +62,32 @@ NULL
 get_aec_data <- function(
   file_name,
   date_range = list(from = "2022-01-01", to = "2025-01-01"),
-  type = c("Federal Election", "Referendum", "Federal By-Election", "Transparency"),
+  type = NULL,
   category = c("House", "Senate", "Referendum", "General", "Statistics"),
   process = TRUE
 ) {
   # =====================================#
   # CHECK PARAMS
-  type <- match.arg(type)
+  # Define valid type options
+  valid_types <- c("Federal Election", "Referendum", "By-Election")
+
+  # If type is NULL or empty, default to the first option
+  if (is.null(type) || length(type) == 0) {
+    type <- valid_types[1]  # Default to "Federal Election"
+  }
+
+  # Validate that all provided types are valid
+  if (!all(type %in% valid_types)) {
+    invalid_types <- type[!type %in% valid_types]
+    stop("Invalid type(s) provided: ", paste(invalid_types, collapse = ", "),
+         ". Must be one of: ", paste(valid_types, collapse = ", "), ".")
+  }
+
   category <- match.arg(category)
 
   check_params(
     file_name = file_name,
     date_range = date_range,
-    type = type,
     category = category,
     process = process
   )
@@ -83,18 +96,12 @@ get_aec_data <- function(
   # GET AND PROCESS INTERNAL DATA
   info <- get_internal_info(date_range, type)
 
-  key <- switch(
-    type,
-    "Federal Election" = "aec_elections_index",
-    "Referendum" = "aec_referendums_index"
-  )
-
   # Get index from the 'aec_elections_index' data available in scgElectionsAU package
-  index <- get0(x = key, envir = asNamespace("scgElectionsAU"))
+  index <- get0(x = "aec_elections_index", envir = asNamespace("scgElectionsAU"))
 
   # Check if 'names' data is available
   if (is.null(index)) {
-    stop(paste0("Data '", key, "' not found in 'scgElectionsAU' package. Contact the package maintainer."))
+    stop(paste0("Data 'aec_elections_index' not found in 'scgElectionsAU' package. Contact the package maintainer."))
   }
   # Get list of events
   events <- as.character(info$event)
@@ -117,6 +124,12 @@ get_aec_data <- function(
     ref <- info$aec_reference[i]
     event <- info$event[i]
 
+    # Check if event is a valid column in check_df
+    if (!(event %in% names(check_df))) {
+      message(paste0("Skipping `", file_name, "` for the event `", event, "` as it is not a valid column in check_df."))
+      next
+    }
+
     # Filter check_df for this event
     filtered_check_df <- check_df[check_df[[event]] == "Y",]
 
@@ -130,7 +143,7 @@ get_aec_data <- function(
     event_dfs <- list()
 
     # Download files based on the number of rows in filtered_check_df
-    for (j in 1:nrow(filtered_check_df)) {
+    for (j in seq_len(nrow(filtered_check_df))) {
       row <- filtered_check_df[j,]
       file_type <- row$file_type  # Get the file_type from the row
 
@@ -181,11 +194,57 @@ get_aec_data <- function(
       event_df <- preprocess_pva(event_df, file_name)
     }
 
+    # Preprocess Referendum Polling places
+    # Fix rows 7256 and 7277 which are problematic
+    if (file_name == "Polling places" & event == "2023 Referendum") {
+      # Define the problematic rows
+      problematic_rows <- c(7256, 7277)
+      message("Fixing parsing errors in the AEC's file")
+
+      # Loop through each problematic row
+      for (row in problematic_rows) {
+        # Move the value in "PremisesStateAb" to "PremisesSuburb"
+        event_df$PremisesSuburb[row] <- event_df$PremisesStateAb[row]
+
+        # Move the value in "PremisesPostCode" to "PremisesStateAb"
+        event_df$PremisesStateAb[row] <- event_df$PremisesPostCode[row]
+
+        # Move the value in "Latitude" to "PremisesPostCode"
+        event_df$PremisesPostCode[row] <- event_df$Latitude[row]
+
+        # Split (identified by ",") value in "Longitude" with the first number
+        # in "Latitude" and the second in "Longitude"
+        split_values <- strsplit(event_df$Longitude[row], ",")
+        if (length(split_values[[1]]) == 2) {
+          event_df$Latitude[row] <- split_values[[1]][1]  # First part to Latitude
+          event_df$Longitude[row] <- split_values[[1]][2] # Second part to Longitude
+        } else {
+          warning(paste("Could not split Longitude in row", row, "- unexpected format"))
+        }
+      }
+
+      # Make "Longitude" numeric
+      event_df$Longitude <- as.numeric(event_df$Longitude)
+
+    }
+
     # Process Data if process param = TRUE
     if (process) {
       event_df <- amend_colnames(event_df)
       event_df <- process_init(event_df, file_name, category, event, index)
+
+      # Correct by-election issue
+      if (event == "2018 Braddon By-Election" & (file_name == "Postal vote applications by date" ||
+        file_name == "Postal vote applications by party" ||
+        file_name == "Pre-poll votes")) {
+        event_df$event <- ifelse(event_df$DivisionNm == "Fremantle", "2018 Fremantle By-Election", event_df$event)
+        event_df$event <- ifelse(event_df$DivisionNm == "Longman", "2018 Longman By-Election", event_df$event)
+        event_df$event <- ifelse(event_df$DivisionNm == "Mayo", "2018 Mayo By-Election", event_df$event)
+        event_df$event <- ifelse(event_df$DivisionNm == "Perth", "2018 Perth By-Election", event_df$event)
+        event_df$event <- ifelse(event_df$StateAb == "ZZZ", "2018 Super Saturday By-Elections", event_df$event)
+      }
     }
+
 
     # =====================================#
     # APPEND DATA
@@ -252,7 +311,7 @@ get_internal_info <- function(
   info <- info[info$date >= date_range$from & info$date <= date_range$to,]
 
   # Filter by Type
-  info <- info[info$type == type,]
+  info <- info[info$type %in% type,]
 
   return(info)
 }
@@ -411,19 +470,19 @@ construct_url <- function(
     url <- switch(key,
                   "Postal vote applications" = {
                     info$postal[info$event == event &
-                                  info$type == type]
+                                  info$type %in% type]
                   },
                   "Pre-poll votes" = {
                     info$prepoll[info$event == event &
-                                   info$type == type]
+                                   info$type %in% type]
                   },
                   "Votes by SA1" = {
                     info$votes[info$event == event &
-                                 info$type == type]
+                                 info$type %in% type]
                   },
                   "Overseas" = {
                     info$overseas[info$event == event &
-                                    info$type == type]
+                                    info$type %in% type]
                   }
     )
   } else {
@@ -481,8 +540,8 @@ construct_url <- function(
 preprocess_pva <- function(data, file_name) {
   if (file_name == "Postal vote applications by party") {
     # Keep columns
-    data <- data[, names(data) %in% c("date", "event", "State_Cd", "State", "PVA_Web_1_Party_Div", "Enrolment Division",
-                                      "Division", "Enrolment",
+    data <- data[, names(data) %in% c("date", "event", "State_Cd", "State", "PVA_Web_1_Party_Div", "PVA_Web_1_Party.Div",
+                                      "Enrolment Division", "Division", "Enrolment", "AEC - PAPER", "Paper",
                                       "AEC - OPVA", "AEC - Paper", "AEC (Online)", "AEC (Paper)", "AEC",
                                       "ALP", "CLP", "DEM", "GPV", "GRN", "LIB", "LNP", "NAT", "OTH",
                                       "Country Liberal", "Greens", "Labor", "Liberal", "Liberal-National",
@@ -490,7 +549,8 @@ preprocess_pva <- function(data, file_name) {
 
   } else if (file_name == "Postal vote applications by date") {
     # Remove columns
-    data <- data[, !names(data) %in% c("PVA_Web_1_Party_Div", "AEC - OPVA", "AEC - Paper", "AEC (Online)", "AEC (Paper)",
+    data <- data[, !names(data) %in% c("PVA_Web_1_Party_Div", "PVA_Web_1_Party.Div", "AEC - PAPER", "AEC - OPVA",
+                                       "AEC - Paper", "AEC (Online)", "AEC (Paper)", "Paper",
                                        "AEC", "ALP", "CLP", "DEM", "GPV", "GRN", "LIB", "LNP", "NAT", "OTH",
                                        "Sum of AEC and Parties",
                                        "Country Liberal", "Greens", "Labor", "Liberal", "Liberal-National",

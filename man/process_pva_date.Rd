@@ -10,7 +10,7 @@ process_pva_date(data, event)
 \item{data}{A data frame containing PVA data for a single election event. Must include:
 \itemize{
 \item \code{date} (the date of the election or data snapshot)
-\item \code{event} (the election year, matching the \code{event} argument)
+\item \code{event} (the election event, matching the \code{event} argument)
 }
 Additional required columns vary by year:
 \itemize{
@@ -20,14 +20,15 @@ Additional required columns vary by year:
 \item 2019: \code{State_Cd}, \code{PVA_Web_2_Date_V2_Div}, and date-specific columns (e.g., "20190411").
 }}
 
-\item{event}{A character string specifying the election year to process. Recognised values are
-"2010", "2013", "2016", or "2019". Other values result in the data being returned unprocessed.}
+\item{event}{A character string specifying the election event to process. Recognised values are
+"2010 Federal Election", "2013 Federal Election", "2016 Federal Election", or "2019 Federal Election".
+Other values result in the data being returned unprocessed.}
 }
 \value{
 A data frame with standardised columns for recognised election years:
 \itemize{
 \item \code{date} (the date of the election or data snapshot)
-\item \code{event} (the election year)
+\item \code{event} (the election event)
 \item \code{StateAb} (state abbreviation, upper case; "ZZZ" for NA in 2013)
 \item \code{DivisionNm} (division name)
 \item \code{DateReceived} (date the PVA was received, as a Date object)
@@ -77,21 +78,21 @@ the \code{DateReceived} and \code{TotalPVAs} columns.
 # Sample 2010 data
 data_2010 <- data.frame(
   date = "2010-08-21",
-  event = "2010",
+  event = "2010 Federal Election",
   StateAb = "VIC",
   Enrolment = "Melbourne",
   `02 Aug 10` = 50,
   `03 Aug 10` = 60
 )
-process_pva_date(data_2010, "2010")
+process_pva_date(data_2010, "2010 Federal Election")
 
 # Sample invalid year
 data_2022 <- data.frame(
   date = "2022-05-21",
-  event = "2022",
+  event = "2022 Federal Election",
   StateAb = "QLD",
   Votes = 90
 )
-process_pva_date(data_2022, "2022")
+process_pva_date(data_2022, "2022 Federal Election")
 
 }

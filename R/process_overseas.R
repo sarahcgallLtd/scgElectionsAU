@@ -6,16 +6,18 @@
 #' If an unrecognised election year is provided, the data is returned unprocessed with a message.
 #'
 #' @param data A data frame containing overseas voting data. Must include an `event` column indicating
-#'   the election year (e.g., "2013", "2019", "2022") and, for recognised years, year-specific columns
+#'   the election event (e.g., "2013 Federal Election", "2019 Federal Election", "2022 Federal Election",
+#'   "2023 Referendum") and, for recognised years, year-specific columns
 #'   for state, division, overseas post, and vote counts.
-#' @param event A character string specifying the election year to process. Recognised values are
-#'   "2013", "2019", or "2022". Other values will result in the data being returned unprocessed.
+#' @param event A character string specifying the election event to process. Recognised values are
+#'   "2013 Federal Election", "2019 Federal Election", "2022 Federal Election", or "2023 Referendum". Other values
+#'   will result in the data being returned unprocessed.
 #'
-#' @return A data frame. For recognised election years ("2013", "2019", "2022"), it contains standardised
+#' @return A data frame. For recognised election years ("2013", "2019", "2022", "2023"), it contains standardised
 #'   columns:
 #'   \itemize{
 #'     \item `date` (if present in input)
-#'     \item `event` (the election year)
+#'     \item `event` (the election event)
 #'     \item `StateAb` (state abbreviation, standardised using [amend_names()] for 2013 and 2019)
 #'     \item `DivisionNm` (division name)
 #'     \item `OverseasPost` (name of the overseas voting post)
@@ -41,8 +43,8 @@
 #' @examples
 #' # Sample 2013 data
 #' data_2013 <- data.frame(
-#'   event = "2013",
-#'   StateAb = c("New South Wales", "Victoria", NA),
+#'   event = "2013 Federal Election",
+#'   StateAb = c("NSW", "VIC", NA),
 #'   DivisionNm = c("Sydney", "Melbourne", "Total"),
 #'   pp_nm = c("London", "Paris", "All"),
 #'   `Pre-poll Votes` = c(100, 150, 250),
@@ -51,11 +53,11 @@
 #'   Total = c(150, 225, 375),
 #'   check.names = FALSE
 #' )
-#' process_overseas(data_2013, "2013")
+#' process_overseas(data_2013, "2013 Federal Election")
 #'
 #' # Sample invalid year
-#' data_2025 <- data.frame(event = "2025", StateAb = "Queensland", Votes = 100)
-#' process_overseas(data_2025, "2025")
+#' data_2025 <- data.frame(event = "2025 Federal Election", StateAb = "QLD", Votes = 100)
+#' process_overseas(data_2025, "2025 Federal Election")
 #'
 #' @seealso \code{\link{amend_names}}) for state name standardisation.
 #'
@@ -65,11 +67,11 @@ process_overseas <- function(
   event
 ) {
   # Check only 2013, 2019, and 2022 election years are passed
-  if (event %in% c("2013", "2019", "2022")) {
+  if (event %in% c("2013 Federal Election", "2019 Federal Election", "2022 Federal Election", "2023 Referendum")) {
     message(paste0("Processing `", event, "` data to ensure all columns align across all elections."))
 
     # Standardise columns to goal 8 column data frame
-    if (event == "2013") {
+    if (event == "2013 Federal Election") {
       # Rename columns
       data <- rename_cols(data,
         OverseasPost = "pp_nm",
@@ -86,7 +88,7 @@ process_overseas <- function(
       # Amend State Names to StateAb
       data <- amend_names(data, "StateAb", "state_to_abbr")
 
-    } else if (event == "2019") {
+    } else if (event == "2019 Federal Election") {
       # Rename columns
       data <- rename_cols(data,
         OverseasPost = "Diplomatic Post\r\n(Nb. Colombo did not operate due to security issues)",
@@ -97,12 +99,19 @@ process_overseas <- function(
       # Amend State Names to StateAb
       data <- amend_names(data, "StateAb", "state_to_abbr")
 
-    } else if (event == "2022") {
+    } else if (event == "2022 Federal Election") {
       # Rename  columns
       data <- rename_cols(data,
         OverseasPost = "Overseas Post",
         PostalVotes = "Postal Vote Envelopes Received at Post",
         PrePollVotes = "Pre-Poll (in-person) Votes"
+      )
+    } else if (event == "2023 Referendum") {
+      # Rename  columns
+      data <- rename_cols(data,
+        OverseasPost = "Overseas Post",
+        PostalVotes = "Postal Vote Envelopes Received at Post",
+        PrePollVotes = "Pre-Poll (in-person) Votes Issued at Post"
       )
     }
 

@@ -11,15 +11,17 @@ process_ccd(data, event)
 year (e.g., "2013", "2016", "2019", "2022") and year-specific columns such as \code{state_ab},
 \code{div_nm}, \code{pp_id}, \code{pp_nm}, and vote or area identifiers (e.g., \code{votes}, \code{count}, \code{ccd_id}, \code{SA1_id}).}
 
-\item{event}{A character string specifying the election year to process. Recognised values are
-"2013", "2016", "2019", or "2022". Other values result in the data being returned unprocessed.}
+\item{event}{A character string specifying the election event to process. Recognised values are
+"2013 Federal Election", "2016 Federal Election", "2019 Federal Election", or "2022 Federal
+Election". Other values result in the data being returned unprocessed.}
 }
 \value{
-A data frame. For recognised election years ("2013", "2016", "2019", "2022"), it contains
+A data frame. For recognised election events ("2013 Federal Election", "2016 Federal
+Election", "2019 Federal Election", "2022 Federal Election", "2023 Referendum"), it contains
 standardised columns:
 \itemize{
 \item \code{date} (if present in the input)
-\item \code{event} (the election year)
+\item \code{event} (the election event)
 \item \code{StateAb} (state abbreviation)
 \item \code{DivisionNm} (division name)
 \item \code{StatisticalAreaID} (statistical area identifier; refers to 2011 ASGC for 2013–2016,
@@ -56,8 +58,8 @@ reflects different Australian Statistical Geography Standards (ASGC) depending o
 \examples{
 # Sample 2013 data
 data_2013 <- data.frame(
-  event = "2013",
-  state_ab = "New South Wales",
+  event = "2013 Federal Election",
+  state_ab = "NSW",
   div_nm = "Sydney",
   pp_id = 101,
   pp_nm = "Sydney Town Hall",
@@ -65,22 +67,22 @@ data_2013 <- data.frame(
   count = 500,
   year = 2013
 )
-process_ccd(data_2013, "2013")
+process_ccd(data_2013, "2013 Federal Election")
 
 # Sample 2019 data
 data_2019 <- data.frame(
-  event = "2019",
-  state_ab = "Victoria",
+  event = "2019 Federal Election",
+  state_ab = "VIC",
   div_nm = "Melbourne",
   pp_id = 102,
   pp_nm = "Melbourne Central",
   SA1_id = "67890",
   votes = 600
 )
-process_ccd(data_2019, "2019")
+process_ccd(data_2019, "2019 Federal Election")
 
 # Sample invalid year
-data_2025 <- data.frame(event = "2025", state_ab = "Queensland", votes = 100)
-process_ccd(data_2025, "2025")
+data_2025 <- data.frame(event = "2025 Federal Election", state_ab = "QLD", votes = 100)
+process_ccd(data_2025, "2025 Federal Election")
 
 }

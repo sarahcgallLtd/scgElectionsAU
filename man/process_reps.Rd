@@ -9,14 +9,16 @@ process_reps(data, event)
 \arguments{
 \item{data}{A data frame containing "Party representation" data for a single election event from
 the House of Representatives. Must include an \code{event} column with a single unique value (e.g.,
-"2004", "2007", "2010"). For processing years (2004, 2007, 2010), must include \code{Total} and
+"2004 Federal Election", "2007 Federal Election", "2010 Federal Election"). For processing
+years (2004, 2007, 2010), must include \code{Total} and
 \code{LastElectionTotal} columns. A \code{date} column is typically present as mandatory metadata.}
 
-\item{event}{A character string specifying the election year to process. Recognised values are
-"2004", "2007", or "2010". Other values result in the data being returned unprocessed.}
+\item{event}{A character string specifying the election event to process. Recognised values are
+"2004 Federal Election", "2007 Federal Election", or "2010 Federal Election". Other values
+result in the data being returned unprocessed.}
 }
 \value{
-A data frame. For recognised election years (2004, 2007, 2010), it contains the standardised
+A data frame. For recognised election federal years (2004, 2007, 2010), it contains the standardised
 columns:
 \itemize{
 \item \code{National} (total party representation, renamed from \code{Total})
@@ -47,21 +49,21 @@ dataset for the House of Representatives.
 # Sample 2004 data
 data_2004 <- data.frame(
   date = "2004-10-09",
-  event = "2004",
+  event = "2004 Federal Election",
   PartyNm = "ALP",
   Total = 60,
   LastElectionTotal = 65
 )
-process_reps(data_2004, "2004")
+process_reps(data_2004, "2004 Federal Election")
 
 # Sample unprocessed year (e.g., 2013)
 data_2013 <- data.frame(
   date = "2013-09-07",
-  event = "2013",
+  event = "2013 Federal Election",
   PartyNm = "LIB",
   National = 90,
   LastElection = 72
 )
-process_reps(data_2013, "2013")
+process_reps(data_2013, "2013 Federal Election")
 
 }

@@ -7,7 +7,8 @@
 #' set of columns. For unrecognised election years, the data is returned unprocessed with a message.
 #'
 #' @param data A data frame containing PVA data for a single election event. Must include an `event`
-#'   column with a single unique value (e.g., "2010", "2013", "2016", "2019"). Additional required
+#'   column with a single unique value (e.g., "2010 Federal Election", "2013 Federal Election",
+#'   "2016 Federal Election", "2019 Federal Election"). Additional required
 #'   columns vary by year:
 #'   \itemize{
 #'     \item 2010: `Enrolment`, and party-specific columns (e.g., `Labor`, `Liberal`, `AEC`).
@@ -15,13 +16,14 @@
 #'     \item 2016 and 2019: `State_Cd`, `PVA_Web_1_Party_Div`, and AEC-specific columns (e.g., `AEC - OPVA`).
 #'   }
 #'   A `date` column is optional.
-#' @param event A character string specifying the election year to process. Recognised values are
-#'   "2010", "2013", "2016", or "2019". Other values result in the data being returned unprocessed.
+#' @param event A character string specifying the election event to process. Recognised values are
+#'   "2010 Federal Election", "2013 Federal Election", "2016 Federal Election", or "2019 Federal Election".
+#'   Other values result in the data being returned unprocessed.
 #'
 #' @return A data frame with standardised columns for recognised election years:
 #'   \itemize{
 #'     \item `date` (the date of the election or data snapshot)
-#'     \item `event` (the election year)
+#'     \item `event` (the election event)
 #'     \item `StateAb` (state abbreviation, upper case; "ZZZ" for NA in 2013)
 #'     \item `DivisionNm` (division name)
 #'     \item `GPV` (general postal voter applications; included for 2013, 2016, 2019 only)
@@ -63,19 +65,19 @@
 #' # Sample 2010 data
 #' data_2010 <- data.frame(
 #'   date = "2010-08-21",
-#'   event = "2010",
+#'   event = "2010 Federal Election",
 #'   StateAb = "VIC",
 #'   Enrolment = "Melbourne",
 #'   Labor = 120,
 #'   Liberal = 180,
 #'   AEC = 60
 #' )
-#' process_pva_party(data_2010, "2010")
+#' process_pva_party(data_2010, "2010 Federal Election")
 #'
 #' # Sample 2013 data with NA in State
 #' data_2013 <- data.frame(
 #'   date = "2013-08-21",
-#'   event = "2013",
+#'   event = "2013 Federal Election",
 #'   StateAb = NSW,
 #'   `Enrolment Division` = "Sydney",
 #'   `Liberal-National` = 150,
@@ -83,21 +85,25 @@
 #'   `AEC - Paper` = 15,
 #'   check.names = FALSE
 #' )
-#' process_pva_party(data_2013, "2013")
+#' process_pva_party(data_2013, "2013 Federal Election")
 #'
 #' # Sample invalid year
-#' data_2022 <- data.frame(event = "2022", StateAb = "QLD", Votes = 90)
-#' process_pva_party(data_2022, "2022")
+#' data_2022 <- data.frame(event = "2022 Federal Election", StateAb = "QLD", Votes = 90)
+#' process_pva_party(data_2022, "2022 Federal Election")
 #' }
 #'
 #' @export
 process_pva_party <- function(data, event) {
-  if (event %in% c("2010", "2013", "2016", "2019")) {
+  if (event %in% c("2010 Federal Election", "2013 Federal Election", "2016 Federal Election", "2019 Federal Election",
+                   "2020 Groom By-Election", "2020 Eden-Monaro By-Election", "2018 Wentworth By-Election",
+                   "2018 Braddon By-Election", "2018 Batman By-Election", "2017 Bennelong By-Election",
+                   "2017 New England By-Election", "2015 North Sydney By-Election", "2015 Canning By-Election",
+                   "2014 Griffith By-Election")) {
     message(paste0("Processing `", event, "` data to ensure all columns align across all elections."))
 
     # Step 1: Standardise columns across years
     # Amend State and Division Metadata
-    if (event %in% c("2010", "2013")) {
+    if (event %in% c("2010 Federal Election", "2013 Federal Election")) {
       data <- rename_cols(
         data,
         ALP = "Labor",
@@ -108,7 +114,7 @@ process_pva_party <- function(data, event) {
         OTH = "Other Party"
       )
 
-      if (event == "2010") {
+      if (event == "2010 Federal Election") {
         data <- rename_cols(
           data,
           DivisionNm = "Enrolment",
@@ -116,7 +122,7 @@ process_pva_party <- function(data, event) {
           `Total (AEC + Parties)` = "Sum of AEC and Parties"
         )
 
-      } else if (event == "2013") {
+      } else if (event == "2013 Federal Election") {
         data <- rename_cols(
           data,
           DivisionNm = "Enrolment Division",
@@ -130,17 +136,33 @@ process_pva_party <- function(data, event) {
       # Filter out rows with NA by DivisionNm (these contain notes and thus are removed)
       data <- data[!is.na(data$DivisionNm),]
 
-    } else if (event %in% c("2016", "2019")) {
+    } else if (event %in% c("2014 Griffith By-Election", "2015 Canning By-Election", "2015 North Sydney By-Election",
+                            "2016 Federal Election", "2019 Federal Election", "2017 New England By-Election",
+                            "2017 Bennelong By-Election", "2018 Batman By-Election", "2018 Braddon By-Election",
+                            "2018 Wentworth By-Election")) {
+      if (event == "2014 Griffith By-Election") {
+        data <- rename_cols(data, DivisionNm = "PVA_Web_1_Party.Div")
+      } else {
+        data <- rename_cols(data, DivisionNm = "PVA_Web_1_Party_Div")
+      }
+      if (event == "2018 Wentworth By-Election") {
+        data <- rename_cols(data, `AEC (Paper)` = "Paper")
+      } else {
+        data <- rename_cols(data, `AEC (Paper)` = "AEC - Paper")
+      }
+      data <- rename_cols(data, StateAb = "State_Cd", `AEC (Online)` = "AEC - OPVA")
+    } else if (event %in% c("2020 Eden-Monaro By-Election", "2020 Groom By-Election")) {
       data <- rename_cols(
         data,
-        StateAb = "State_Cd",
         DivisionNm = "PVA_Web_1_Party_Div",
-        `AEC (Online)` = "AEC - OPVA",
-        `AEC (Paper)` = "AEC - Paper"
+        `AEC (Paper)` = "AEC - PAPER",
+        `AEC (Online)` = "AEC - OPVA"
       )
+      data$StateAb <- ifelse(data$DivisionNm == "GROOM", "QLD", "ZZZ")
+      data$StateAb <- ifelse(data$DivisionNm == "EDEN-MONARO", "NSW", data$StateAb)
     }
 
-    if (event != "2010") {
+    if (event != "2010 Federal Election") {
       # Create Total column for Online + Paper
       data$`AEC (Total)` <- rowSums(data[, c("AEC (Online)", "AEC (Paper)")], na.rm = TRUE)
 
@@ -154,8 +176,9 @@ process_pva_party <- function(data, event) {
                          "ALP", "CLP", "DEM", "GRN", "LIB", "LNP", "NAT", "OTH")
     data <- data[, columns_to_keep[columns_to_keep %in% names(data)], drop = FALSE]
 
-    # Ensure all StateAb are upper case
+    # Correct formatting issue
     data$StateAb <- toupper(data$StateAb)
+    data$DivisionNm <- tools::toTitleCase(tolower(data$DivisionNm))
 
   } else {
     message(paste0("No processing required for `", event, "`. Data returned unprocessed."))

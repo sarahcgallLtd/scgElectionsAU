@@ -29,11 +29,11 @@ This article explores the [`get_aec_data`](https://sarahcgallLtd.github.io/scgEl
 library(scgElectionsAU)
 library(knitr)
 ```
-In the [`get_aec_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_aec_data.html) function, the `type` argument default is "Federal Election". This type extracts data from the AEC's 'Tally Room' for elections between 2004 and 2022. Both House and Senate data are extractable.
+In the [`get_aec_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_aec_data.html) function, the `type` argument default is "Federal Election". This type extracts data from the AEC's 'Tally Room' for elections between 2004 and 2022. Both House and Senate data are extractable. Additionally, when `type` is "By-Election" or "Referendum", this will extract data for by-elections between 2008 and 2024 and the 2023 referendum. There is an option for any or all types to be selected (e.g., to retrieve data for both federal elections and by-elections).
 
 ## Candidates & Nominations
 ### National list of candidates
-The `National list of candidates` dataset contains a comprehensive list of all candidates who participated in Australian federal elections. It covers both `Senate` and `House` elections from `2004` to the present. The `2004` dataset is processed in the following way:
+The `National list of candidates` dataset contains a comprehensive list of all candidates who participated in Australian federal elections. It covers both `Senate` and `House` elections from `2004` to the present and `type=By-Election`. The `2004` dataset is processed in the following way:
 
 - The `SittingMemberFl` column is renamed to `Elected` using the [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html) function.
 - Based on this column, the data are further standardised to match later years with "Y" and "N" values inputted. This replaces the original corresponding "#" and NA values.
@@ -44,12 +44,15 @@ This dataset enables you to:
 - Map candidates to electoral divisions (`DivisionID`, `DivisionNm`) and states (`StateAb`).
 - Identify elected candidates (`Elected`) and incumbents (`HistoricElected`).
 
+NB. There is no consistent pattern in when candidates retain their candidate ID (`CandidateID`) or when they do not. Some candidates appear to retain theirs across elections, while others do not. It is therefore not a column to correctly identify candidates across elections. Instead it should only be used across datasets of a single election.
+
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
   file_name = "National list of candidates",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  type = c("Federal Election","By-Election"), # Any or All for House only. Default option for Senate (Federal Election).
   category = "House", # OR "Senate"
 )
 ```
@@ -59,7 +62,9 @@ df <- get_aec_data(
 ```{r, echo = FALSE}
 # Sample data (hidden execution)
 national_list_of_candidates <- suppressMessages(
-  get_aec_data(file_name = "National list of candidates")
+  get_aec_data(file_name = "National list of candidates"),
+  date_range = list(from = "2024-04-13", to = "2024-06-13"),
+  type = "By-Election"
 )
 
 # Select the first row for display
@@ -727,7 +732,8 @@ Covering elections from `2004` to the present, these datasets are available for 
 ```{r, eval = FALSE}
 df <- get_aec_data(
   file_name = "First preferences by candidate by polling place",
-  date_range = list(from = "2004-01-01", to = "2025-01-01")
+  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  type = c("Federal Election","By-Election") # Any or All
 )
 ```
 
@@ -857,6 +863,7 @@ The `Two party preferred by polling place` dataset further breaks down the above
 df <- get_aec_data(
   file_name = "Two party preferred by polling place",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  type = c("Federal Election","By-Election"), # Any or All
   category = "House"
 )
 ```
@@ -938,6 +945,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 df <- get_aec_data(
   file_name = "Two candidate preferred by candidate by polling place",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  type = c("Federal Election", "By-Election"),# Any or All
   category = "House",
   process = TRUE # OR FALSE
 )
@@ -1010,6 +1018,7 @@ The `Distribution of preferences by polling place` dataset further breaks down t
 - 2010: 17 columns by 1,155,304 rows (19,640,168 cells)
 - 2007: 17 columns by 1,597,048 rows (27,149,816 cells)
 - 2004: 17 columns by 1,770,184 rows (30,093,128 cells)
+- Max (All Elections + By-Elections): 17 columns by 12,835,444 rows (218,202,548 cells)
 
 #### *Example Usage 'by polling place':*
 
@@ -1017,6 +1026,7 @@ The `Distribution of preferences by polling place` dataset further breaks down t
 df <- get_aec_data(
   file_name = "Distribution of preferences by polling place",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  type = c("Federal Election","By-Election"), # Any or All
   category = "House",
   process = TRUE # OR FALSE
 )
@@ -1219,6 +1229,7 @@ The `Two candidate preferred flow of preferences by polling place` dataset furth
 df <- get_aec_data(
   file_name = "Two candidate preferred flow of preferences by polling place",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  type = c("Federal Election","By-Election"),
   category = "House"
 )
 ```
@@ -1249,7 +1260,7 @@ The `Informal votes by state` dataset provides a summary of formal and informal 
 - The percentage of informal votes (`InformalPercent`).
 - the overall swing in informal votes received compared to the previous election (`InformalSwing`).
 
-Covering elections from `2004` to the present, this dataset is available for both the `House` and `Senate`. No changes are made.
+Covering elections from `2004` to the present, this dataset is available for both the `House`, `Senate`, or `Referendum`. No changes are made.
 
 #### *Example Usage 'by state':*
 
@@ -1257,7 +1268,8 @@ Covering elections from `2004` to the present, this dataset is available for bot
 df <- get_aec_data(
   file_name = "Informal votes by state",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
-  category = "House" # OR "Senate"
+  # type = "Referendum", (for Referendum)
+  category = "House" # OR "Senate" OR "Referendum"
 )
 ```
 
@@ -1285,7 +1297,8 @@ The `Informal votes by division` dataset further breaks down the above figures b
 df <- get_aec_data(
   file_name = "Informal votes by division",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
-  category = "House" # OR "Senate"
+  # type = "Referendum", (for Referendum)
+  category = "House" # OR "Senate" OR "Referendum"
 )
 ```
 
@@ -1313,7 +1326,7 @@ The `Turnout by state` dataset provides a summary of voter turnout, detailing:
 - the number and percentage of voters who voted (`Turnout`, `TurnoutPercentage`).
 - the overall swing in turnout compared to the previous election (`TurnoutSwing`).
 
-Covering elections from `2004` to the present, this dataset is available for both the `House` and `Senate`. No changes are made.
+Covering elections from `2004` to the present, this dataset is available for both the `House`, `Senate`, or `Referendum`. No changes are made.
 
 #### *Example Usage 'by state':*
 
@@ -1321,7 +1334,8 @@ Covering elections from `2004` to the present, this dataset is available for bot
 df <- get_aec_data(
   file_name = "Turnout by state",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
-  category = "House" # OR "Senate"
+  # type = "Referendum", (for Referendum)
+  category = "House" # OR "Senate" OR "Referendum"
 )
 ```
 
@@ -1349,7 +1363,8 @@ The `Turnout by division` dataset further breaks down the above figures by divis
 df <- get_aec_data(
   file_name = "Turnout by division",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
-  category = "House" # OR "Senate"
+  # type = "Referendum", (for Referendum)
+  category = "House" # OR "Senate" OR "Referendum"
 )
 ```
 
@@ -1377,7 +1392,7 @@ The `Votes by state` dataset provides the number of votes by vote type, detailin
 - the number votes by vote type (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`, `DeclarationPrePollVotes`, `PostalVotes`).
 - the total number of votes and percentage (`TotalVotes`, `TotalPercentage`).
 
-Covering elections from `2004` to the present, this dataset is available for both the `House` and `Senate`. Minor amendments are made to the original dataset, changing `PrePollVotes` to `DeclarationPrePollVotes`. This ensures consistency in column names across all datasets.
+Covering elections from `2004` to the present, this dataset is available for the `House`, `Senate` or `Referendum`. Minor amendments are made to the original dataset, changing `PrePollVotes` to `DeclarationPrePollVotes`. This ensures consistency in column names across all datasets.
 
 #### *Example Usage 'by state':*
 
@@ -1385,7 +1400,8 @@ Covering elections from `2004` to the present, this dataset is available for bot
 df <- get_aec_data(
   file_name = "Votes by state",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
-  category = "House" # OR "Senate"
+  # type = "Referendum", (for Referendum)
+  category = "House" # OR "Senate" OR "Referendum"
 )
 ```
 
@@ -1413,7 +1429,8 @@ The `Votes by division` dataset further breaks down the above figures by divisio
 df <- get_aec_data(
   file_name = "Votes by division",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
-  category = "House" # OR "Senate"
+  # type = "Referendum", (for Referendum)
+  category = "House" # OR "Senate" OR "Referendum"
 )
 ```
 
@@ -1422,6 +1439,37 @@ df <- get_aec_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_aec_data(file_name = "Votes by division")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+The `Votes by polling place` dataset further breaks down the above figures by division (`PollingPlaceID`,`PollingPlaceNm`). It is only for `Referendum`.
+
+#### *Example Usage 'by polling place':*
+
+```{r, eval = FALSE}
+df <- get_aec_data(
+  file_name = "Votes by polling place",
+  date_range = list(from = "2022-01-01", to = "2025-01-01"),
+  type = "Referendum",
+  category = "Referendum"
+)
+```
+
+#### *Sample Data 'by polling place':*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_aec_data(file_name = "Votes by polling place",
+                   type = "Referendum",
+                   category = "Referendum")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1481,13 +1529,13 @@ Covering elections from `2004` to the present, this dataset is available for the
 
 - `NA` or `0` values in `Latitude` and `Longitude` are replaced if known, based on matching of the `PollingPlaceID` column within an internal dataset and the dataset retrieved from the AEC.
 
-
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
 df <- get_aec_data(
   file_name = "Polling places",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  type = c("Federal Election","Referendum","By-Election"), # Any or All
   category = "General",
   process = TRUE # OR FALSE
 )
@@ -1525,6 +1573,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 df <- get_aec_data(
   file_name = "Enrolment by state",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  type = c("Federal Election","Referendum"), # Any or All
   category = "General"
 )
 ```
@@ -1554,6 +1603,7 @@ The `Enrolment by division` dataset further breaks down the above figures by div
 df <- get_aec_data(
   file_name = "Enrolment by division",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  type = c("Federal Election","Referendum"), # Any or All
   category = "General"
 )
 ```
@@ -1589,6 +1639,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 df <- get_aec_data(
   file_name = "Declaration votes issued by state", # OR Declaration votes received by state
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  type = c("Federal Election","Referendum"), # Any or All
   category = "General"
 )
 ```
@@ -1618,6 +1669,7 @@ The `Declaration votes issued by division` and `Declaration votes received by di
 df <- get_aec_data(
   file_name = "Declaration votes issued by division", # OR Declaration votes received by division
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  type = c("Federal Election","Referendum"), # Any or All
   category = "General"
 )
 ```
@@ -1639,23 +1691,6 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br
 
-#### *Sample Data 'by division':*
-
-```{r, echo = FALSE}
-df <- suppressMessages(
-  get_aec_data(file_name = "Declaration votes received by division",
-               category = "General")
-)
-
-# Selecting only the first row and keeping all columns
-first_row <- df[1,]
-
-# Create the HTML table with kable
-kable(first_row, format = "html", table.attr = "class='table table-bordered'")
-```
-
-<br>
-
 ## Statistics
 ### Postal vote applications by total
 The `Postal vote applications by total` dataset provides a summary of the number of postal vote applications received and postal votes returned, detailing:
@@ -1672,6 +1707,7 @@ Covering the`2022` election only, this dataset is available for the `Statistics`
 df <- get_aec_data(
   file_name = "Postal vote applications by total",
   date_range = list(from = "2022-01-01", to = "2025-01-01"),
+  type = c("Federal Election","Referendum", "By-Election"), # Any or All
   category = "Statistics"
 )
 ```
@@ -1713,6 +1749,7 @@ Covering elections from `2010` to `2019`, this dataset is available for the `Sta
 df <- get_aec_data(
   file_name = "Postal vote applications by date",
   date_range = list(from = "2010-01-01", to = "2022-01-01"),
+  type = c("Federal Election","By-Election"), # Any or All
   category = "Statistics",
   process = TRUE # OR FALSE
 )
@@ -1755,6 +1792,7 @@ Covering elections from `2010` to `2019`, this dataset is available for the `Sta
 df <- get_aec_data(
   file_name = "Postal vote applications by party",
   date_range = list(from = "2010-01-01", to = "2022-01-01"),
+  type = c("Federal Election","By-Election"), # Any or All
   category = "Statistics",
   process = TRUE # OR FALSE
 )
@@ -1796,6 +1834,7 @@ Covering elections from `2010` to `2019`, this dataset is available for the `Sta
 df <- get_aec_data(
   file_name = "Pre-poll votes",
   date_range = list(from = "2010-01-01", to = "2022-01-01"),
+  type = c("Federal Election","Referendum","By-Election"), # Any or All
   category = "Statistics",
   process = TRUE # OR FALSE
 )
@@ -1835,6 +1874,7 @@ Covering elections from `2013` to present, this dataset is available for the `St
 df <- get_aec_data(
   file_name = "Votes by SA1",
   date_range = list(from = "2013-01-01", to = "2025-01-01"),
+  type = c("Federal Election","Referendum"), # Any or All
   category = "Statistics",
   process = TRUE # OR FALSE
 )
@@ -1876,6 +1916,7 @@ Covering elections from `2013` to present, this dataset is available for the `St
 df <- get_aec_data(
   file_name = "Overseas",
   date_range = list(from = "2013-01-01", to = "2025-01-01"),
+  type = c("Federal Election","Referendum"), # Any or All
   category = "Statistics",
   process = TRUE # OR FALSE
 )

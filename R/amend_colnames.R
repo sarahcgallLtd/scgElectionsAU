@@ -11,7 +11,9 @@
 #'     \item "State" to "StateAb"
 #'     \item "Division" to "DivisionNm"
 #'     \item "DivisionId" to "DivisionID"
+#'     \item "DivisionName" to "DivisionNm"
 #'     \item "TransactionId" to "TransactionID"
+#'     \item "PollingPlaceId" to "PollingPlaceID"
 #'     \item "PPId" to "PollingPlaceID"
 #'     \item "PPNm" to "PollingPlaceNm"
 #'     \item "PollingPlace" to "PollingPlaceNm"
@@ -30,6 +32,9 @@
 #'     \item "DeclarationPrePollVotes" to "PrePollVotes"
 #'     \item "DeclarationPrePollPercentage" to "PrePollPercentage"
 #'     \item "TransferPercent" to "TransferPercentage"
+#'     \item "Valid PVAs Received" to "Valid Applications Received"
+#'     \item "Valid Apps Received" to "Valid Applications Received"
+#'     \item "PVCs Returned" to "Postal Votes Returned"
 #'   }
 #'
 #' @return A data frame with the same structure as the input, but with renamed columns where applicable.
@@ -68,12 +73,20 @@ amend_colnames <- function(data) {
     data <- rename_cols(data, DivisionID = "DivisionId")
   }
 
+  if ("DivisionName" %in% names(data)) {
+    data <- rename_cols(data, DivisionNm = "DivisionName")
+  }
+
   # Transaction =========================================================#
   if ("TransactionId" %in% names(data)) {
     data <- rename_cols(data, TransactionID = "TransactionId")
   }
 
   # Polling Place =======================================================#
+  if ("PollingPlaceId" %in% names(data)) {
+    data <- rename_cols(data, PollingPlaceID = "PollingPlaceId")
+  }
+
   if ("PPId" %in% names(data)) {
     data <- rename_cols(data, PollingPlaceID = "PPId")
   }
@@ -152,6 +165,21 @@ amend_colnames <- function(data) {
   if ("TransferPercent" %in% names(data)) {
     data <- rename_cols(data, TransferPercentage = "TransferPercent")
   }
+
+  # PVCs  ==================================================================#
+  if ("Valid PVAs Received" %in% names(data)) {
+    data <- rename_cols(data, `Valid Applications Received` = "Valid PVAs Received")
+  }
+
+  if ("Valid Apps Received" %in% names(data)) {
+    data <- rename_cols(data, `Valid Applications Received` = "Valid Apps Received")
+  }
+
+  if ("PVCs Returned" %in% names(data)) {
+    data <- rename_cols(data, `Postal Votes Returned` = "PVCs Returned")
+  }
+
+  #
 
   return(data)
 }
