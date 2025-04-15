@@ -10,6 +10,29 @@ authors:
   Sarah Gall:
     href: https://www.sarahcgall.co.uk/
 
+reference:
+- title: Data
+  desc: >
+    Functions for retrieving election datasets.
+  contents:
+    - get_aec_data
+
+- subtitle: Processing
+  desc: >
+    Functions for processing AEC raw data. These primarily
+    are used for standardising names and data across datasets and different event types.
+  contents:
+    - amend_colnames
+    - amend_names
+    - process_ccd
+    - process_coords
+    - process_elected
+    - process_overseas
+    - process_ppv
+    - process_pva_date
+    - process_pva_party
+    - process_reps
+
 articles:
 - title: Function Example
   navbar: ~
