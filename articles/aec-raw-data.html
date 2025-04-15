@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="A Guide to the AEC's Federal Election Raw Datasets">
@@ -92,7 +92,12 @@ check out <a href="https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_
 <p>In the <a href="https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_aec_data.html" class="external-link"><code>get_aec_data</code></a>
 function, the <code>type</code> argument default is “Federal Election”.
 This type extracts data from the AEC’s ‘Tally Room’ for elections
-between 2004 and 2022. Both House and Senate data are extractable.</p>
+between 2004 and 2022. Both House and Senate data are extractable.
+Additionally, when <code>type</code> is “By-Election” or “Referendum”,
+this will extract data for by-elections between 2008 and 2024 and the
+2023 referendum. There is an option for any or all types to be selected
+(e.g., to retrieve data for both federal elections and
+by-elections).</p>
 <div class="section level2">
 <h2 id="candidates-nominations">Candidates &amp; Nominations<a class="anchor" aria-label="anchor" href="#candidates-nominations"></a>
 </h2>
@@ -102,8 +107,9 @@ between 2004 and 2022. Both House and Senate data are extractable.</p>
 <p>The <code>National list of candidates</code> dataset contains a
 comprehensive list of all candidates who participated in Australian
 federal elections. It covers both <code>Senate</code> and
-<code>House</code> elections from <code>2004</code> to the present. The
-<code>2004</code> dataset is processed in the following way:</p>
+<code>House</code> elections from <code>2004</code> to the present and
+<code>type=By-Election</code>. The <code>2004</code> dataset is
+processed in the following way:</p>
 <ul>
 <li>The <code>SittingMemberFl</code> column is renamed to
 <code>Elected</code> using the <a href="https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html"><code>process_elected()</code></a>
@@ -122,6 +128,12 @@ corresponding “#” and NA values.</li>
 <li>Identify elected candidates (<code>Elected</code>) and incumbents
 (<code>HistoricElected</code>).</li>
 </ul>
+<p>NB. There is no consistent pattern in when candidates retain their
+candidate ID (<code>CandidateID</code>) or when they do not. Some
+candidates appear to retain theirs across elections, while others do
+not. It is therefore not a column to correctly identify candidates
+across elections. Instead it should only be used across datasets of a
+single election.</p>
 <div class="section level4">
 <h4 id="example-usage">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage"></a>
@@ -130,6 +142,7 @@ corresponding “#” and NA values.</li>
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"National list of candidates"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"By-Election"</span><span class="op">)</span>, <span class="co"># Any or All for House only. Default option for Senate (Federal Election).</span></span>
 <span>  category <span class="op">=</span> <span class="st">"House"</span>, <span class="co"># OR "Senate"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -178,34 +191,34 @@ HistoricElected
 </tr></thead>
 <tbody><tr>
 <td style="text-align:left;">
-2022-05-21
+2024-05-13
 </td>
 <td style="text-align:left;">
-2022
+2024 Cook By-Election
 </td>
 <td style="text-align:left;">
-VIC
+NSW
 </td>
 <td style="text-align:right;">
-214
+112
 </td>
 <td style="text-align:left;">
-Goldstein
+Cook
 </td>
 <td style="text-align:left;">
-ALP
+AJP
 </td>
 <td style="text-align:left;">
-Australian Labor Party
+Animal Justice Party
 </td>
 <td style="text-align:right;">
-36416
+38292
 </td>
 <td style="text-align:left;">
-ABBOTT
+BROWN
 </td>
 <td style="text-align:left;">
-Martyn
+Natasha
 </td>
 <td style="text-align:left;">
 N
@@ -304,7 +317,7 @@ PartyAb
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:right;">
 179
@@ -381,7 +394,7 @@ ElectedOrder
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
@@ -466,7 +479,7 @@ Nominations
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -531,7 +544,7 @@ UngroupedCandidates
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -623,7 +636,7 @@ Nominations
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:right;">
 27966
@@ -785,7 +798,7 @@ GrandTotal
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 AJP
@@ -967,7 +980,7 @@ NT
 <th style="text-align:right;">
 National
 </th>
-<th style="text-align:left;">
+<th style="text-align:right;">
 LastElection
 </th>
 </tr></thead>
@@ -976,7 +989,7 @@ LastElection
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 Liberal
@@ -1008,7 +1021,7 @@ Liberal
 <td style="text-align:right;">
 27
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 44
 </td>
 </tr></tbody>
@@ -1077,7 +1090,7 @@ TOTAL
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 LP
@@ -1198,7 +1211,7 @@ PartyNm
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -1295,7 +1308,7 @@ PartyNm
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:right;">
 180
@@ -1373,7 +1386,7 @@ PartyNm
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:right;">
 179
@@ -1504,7 +1517,7 @@ HistoricElected2
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
@@ -1682,7 +1695,7 @@ TotalSwing
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 LP
@@ -1836,7 +1849,7 @@ TotalSwing
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -2000,7 +2013,7 @@ TotalPercentage
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 LP
@@ -2126,7 +2139,7 @@ TotalPercentage
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -2299,7 +2312,7 @@ Swing
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
@@ -2463,7 +2476,7 @@ TotalVotes
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
@@ -2589,7 +2602,7 @@ TotalVotes
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
@@ -2682,7 +2695,8 @@ this dataset is large. Sizes include:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"First preferences by candidate by polling place"</span>,</span>
-<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span></span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"By-Election"</span><span class="op">)</span> <span class="co"># Any or All</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
@@ -2748,7 +2762,7 @@ Swing
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -2876,7 +2890,7 @@ Swing
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -2969,7 +2983,7 @@ Swing
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 Adelaide
@@ -3132,7 +3146,7 @@ Australian Labor Party DeclarationPrePollPercentage
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 Adelaide
@@ -3224,6 +3238,7 @@ breaks down the above figures by polling place
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Two party preferred by polling place"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"By-Election"</span><span class="op">)</span>, <span class="co"># Any or All</span></span>
 <span>  category <span class="op">=</span> <span class="st">"House"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -3278,7 +3293,7 @@ Swing
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
@@ -3443,7 +3458,7 @@ Swing
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
@@ -3545,6 +3560,7 @@ corresponding “#” and NA values.</li>
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Two candidate preferred by candidate by polling place"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"By-Election"</span><span class="op">)</span>, <span class="co"># Any or All</span></span>
 <span>  category <span class="op">=</span> <span class="st">"House"</span>,</span>
 <span>  process <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># OR FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -3612,7 +3628,7 @@ Swing
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
@@ -3769,7 +3785,7 @@ CalculationValue
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
@@ -3836,6 +3852,8 @@ this dataset is large. Sizes include:</p>
 <li>2010: 17 columns by 1,155,304 rows (19,640,168 cells)</li>
 <li>2007: 17 columns by 1,597,048 rows (27,149,816 cells)</li>
 <li>2004: 17 columns by 1,770,184 rows (30,093,128 cells)</li>
+<li>Max (All Elections + By-Elections): 17 columns by 12,835,444 rows
+(218,202,548 cells)</li>
 </ul>
 </div>
 <div class="section level4">
@@ -3846,6 +3864,7 @@ this dataset is large. Sizes include:</p>
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Distribution of preferences by polling place"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"By-Election"</span><span class="op">)</span>, <span class="co"># Any or All</span></span>
 <span>  category <span class="op">=</span> <span class="st">"House"</span>,</span>
 <span>  process <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># OR FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -3913,7 +3932,7 @@ CalculationValue
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -4034,7 +4053,7 @@ Australian Labor Party Transfer Percentage
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 LP
@@ -4112,7 +4131,7 @@ Australian Labor Party Transfer Percentage
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -4215,7 +4234,7 @@ TransferPercentage
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:right;">
 4
@@ -4328,7 +4347,7 @@ TransferPercentage
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -4470,7 +4489,7 @@ TransferPercentage
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
@@ -4539,6 +4558,7 @@ dataset further breaks down the above figures by polling place
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Two candidate preferred flow of preferences by polling place"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"By-Election"</span><span class="op">)</span>,</span>
 <span>  category <span class="op">=</span> <span class="st">"House"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -4617,7 +4637,7 @@ TransferPercentage
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -4702,8 +4722,9 @@ of formal and informal votes, detailing:</p>
 previous election (<code>InformalSwing</code>).</li>
 </ul>
 <p>Covering elections from <code>2004</code> to the present, this
-dataset is available for both the <code>House</code> and
-<code>Senate</code>. No changes are made.</p>
+dataset is available for both the <code>House</code>,
+<code>Senate</code>, or <code>Referendum</code>. No changes are
+made.</p>
 <div class="section level4">
 <h4 id="example-usage-by-state-3">
 <em>Example Usage ‘by state’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-state-3"></a>
@@ -4712,7 +4733,8 @@ dataset is available for both the <code>House</code> and
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Informal votes by state"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
-<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate"</span></span>
+<span>  <span class="co"># type = "Referendum", (for Referendum)</span></span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate" OR "Referendum"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
@@ -4754,7 +4776,7 @@ InformalSwing
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -4792,7 +4814,8 @@ down the above figures by division
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Informal votes by division"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
-<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate"</span></span>
+<span>  <span class="co"># type = "Referendum", (for Referendum)</span></span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate" OR "Referendum"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
@@ -4837,7 +4860,7 @@ InformalSwing
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:right;">
 107
@@ -4882,8 +4905,9 @@ turnout, detailing:</p>
 (<code>TurnoutSwing</code>).</li>
 </ul>
 <p>Covering elections from <code>2004</code> to the present, this
-dataset is available for both the <code>House</code> and
-<code>Senate</code>. No changes are made.</p>
+dataset is available for both the <code>House</code>,
+<code>Senate</code>, or <code>Referendum</code>. No changes are
+made.</p>
 <div class="section level4">
 <h4 id="example-usage-by-state-4">
 <em>Example Usage ‘by state’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-state-4"></a>
@@ -4892,7 +4916,8 @@ dataset is available for both the <code>House</code> and
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Turnout by state"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
-<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate"</span></span>
+<span>  <span class="co"># type = "Referendum", (for Referendum)</span></span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate" OR "Referendum"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
@@ -4931,7 +4956,7 @@ TurnoutSwing
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -4966,7 +4991,8 @@ above figures by division
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Turnout by division"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
-<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate"</span></span>
+<span>  <span class="co"># type = "Referendum", (for Referendum)</span></span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate" OR "Referendum"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
@@ -5008,7 +5034,7 @@ TurnoutSwing
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:right;">
 179
@@ -5051,9 +5077,9 @@ by vote type, detailing:</p>
 <code>TotalPercentage</code>).</li>
 </ul>
 <p>Covering elections from <code>2004</code> to the present, this
-dataset is available for both the <code>House</code> and
-<code>Senate</code>. Minor amendments are made to the original dataset,
-changing <code>PrePollVotes</code> to
+dataset is available for the <code>House</code>, <code>Senate</code> or
+<code>Referendum</code>. Minor amendments are made to the original
+dataset, changing <code>PrePollVotes</code> to
 <code>DeclarationPrePollVotes</code>. This ensures consistency in column
 names across all datasets.</p>
 <div class="section level4">
@@ -5064,7 +5090,8 @@ names across all datasets.</p>
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Votes by state"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
-<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate"</span></span>
+<span>  <span class="co"># type = "Referendum", (for Referendum)</span></span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate" OR "Referendum"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
@@ -5115,7 +5142,7 @@ TotalPercentage
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -5162,7 +5189,8 @@ above figures by division
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Votes by division"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
-<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate"</span></span>
+<span>  <span class="co"># type = "Referendum", (for Referendum)</span></span>
+<span>  category <span class="op">=</span> <span class="st">"House"</span> <span class="co"># OR "Senate" OR "Referendum"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
@@ -5216,7 +5244,7 @@ TotalPercentage
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:right;">
 179
@@ -5254,6 +5282,136 @@ SA
 </tr></tbody>
 </table>
 <p><br></p>
+<p>The <code>Votes by polling place</code> dataset further breaks down
+the above figures by division
+(<code>PollingPlaceID</code>,<code>PollingPlaceNm</code>). It is only
+for <code>Referendum</code>.</p>
+</div>
+<div class="section level4">
+<h4 id="example-usage-by-polling-place-3">
+<em>Example Usage ‘by polling place’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-polling-place-3"></a>
+</h4>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Votes by polling place"</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2022-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"Referendum"</span>,</span>
+<span>  category <span class="op">=</span> <span class="st">"Referendum"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="sample-data-by-polling-place-3">
+<em>Sample Data ‘by polling place’:</em><a class="anchor" aria-label="anchor" href="#sample-data-by-polling-place-3"></a>
+</h4>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:left;">
+event
+</th>
+<th style="text-align:right;">
+QuestionNo
+</th>
+<th style="text-align:left;">
+StateAb
+</th>
+<th style="text-align:right;">
+DivisionID
+</th>
+<th style="text-align:left;">
+DivisionNm
+</th>
+<th style="text-align:right;">
+PollingPlaceID
+</th>
+<th style="text-align:left;">
+PollingPlaceNm
+</th>
+<th style="text-align:right;">
+YesVotes
+</th>
+<th style="text-align:right;">
+YesPercentage
+</th>
+<th style="text-align:right;">
+NoVotes
+</th>
+<th style="text-align:right;">
+NoPercentage
+</th>
+<th style="text-align:right;">
+FormalVotes
+</th>
+<th style="text-align:right;">
+FormalPercentage
+</th>
+<th style="text-align:right;">
+InformalVotes
+</th>
+<th style="text-align:right;">
+InformalPercentage
+</th>
+<th style="text-align:right;">
+TotalVotes
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2023-10-14
+</td>
+<td style="text-align:left;">
+2023 Referendum
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+NSW
+</td>
+<td style="text-align:right;">
+119
+</td>
+<td style="text-align:left;">
+Fowler
+</td>
+<td style="text-align:right;">
+31643
+</td>
+<td style="text-align:left;">
+Abbotsbury
+</td>
+<td style="text-align:right;">
+339
+</td>
+<td style="text-align:right;">
+24.93
+</td>
+<td style="text-align:right;">
+1021
+</td>
+<td style="text-align:right;">
+75.07
+</td>
+<td style="text-align:right;">
+1360
+</td>
+<td style="text-align:right;">
+98.27
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+1.73
+</td>
+<td style="text-align:right;">
+1384
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
 </div>
 </div>
 </div>
@@ -5278,7 +5436,7 @@ are made.</p>
 <h4 id="example-usage-6">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-6"></a>
 </h4>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Political parties"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
@@ -5315,7 +5473,7 @@ PartyNm
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -5366,10 +5524,11 @@ the dataset retrieved from the AEC.</li>
 <h4 id="example-usage-7">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-7"></a>
 </h4>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Polling places"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"Referendum"</span>, <span class="st">"By-Election"</span><span class="op">)</span>, <span class="co"># Any or All</span></span>
 <span>  category <span class="op">=</span> <span class="st">"General"</span>,</span>
 <span>  process <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># OR FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -5422,7 +5581,7 @@ PremisesSuburb
 <th style="text-align:left;">
 PremisesStateAb
 </th>
-<th style="text-align:left;">
+<th style="text-align:right;">
 PremisesPostCode
 </th>
 <th style="text-align:right;">
@@ -5437,7 +5596,7 @@ Longitude
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
@@ -5475,7 +5634,7 @@ BELCONNEN
 <td style="text-align:left;">
 ACT
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 2617
 </td>
 <td style="text-align:right;">
@@ -5507,10 +5666,11 @@ are made.</p>
 <h4 id="example-usage-by-state-6">
 <em>Example Usage ‘by state’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-state-6"></a>
 </h4>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Enrolment by state"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"Referendum"</span><span class="op">)</span>, <span class="co"># Any or All</span></span>
 <span>  category <span class="op">=</span> <span class="st">"General"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -5562,7 +5722,7 @@ Enrolment
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -5605,10 +5765,11 @@ the above figures by division
 <h4 id="example-usage-by-division-7">
 <em>Example Usage ‘by division’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-division-7"></a>
 </h4>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Enrolment by division"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"Referendum"</span><span class="op">)</span>, <span class="co"># Any or All</span></span>
 <span>  category <span class="op">=</span> <span class="st">"General"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -5663,7 +5824,7 @@ Enrolment
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:right;">
 179
@@ -5722,10 +5883,11 @@ are made.</p>
 <h4 id="example-usage-by-state-7">
 <em>Example Usage ‘by state’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-state-7"></a>
 </h4>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Declaration votes issued by state"</span>, <span class="co"># OR Declaration votes received by state</span></span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"Referendum"</span><span class="op">)</span>, <span class="co"># Any or All</span></span>
 <span>  category <span class="op">=</span> <span class="st">"General"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -5771,7 +5933,7 @@ PostalOwnDivision
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 NSW
@@ -5809,10 +5971,11 @@ break down the above figures by division
 <h4 id="example-usage-by-division-8">
 <em>Example Usage ‘by division’:</em><a class="anchor" aria-label="anchor" href="#example-usage-by-division-8"></a>
 </h4>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Declaration votes issued by division"</span>, <span class="co"># OR Declaration votes received by division</span></span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2004-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"Referendum"</span><span class="op">)</span>, <span class="co"># Any or All</span></span>
 <span>  category <span class="op">=</span> <span class="st">"General"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -5861,7 +6024,7 @@ PostalOwnDivision
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:right;">
 179
@@ -5894,84 +6057,6 @@ SA
 </table>
 <p>&lt;br</p>
 </div>
-<div class="section level4">
-<h4 id="sample-data-by-division-9">
-<em>Sample Data ‘by division’:</em><a class="anchor" aria-label="anchor" href="#sample-data-by-division-9"></a>
-</h4>
-<table class="table table table-bordered">
-<thead><tr>
-<th style="text-align:left;">
-date
-</th>
-<th style="text-align:left;">
-event
-</th>
-<th style="text-align:right;">
-DivisionID
-</th>
-<th style="text-align:left;">
-DivisionNm
-</th>
-<th style="text-align:left;">
-StateAb
-</th>
-<th style="text-align:right;">
-Provisional
-</th>
-<th style="text-align:right;">
-Absent
-</th>
-<th style="text-align:right;">
-PrePoll
-</th>
-<th style="text-align:right;">
-PrePollOwnDivision
-</th>
-<th style="text-align:right;">
-Postal
-</th>
-<th style="text-align:right;">
-PostalOwnDivision
-</th>
-</tr></thead>
-<tbody><tr>
-<td style="text-align:left;">
-2022-05-21
-</td>
-<td style="text-align:left;">
-2022
-</td>
-<td style="text-align:right;">
-179
-</td>
-<td style="text-align:left;">
-Adelaide
-</td>
-<td style="text-align:left;">
-SA
-</td>
-<td style="text-align:right;">
-1606
-</td>
-<td style="text-align:right;">
-6804
-</td>
-<td style="text-align:right;">
-3165
-</td>
-<td style="text-align:right;">
-70
-</td>
-<td style="text-align:right;">
-20577
-</td>
-<td style="text-align:right;">
-20528
-</td>
-</tr></tbody>
-</table>
-<p><br></p>
-</div>
 </div>
 </div>
 <div class="section level2">
@@ -5998,10 +6083,11 @@ made.</p>
 <h4 id="example-usage-8">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-8"></a>
 </h4>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Postal vote applications by total"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2022-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"Referendum"</span>, <span class="st">"By-Election"</span><span class="op">)</span>, <span class="co"># Any or All</span></span>
 <span>  category <span class="op">=</span> <span class="st">"Statistics"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -6035,7 +6121,7 @@ Postal Votes Returned
 2022-05-21
 </td>
 <td style="text-align:left;">
-2022
+2022 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
@@ -6086,10 +6172,11 @@ date format for ease of comparison across years.</li>
 <h4 id="example-usage-9">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-9"></a>
 </h4>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Postal vote applications by date"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2010-01-01"</span>, to <span class="op">=</span> <span class="st">"2022-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"By-Election"</span><span class="op">)</span>, <span class="co"># Any or All</span></span>
 <span>  category <span class="op">=</span> <span class="st">"Statistics"</span>,</span>
 <span>  process <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># OR FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -6124,13 +6211,13 @@ TotalPVAs
 2019-05-18
 </td>
 <td style="text-align:left;">
-2019
+2019 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
 </td>
 <td style="text-align:left;">
-BEAN
+Bean
 </td>
 <td style="text-align:left;">
 2019-04-11
@@ -6177,10 +6264,11 @@ names.</li>
 <h4 id="example-usage-10">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-10"></a>
 </h4>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Postal vote applications by party"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2010-01-01"</span>, to <span class="op">=</span> <span class="st">"2022-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"By-Election"</span><span class="op">)</span>, <span class="co"># Any or All</span></span>
 <span>  category <span class="op">=</span> <span class="st">"Statistics"</span>,</span>
 <span>  process <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># OR FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -6245,13 +6333,13 @@ OTH
 2019-05-18
 </td>
 <td style="text-align:left;">
-2019
+2019 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
 </td>
 <td style="text-align:left;">
-BEAN
+Bean
 </td>
 <td style="text-align:right;">
 1642
@@ -6319,10 +6407,11 @@ date format for ease of comparison across years.</li>
 <h4 id="example-usage-11">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-11"></a>
 </h4>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Pre-poll votes"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2010-01-01"</span>, to <span class="op">=</span> <span class="st">"2022-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"Referendum"</span>, <span class="st">"By-Election"</span><span class="op">)</span>, <span class="co"># Any or All</span></span>
 <span>  category <span class="op">=</span> <span class="st">"Statistics"</span>,</span>
 <span>  process <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># OR FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -6360,7 +6449,7 @@ TotalPPVs
 2019-05-18
 </td>
 <td style="text-align:left;">
-2019
+2019 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
@@ -6405,10 +6494,11 @@ removed.</li>
 <h4 id="example-usage-12">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-12"></a>
 </h4>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Votes by SA1"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2013-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"Referendum"</span><span class="op">)</span>, <span class="co"># Any or All</span></span>
 <span>  category <span class="op">=</span> <span class="st">"Statistics"</span>,</span>
 <span>  process <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># OR FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -6449,7 +6539,7 @@ Votes
 2019-05-18
 </td>
 <td style="text-align:left;">
-2019
+2019 Federal Election
 </td>
 <td style="text-align:left;">
 SA
@@ -6501,10 +6591,11 @@ function:</p>
 <h4 id="example-usage-13">
 <em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-13"></a>
 </h4>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_aec_data.html">get_aec_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"Overseas"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2013-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Federal Election"</span>, <span class="st">"Referendum"</span><span class="op">)</span>, <span class="co"># Any or All</span></span>
 <span>  category <span class="op">=</span> <span class="st">"Statistics"</span>,</span>
 <span>  process <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># OR FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -6545,7 +6636,7 @@ TotalVotes
 2019-05-18
 </td>
 <td style="text-align:left;">
-2019
+2019 Federal Election
 </td>
 <td style="text-align:left;">
 ACT
