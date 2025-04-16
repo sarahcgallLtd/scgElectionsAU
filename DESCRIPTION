@@ -37,8 +37,11 @@ VignetteBuilder: knitr
 Collate: 
     'amend_colnames.R'
     'amend_names.R'
+    'get_boundary_data.R'
+    'get_disclosure_data.R'
     'utils.R'
-    'get_aec_data.R'
+    'get_election_data.R'
+    'get_results.R'
     'process_ccd.R'
     'process_coords.R'
     'process_elected.R'

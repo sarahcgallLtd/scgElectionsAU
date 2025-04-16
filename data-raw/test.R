@@ -4,12 +4,9 @@ df <- get_aec_data(
   category = "Senate"
 )
 
-national_list_of_candidates <- suppressMessages(
-  get_aec_data(file_name = "National list of candidates",
-  date_range = list(from = "2024-04-13", to = "2024-06-13"),
-  type = c("By-Election")
-)
+sa1 <- get_election_data(file_name = "Votes by SA1",
+                         date_range = list(from = "2013-01-01", to = "2014-01-01"),
+                         category = "Statistics")
 
 
-
-rmarkdown::render("C:/Users/SarahGall/Programming/PyCharm/Projects/Packages/scgElectionsAU/vignettes/articles/aec-raw-data.rmd")
+# rmarkdown::render("C:/Users/SarahGall/Programming/PyCharm/Projects/Packages/scgElectionsAU/vignettes/articles/aec-raw-data.rmd")

@@ -22,14 +22,14 @@ knitr::opts_chunk$set(
 )
 ```
 <br>
-This article explores the [`get_aec_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_aec_data.html) function and the data that it is able to retrieve from the Australian Electoral Commission's (AEC) website. This function is primarily used to retrieve the raw data with limited processing. To remove any processing, ensure the function's `process` param is set to `FALSE`. For a more processed and 'analysis-ready' function, check out [`get_XXX`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_XXX.html).
+This article explores the [`get_election_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_election_data.html) function and the data that it is able to retrieve from the Australian Electoral Commission's (AEC) website. This function is primarily used to retrieve the raw data with limited processing. To remove any processing, ensure the function's `process` param is set to `FALSE`. For a more processed and 'analysis-ready' function, check out [`get_results`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_results.html).
 <br>
 
 ```{r setup, include = FALSE}
 library(scgElectionsAU)
 library(knitr)
 ```
-In the [`get_aec_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_aec_data.html) function, the `type` argument default is "Federal Election". This type extracts data from the AEC's 'Tally Room' for elections between 2004 and 2022. Both House and Senate data are extractable. Additionally, when `type` is "By-Election" or "Referendum", this will extract data for by-elections between 2008 and 2024 and the 2023 referendum. There is an option for any or all types to be selected (e.g., to retrieve data for both federal elections and by-elections).
+In the [`get_election_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_election_data.html) function, the `type` argument default is "Federal Election". This type extracts data from the AEC's 'Tally Room' for elections between 2004 and 2022. Both House and Senate data are extractable. Additionally, when `type` is "By-Election" or "Referendum", this will extract data for by-elections between 2008 and 2024 and the 2023 referendum. There is an option for any or all types to be selected (e.g., to retrieve data for both federal elections and by-elections).
 
 ## Candidates & Nominations
 ### National list of candidates
@@ -49,7 +49,7 @@ NB. There is no consistent pattern in when candidates retain their candidate ID 
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "National list of candidates",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   type = c("Federal Election", "By-Election"), # Any or All for House only. Default option for Senate (Federal Election).
@@ -62,7 +62,7 @@ df <- get_aec_data(
 ```{r, echo = FALSE}
 # Sample data (hidden execution)
 national_list_of_candidates <- suppressMessages(
-  get_aec_data(file_name = "National list of candidates",
+  get_election_data(file_name = "National list of candidates",
   date_range = list(from = "2024-04-13", to = "2024-06-13"),
   type = c("By-Election")
 ))
@@ -96,7 +96,7 @@ This dataset enables you to:
 
 ```{r, eval = FALSE}
 # Example usage
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Members elected",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House"
@@ -108,7 +108,7 @@ df <- get_aec_data(
 ```{r, echo = FALSE}
 # Sample data (hidden execution)
 members_elected <- suppressMessages(
-  get_aec_data(file_name = "Members elected")
+  get_election_data(file_name = "Members elected")
 )
 
 # Select the first row for display
@@ -122,7 +122,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 #### *Example Usage (Senators Elected):*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Senators elected",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "Senate"
@@ -133,7 +133,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 senators_elected <- suppressMessages(
-  get_aec_data(file_name = "Senators elected", category = "Senate")
+  get_election_data(file_name = "Senators elected", category = "Senate")
 )
 
 # Selecting only the first row and keeping all columns
@@ -155,7 +155,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 #### *Example Usage 'by state' (House):*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Nominations by state",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House"
@@ -166,7 +166,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 noms_by_state <- suppressMessages(
-  get_aec_data(file_name = "Nominations by state")
+  get_election_data(file_name = "Nominations by state")
 )
 
 # Selecting only the first row and keeping all columns
@@ -180,7 +180,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 #### *Example Usage 'by state' (Senate):*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Nominations by state",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "Senate"
@@ -191,7 +191,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 noms_by_state <- suppressMessages(
-  get_aec_data(file_name = "Nominations by state", category = "Senate")
+  get_election_data(file_name = "Nominations by state", category = "Senate")
 )
 
 # Selecting only the first row and keeping all columns
@@ -212,7 +212,7 @@ Covering elections from `2011` to the present, these datasets are available for 
 #### *Example Usage 'by division' (House):*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Nominations by division",
   date_range = list(from = "2011-01-01", to = "2025-01-01"),
   category = "House"
@@ -223,7 +223,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 noms_by_div <- suppressMessages(
-  get_aec_data(file_name = "Nominations by division")
+  get_election_data(file_name = "Nominations by division")
 )
 
 # Selecting only the first row and keeping all columns
@@ -241,7 +241,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 #### *Example Usage 'by gender' (House):*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Nominations by gender",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House" # OR "Senate"
@@ -252,7 +252,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 noms_by_gender <- suppressMessages(
-  get_aec_data(file_name = "Nominations by gender")
+  get_election_data(file_name = "Nominations by gender")
 )
 
 # Selecting only the first row and keeping all columns
@@ -280,7 +280,7 @@ No additional processing is required for the `Senate`, as the data are already s
 #### *Example Usage (House):*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Party representation",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House",
@@ -292,7 +292,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 party_rep <- suppressMessages(
-  get_aec_data(file_name = "Party representation")
+  get_election_data(file_name = "Party representation")
 )
 
 # Selecting only the first row and keeping all columns
@@ -306,7 +306,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 #### *Example Usage (Senate):*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Party representation",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "Senate"
@@ -317,7 +317,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 party_rep <- suppressMessages(
-  get_aec_data(file_name = "Party representation", category = "Senate")
+  get_election_data(file_name = "Party representation", category = "Senate")
 )
 
 # Selecting only the first row and keeping all columns
@@ -341,7 +341,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Seats that changed hands",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House"
@@ -352,7 +352,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Seats that changed hands")
+  get_election_data(file_name = "Seats that changed hands")
 )
 
 # Selecting only the first row and keeping all columns
@@ -375,7 +375,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 #### *Example Usage 'first':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Seats decided on first preferences",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House"
@@ -386,7 +386,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Seats decided on first preferences")
+  get_election_data(file_name = "Seats decided on first preferences")
 )
 
 # Selecting only the first row and keeping all columns
@@ -407,7 +407,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 #### *Example Usage 'preference':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Seats decided on preferences",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House"
@@ -418,7 +418,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Seats decided on preferences")
+  get_election_data(file_name = "Seats decided on preferences")
 )
 
 # Selecting only the first row and keeping all columns
@@ -444,7 +444,7 @@ Covering elections from `2010` to the present, these datasets are available for 
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Non-classic divisions",
   date_range = list(from = "2010-01-01", to = "2025-01-01"),
   category = "House"
@@ -455,7 +455,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Non-classic divisions")
+  get_election_data(file_name = "Non-classic divisions")
 )
 
 # Selecting only the first row and keeping all columns
@@ -482,7 +482,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 #### *Example Usage 'by party' (House):*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "First preferences by party",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House"
@@ -493,7 +493,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "First preferences by party")
+  get_election_data(file_name = "First preferences by party")
 )
 
 # Selecting only the first row and keeping all columns
@@ -510,7 +510,7 @@ The `First preferences by state by party` dataset further breaks down the above 
 #### *Example Usage of 'by state by party' (House):*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "First preferences by state by party",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House"
@@ -521,7 +521,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "First preferences by state by party")
+  get_election_data(file_name = "First preferences by state by party")
 )
 
 # Selecting only the first row and keeping all columns
@@ -547,7 +547,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 #### *Example Usage 'by group' (Senate):*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "First preferences by group by vote type",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "Senate",
@@ -559,7 +559,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "First preferences by group by vote type", category = "Senate")
+  get_election_data(file_name = "First preferences by group by vote type", category = "Senate")
 )
 
 # Selecting only the first row and keeping all columns
@@ -576,7 +576,7 @@ The `First preferences by state by group by vote type` dataset further breaks do
 #### *Example Usage 'by state by group' (Senate):*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "First preferences by state by group by vote type",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "Senate",
@@ -588,7 +588,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "First preferences by state by group by vote type", category = "Senate")
+  get_election_data(file_name = "First preferences by state by group by vote type", category = "Senate")
 )
 
 # Selecting only the first row and keeping all columns
@@ -617,7 +617,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 #### *Example Usage (House):*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "First preferences by candidate by vote type",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House",
@@ -629,7 +629,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "First preferences by candidate by vote type")
+  get_election_data(file_name = "First preferences by candidate by vote type")
 )
 
 # Selecting only the first row and keeping all columns
@@ -652,7 +652,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 #### *Example Usage (Senate Division-level):*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "First preferences by division by vote type",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "Senate"
@@ -663,7 +663,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "First preferences by division by vote type", category = "Senate")
+  get_election_data(file_name = "First preferences by division by vote type", category = "Senate")
 )
 
 # Selecting only the first row and keeping all columns
@@ -680,7 +680,7 @@ The state-level version of this `Senate` dataset is also available by calling `F
 #### *Example Usage (Senate State-level):*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "First preferences by state by vote type",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "Senate",
@@ -692,7 +692,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "First preferences by state by vote type", category = "Senate")
+  get_election_data(file_name = "First preferences by state by vote type", category = "Senate")
 )
 
 # Selecting only the first row and keeping all columns
@@ -730,7 +730,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "First preferences by candidate by polling place",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   type = c("Federal Election", "By-Election") # Any or All
@@ -741,7 +741,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "First preferences by candidate by polling place")
+  get_election_data(file_name = "First preferences by candidate by polling place")
 )
 
 # Selecting only the first row and keeping all columns
@@ -766,7 +766,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 #### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Two party preferred by state",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House"
@@ -777,7 +777,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Two party preferred by state")
+  get_election_data(file_name = "Two party preferred by state")
 )
 
 # Selecting only the first row and keeping all columns
@@ -793,7 +793,7 @@ The `Two party preferred by division` dataset further breaks down the above figu
 #### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Two party preferred by division",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House"
@@ -804,7 +804,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Two party preferred by division")
+  get_election_data(file_name = "Two party preferred by division")
 )
 
 # Selecting only the first row and keeping all columns
@@ -832,7 +832,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 #### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Two party preferred by division by vote type",
   date_range = list(from = "2016-01-01", to = "2025-01-01"),
   category = "House"
@@ -843,7 +843,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Two party preferred by division by vote type")
+  get_election_data(file_name = "Two party preferred by division by vote type")
 )
 
 # Selecting only the first row and keeping all columns
@@ -860,7 +860,7 @@ The `Two party preferred by polling place` dataset further breaks down the above
 #### *Example Usage 'by polling place':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Two party preferred by polling place",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   type = c("Federal Election", "By-Election"), # Any or All
@@ -872,7 +872,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Two party preferred by polling place")
+  get_election_data(file_name = "Two party preferred by polling place")
 )
 
 # Selecting only the first row and keeping all columns
@@ -902,7 +902,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Two candidate preferred by candidate by vote type",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House",
@@ -914,7 +914,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Two candidate preferred by candidate by vote type")
+  get_election_data(file_name = "Two candidate preferred by candidate by vote type")
 )
 
 # Selecting only the first row and keeping all columns
@@ -942,7 +942,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Two candidate preferred by candidate by polling place",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   type = c("Federal Election", "By-Election"), # Any or All
@@ -955,7 +955,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Two candidate preferred by candidate by polling place")
+  get_election_data(file_name = "Two candidate preferred by candidate by polling place")
 )
 
 # Selecting only the first row and keeping all columns
@@ -983,7 +983,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 #### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Distribution of preferences by candidate by division",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House",
@@ -995,7 +995,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Distribution of preferences by candidate by division")
+  get_election_data(file_name = "Distribution of preferences by candidate by division")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1023,7 +1023,7 @@ The `Distribution of preferences by polling place` dataset further breaks down t
 #### *Example Usage 'by polling place':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Distribution of preferences by polling place",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   type = c("Federal Election", "By-Election"), # Any or All
@@ -1036,7 +1036,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Distribution of preferences by polling place")
+  get_election_data(file_name = "Distribution of preferences by polling place")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1061,7 +1061,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 #### *Example Usage 'by party':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Two party preferred flow of preferences by party",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House"
@@ -1072,7 +1072,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Two party preferred flow of preferences by party")
+  get_election_data(file_name = "Two party preferred flow of preferences by party")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1089,7 +1089,7 @@ The `Two party preferred flow of preferences by state by party` dataset further 
 #### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Two party preferred flow of preferences by state by party",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House"
@@ -1100,7 +1100,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Two party preferred flow of preferences by state by party")
+  get_election_data(file_name = "Two party preferred flow of preferences by state by party")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1124,7 +1124,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 #### *Example Usage 'by party':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Two candidate preferred flow of preferences by party",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House"
@@ -1135,7 +1135,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Two candidate preferred flow of preferences by party")
+  get_election_data(file_name = "Two candidate preferred flow of preferences by party")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1162,7 +1162,7 @@ The `Two candidate preferred flow of preferences by state by party` dataset furt
 #### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Two candidate preferred flow of preferences by state by party",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House"
@@ -1173,7 +1173,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Two candidate preferred flow of preferences by state by party")
+  get_election_data(file_name = "Two candidate preferred flow of preferences by state by party")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1198,7 +1198,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 #### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Two candidate preferred flow of preferences by candidate by division",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "House"
@@ -1209,7 +1209,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Two candidate preferred flow of preferences by candidate by division")
+  get_election_data(file_name = "Two candidate preferred flow of preferences by candidate by division")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1226,7 +1226,7 @@ The `Two candidate preferred flow of preferences by polling place` dataset furth
 #### *Example Usage 'by polling place':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Two candidate preferred flow of preferences by polling place",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   type = c("Federal Election", "By-Election"),
@@ -1238,7 +1238,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Two candidate preferred flow of preferences by polling place")
+  get_election_data(file_name = "Two candidate preferred flow of preferences by polling place")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1265,7 +1265,7 @@ Covering elections from `2004` to the present, this dataset is available for bot
 #### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Informal votes by state",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   # type = "Referendum", (for Referendum)
@@ -1277,7 +1277,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Informal votes by state")
+  get_election_data(file_name = "Informal votes by state")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1294,7 +1294,7 @@ The `Informal votes by division` dataset further breaks down the above figures b
 #### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Informal votes by division",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   # type = "Referendum", (for Referendum)
@@ -1306,7 +1306,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Informal votes by division")
+  get_election_data(file_name = "Informal votes by division")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1331,7 +1331,7 @@ Covering elections from `2004` to the present, this dataset is available for bot
 #### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Turnout by state",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   # type = "Referendum", (for Referendum)
@@ -1343,7 +1343,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Turnout by state")
+  get_election_data(file_name = "Turnout by state")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1360,7 +1360,7 @@ The `Turnout by division` dataset further breaks down the above figures by divis
 #### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Turnout by division",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   # type = "Referendum", (for Referendum)
@@ -1372,7 +1372,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Turnout by division")
+  get_election_data(file_name = "Turnout by division")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1397,7 +1397,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 #### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Votes by state",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   # type = "Referendum", (for Referendum)
@@ -1409,7 +1409,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Votes by state")
+  get_election_data(file_name = "Votes by state")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1426,7 +1426,7 @@ The `Votes by division` dataset further breaks down the above figures by divisio
 #### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Votes by division",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   # type = "Referendum", (for Referendum)
@@ -1438,7 +1438,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Votes by division")
+  get_election_data(file_name = "Votes by division")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1455,7 +1455,7 @@ The `Votes by polling place` dataset further breaks down the above figures by di
 #### *Example Usage 'by polling place':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Votes by polling place",
   date_range = list(from = "2022-01-01", to = "2025-01-01"),
   type = "Referendum",
@@ -1467,7 +1467,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Votes by polling place",
+  get_election_data(file_name = "Votes by polling place",
                type = "Referendum",
                category = "Referendum")
 )
@@ -1493,7 +1493,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Political parties",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   category = "General"
@@ -1504,7 +1504,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Political parties",
+  get_election_data(file_name = "Political parties",
                category = "General")
 )
 
@@ -1532,7 +1532,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Polling places",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   type = c("Federal Election", "Referendum", "By-Election"), # Any or All
@@ -1545,7 +1545,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Polling places",
+  get_election_data(file_name = "Polling places",
                category = "General")
 )
 
@@ -1570,7 +1570,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 #### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Enrolment by state",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   type = c("Federal Election", "Referendum"), # Any or All
@@ -1582,7 +1582,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Enrolment by state",
+  get_election_data(file_name = "Enrolment by state",
                category = "General")
 )
 
@@ -1600,7 +1600,7 @@ The `Enrolment by division` dataset further breaks down the above figures by div
 #### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Enrolment by division",
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   type = c("Federal Election", "Referendum"), # Any or All
@@ -1612,7 +1612,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Enrolment by division",
+  get_election_data(file_name = "Enrolment by division",
                category = "General")
 )
 
@@ -1636,7 +1636,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 #### *Example Usage 'by state':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Declaration votes issued by state", # OR Declaration votes received by state
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   type = c("Federal Election", "Referendum"), # Any or All
@@ -1648,7 +1648,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Declaration votes issued by state",
+  get_election_data(file_name = "Declaration votes issued by state",
                category = "General")
 )
 
@@ -1666,7 +1666,7 @@ The `Declaration votes issued by division` and `Declaration votes received by di
 #### *Example Usage 'by division':*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Declaration votes issued by division", # OR Declaration votes received by division
   date_range = list(from = "2004-01-01", to = "2025-01-01"),
   type = c("Federal Election", "Referendum"), # Any or All
@@ -1678,7 +1678,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Declaration votes issued by division",
+  get_election_data(file_name = "Declaration votes issued by division",
                category = "General")
 )
 
@@ -1704,7 +1704,7 @@ Covering the`2022` election only, this dataset is available for the `Statistics`
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Postal vote applications by total",
   date_range = list(from = "2022-01-01", to = "2025-01-01"),
   type = c("Federal Election", "Referendum", "By-Election"), # Any or All
@@ -1716,7 +1716,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Postal vote applications by total",
+  get_election_data(file_name = "Postal vote applications by total",
                date_range = list(from = "2022-01-01", to = "2025-01-01"),
                category = "Statistics")
 )
@@ -1746,7 +1746,7 @@ Covering elections from `2010` to `2019`, this dataset is available for the `Sta
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Postal vote applications by date",
   date_range = list(from = "2010-01-01", to = "2022-01-01"),
   type = c("Federal Election", "By-Election"), # Any or All
@@ -1759,7 +1759,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Postal vote applications by date",
+  get_election_data(file_name = "Postal vote applications by date",
                date_range = list(from = "2019-01-01", to = "2022-01-01"),
                category = "Statistics", process = TRUE)
 )
@@ -1789,7 +1789,7 @@ Covering elections from `2010` to `2019`, this dataset is available for the `Sta
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Postal vote applications by party",
   date_range = list(from = "2010-01-01", to = "2022-01-01"),
   type = c("Federal Election", "By-Election"), # Any or All
@@ -1802,7 +1802,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Postal vote applications by party",
+  get_election_data(file_name = "Postal vote applications by party",
                date_range = list(from = "2019-01-01", to = "2022-01-01"),
                category = "Statistics", process = TRUE)
 )
@@ -1831,7 +1831,7 @@ Covering elections from `2010` to `2019`, this dataset is available for the `Sta
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Pre-poll votes",
   date_range = list(from = "2010-01-01", to = "2022-01-01"),
   type = c("Federal Election", "Referendum", "By-Election"), # Any or All
@@ -1844,7 +1844,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Pre-poll votes",
+  get_election_data(file_name = "Pre-poll votes",
                date_range = list(from = "2019-01-01", to = "2022-01-01"),
                category = "Statistics", process = TRUE)
 )
@@ -1871,7 +1871,7 @@ Covering elections from `2013` to present, this dataset is available for the `St
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Votes by SA1",
   date_range = list(from = "2013-01-01", to = "2025-01-01"),
   type = c("Federal Election", "Referendum"), # Any or All
@@ -1884,7 +1884,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Votes by SA1",
+  get_election_data(file_name = "Votes by SA1",
                date_range = list(from = "2019-01-01", to = "2022-01-01"),
                category = "Statistics", process = TRUE)
 )
@@ -1913,7 +1913,7 @@ Covering elections from `2013` to present, this dataset is available for the `St
 #### *Example Usage:*
 
 ```{r, eval = FALSE}
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "Overseas",
   date_range = list(from = "2013-01-01", to = "2025-01-01"),
   type = c("Federal Election", "Referendum"), # Any or All
@@ -1926,7 +1926,7 @@ df <- get_aec_data(
 
 ```{r, echo = FALSE}
 df <- suppressMessages(
-  get_aec_data(file_name = "Overseas",
+  get_election_data(file_name = "Overseas",
                date_range = list(from = "2019-01-01", to = "2022-01-01"),
                category = "Statistics", process = TRUE)
 )

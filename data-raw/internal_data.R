@@ -7,18 +7,18 @@ info$event <- as.character(info$event)
 aec_elections_index <- readr::read_csv("data-raw/aec-elections-index.csv")
 
 # ===
-aec_referendums_index <- readr::read_csv("data-raw/aec-referendums-index.csv")
+abs_boundary_index <- readr::read_csv("data-raw/abs-boundary-index.csv")
 
 # ===
 name_conversions <- readr::read_csv("data-raw/name_conversions.csv")
 
 # ===
 # Get all unprocessed polling place datasets
-data <- get_aec_data(file_name = "Polling places",
-                     date_range = list(from = "2004-01-01", to = "2025-01-01"),
-                     type = c("Federal Election", "Referendum", "By-Election"),
-                     category = "General",
-                     process = FALSE
+data <- get_election_data(file_name = "Polling places",
+                          date_range = list(from = "2004-01-01", to = "2025-01-01"),
+                          type = c("Federal Election", "Referendum", "By-Election"),
+                          category = "General",
+                          process = FALSE
 )
 
 # Make any coordinates listed as 0,0, NAs
@@ -44,6 +44,6 @@ coords <- na.omit(coords)
 
 # Save to internal data
 # sysdata_filenames <- load("R/sysdata.rda")
-save(info, aec_elections_index, aec_referendums_index, name_conversions, coords,
+save(info, aec_elections_index, abs_boundary_index, name_conversions, coords,
      file = "R/sysdata.rda", compress = "xz")
 devtools::load_all()

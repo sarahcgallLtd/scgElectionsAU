@@ -7,7 +7,7 @@ NULL
 #' retrieves raw data files from the AEC, optionally applies standardisation processes (e.g., column
 #' name consistency), and returns a combined data frame for analysis. The function is designed to
 #' handle various types of election-related datasets, including federal elections, referendums,
-#' by-elections, and the AEC disclosure/transparency register.
+#' and by-elections.
 #'
 #' @param file_name A character string specifying the name of the AEC dataset to retrieve (e.g.,
 #'        "National list of candidates"). This name must match entries in the internal index datasets.
@@ -47,7 +47,7 @@ NULL
 #' @examples
 #' \dontrun{
 #'   # Retrieve and process the national list of candidates for House elections in 2022
-#'   data <- get_aec_data(
+#'   data <- get_election_data(
 #'     file_name = "National list of candidates",
 #'     date_range = list(from = "2022-01-01", to = "2023-01-01"),
 #'     type = "Federal Election",
@@ -59,7 +59,7 @@ NULL
 #'
 #' @importFrom scgUtils get_file
 #' @export
-get_aec_data <- function(
+get_election_data <- function(
   file_name,
   date_range = list(from = "2022-01-01", to = "2025-01-01"),
   type = NULL,

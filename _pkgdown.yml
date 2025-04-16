@@ -15,7 +15,10 @@ reference:
   desc: >
     Functions for retrieving election datasets.
   contents:
-    - get_aec_data
+    - get_boundary_data
+    - get_disclosure_data
+    - get_election_data
+    - get_results
 
 - subtitle: Processing
   desc: >
