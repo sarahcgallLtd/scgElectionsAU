@@ -82,7 +82,7 @@ standardised columns:</p><ul><li><p><code>date</code> (if present in the input)<
 2016 ASGC for 2019–2022)</p></li>
 <li><p><code>PollingPlaceID</code> (polling place identifier)</p></li>
 <li><p><code>PollingPlaceNm</code> (polling place name)</p></li>
-<li><p><code>Votes</code> (indicative count of House of Representatives votes cast per statistical area)</p></li>
+<li><p><code>Count</code> (indicative count of votes cast per statistical area)</p></li>
 </ul><p>The <code>year</code> column, if present, is removed as it is redundant with <code>event</code>. For unrecognised election
 years, the original data frame is returned unchanged.</p>
     </div>
@@ -91,9 +91,9 @@ years, the original data frame is returned unchanged.</p>
     <p>This function processes election data by:</p><ol><li><p>Applying base column renaming common to all recognised years using <code>rename_cols()</code>
 (e.g., <code>state_ab</code> to <code>StateAb</code>, <code>div_nm</code> to <code>DivisionNm</code>).</p></li>
 <li><p>Removing the <code>year</code> column, as the <code>event</code> column already provides this information.</p></li>
-<li><p>For 2013: Renaming <code>ccd_id</code> to <code>StatisticalAreaID</code> and <code>count</code> to <code>Votes</code>.</p></li>
-<li><p>For 2016 and 2019: Renaming <code>SA1_id</code> to <code>StatisticalAreaID</code> and <code>votes</code> to <code>Votes</code>.</p></li>
-<li><p>For 2022: Renaming <code>ccd_id</code> to <code>StatisticalAreaID</code> and <code>votes</code> to <code>Votes</code>.</p></li>
+<li><p>For 2013: Renaming <code>ccd_id</code> to <code>StatisticalAreaID</code> and <code>count</code> to <code>Count</code>.</p></li>
+<li><p>For 2016 and 2019: Renaming <code>SA1_id</code> to <code>StatisticalAreaID</code> and <code>votes</code> to <code>Count</code>.</p></li>
+<li><p>For 2022: Renaming <code>ccd_id</code> to <code>StatisticalAreaID</code> and <code>votes</code> to <code>Count</code>.</p></li>
 <li><p>For unrecognised years: Returning the data unprocessed with an informative message.</p></li>
 </ol><p>The function assumes the input data frame contains the required columns for the specified <code>event</code>
 year, though column names may vary as per the original datasets. Note that <code>StatisticalAreaID</code>
@@ -118,7 +118,7 @@ reflects different Australian Statistical Geography Standards (ASGC) depending o
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Processing `2013 Federal Election` data to ensure all columns align across all elections.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   event StateAb DivisionNm PollingPlaceID</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 2013 Federal Election     NSW     Sydney            101</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     PollingPlaceNm StatisticalAreaID Votes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     PollingPlaceNm StatisticalAreaID Count</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Sydney Town Hall             12345   500</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Sample 2019 data</span></span></span>
@@ -135,7 +135,7 @@ reflects different Australian Statistical Geography Standards (ASGC) depending o
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Processing `2019 Federal Election` data to ensure all columns align across all elections.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   event StateAb DivisionNm PollingPlaceID</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 2019 Federal Election     VIC  Melbourne            102</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      PollingPlaceNm StatisticalAreaID Votes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      PollingPlaceNm StatisticalAreaID Count</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Melbourne Central             67890   600</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Sample invalid year</span></span></span>
