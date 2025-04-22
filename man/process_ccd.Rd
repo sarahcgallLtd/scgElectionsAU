@@ -28,7 +28,7 @@ standardised columns:
 2016 ASGC for 2019–2022)
 \item \code{PollingPlaceID} (polling place identifier)
 \item \code{PollingPlaceNm} (polling place name)
-\item \code{Votes} (indicative count of House of Representatives votes cast per statistical area)
+\item \code{Count} (indicative count of votes cast per statistical area)
 }
 The \code{year} column, if present, is removed as it is redundant with \code{event}. For unrecognised election
 years, the original data frame is returned unchanged.
@@ -45,9 +45,9 @@ This function processes election data by:
 \item Applying base column renaming common to all recognised years using \code{rename_cols()}
 (e.g., \code{state_ab} to \code{StateAb}, \code{div_nm} to \code{DivisionNm}).
 \item Removing the \code{year} column, as the \code{event} column already provides this information.
-\item For 2013: Renaming \code{ccd_id} to \code{StatisticalAreaID} and \code{count} to \code{Votes}.
-\item For 2016 and 2019: Renaming \code{SA1_id} to \code{StatisticalAreaID} and \code{votes} to \code{Votes}.
-\item For 2022: Renaming \code{ccd_id} to \code{StatisticalAreaID} and \code{votes} to \code{Votes}.
+\item For 2013: Renaming \code{ccd_id} to \code{StatisticalAreaID} and \code{count} to \code{Count}.
+\item For 2016 and 2019: Renaming \code{SA1_id} to \code{StatisticalAreaID} and \code{votes} to \code{Count}.
+\item For 2022: Renaming \code{ccd_id} to \code{StatisticalAreaID} and \code{votes} to \code{Count}.
 \item For unrecognised years: Returning the data unprocessed with an informative message.
 }
 The function assumes the input data frame contains the required columns for the specified \code{event}

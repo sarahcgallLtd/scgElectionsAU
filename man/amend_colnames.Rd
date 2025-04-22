@@ -37,6 +37,7 @@ specific columns and renames them if found. Columns checked and their correspond
 \item "Valid PVAs Received" to "Valid Applications Received"
 \item "Valid Apps Received" to "Valid Applications Received"
 \item "PVCs Returned" to "Postal Votes Returned"
+\item "RATIO" to "RATIO_FROM_TO"
 }}
 }
 \value{

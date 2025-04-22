@@ -35,6 +35,7 @@
 #'     \item "Valid PVAs Received" to "Valid Applications Received"
 #'     \item "Valid Apps Received" to "Valid Applications Received"
 #'     \item "PVCs Returned" to "Postal Votes Returned"
+#'     \item "RATIO" to "RATIO_FROM_TO"
 #'   }
 #'
 #' @return A data frame with the same structure as the input, but with renamed columns where applicable.
@@ -179,7 +180,10 @@ amend_colnames <- function(data) {
     data <- rename_cols(data, `Postal Votes Returned` = "PVCs Returned")
   }
 
-  #
+  # ABS RATIO  =============================================================#
+  if ("RATIO" %in% names(data)) {
+    data <- rename_cols(data, `RATIO_FROM_TO` = "RATIO")
+  }
 
   return(data)
 }

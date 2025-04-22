@@ -1862,7 +1862,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 The `Votes by SA1` dataset provides a summary of the number of votes by SA1, detailing:
 
 - the SA1 details (`StateAb`, `DivisionNm`, `PollingPlaceID`, `PollingPlaceNm`, `StatisticalAreaID`).
-- the total number of votes (`Votes`).
+- indicative count of otes cast per SA1 (`Count`).
 
 Covering elections from `2013` to present, this dataset is available for the `Statistics` category. The dataset is processed in the following way, using the [`process_ccd()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_ccd.html) function:
 

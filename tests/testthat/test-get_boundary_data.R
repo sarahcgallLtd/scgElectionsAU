@@ -16,7 +16,7 @@ test_that("get_boundary_data validates input parameters correctly", {
   # Test invalid level
   expect_error(
     get_boundary_data(ref_date = 2021, level = "INVALID", type = "allocation"),
-    "arg.*should be one of.*CED.*SA1.*MB.*POA"
+    "arg.*should be one of.*CED.*SED.*POA.*SA1.*MB"
   )
 
   # Test invalid type
@@ -31,6 +31,16 @@ test_that("get_boundary_data downloads and returns data correctly", {
   # Test with a known valid combination (e.g., 2021 CED allocation)
   expect_s3_class(
     get_boundary_data(ref_date = 2021, level = "CED", type = "allocation"),
+    "data.frame"
+  )
+
+  expect_s3_class(
+    get_boundary_data(ref_date = 2011, level = "SA1", type = "correspondence"),
+    "data.frame"
+  )
+
+  expect_s3_class(
+    get_boundary_data(ref_date = 2016, level = "MB", type = "correspondence"),
     "data.frame"
   )
 })

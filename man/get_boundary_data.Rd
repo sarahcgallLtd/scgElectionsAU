@@ -6,7 +6,7 @@
 \usage{
 get_boundary_data(
   ref_date,
-  level = c("CED", "SA1", "MB", "POA"),
+  level = c("CED", "SED", "POA", "SA1", "MB"),
   type = c("allocation", "correspondence")
 )
 }
@@ -14,32 +14,43 @@ get_boundary_data(
 \item{ref_date}{Numeric. The reference year for the boundary data. Must be between 2011 and 2024, inclusive.}
 
 \item{level}{Character. The geographic level of the boundary data. One of "CED" (Commonwealth Electoral Division),
-"SA1" (Statistical Area Level 1), "MB" (Mesh Block), or "POA" (Postal Area). Defaults to "CED".}
+"SED" (State Electoral Division), "POA" (Postal Area), "SA1" (Statistical Area Level 1), or "MB" (Mesh Block).
+Defaults to "CED".}
 
 \item{type}{Character. The type of boundary data. One of "allocation" or "correspondence". Defaults to "allocation".}
 }
 \value{
 A data frame containing the boundary data for the specified parameters. If multiple files are downloaded,
-they are combined into a single data frame, provided they have identical column structures.
+they are combined into a single data frame, provided they have identical column structures. For the 2011 SA1
+correspondence data, additional cleaning is performed to ensure data consistency.
 }
 \description{
 Downloads and processes ABS boundary data (allocation or correspondence files)
 for a specified reference year and geographic level from the scgElectionsAU package.
+For the special case of 2011 SA1 correspondence data, it handles multiple sheets
+from an Excel file and performs additional data cleaning.
 }
 \details{
 This function retrieves boundary data by accessing the \code{abs_boundary_index} dataset in the \code{scgElectionsAU} package,
 filtering it based on the provided \code{ref_date}, \code{level}, and \code{type}. It then downloads the corresponding files from
 the URLs listed in the index using \code{scgUtils::get_file()}. If multiple files are retrieved, they are combined into
-a single data frame using \code{rbind}. The function includes validation checks to ensure the parameters are valid and
-that the downloaded data can be combined.
+a single data frame using \code{rbind}. For the special case where \code{ref_date = 2011}, \code{level = "SA1"}, and
+\code{type = "correspondence"}, the function downloads multiple sheets from an Excel file (sheets 4 to 7), corrects a
+known column name typo ("SA1_7DIGICODE_2011" to "SA1_7DIGITCODE_2011"), and performs additional data cleaning steps,
+such as renaming columns (e.g., "CD_CODE_2006...2" to "CD_CODE_2006"), removing redundant columns (e.g.,
+"CD_CODE_2006...1"), and removing rows with all NA values. The function includes validation checks to ensure the
+parameters are valid and that the downloaded data can be combined.
 }
 \examples{
 \dontrun{
-# Retrieve 2021 CED allocation data
-ced_data <- get_boundary_data(ref_date = 2021, level = "CED", type = "allocation")
+# Retrieve 2024 CED allocation data
+ced_data <- get_boundary_data(ref_date = 2024, level = "CED", type = "allocation")
 
-# Retrieve 2016 SA1 correspondence data
-sa1_data <- get_boundary_data(ref_date = 2016, level = "SA1", type = "correspondence")
+# Retrieve 2021 SA1 correspondence data (from 2016 to 2021)
+sa1_data <- get_boundary_data(ref_date = 2021, level = "SA1", type = "correspondence")
+
+# Retrieve 2011 SA1 correspondence data (special case)
+sa1_2011_data <- get_boundary_data(ref_date = 2011, level = "SA1", type = "correspondence")
 }
 
 }

@@ -24,7 +24,7 @@
 #'           2016 ASGC for 2019–2022)
 #'     \item `PollingPlaceID` (polling place identifier)
 #'     \item `PollingPlaceNm` (polling place name)
-#'     \item `Votes` (indicative count of House of Representatives votes cast per statistical area)
+#'     \item `Count` (indicative count of votes cast per statistical area)
 #'   }
 #'   The `year` column, if present, is removed as it is redundant with `event`. For unrecognised election
 #'   years, the original data frame is returned unchanged.
@@ -35,9 +35,9 @@
 #'   \item Applying base column renaming common to all recognised years using `rename_cols()`
 #'         (e.g., `state_ab` to `StateAb`, `div_nm` to `DivisionNm`).
 #'   \item Removing the `year` column, as the `event` column already provides this information.
-#'   \item For 2013: Renaming `ccd_id` to `StatisticalAreaID` and `count` to `Votes`.
-#'   \item For 2016 and 2019: Renaming `SA1_id` to `StatisticalAreaID` and `votes` to `Votes`.
-#'   \item For 2022: Renaming `ccd_id` to `StatisticalAreaID` and `votes` to `Votes`.
+#'   \item For 2013: Renaming `ccd_id` to `StatisticalAreaID` and `count` to `Count`.
+#'   \item For 2016 and 2019: Renaming `SA1_id` to `StatisticalAreaID` and `votes` to `Count`.
+#'   \item For 2022: Renaming `ccd_id` to `StatisticalAreaID` and `votes` to `Count`.
 #'   \item For unrecognised years: Returning the data unprocessed with an informative message.
 #' }
 #' The function assumes the input data frame contains the required columns for the specified `event`
@@ -94,15 +94,15 @@ process_ccd <- function(data, event) {
 
     if (event == "2013 Federal Election") {
       # Rename  columns
-      data <- rename_cols(data, StatisticalAreaID = "ccd_id", Votes = "count")
+      data <- rename_cols(data, StatisticalAreaID = "ccd_id", Count = "count")
 
     } else if (event %in% c("2016 Federal Election", "2019 Federal Election")) {
       # Rename  columns
-      data <- rename_cols(data, StatisticalAreaID = "SA1_id", Votes = "votes")
+      data <- rename_cols(data, StatisticalAreaID = "SA1_id", Count = "votes")
 
     } else if (event %in% c("2022 Federal Election","2023 Referendum")) {
       # Rename  columns
-      data <- rename_cols(data, StatisticalAreaID = "ccd_id", Votes = "votes")
+      data <- rename_cols(data, StatisticalAreaID = "ccd_id", Count = "votes")
 
     }
   } else {

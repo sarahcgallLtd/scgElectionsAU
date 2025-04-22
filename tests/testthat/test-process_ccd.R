@@ -29,11 +29,11 @@ test_that("process_ccd standardises election data correctly", {
     "Processing `2013 Federal Election` data to ensure all columns align across all elections."
   )
   expected_cols_2013 <- c("event", "StateAb", "DivisionNm", "PollingPlaceID",
-                          "PollingPlaceNm", "StatisticalAreaID", "Votes")
+                          "PollingPlaceNm", "StatisticalAreaID", "Count")
   expect_equal(names(result_2013), expected_cols_2013)
   expect_equal(result_2013$StateAb, "NSW")
   expect_equal(result_2013$StatisticalAreaID, "12345")
-  expect_equal(result_2013$Votes, 500)
+  expect_equal(result_2013$Count, 500)
   expect_false("year" %in% names(result_2013))
 
   # Test 3: 2016 data processing
@@ -52,11 +52,11 @@ test_that("process_ccd standardises election data correctly", {
     "Processing `2016 Federal Election` data to ensure all columns align across all elections."
   )
   expected_cols_2016 <- c("event", "StateAb", "DivisionNm", "PollingPlaceID",
-                          "PollingPlaceNm", "StatisticalAreaID", "Votes")
+                          "PollingPlaceNm", "StatisticalAreaID", "Count")
   expect_equal(names(result_2016), expected_cols_2016)
   expect_equal(result_2016$StateAb, "VIC")
   expect_equal(result_2016$StatisticalAreaID, "67890")
-  expect_equal(result_2016$Votes, 600)
+  expect_equal(result_2016$Count, 600)
   expect_false("year" %in% names(result_2016))
 
   # Test 4: 2019 data processing (same as 2016)
@@ -77,7 +77,7 @@ test_that("process_ccd standardises election data correctly", {
   expect_equal(names(result_2019), expected_cols_2016)  # Same expected columns as 2016
   expect_equal(result_2019$StateAb, "QLD")
   expect_equal(result_2019$StatisticalAreaID, "54321")
-  expect_equal(result_2019$Votes, 700)
+  expect_equal(result_2019$Count, 700)
   expect_false("year" %in% names(result_2019))
 
   # Test 5: 2022 data processing
@@ -96,10 +96,10 @@ test_that("process_ccd standardises election data correctly", {
     "Processing `2022 Federal Election` data to ensure all columns align across all elections."
   )
   expected_cols_2022 <- c("event", "StateAb", "DivisionNm", "PollingPlaceID",
-                          "PollingPlaceNm", "StatisticalAreaID", "Votes")
+                          "PollingPlaceNm", "StatisticalAreaID", "Count")
   expect_equal(names(result_2022), expected_cols_2022)
   expect_equal(result_2022$StateAb, "SA")
   expect_equal(result_2022$StatisticalAreaID, "98765")
-  expect_equal(result_2022$Votes, 800)
+  expect_equal(result_2022$Count, 800)
   expect_false("year" %in% names(result_2022))
 })
