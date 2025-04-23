@@ -98,7 +98,7 @@ The following sections detail the datasets available for each return type, inclu
 df <- get_disclosure_data(
   file_name = "Donations Made",
   group = "Donor",
-  type = "Annual",
+  type = "Annual"
 )
 ```
 
@@ -109,7 +109,7 @@ df <- get_disclosure_data(
 df <- get_disclosure_data(
   file_name = "Donations Made",
   group = "Donor",
-  type = "Annual",
+  type = "Annual"
 )
 
 # Display as an HTML table
@@ -122,7 +122,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Donations Received",
   group = "Donor", # OR "Third Party"
-  type = "Annual",
+  type = "Annual"
 )
 ```
 
@@ -133,7 +133,7 @@ df <- get_disclosure_data(
 df <- get_disclosure_data(
   file_name = "Donations Received",
   group = "Donor",
-  type = "Annual",
+  type = "Annual"
 )
 
 # Display as an HTML table
@@ -147,7 +147,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Donations Received",
   group = "Third Party",
-  type = "Annual",
+  type = "Annual"
 )
 
 # Display as an HTML table
@@ -164,7 +164,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Returns",
   group = "Associated Entity", # OR "Donor", "MPs", "Party", "Significant Third Party", "Third Party"
-  type = "Annual",
+  type = "Annual"
 )
 ```
 
@@ -175,7 +175,7 @@ df <- get_disclosure_data(
 df <- get_disclosure_data(
   file_name = "Returns",
   group = "Associated Entity",
-  type = "Annual",
+  type = "Annual"
 )
 
 # Display as an HTML table
@@ -189,7 +189,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Returns",
   group = "Donor",
-  type = "Annual",
+  type = "Annual"
 )
 
 # Display as an HTML table
@@ -203,7 +203,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Returns",
   group = "MPs",
-  type = "Annual",
+  type = "Annual"
 )
 
 # Display as an HTML table
@@ -217,7 +217,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Returns",
   group = "Party",
-  type = "Annual",
+  type = "Annual"
 )
 
 # Display as an HTML table
@@ -231,7 +231,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Returns",
   group = "Significant Third Party",
-  type = "Annual",
+  type = "Annual"
 )
 
 # Display as an HTML table
@@ -245,7 +245,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Returns",
   group = "Third Party",
-  type = "Annual",
+  type = "Annual"
 )
 
 # Display as an HTML table
@@ -261,7 +261,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Capital Contributions", # OR "Debts", "Discretionary Benefits", "Receipts"
   group = "Other",
-  type = "Annual",
+  type = "Annual"
 )
 ```
 
@@ -272,7 +272,7 @@ df <- get_disclosure_data(
 df <- get_disclosure_data(
   file_name = "Capital Contributions",
   group = "Other",
-  type = "Annual",
+  type = "Annual"
 )
 
 # Display as an HTML table
@@ -286,7 +286,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Debts",
   group = "Other",
-  type = "Annual",
+  type = "Annual"
 )
 
 # Display as an HTML table
@@ -300,7 +300,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Discretionary Benefits",
   group = "Other",
-  type = "Annual",
+  type = "Annual"
 )
 
 # Display as an HTML table
@@ -314,7 +314,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Receipts",
   group = "Other",
-  type = "Annual",
+  type = "Annual"
 )
 
 # Display as an HTML table
@@ -332,7 +332,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Donations Made",
   group = "Donor", # OR "Candidate", "Third Party"
-  type = "Election",
+  type = "Election"
 )
 ```
 
@@ -343,7 +343,7 @@ df <- get_disclosure_data(
 df <- get_disclosure_data(
   file_name = "Donations Made",
   group = "Donor",
-  type = "Election",
+  type = "Election"
 )
 
 # Display as an HTML table
@@ -357,7 +357,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Donations Made",
   group = "Candidate",
-  type = "Election",
+  type = "Election"
 )
 
 # Display as an HTML table
@@ -371,7 +371,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Donations Made",
   group = "Third Party",
-  type = "Election",
+  type = "Election"
 )
 
 # Display as an HTML table
@@ -384,7 +384,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Donations Received",
   group = "Donor", # OR "Third Party"
-  type = "Election",
+  type = "Election"
 )
 ```
 
@@ -395,7 +395,7 @@ df <- get_disclosure_data(
 df <- get_disclosure_data(
   file_name = "Donations Received",
   group = "Donor",
-  type = "Election",
+  type = "Election"
 )
 
 # Display as an HTML table
@@ -409,7 +409,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Donations Received",
   group = "Third Party",
-  type = "Election",
+  type = "Election"
 )
 
 # Display as an HTML table
@@ -425,7 +425,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Expenses",
   group = "Candidate", # OR "Third Party"
-  type = "Election",
+  type = "Election"
 )
 ```
 
@@ -436,7 +436,7 @@ df <- get_disclosure_data(
 df <- get_disclosure_data(
   file_name = "Expenses",
   group = "Candidate",
-  type = "Election",
+  type = "Election"
 )
 
 # Display as an HTML table
@@ -450,7 +450,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Expenses",
   group = "Third Party",
-  type = "Election",
+  type = "Election"
 )
 
 # Display as an HTML table
@@ -466,7 +466,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Returns",
   group = "Donor", # OR "Media"
-  type = "Election",
+  type = "Election"
 )
 ```
 
@@ -477,7 +477,7 @@ df <- get_disclosure_data(
 df <- get_disclosure_data(
   file_name = "Returns",
   group = "Donor",
-  type = "Election",
+  type = "Election"
 )
 
 # Display as an HTML table
@@ -491,7 +491,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Returns",
   group = "Media",
-  type = "Election",
+  type = "Election"
 )
 
 # Display as an HTML table
@@ -504,7 +504,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Return Summary",
   group = "Candidate",
-  type = "Election",
+  type = "Election"
 )
 ```
 
@@ -515,7 +515,7 @@ df <- get_disclosure_data(
 df <- get_disclosure_data(
   file_name = "Return Summary",
   group = "Candidate",
-  type = "Election",
+  type = "Election"
 )
 
 # Display as an HTML table
@@ -532,7 +532,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Discretionary Benefits",
   group = "Candidate",
-  type = "Election",
+  type = "Election"
 )
 ```
 
@@ -543,7 +543,7 @@ df <- get_disclosure_data(
 df <- get_disclosure_data(
   file_name = "Discretionary Benefits",
   group = "Candidate",
-  type = "Election",
+  type = "Election"
 )
 
 # Display as an HTML table
@@ -556,7 +556,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Media Advertisement Details",
   group = "Other",
-  type = "Election",
+  type = "Election"
 )
 ```
 
@@ -567,7 +567,7 @@ df <- get_disclosure_data(
 df <- get_disclosure_data(
   file_name = "Media Advertisement Details",
   group = "Other",
-  type = "Election",
+  type = "Election"
 )
 
 # Display as an HTML table
@@ -586,7 +586,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Donations Made",
   group = "Donor",
-  type = "Referendum",
+  type = "Referendum"
 )
 ```
 
@@ -597,7 +597,7 @@ df <- get_disclosure_data(
 df <- get_disclosure_data(
   file_name = "Donations Made",
   group = "Donor",
-  type = "Referendum",
+  type = "Referendum"
 )
 
 # Display as an HTML table
@@ -610,7 +610,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Donations Received",
   group = "Referendum Entity",
-  type = "Referendum",
+  type = "Referendum"
 )
 ```
 
@@ -621,7 +621,7 @@ df <- get_disclosure_data(
 df <- get_disclosure_data(
   file_name = "Donations Received",
   group = "Referendum Entity",
-  type = "Referendum",
+  type = "Referendum"
 )
 
 # Display as an HTML table
@@ -637,7 +637,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Returns",
   group = "Donor", # OR "Referendum Entity"
-  type = "Referendum",
+  type = "Referendum"
 )
 ```
 
@@ -648,7 +648,7 @@ df <- get_disclosure_data(
 df <- get_disclosure_data(
   file_name = "Returns",
   group = "Donor",
-  type = "Referendum",
+  type = "Referendum"
 )
 
 # Display as an HTML table
@@ -662,7 +662,7 @@ kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 df <- get_disclosure_data(
   file_name = "Returns",
   group = "Referendum Entity",
-  type = "Referendum",
+  type = "Referendum"
 )
 
 # Display as an HTML table

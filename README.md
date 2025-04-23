@@ -51,7 +51,7 @@ Explore detailed examples and dataset descriptions in the
 
 ## Data Sources and Disclaimer
 #### Data Sources
-The datasets in the `scgElectionsAU` package are meticulously curated from the official results sourced from the [Australian Electoral Commission](https://www.aec.gov.au/).
+The datasets in the `scgElectionsAU` package are meticulously curated from the official results sourced from the [Australian Electoral Commission](https://www.aec.gov.au/) and [Australian Bureau of Statistics](https://abs.gov.au/).
 These datasets offer a comprehensive view of Australia's electoral outcomes and are crucial for in-depth analysis and research in political science, electoral studies, and related fields.
 
 #### Disclaimer
@@ -65,7 +65,6 @@ The data included in this package are up-to-date as of 2 March 2025. Users shoul
 events or data revisions by the Electoral Commission after this date may not be reflected in the current version of `scgElectionsAU`.
 
 ## Future Additions and Updates
-Planned future additions include by-election and referendum results and enhanced datasets like `results_by_booths`. 
 Upcoming functional updates will focus on visualising election results specific to Australia and making boundary
 adjustments for better comparative analysis.
 
