@@ -16,6 +16,7 @@ reference:
     Functions for retrieving election datasets.
   contents:
     - get_boundary_data
+    - get_disclosure_data
     - get_election_data
 
 - subtitle: Processing
@@ -38,5 +39,7 @@ articles:
 - title: Function Example
   navbar: ~
   contents:
-  - articles/aec-raw-data
+  - articles/a-guide-to-aec-election-datasets
+  - articles/a-guide-to-aec-disclosure-datasets
+  - articles/a-guide-to-abs-boundary-datasets
 

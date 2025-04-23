@@ -103,6 +103,7 @@ get_election_data <- function(
   if (is.null(index)) {
     stop(paste0("Data 'aec_elections_index' not found in 'scgElectionsAU' package. Contact the package maintainer."))
   }
+
   # Get list of events
   events <- as.character(info$event)
 
@@ -256,7 +257,7 @@ get_election_data <- function(
   rownames(combined_df) <- NULL
 
   if (nrow(combined_df) == 0) {
-    stop(paste0("No data was available for `", file_name, "` with the parameters used. Check the date range and try again."))
+    stop(paste0("No data was available for `", file_name, "` with the parameters used. Check the date range and try again. For more information go to https://docs.sarahcgall.co.uk/scgElectionsAU/articles/a-guide-to-aec-election-datasets"))
   }
 
   # =====================================#

@@ -33,12 +33,12 @@ Example usage:
 library(scgElectionsAU)
 
 # Load a dataset
-df <- get_aec_data(
+df <- get_election_data(
   file_name = "National list of candidates",
   date_range = list(from = "2022-01-01", to = "2025-01-01"), # for elections between 2022 and 2025 (default)
-  type = "Federal Election", # Default (other options: "Referendum", "Federal By-Election", or "Transparency")
+  type = "Federal Election", # Default (other options: "Referendum", or "By-Election")
   category = "House", # Default (other options: "Senate", "Referendum", "General", or "Statistics")
-  process = TRUE # default (can turn off automated processing by selecting FALSE)
+  process = TRUE # Default (can turn off automated processing by selecting FALSE)
 )
 
 

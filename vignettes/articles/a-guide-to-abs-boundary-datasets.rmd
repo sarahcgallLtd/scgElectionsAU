@@ -1,0 +1,34 @@
+---
+title: "A Guide to the ABS's Boundary Datasets"
+---
+```{=html}
+<style>
+  .content p {
+    margin-top: 30px !important;
+  }
+
+  details {
+    margin-bottom: 40px;
+  }
+</style>
+```
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+<br>
+This article explores the [`get_election_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_election_data.html) function and the data that it is able to retrieve from the Australian Electoral Commission's (AEC) website. This function is primarily used to retrieve the raw data with limited processing. To remove any processing, ensure the function's `process` param is set to `FALSE`. For a more processed and 'analysis-ready' function, check out [`get_results`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_results.html).
+<br>
+
+```{r setup, include = FALSE}
+library(scgElectionsAU)
+library(knitr)
+```
+In the [`get_election_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_election_data.html) function, the `type` argument default is "Federal Election". This type extracts data from the AEC's 'Tally Room' for elections between 2004 and 2022. Both House and Senate data are extractable. Additionally, when `type` is "By-Election" or "Referendum", this will extract data for by-elections between 2008 and 2024 and the 2023 referendum. There is an option for any or all types to be selected (e.g., to retrieve data for both federal elections and by-elections).
+
+## Candidates & Nominations

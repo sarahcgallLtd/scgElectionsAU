@@ -1,0 +1,670 @@
+---
+title: "A Guide to the AEC's Disclosure Datasets"
+---
+```{=html}
+<style>
+  .content p {
+    margin-top: 30px !important;
+  }
+
+  details {
+    margin-bottom: 40px;
+  }
+</style>
+```
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+<br>
+The AEC Transparency Register is a vital tool for understanding the financial landscape of Australian politics, offering detailed insights into the financial activities of political entities such as political parties, candidates, donors, and third parties. Governed by the Commonwealth Electoral Act 1918, the register aims to enhance transparency by making public the financial dealings that may influence the electoral process. This guide introduces the Transparency Register, explains the datasets available through the [`get_disclosure_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_disclosure_data.html) function from the `scgElectionsAU` package, and provides context on the legislative framework, including upcoming changes.
+<br>
+
+```{r setup, include = FALSE}
+library(scgElectionsAU)
+library(knitr)
+```
+
+### Understanding the Transparency Register
+
+The Transparency Register, hosted by the Australian Electoral Commission (AEC), is a comprehensive database that compiles financial disclosure information submitted by various political entities. These entities include registered political parties, significant third parties, associated entities, members of parliament, senators, donors, and others involved in electoral processes. The register’s primary purpose is to inform the public and allow scrutiny of financial activities that could impact elections, as mandated by Part XX of the Commonwealth Electoral Act 1918 ([AEC Financial Disclosure](https://www.aec.gov.au/parties_and_representatives/financial_disclosure/)).
+
+The register organises data into three main types of returns:
+
+- **Annual Returns**: These cover financial activities for a financial year (July 1 to June 30), including donations, expenditures, debts, and other financial details. They are published on the first business day of February each year ([AEC Annual Returns](https://www.aec.gov.au/Parties_and_Representatives/annual-returns.htm)).
+- **Election Returns**: These pertain to federal elections or by-elections, detailing donations and electoral expenditures specific to those events. They are published 24 weeks after polling day.
+- **Referendum Returns**: These relate to referendums, capturing financial information such as donations and expenditures, published 24 weeks after voting day ([AEC Transparency Register](https://transparency.aec.gov.au/)).
+
+The Transparency Register faced a temporary outage on 15 May 2024 due to a privacy issue involving the publication of candidates’ postal addresses. An external review led to eight recommendations, all accepted by the AEC, to improve data handling ([AEC Transparency FAQs](https://www.aec.gov.au/FAQs/transparency-register.htm)). The AEC made the necessary changes to the register, which is now back online without any sensitive information.
+
+### The `get_disclosure_data` Function
+
+The [`get_disclosure_data`]((https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_disclosure_data.html)) function, simplifies access to the Transparency Register’s datasets. The function takes three parameters:
+
+- **`type`**: Specifies the return type (`Annual`, `Election`, `Referendum`), defaulting to `Annual`.
+- **`group`**: Indicates the entity category, such as `Donor`, `Party`, `Candidate`, or `Third Party`, defaulting to `Donor` if not provided.
+- **`file_name`**: Denotes the specific dataset, such as `Donations Made` or `Returns`, defaulting to `Donations Made` if not specified.
+
+The function validates inputs against predefined options and retrieves data from zipped folders on the AEC’s Transparency Register download page ([AEC Downloads](https://transparency.aec.gov.au/Download)). Not all combinations of `type`, `group`, and `file_name` are valid; the function checks for valid datasets using an internal index (`aec_disclosure_index`) within the `scgElectionsAU` package.
+
+### Dataset Descriptions
+
+The Transparency Register offers various datasets, each corresponding to a specific aspect of financial disclosure. Below is a summary of the datasets accessible via the `get_disclosure_data` function, organized by their `file_name`:
+
+| **Dataset**                     | **Description**                                                                                                                          |
+|---------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| **Capital Contributions**       | Details contributions to the entity’s capital, often relevant for associated entities or parties.                                        |
+| **Debts**                       | Lists outstanding debts as of the end of the financial year, including creditor details and amounts.                                     |
+| **Discretionary Benefits**      | Records benefits received from the Commonwealth, State, or Territory, such as grants or subsidies.                                       |
+| **Donations Made**              | Provides details of donations given by the entity to political parties, candidates, or others, including recipient, amount, and date.    |
+| **Donations Received**          | Lists donations received by the entity, often used for electoral expenditure or further donations, including donor, amount, and date.    |
+| **Expenses**                    | Covers expenditures, typically electoral, incurred by entities like candidates or third parties, detailing purpose and amount.           |
+| **Media Advertisement Details** | Contains information on media advertisements, such as those for election or referendum campaigns, including medium and cost.             |
+| **Receipts**                    | Comprehensive list of all receipts, including donations and other income, with details like source and amount.                           |
+| **Return Summary**              | Summarizes key financial figures from the return, such as total receipts and payments.                                                   |
+| **Returns**                     | The complete financial return, including total receipts, payments, debts, donations, and discretionary benefits, as required by the AEC. |
+
+These datasets are available for different `group`s and `type`s, as outlined in the examples below. For instance, `Donations Made` by a `Donor` in an `Annual` return lists their contributions to political entities, while `Returns` for a `Party` includes all required financial disclosures.
+
+### Legislative Context
+
+The datasets are governed by the Commonwealth Electoral Act 1918, which mandates financial disclosure to maintain electoral integrity. For the 2023–24 financial year, the disclosure threshold was $16,300, indexed annually on July 1 ([AEC Media Release](https://www.aec.gov.au/media/2025/02-03.htm)). Entities must lodge returns through the AEC’s eReturns portal, with annual returns due by October 20 (or November 17 for MPs and Senators) and election/referendum returns due 24 weeks after the event.
+
+Significant reforms to the funding and disclosure scheme are scheduled for July 1, 2026, and will not affect the 2025 federal election returns. These changes include:
+
+- Reducing the disclosure threshold to $5,000, indexed post-election.
+- Introducing expedited disclosure for donations over $5,000 (e.g., within 7 days during election periods).
+- Implementing donation caps (e.g., $50,000 annually per recipient) and expenditure caps (e.g., $90 million for parties federally).
+- Requiring federal accounts for electoral expenditure and donations.
+- Shifting to a calendar-year reporting period and replacing election returns with expedited disclosures ([AEC Legislative Changes](https://www.aec.gov.au/news/disclosure-legislative-changes.htm)).
+
+Minor amendments, such as changes to registration processes, will take effect on February 21, 2025, but are unlikely to impact dataset structures significantly.
+
+### Available Datasets and Examples
+
+The following sections detail the datasets available for each return type, including example usage of the `get_disclosure_data` function and sample data. These examples demonstrate how to retrieve and explore the data, helping users analyse political financial activities.
+
+## Annual
+### Donations
+
+#### *Example Usage (Made):*
+
+```{r, eval = FALSE}
+df <- get_disclosure_data(
+  file_name = "Donations Made",
+  group = "Donor",
+  type = "Annual",
+)
+```
+
+#### *Sample Data (Made):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Donations Made",
+  group = "Donor",
+  type = "Annual",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Example Usage (Received):*
+
+```{r, eval = FALSE}
+df <- get_disclosure_data(
+  file_name = "Donations Received",
+  group = "Donor", # OR "Third Party"
+  type = "Annual",
+)
+```
+
+#### *Sample Data (Received - Donor):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Donations Received",
+  group = "Donor",
+  type = "Annual",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (Received - Third Party):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Donations Received",
+  group = "Third Party",
+  type = "Annual",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+### Returns
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_disclosure_data(
+  file_name = "Returns",
+  group = "Associated Entity", # OR "Donor", "MPs", "Party", "Significant Third Party", "Third Party"
+  type = "Annual",
+)
+```
+
+#### *Sample Data (Associated Entity):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Returns",
+  group = "Associated Entity",
+  type = "Annual",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (Donor):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Returns",
+  group = "Donor",
+  type = "Annual",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (MPs):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Returns",
+  group = "MPs",
+  type = "Annual",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (Party):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Returns",
+  group = "Party",
+  type = "Annual",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (Significant Third Party):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Returns",
+  group = "Significant Third Party",
+  type = "Annual",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (Third Party):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Returns",
+  group = "Third Party",
+  type = "Annual",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+<br>
+
+### Other
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_disclosure_data(
+  file_name = "Capital Contributions", # OR "Debts", "Discretionary Benefits", "Receipts"
+  group = "Other",
+  type = "Annual",
+)
+```
+
+#### *Sample Data (Capital Contributions):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Capital Contributions",
+  group = "Other",
+  type = "Annual",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (Debts):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Debts",
+  group = "Other",
+  type = "Annual",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (Discretionary Benefits):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Discretionary Benefits",
+  group = "Other",
+  type = "Annual",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (Receipts):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Receipts",
+  group = "Other",
+  type = "Annual",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+<br>
+
+## Election
+
+### Donations
+
+#### *Example Usage (Made):*
+
+```{r, eval = FALSE}
+df <- get_disclosure_data(
+  file_name = "Donations Made",
+  group = "Donor", # OR "Candidate", "Third Party"
+  type = "Election",
+)
+```
+
+#### *Sample Data (Made - Donor):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Donations Made",
+  group = "Donor",
+  type = "Election",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (Made - Candidate):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Donations Made",
+  group = "Candidate",
+  type = "Election",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (Made - Third Party):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Donations Made",
+  group = "Third Party",
+  type = "Election",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Example Usage (Received):*
+
+```{r, eval = FALSE}
+df <- get_disclosure_data(
+  file_name = "Donations Received",
+  group = "Donor", # OR "Third Party"
+  type = "Election",
+)
+```
+
+#### *Sample Data (Received - Donor):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Donations Received",
+  group = "Donor",
+  type = "Election",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (Received - Third Party):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Donations Received",
+  group = "Third Party",
+  type = "Election",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+<br>
+
+### Expenses
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_disclosure_data(
+  file_name = "Expenses",
+  group = "Candidate", # OR "Third Party"
+  type = "Election",
+)
+```
+
+#### *Sample Data (Candidate):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Expenses",
+  group = "Candidate",
+  type = "Election",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (Candidate):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Expenses",
+  group = "Third Party",
+  type = "Election",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+<br>
+
+### Returns
+
+#### *Example Usage (Returns):*
+
+```{r, eval = FALSE}
+df <- get_disclosure_data(
+  file_name = "Returns",
+  group = "Donor", # OR "Media"
+  type = "Election",
+)
+```
+
+#### *Sample Data (Returns):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Returns",
+  group = "Donor",
+  type = "Election",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (Returns):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Returns",
+  group = "Media",
+  type = "Election",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Example Usage (Return Summary):*
+
+```{r, eval = FALSE}
+df <- get_disclosure_data(
+  file_name = "Return Summary",
+  group = "Candidate",
+  type = "Election",
+)
+```
+
+#### *Sample Data (Return Summary):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Return Summary",
+  group = "Candidate",
+  type = "Election",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+### Other
+
+#### *Example Usage (Discretionary Benefits):*
+
+```{r, eval = FALSE}
+df <- get_disclosure_data(
+  file_name = "Discretionary Benefits",
+  group = "Candidate",
+  type = "Election",
+)
+```
+
+#### *Sample Data (Discretionary Benefits):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Discretionary Benefits",
+  group = "Candidate",
+  type = "Election",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Example Usage (Media Advertisement Details):*
+
+```{r, eval = FALSE}
+df <- get_disclosure_data(
+  file_name = "Media Advertisement Details",
+  group = "Other",
+  type = "Election",
+)
+```
+
+#### *Sample Data (Media Advertisement Details):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Media Advertisement Details",
+  group = "Other",
+  type = "Election",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+## Referendum
+
+### Donations
+
+#### *Example Usage (Made):*
+
+```{r, eval = FALSE}
+df <- get_disclosure_data(
+  file_name = "Donations Made",
+  group = "Donor",
+  type = "Referendum",
+)
+```
+
+#### *Sample Data (Made):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Donations Made",
+  group = "Donor",
+  type = "Referendum",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Example Usage (Received):*
+
+```{r, eval = FALSE}
+df <- get_disclosure_data(
+  file_name = "Donations Received",
+  group = "Referendum Entity",
+  type = "Referendum",
+)
+```
+
+#### *Sample Data (Received):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Donations Received",
+  group = "Referendum Entity",
+  type = "Referendum",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+
+### Returns
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_disclosure_data(
+  file_name = "Returns",
+  group = "Donor", # OR "Referendum Entity"
+  type = "Referendum",
+)
+```
+
+#### *Sample Data (Donor):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Returns",
+  group = "Donor",
+  type = "Referendum",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (Referendum Entity):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_disclosure_data(
+  file_name = "Returns",
+  group = "Referendum Entity",
+  type = "Referendum",
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```

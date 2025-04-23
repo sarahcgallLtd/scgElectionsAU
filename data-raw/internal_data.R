@@ -10,6 +10,9 @@ aec_elections_index <- readr::read_csv("data-raw/aec-elections-index.csv")
 abs_boundary_index <- readr::read_csv("data-raw/abs-boundary-index.csv")
 
 # ===
+aec_disclosure_index <- readr::read_csv("data-raw/aec-disclosure-index.csv")
+
+# ===
 name_conversions <- readr::read_csv("data-raw/name_conversions.csv")
 
 # ===
@@ -44,6 +47,6 @@ coords <- na.omit(coords)
 
 # Save to internal data
 # sysdata_filenames <- load("R/sysdata.rda")
-save(info, aec_elections_index, abs_boundary_index, name_conversions, coords,
+save(info, aec_elections_index, aec_disclosure_index, abs_boundary_index, name_conversions, coords,
      file = "R/sysdata.rda", compress = "xz")
 devtools::load_all()

@@ -1,0 +1,30 @@
+﻿type,group,file_name,prefix,download_name,file_type
+Annual,Other,Capital Contributions,AllAnnualData,Capital Contributions,.csv
+Election,Candidate,Discretionary Benefits,AllElectionsData,Senate Groups and Candidate Discretionary Benefits,.csv
+Election,Candidate,Donations Made,AllElectionsData,Senate Groups and Candidate Donations,.csv
+Election,Donor,Donations Made,AllElectionsData,Donor Donations Made,.csv
+Election,Third Party,Donations Made,AllElectionsData,Third Party Return Donations Made,.csv
+Annual,Other,Debts,AllAnnualData,Detailed Debts,.csv
+Election,Donor,Donations Received,AllElectionsData,Donor Donations Received,.csv
+Referendum,Donor,Donations Made,AllReferendumData,Referendum Donations Made,.csv
+Election,Third Party,Donations Received,AllElectionsData,Third Party Return Donations Received,.csv
+Annual,Other,Discretionary Benefits,AllAnnualData,Detailed Discretionary Benefits,.csv
+Election,Candidate,Expenses,AllElectionsData,Senate Groups and Candidate Expenses,.csv
+Annual,Donor,Donations Made,AllAnnualData,Donations Made,.csv
+Referendum,Referendum Entity,Donations Received,AllReferendumData,Referendum Entity Donations Received,.csv
+Election,Third Party,Expenses,AllElectionsData,Third Party Return Expenditure,.csv
+Annual,Donor,Donations Received,AllAnnualData,Donor Donations Received,.csv
+Annual,Third Party,Donations Received,AllAnnualData,Third Party Donations Received,.csv
+Annual,Other,Receipts,AllAnnualData,Detailed Receipts,.csv
+Annual,Associated Entity,Returns,AllAnnualData,Associated Entity Returns,.csv
+Election,Other,Media Advertisement Details,AllElectionsData,Media Advertisement Details,.csv
+Annual,Donor,Returns,AllAnnualData,Donor Returns,.csv
+Annual,MPs,Returns,AllAnnualData,MemberOfParliamentReturns,.csv
+Referendum,Donor,Returns,AllReferendumData,Referendum Donor Returns,.csv
+Referendum,Referendum Entity,Returns,AllReferendumData,Referendum Entity Returns,.csv
+Annual,Party,Returns,AllAnnualData,Party Returns,.csv
+Election,Candidate,Return Summary,AllElectionsData,Senate Groups and Candidate Return Summary,.csv
+Annual,Significant Third Party,Returns,AllAnnualData,Significant Third Party Returns,.csv
+Election,Donor,Returns,AllElectionsData,Donor Return,.csv
+Election,Media,Returns,AllElectionsData,Media Returns,.csv
+Annual,Third Party,Returns,AllAnnualData,Third Party Returns,.csv
