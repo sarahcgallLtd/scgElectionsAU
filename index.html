@@ -44,7 +44,9 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/aec-raw-data.html">A Guide to the AEC's Federal Election Raw Datasets</a></li>
+<li><a class="dropdown-item" href="articles/a-guide-to-aec-election-datasets.html">A Guide to the AEC's Election Datasets</a></li>
+    <li><a class="dropdown-item" href="articles/a-guide-to-aec-disclosure-datasets.html">A Guide to the AEC's Disclosure Datasets</a></li>
+    <li><a class="dropdown-item" href="articles/a-guide-to-abs-boundary-datasets.html">A Guide to the ABS's Boundary Datasets</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -78,7 +80,11 @@
 </h4>
 <ul>
 <li>
-<a href="https://sarahcgallLtd.github.io/scgElectionsAU/reference/et_aec_data.html" class="external-link"><code>get_aec_data</code></a>: download and process data from the Australian Electoral Commission (AEC).</li>
+<a href="https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_election_data.html" class="external-link"><code>get_election_data</code></a>: download and process election data from the Australian Electoral Commission (AEC). See full guide <a href="https://docs.sarahcgall.co.uk/scgElectionsAU/articles/a-guide-to-aec-election-datasets">here</a>.</li>
+<li>
+<a href="https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_disclosure_data.html" class="external-link"><code>get_disclosure_data</code></a>: download disclosure/financial data from the AEC’s Transparency Register. See full guide <a href="https://docs.sarahcgall.co.uk/scgElectionsAU/articles/a-guide-to-aec-disclosure-datasets">here</a>.</li>
+<li>
+<a href="https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_boundary_data.html" class="external-link"><code>get_boundary_data</code></a>: download boundary data from the Australian Bureau of Statistics (ABS). See full guide <a href="https://docs.sarahcgall.co.uk/scgElectionsAU/articles/a-guide-to-abs-boundary-datasets">here</a>.</li>
 </ul>
 </div>
 </div>
@@ -98,12 +104,12 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sarahcgall/scgElectionsAU" class="external-link">scgElectionsAU</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Load a dataset</span></span>
-<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">get_aec_data</span><span class="op">(</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_election_data.html">get_election_data</a></span><span class="op">(</span></span>
 <span>  file_name <span class="op">=</span> <span class="st">"National list of candidates"</span>,</span>
 <span>  date_range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"2022-01-01"</span>, to <span class="op">=</span> <span class="st">"2025-01-01"</span><span class="op">)</span>, <span class="co"># for elections between 2022 and 2025 (default)</span></span>
-<span>  type <span class="op">=</span> <span class="st">"Federal Election"</span>, <span class="co"># Default (other options: "Referendum", "Federal By-Election", or "Transparency")</span></span>
+<span>  type <span class="op">=</span> <span class="st">"Federal Election"</span>, <span class="co"># Default (other options: "Referendum", or "By-Election")</span></span>
 <span>  category <span class="op">=</span> <span class="st">"House"</span>, <span class="co"># Default (other options: "Senate", "Referendum", "General", or "Statistics")</span></span>
-<span>  process <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># default (can turn off automated processing by selecting FALSE)</span></span>
+<span>  process <span class="op">=</span> <span class="cn">TRUE</span> <span class="co"># Default (can turn off automated processing by selecting FALSE)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Explore detailed examples and dataset descriptions in the <a href="https://sarahcgallLtd.github.io/scgElectionsAU/reference/index.html" class="external-link">package documentation</a>.</p>
 </div>
@@ -113,7 +119,7 @@
 <div class="section level4">
 <h4 id="data-sources">Data Sources<a class="anchor" aria-label="anchor" href="#data-sources"></a>
 </h4>
-<p>The datasets in the <code>scgElectionsAU</code> package are meticulously curated from the official results sourced from the <a href="https://www.aec.gov.au/" class="external-link">Australian Electoral Commission</a>. These datasets offer a comprehensive view of Australia’s electoral outcomes and are crucial for in-depth analysis and research in political science, electoral studies, and related fields.</p>
+<p>The datasets in the <code>scgElectionsAU</code> package are meticulously curated from the official results sourced from the <a href="https://www.aec.gov.au/" class="external-link">Australian Electoral Commission</a> and <a href="https://abs.gov.au/" class="external-link">Australian Bureau of Statistics</a>. These datasets offer a comprehensive view of Australia’s electoral outcomes and are crucial for in-depth analysis and research in political science, electoral studies, and related fields.</p>
 </div>
 <div class="section level4">
 <h4 id="disclaimer">Disclaimer<a class="anchor" aria-label="anchor" href="#disclaimer"></a>
@@ -129,7 +135,7 @@
 <div class="section level2">
 <h2 id="future-additions-and-updates">Future Additions and Updates<a class="anchor" aria-label="anchor" href="#future-additions-and-updates"></a>
 </h2>
-<p>Planned future additions include by-election and referendum results and enhanced datasets like <code>results_by_booths</code>. Upcoming functional updates will focus on visualising election results specific to Australia and making boundary adjustments for better comparative analysis.</p>
+<p>Upcoming functional updates will focus on visualising election results specific to Australia and making boundary adjustments for better comparative analysis.</p>
 </div>
 <div class="section level2">
 <h2 id="feedback-and-contributions">Feedback and Contributions<a class="anchor" aria-label="anchor" href="#feedback-and-contributions"></a>

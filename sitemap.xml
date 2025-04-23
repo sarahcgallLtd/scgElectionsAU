@@ -1,7 +1,9 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/404.html</loc></url>
 <url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/LICENSE-text.html</loc></url>
-<url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/articles/aec-raw-data.html</loc></url>
+<url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/articles/a-guide-to-abs-boundary-datasets.html</loc></url>
+<url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/articles/a-guide-to-aec-disclosure-datasets.html</loc></url>
+<url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/articles/a-guide-to-aec-election-datasets.html</loc></url>
 <url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/articles/index.html</loc></url>
 <url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/authors.html</loc></url>
 <url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/index.html</loc></url>
@@ -9,6 +11,7 @@
 <url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/reference/amend_colnames.html</loc></url>
 <url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/reference/amend_names.html</loc></url>
 <url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_boundary_data.html</loc></url>
+<url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_disclosure_data.html</loc></url>
 <url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_election_data.html</loc></url>
 <url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/reference/index.html</loc></url>
 <url><loc>https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_ccd.html</loc></url>
