@@ -14,7 +14,9 @@ presented through a variety of datasets and functions.
 
 #### Datasets Included:
 
-* [`get_aec_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/et_aec_data.html): download and process data from the Australian Electoral Commission (AEC).
+* [`get_election_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_election_data.html): download and process election data from the Australian Electoral Commission (AEC). See full guide [here](https://docs.sarahcgall.co.uk/scgElectionsAU/articles/a-guide-to-aec-election-datasets).
+* [`get_disclosure_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_disclosure_data.html): download disclosure/financial data from the AEC's Transparency Register. See full guide [here](https://docs.sarahcgall.co.uk/scgElectionsAU/articles/a-guide-to-aec-disclosure-datasets).
+* [`get_boundary_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_boundary_data.html): download boundary data from the Australian Bureau of Statistics (ABS). See full guide [here](https://docs.sarahcgall.co.uk/scgElectionsAU/articles/a-guide-to-abs-boundary-datasets).
 
 ## Installation
 

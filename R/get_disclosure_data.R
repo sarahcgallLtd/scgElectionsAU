@@ -25,7 +25,10 @@
 #' }
 #'
 #' @seealso \url{https://www.aec.gov.au/parties_and_representatives/financial_disclosure/} for more
-#' information on the AEC's financial disclosure scheme.
+#'   information on the AEC's financial disclosure scheme.
+#'
+#' @importFrom scgUtils get_file
+#' @export
 get_disclosure_data <- function(
   file_name = NULL,
   group = NULL,

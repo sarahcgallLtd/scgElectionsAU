@@ -3,6 +3,7 @@
 export(amend_colnames)
 export(amend_names)
 export(get_boundary_data)
+export(get_disclosure_data)
 export(get_election_data)
 export(process_ccd)
 export(process_coords)
