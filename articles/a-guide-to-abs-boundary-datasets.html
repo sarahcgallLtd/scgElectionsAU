@@ -83,28 +83,1293 @@
     margin-bottom: 40px;
   }
 </style>
-<p><br> This article explores the <a href="https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_election_data.html" class="external-link"><code>get_election_data</code></a>
-function and the data that it is able to retrieve from the Australian
-Electoral Commission’s (AEC) website. This function is primarily used to
-retrieve the raw data with limited processing. To remove any processing,
-ensure the function’s <code>process</code> param is set to
-<code>FALSE</code>. For a more processed and ‘analysis-ready’ function,
-check out <a href="https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_results.html" class="external-link"><code>get_results</code></a>.
-<br></p>
-<p>In the <a href="https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_election_data.html" class="external-link"><code>get_election_data</code></a>
-function, the <code>type</code> argument default is “Federal Election”.
-This type extracts data from the AEC’s ‘Tally Room’ for elections
-between 2004 and 2022. Both House and Senate data are extractable.
-Additionally, when <code>type</code> is “By-Election” or “Referendum”,
-this will extract data for by-elections between 2008 and 2024 and the
-2023 referendum. There is an option for any or all types to be selected
-(e.g., to retrieve data for both federal elections and
-by-elections).</p>
-<div class="section level2">
-<h2 id="candidates-nominations">Candidates &amp; Nominations<a class="anchor" aria-label="anchor" href="#candidates-nominations"></a>
-</h2>
+<p><br> This guide explores the <a href="https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_boundary_data.html"><code>get_boundary_data</code></a>
+function. The function simplifies retrieving boundary datasets from the
+Australian Bureau of Statistics (ABS) including correspondence tables
+and allocation files with specific boundary types like Commonwealth
+Electoral Divisions (CED), State Electoral Divisions (SED), and Postal
+Areas (POA). These datasets enable users to align election results
+across changing boundaries and integrate demographic data, supporting
+research into voting trends and voter demographics. Below, we detail the
+function’s parameters, available datasets, practical usage examples, and
+the context of ABS boundary data. <br></p>
+<div class="section level3">
+<h3 id="introduction-to-abs-boundary-datasets">Introduction to ABS Boundary Datasets<a class="anchor" aria-label="anchor" href="#introduction-to-abs-boundary-datasets"></a>
+</h3>
+<p>The ABS provides boundary datasets as part of the Australian
+Statistical Geography Standard (ASGS), a framework for collecting and
+disseminating statistical data across geographic areas (ABS ASGS). These
+datasets are essential for electoral analysis, as electoral boundaries,
+such as CEDs, change periodically due to population shifts and
+redistributions. The <code>get_boundary_data</code> function streamlines
+access to these datasets, allowing users to retrieve correspondence
+tables for converting data between Census years, allocation tables for
+mapping smaller areas to larger ones, and specific boundary definitions
+for electoral and postal areas. This guide explains how to use these
+datasets effectively, their importance in electoral studies, and how to
+handle nuances like boundary changes over time.</p>
 </div>
-  </main>
+<div class="section level3">
+<h3 id="why-boundary-datasets-matter">Why Boundary Datasets Matter<a class="anchor" aria-label="anchor" href="#why-boundary-datasets-matter"></a>
+</h3>
+<p>Electoral boundaries evolve, making it challenging to compare
+election results across different years. For example, a division’s
+boundaries in 2013 may differ significantly from those in 2025.
+Correspondence tables help adjust historical election results to current
+boundaries, enabling consistent trend analysis. Allocation tables map
+smaller areas, like Statistical Area Level 1 (SA1) or Mesh Blocks (MB),
+to larger electoral divisions, facilitating data aggregation or mapping.
+Additionally, datasets like POA allocations allow for converting
+election data to postal codes, useful for campaign targeting. By
+integrating these datasets with Australian Electoral Commission (AEC)
+election data, researchers can analyse voting patterns alongside
+demographic factors like income or education from the Census.</p>
+</div>
+<div class="section level3">
+<h3 id="the-get_boundary_data-function">The <code>get_boundary_data</code> Function<a class="anchor" aria-label="anchor" href="#the-get_boundary_data-function"></a>
+</h3>
+<p>The <code>get_boundary_data</code> function retrieves ABS boundary
+datasets, leveraging internal metadata to map parameters to specific
+files. It downloads data from ABS servers, typically in Excel or CSV
+format, and returns a data frame. Users can specify the dataset by
+reference date (<code>ref_date</code>), geographic level
+(<code>level</code>), and data type (<code>type</code>), with options to
+retrieve raw or processed data. This function is particularly useful for
+aligning AEC election data, often provided at the SA1 level, with
+electoral boundaries that may be defined using MBs or other units.</p>
+<table class="table">
+<colgroup>
+<col width="24%">
+<col width="26%">
+<col width="17%">
+<col width="31%">
+</colgroup>
+<thead><tr class="header">
+<th>Parameters</th>
+<th>Description</th>
+<th>Default</th>
+<th>Valid Options</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>ref_date</code></td>
+<td>Year of the boundary dataset</td>
+<td>None</td>
+<td>2011, 2013, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2024 (varies
+by <code>level</code>)</td>
+</tr>
+<tr class="even">
+<td><code>level</code></td>
+<td>Geographic or boundary level</td>
+<td>“CED”</td>
+<td>“SA1”, “MB”, “CED”, “SED”, “POA”</td>
+</tr>
+<tr class="odd">
+<td><code>type</code></td>
+<td>Type of dataset</td>
+<td>“allocation”</td>
+<td>“correspondence”, “allocation”</td>
+</tr>
+</tbody>
+</table>
+<div class="section level4">
+<h4 id="dataset-types">Dataset Types<a class="anchor" aria-label="anchor" href="#dataset-types"></a>
+</h4>
+<ul>
+<li>
+<strong>Correspondence Tables:</strong> Convert data between
+different boundary sets or Census years (e.g., 2011 SA1 to 2016 SA1),
+providing proportional allocations based on population or area
+overlap.</li>
+<li>
+<strong>Allocation Tables:</strong> Assign smaller geographic units
+(e.g., SA1, MB) to larger ones (e.g., CED, SED), indicating which larger
+area each smaller unit belongs to.</li>
+</ul>
+<p><br></p>
+</div>
+<div class="section level4">
+<h4 id="key-considerations">Key Considerations<a class="anchor" aria-label="anchor" href="#key-considerations"></a>
+</h4>
+<ul>
+<li>
+<strong>Boundary Changes:</strong> CEDs and SEDs switched from
+SA1-based to MB-based allocations in 2021, requiring MB to SA1
+allocation tables for consistency with AEC data.</li>
+<li>
+<strong>Supplementary Data:</strong> For accurate 2022 and 2025
+election analyses, incorporate AEC redistribution data for Victoria,
+Western Australia, and the Northern Territory.</li>
+<li>
+<strong>Data Availability:</strong> Not all years are available for
+all boundary types; verify availability below.</li>
+</ul>
+</div>
+</div>
+<div class="section level3">
+<h3 id="understanding-correspondence-and-allocation-tables">Understanding Correspondence and Allocation Tables<a class="anchor" aria-label="anchor" href="#understanding-correspondence-and-allocation-tables"></a>
+</h3>
+<div class="section level4">
+<h4 id="correspondence-tables">Correspondence Tables<a class="anchor" aria-label="anchor" href="#correspondence-tables"></a>
+</h4>
+<p>Correspondence tables facilitate data conversion between different
+geographic boundaries or between the same boundary type across Census
+years. They provide ratios indicating how much of one area overlaps with
+another. For electoral analysis, these tables are critical for adjusting
+historical election results to current boundaries. For example, to
+compare 2013 election results with 2016 boundaries, you need the 2011
+SA1 correspondence table to convert 2006 Collection Districts (CD) to
+2011 SA1s, aligning with 2013 CEDs.</p>
+<p><em>Use Case:</em> Convert 2016 election results from 2011 SA1s to
+2021 SA1s to match 2024 CED boundaries for trend analysis.</p>
+</div>
+<div class="section level4">
+<h4 id="allocation-tables">Allocation Tables<a class="anchor" aria-label="anchor" href="#allocation-tables"></a>
+</h4>
+<p>Allocation tables assign smaller geographic units to larger ones,
+such as mapping SA1s to CEDs or MBs to SEDs. These tables are essential
+for aggregating election data or determining which electoral division a
+specific area belongs to. For instance, an SA1 to CED allocation table
+lists which CED each SA1 is part of, based on its geographic centroid or
+majority overlap.</p>
+<p><em>Use Case:</em> Identify all SA1s within a specific CED to analyse
+demographic characteristics using Census data.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="available-datasets-and-examples">Available Datasets and Examples<a class="anchor" aria-label="anchor" href="#available-datasets-and-examples"></a>
+</h3>
+<p>The following sections detail the datasets available through
+<code>get_boundary_data</code>, including their coverage, key columns,
+and practical usage usage examples. Each section includes sample data to
+illustrate the dataset’s structure.</p>
+</div>
+<div class="section level2">
+<h2 id="main-structure-and-greater-capital-city-statistical-areas">Main Structure and Greater Capital City Statistical Areas<a class="anchor" aria-label="anchor" href="#main-structure-and-greater-capital-city-statistical-areas"></a>
+</h2>
+<div class="section level3">
+<h3 id="correspondence-tables-1">Correspondence Tables<a class="anchor" aria-label="anchor" href="#correspondence-tables-1"></a>
+</h3>
+<p>Correspondence tables convert data between Census years, enabling
+alignment of election results with changing statistical areas. They are
+available for SA1 and MB levels, covering transitions like 2006 CD to
+2011 SA1, 2011 SA1 to 2016 SA1, and 2016 SA1 to 2021 SA1.</p>
+<p><em>Usage:</em> Adjust historical election results to current
+boundaries or align Census data with electoral divisions.</p>
+<ul>
+<li>
+<em>2013 Election results</em>: the AEC provides count data per 2006
+CD, meaning the 2011 SA1 correspondence table is needed to convert from
+2006 CDs to 2011 SA1s and thus to be in line with the 2011 Census data
+and the ABS’s 2013 CEDs.</li>
+<li>
+<em>2016 Election results</em>: the AEC provides count data per 2011
+SA1, meaning the 2016 SA1 correspondence table is needed to convert from
+2011 SA1s to 2016 SA1s and thus to be in line with the 2016 Census data
+and the ABS’s 2016 CEDs.</li>
+<li>
+<em>2019 and 2022 Election results</em>: the AEC provides count data
+per 2016 SA1, meaning the 2021 SA1 correspondence table is needed to
+convert from 2016 SA1s to 2021 SA1s and thus to be in line with the most
+recent Census and to be able to convert election results into the ABS’s
+2024 CEDs (current boundaries used for the 2025 election).</li>
+</ul>
+<div class="section level4">
+<h4 id="example-usage-2006-cd---2011-sa1">
+<em>Example Usage (2006 CD -&gt; 2011 SA1):</em><a class="anchor" aria-label="anchor" href="#example-usage-2006-cd---2011-sa1"></a>
+</h4>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_boundary_data.html">get_boundary_data</a></span><span class="op">(</span></span>
+<span>  ref_date <span class="op">=</span> <span class="fl">2011</span>,</span>
+<span>  level <span class="op">=</span> <span class="st">"SA1"</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"correspondence"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="sample-data-2006-cd---2011-sa1">
+<em>Sample Data (2006 CD -&gt; 2011 SA1):</em><a class="anchor" aria-label="anchor" href="#sample-data-2006-cd---2011-sa1"></a>
+</h4>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+CD_CODE_2006
+</th>
+<th style="text-align:right;">
+SA1_7DIGITCODE_2011
+</th>
+<th style="text-align:right;">
+SA1_MAINCODE_2011
+</th>
+<th style="text-align:right;">
+RATIO_FROM_TO
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+1010101
+</td>
+<td style="text-align:right;">
+1117908
+</td>
+<td style="text-align:right;">
+10902117908
+</td>
+<td style="text-align:right;">
+0.5789474
+</td>
+</tr></tbody>
+</table>
+</div>
+<div class="section level4">
+<h4 id="example-usage-2011---2016">
+<em>Example Usage (2011 -&gt; 2016):</em><a class="anchor" aria-label="anchor" href="#example-usage-2011---2016"></a>
+</h4>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_boundary_data.html">get_boundary_data</a></span><span class="op">(</span></span>
+<span>  ref_date <span class="op">=</span> <span class="fl">2016</span>,</span>
+<span>  level <span class="op">=</span> <span class="st">"SA1"</span>, <span class="co"># OR "MB"</span></span>
+<span>  type <span class="op">=</span> <span class="st">"correspondence"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="sample-data-2011-sa1---2016-sa1">
+<em>Sample Data (2011 SA1 -&gt; 2016 SA1):</em><a class="anchor" aria-label="anchor" href="#sample-data-2011-sa1---2016-sa1"></a>
+</h4>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+SA1_MAINCODE_2011
+</th>
+<th style="text-align:right;">
+SA1_7DIGITCODE_2011
+</th>
+<th style="text-align:right;">
+SA1_MAINCODE_2016
+</th>
+<th style="text-align:right;">
+SA1_7DIGITCODE_2016
+</th>
+<th style="text-align:right;">
+RATIO_FROM_TO
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+10101100101
+</td>
+<td style="text-align:right;">
+1100101
+</td>
+<td style="text-align:right;">
+10105153965
+</td>
+<td style="text-align:right;">
+1153965
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr></tbody>
+</table>
+</div>
+<div class="section level4">
+<h4 id="sample-data-2011-mb---2016-mb">
+<em>Sample Data (2011 MB -&gt; 2016 MB):</em><a class="anchor" aria-label="anchor" href="#sample-data-2011-mb---2016-mb"></a>
+</h4>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+MB_CODE_2011
+</th>
+<th style="text-align:right;">
+MB_CODE_2016
+</th>
+<th style="text-align:right;">
+RATIO_FROM_TO
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+80000010000
+</td>
+<td style="text-align:right;">
+80000010000
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr></tbody>
+</table>
+</div>
+<div class="section level4">
+<h4 id="example-usage-2016---2021">
+<em>Example Usage (2016 -&gt; 2021):</em><a class="anchor" aria-label="anchor" href="#example-usage-2016---2021"></a>
+</h4>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_boundary_data.html">get_boundary_data</a></span><span class="op">(</span></span>
+<span>  ref_date <span class="op">=</span> <span class="fl">2021</span>,</span>
+<span>  level <span class="op">=</span> <span class="st">"SA1"</span>, <span class="co"># OR "MB"</span></span>
+<span>  type <span class="op">=</span> <span class="st">"correspondence"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="sample-data-2016-sa1---2021-sa1">
+<em>Sample Data (2016 SA1 -&gt; 2021 SA1):</em><a class="anchor" aria-label="anchor" href="#sample-data-2016-sa1---2021-sa1"></a>
+</h4>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:right;">
+SA1_MAINCODE_2016
+</th>
+<th style="text-align:left;">
+SA1_CODE_2021
+</th>
+<th style="text-align:right;">
+RATIO_FROM_TO
+</th>
+<th style="text-align:left;">
+INDIV_TO_REGION_QLTY_INDICATOR
+</th>
+<th style="text-align:left;">
+OVERALL_QUALITY_INDICATOR
+</th>
+<th style="text-align:right;">
+BMOS_NULL_FLAG
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:right;">
+10102100701
+</td>
+<td style="text-align:left;">
+10102100701
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Good
+</td>
+<td style="text-align:left;">
+Good
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr></tbody>
+</table>
+</div>
+<div class="section level4">
+<h4 id="sample-data-2016-mb---2021-mb">
+<em>Sample Data (2016 MB -&gt; 2021 MB):</em><a class="anchor" aria-label="anchor" href="#sample-data-2016-mb---2021-mb"></a>
+</h4>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:right;">
+MB_CODE_2016
+</th>
+<th style="text-align:left;">
+MB_CODE_2021
+</th>
+<th style="text-align:right;">
+RATIO_FROM_TO
+</th>
+<th style="text-align:left;">
+INDIV_TO_REGION_QLTY_INDICATOR
+</th>
+<th style="text-align:left;">
+OVERALL_QUALITY_INDICATOR
+</th>
+<th style="text-align:right;">
+BMOS_NULL_FLAG
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:right;">
+10000009499
+</td>
+<td style="text-align:left;">
+10000009499
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Good
+</td>
+<td style="text-align:left;">
+Good
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="allocation">Allocation<a class="anchor" aria-label="anchor" href="#allocation"></a>
+</h3>
+<p>Allocation tables map smaller geographic units (SA1, MB) to larger
+ones, such as SA1 to STATE or MB to SA1, facilitating data aggregation
+and boundary identification.</p>
+<div class="section level4">
+<h4 id="example-usage">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage"></a>
+</h4>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_boundary_data.html">get_boundary_data</a></span><span class="op">(</span></span>
+<span>  ref_date <span class="op">=</span> <span class="fl">2021</span>, <span class="co"># OR 2011, 2016</span></span>
+<span>  level <span class="op">=</span> <span class="st">"MB"</span>, <span class="co"># OR "SA1"</span></span>
+<span>  type <span class="op">=</span> <span class="st">"allocation"</span> <span class="co"># = default</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="sample-data-2021-mb">
+<em>Sample Data (2021 MB):</em><a class="anchor" aria-label="anchor" href="#sample-data-2021-mb"></a>
+</h4>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+MB_CODE_2021
+</th>
+<th style="text-align:left;">
+MB_CATEGORY_2021
+</th>
+<th style="text-align:right;">
+CHANGE_FLAG_2021
+</th>
+<th style="text-align:left;">
+CHANGE_LABEL_2021
+</th>
+<th style="text-align:left;">
+SA1_CODE_2021
+</th>
+<th style="text-align:left;">
+SA2_CODE_2021
+</th>
+<th style="text-align:left;">
+SA2_NAME_2021
+</th>
+<th style="text-align:left;">
+SA3_CODE_2021
+</th>
+<th style="text-align:left;">
+SA3_NAME_2021
+</th>
+<th style="text-align:left;">
+SA4_CODE_2021
+</th>
+<th style="text-align:left;">
+SA4_NAME_2021
+</th>
+<th style="text-align:left;">
+GCCSA_CODE_2021
+</th>
+<th style="text-align:left;">
+GCCSA_NAME_2021
+</th>
+<th style="text-align:left;">
+STATE_CODE_2021
+</th>
+<th style="text-align:left;">
+STATE_NAME_2021
+</th>
+<th style="text-align:left;">
+AUS_CODE_2021
+</th>
+<th style="text-align:left;">
+AUS_NAME_2021
+</th>
+<th style="text-align:right;">
+AREA_ALBERS_SQKM
+</th>
+<th style="text-align:left;">
+ASGS_LOCI_URI_2021
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+10000010000
+</td>
+<td style="text-align:left;">
+Residential
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+No change
+</td>
+<td style="text-align:left;">
+10901117207
+</td>
+<td style="text-align:left;">
+109011172
+</td>
+<td style="text-align:left;">
+Albury - East
+</td>
+<td style="text-align:left;">
+10901
+</td>
+<td style="text-align:left;">
+Albury
+</td>
+<td style="text-align:left;">
+109
+</td>
+<td style="text-align:left;">
+Murray
+</td>
+<td style="text-align:left;">
+1RNSW
+</td>
+<td style="text-align:left;">
+Rest of NSW
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+New South Wales
+</td>
+<td style="text-align:left;">
+AUS
+</td>
+<td style="text-align:left;">
+Australia
+</td>
+<td style="text-align:right;">
+0.0209
+</td>
+<td style="text-align:left;">
+<a href="http://linked.data.gov.au/dataset/asgsed3/MB/10000010000" class="external-link uri">http://linked.data.gov.au/dataset/asgsed3/MB/10000010000</a>
+</td>
+</tr></tbody>
+</table>
+</div>
+<div class="section level4">
+<h4 id="sample-data-2021-sa1">
+<em>Sample Data (2021 SA1):</em><a class="anchor" aria-label="anchor" href="#sample-data-2021-sa1"></a>
+</h4>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+SA1_CODE_2021
+</th>
+<th style="text-align:right;">
+CHANGE_FLAG_2021
+</th>
+<th style="text-align:left;">
+CHANGE_LABEL_2021
+</th>
+<th style="text-align:left;">
+SA2_CODE_2021
+</th>
+<th style="text-align:left;">
+SA2_NAME_2021
+</th>
+<th style="text-align:left;">
+SA3_CODE_2021
+</th>
+<th style="text-align:left;">
+SA3_NAME_2021
+</th>
+<th style="text-align:left;">
+SA4_CODE_2021
+</th>
+<th style="text-align:left;">
+SA4_NAME_2021
+</th>
+<th style="text-align:left;">
+GCCSA_CODE_2021
+</th>
+<th style="text-align:left;">
+GCCSA_NAME_2021
+</th>
+<th style="text-align:left;">
+STATE_CODE_2021
+</th>
+<th style="text-align:left;">
+STATE_NAME_2021
+</th>
+<th style="text-align:left;">
+AUS_CODE_2021
+</th>
+<th style="text-align:left;">
+AUS_NAME_2021
+</th>
+<th style="text-align:right;">
+AREA_ALBERS_SQKM
+</th>
+<th style="text-align:left;">
+ASGS_LOCI_URI_2021
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+10102100701
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+No change
+</td>
+<td style="text-align:left;">
+101021007
+</td>
+<td style="text-align:left;">
+Braidwood
+</td>
+<td style="text-align:left;">
+10102
+</td>
+<td style="text-align:left;">
+Queanbeyan
+</td>
+<td style="text-align:left;">
+101
+</td>
+<td style="text-align:left;">
+Capital Region
+</td>
+<td style="text-align:left;">
+1RNSW
+</td>
+<td style="text-align:left;">
+Rest of NSW
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+New South Wales
+</td>
+<td style="text-align:left;">
+AUS
+</td>
+<td style="text-align:left;">
+Australia
+</td>
+<td style="text-align:right;">
+362.8727
+</td>
+<td style="text-align:left;">
+<a href="http://linked.data.gov.au/dataset/asgsed3/SA1/10102100701" class="external-link uri">http://linked.data.gov.au/dataset/asgsed3/SA1/10102100701</a>
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="non-abs-structures">Non ABS Structures<a class="anchor" aria-label="anchor" href="#non-abs-structures"></a>
+</h2>
+<p>Non-ABS Structures include CED, SED, and POA, which are
+approximations of official boundaries used for statistical purposes.</p>
+<div class="section level3">
+<h3 id="ced">CED<a class="anchor" aria-label="anchor" href="#ced"></a>
+</h3>
+<p>CEDs are ABS approximations of AEC federal electoral boundaries, used
+for the House of Representatives. Prior to 2021, CEDs were constructed
+from SA1s; since 2021, they use MBs, requiring MB to SA1 allocation
+tables for consistency with AEC data.</p>
+<p><strong><em>CED Release Notes:</em></strong></p>
+<table class="table">
+<colgroup>
+<col width="17%">
+<col width="52%">
+<col width="30%">
+</colgroup>
+<thead><tr class="header">
+<th>Year</th>
+<th>Release Date</th>
+<th>Details</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>2011</td>
+<td>July 2011</td>
+<td>Aligned with 2011 Census boundaries.</td>
+</tr>
+<tr class="even">
+<td>2013</td>
+<td>July 2012</td>
+<td>Included SA redistribution (13 March 2012). Used for 2013 Federal
+Election (7 September 2013).</td>
+</tr>
+<tr class="odd">
+<td>2016</td>
+<td>July 2016</td>
+<td>Aligned with 2016 Census boundaries. Used for 2016 Federal Election
+(2 July 2016).</td>
+</tr>
+<tr class="even">
+<td>2017</td>
+<td>31 October 2017</td>
+<td>Included redistributions in NSW (25 February 2016), WA (19 January
+2016), ACT (28 January 2016).</td>
+</tr>
+<tr class="odd">
+<td>2018</td>
+<td>20 August 2018</td>
+<td>Included redistributions in Qld (27 March 2018), Vic (13 July 2018),
+ACT (13 July 2018), SA (20 July 2018), NT (27 March 2018), Tas (14
+November 2017). Used for 2019 Federal Election (18 May 2019).</td>
+</tr>
+<tr class="even">
+<td>2021</td>
+<td>20 July 2021</td>
+<td>Aligned with 2021 Census boundaries, switched to MB-based
+allocations. Used for 2022 Federal Election (21 May 2022). Excludes Vic
+(26 July 2021) and WA (2 August 2021) redistributions.</td>
+</tr>
+<tr class="odd">
+<td>2024</td>
+<td>December 2024</td>
+<td>Included redistributions in NSW (27 November 2024), Vic (26 July
+2021, 27 November 2024), WA (2 August 2021, 27 November 2024). Used for
+2025 Federal Election (3 May 2025). Excludes NT redistribution (26 March
+2025)</td>
+</tr>
+</tbody>
+</table>
+<div class="section level4">
+<h4 id="example-usage-1">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-1"></a>
+</h4>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_boundary_data.html">get_boundary_data</a></span><span class="op">(</span></span>
+<span>  ref_date <span class="op">=</span> <span class="fl">2024</span>, <span class="co"># OR 2011, 2013, 2016, 2017, 2018, 2021</span></span>
+<span>  level <span class="op">=</span> <span class="st">"CED"</span> <span class="co"># = default</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="sample-data-2024">
+<em>Sample Data (2024):</em><a class="anchor" aria-label="anchor" href="#sample-data-2024"></a>
+</h4>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+MB_CODE_2021
+</th>
+<th style="text-align:left;">
+CED_CODE_2024
+</th>
+<th style="text-align:left;">
+CED_NAME_2024
+</th>
+<th style="text-align:left;">
+STATE_CODE_2021
+</th>
+<th style="text-align:left;">
+STATE_NAME_2021
+</th>
+<th style="text-align:left;">
+AUS_CODE_2021
+</th>
+<th style="text-align:left;">
+AUS_NAME_2021
+</th>
+<th style="text-align:right;">
+AREA_ALBERS_SQKM
+</th>
+<th style="text-align:left;">
+ASGS_LOCI_URI_2021
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+10396560000
+</td>
+<td style="text-align:left;">
+101
+</td>
+<td style="text-align:left;">
+Banks
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+New South Wales
+</td>
+<td style="text-align:left;">
+AUS
+</td>
+<td style="text-align:left;">
+Australia
+</td>
+<td style="text-align:right;">
+0.0257
+</td>
+<td style="text-align:left;">
+<a href="https://linked.data.gov.au/dataset/asgsed3/MB/10396560000" class="external-link uri">https://linked.data.gov.au/dataset/asgsed3/MB/10396560000</a>
+</td>
+</tr></tbody>
+</table>
+</div>
+<div class="section level4">
+<h4 id="sample-data-2018">
+<em>Sample Data (2018):</em><a class="anchor" aria-label="anchor" href="#sample-data-2018"></a>
+</h4>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:right;">
+SA1_MAINCODE_2016
+</th>
+<th style="text-align:right;">
+CED_CODE_2018
+</th>
+<th style="text-align:left;">
+CED_NAME_2018
+</th>
+<th style="text-align:right;">
+STATE_CODE_2016
+</th>
+<th style="text-align:left;">
+STATE_NAME_2016
+</th>
+<th style="text-align:right;">
+AREA_ALBERS_SQKM
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:right;">
+11904137920
+</td>
+<td style="text-align:right;">
+101
+</td>
+<td style="text-align:left;">
+Banks
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+New South Wales
+</td>
+<td style="text-align:right;">
+0.0452
+</td>
+</tr></tbody>
+</table>
+<p><strong><em>Supplementary Data:</em></strong> For accurate 2022 and
+2025 election analyses, incorporate AEC redistribution data:</p>
+<ul>
+<li>
+<em>2022 Election:</em> Use Vic (Vic Redistribution) and WA (WA
+Redistribution) SA1 to CED mappings to update the 2021 CED product.</li>
+<li>
+<em>2025 Election:</em> Use NT (NT Redistribution) SA1 to CED
+mappings to update the 2024 CED product until the 2025 CEDs are released
+(22 July 2025).</li>
+</ul>
+<p>To retrieve these datasets, use the <code>get_file</code> in the
+<code>scgUtils</code> package:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://www.aec.gov.au/redistributions/2021/vic/final-report/files/vic-by-SA2-and-SA1.xlsx"</span></span>
+<span><span class="va">Vic</span> <span class="op">&lt;-</span> <span class="fu">scgUtils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scgUtils/man/get_file.html" class="external-link">get_file</a></span><span class="op">(</span><span class="va">url</span>, source <span class="op">=</span> <span class="st">"web"</span><span class="op">)</span></span></code></pre></div>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+SA1 code (2016 SA1s)
+</th>
+<th style="text-align:left;">
+New electoral division from 26 July 2021
+</th>
+<th style="text-align:left;">
+Old electoral division as at 15 July 2020
+</th>
+<th style="text-align:left;">
+SA2 Name (2016 SA2s)
+</th>
+<th style="text-align:right;">
+Actual enrolment 15/7/2020
+</th>
+<th style="text-align:right;">
+Projected enrolment 26/1/2025
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+2100101
+</td>
+<td style="text-align:left;">
+Ballarat
+</td>
+<td style="text-align:left;">
+Ballarat
+</td>
+<td style="text-align:left;">
+Alfredton
+</td>
+<td style="text-align:right;">
+306
+</td>
+<td style="text-align:right;">
+390
+</td>
+</tr></tbody>
+</table>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://www.aec.gov.au/redistributions/2021/wa/final-report/files/wa-by-SA2-and-SA1.xlsx"</span></span>
+<span><span class="va">WA</span> <span class="op">&lt;-</span> <span class="fu">scgUtils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scgUtils/man/get_file.html" class="external-link">get_file</a></span><span class="op">(</span><span class="va">url</span>, source <span class="op">=</span> <span class="st">"web"</span><span class="op">)</span></span></code></pre></div>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+SA1 code (2016 SA1s)
+</th>
+<th style="text-align:left;">
+New electoral division from 2 August 2021
+</th>
+<th style="text-align:left;">
+Old electoral division as at 15 July 2020
+</th>
+<th style="text-align:left;">
+SA2 Name (2016 SA2s)
+</th>
+<th style="text-align:right;">
+Actual enrolment 15/7/2020
+</th>
+<th style="text-align:right;">
+Projected enrolment 2/2/2025
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+5118501
+</td>
+<td style="text-align:left;">
+Brand
+</td>
+<td style="text-align:left;">
+Brand
+</td>
+<td style="text-align:left;">
+Baldivis
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr></tbody>
+</table>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://www.aec.gov.au/redistributions/2024/nt/final-report/files/Northern-Territory-electoral-divisions-SA1-and-SA2.xlsx"</span></span>
+<span><span class="va">NT</span> <span class="op">&lt;-</span> <span class="fu">scgUtils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scgUtils/man/get_file.html" class="external-link">get_file</a></span><span class="op">(</span><span class="va">url</span>, source <span class="op">=</span> <span class="st">"web"</span><span class="op">)</span></span></code></pre></div>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+New Electoral Division from 4 March 2025
+</th>
+<th style="text-align:left;">
+Old electoral division as at Thursday 22 February 2024
+</th>
+<th style="text-align:left;">
+Statistical Area Level 2 (SA2) Name (2021 SA2s)
+</th>
+<th style="text-align:left;">
+Statistical Area Level 1 (SA1) Code (7-digit) (2021 SA1s)
+</th>
+<th style="text-align:right;">
+Actual enrolments Thursday 22 February 2024
+</th>
+<th style="text-align:right;">
+Projected enrolment Monday 4 September 2028
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+LINGIARI
+</td>
+<td style="text-align:left;">
+LINGIARI
+</td>
+<td style="text-align:left;">
+Berrimah
+</td>
+<td style="text-align:left;">
+7101203
+</td>
+<td style="text-align:right;">
+159
+</td>
+<td style="text-align:right;">
+226
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="sed">SED<a class="anchor" aria-label="anchor" href="#sed"></a>
+</h3>
+<p>SEDs are ABS approximations of state and territory legislative
+boundaries, used for state elections. Prior to 2021, SEDs were allocated
+from SA1s; since 2021, they use MBs.</p>
+<p><em>Usage:</em> Analyse federal election results with state election
+results.</p>
+<div class="section level4">
+<h4 id="example-usage-2">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-2"></a>
+</h4>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_boundary_data.html">get_boundary_data</a></span><span class="op">(</span></span>
+<span>  ref_date <span class="op">=</span> <span class="fl">2024</span>, <span class="co"># OR 2011, 2016, 2017, 2018, 2019, 2020, 2021, 2022</span></span>
+<span>  level <span class="op">=</span> <span class="st">"SED"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="sample-data-2024-1">
+<em>Sample Data (2024):</em><a class="anchor" aria-label="anchor" href="#sample-data-2024-1"></a>
+</h4>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+MB_CODE_2021
+</th>
+<th style="text-align:left;">
+SED_CODE_2024
+</th>
+<th style="text-align:left;">
+SED_NAME_2024
+</th>
+<th style="text-align:left;">
+STATE_CODE_2021
+</th>
+<th style="text-align:left;">
+STATE_NAME_2021
+</th>
+<th style="text-align:left;">
+AUS_CODE_2021
+</th>
+<th style="text-align:left;">
+AUS_NAME_2021
+</th>
+<th style="text-align:right;">
+AREA_ALBERS_SQKM
+</th>
+<th style="text-align:left;">
+ASGS_LOCI_URI_2021
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+10000260000
+</td>
+<td style="text-align:left;">
+10001
+</td>
+<td style="text-align:left;">
+Albury
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+New South Wales
+</td>
+<td style="text-align:left;">
+AUS
+</td>
+<td style="text-align:left;">
+Australia
+</td>
+<td style="text-align:right;">
+0.014
+</td>
+<td style="text-align:left;">
+<a href="https://linked.data.gov.au/dataset/asgsed3/MB/10000260000" class="external-link uri">https://linked.data.gov.au/dataset/asgsed3/MB/10000260000</a>
+</td>
+</tr></tbody>
+</table>
+</div>
+<div class="section level4">
+<h4 id="sample-data-2019">
+<em>Sample Data (2019):</em><a class="anchor" aria-label="anchor" href="#sample-data-2019"></a>
+</h4>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:right;">
+SA1_MAINCODE_2016
+</th>
+<th style="text-align:right;">
+SED_CODE_2019
+</th>
+<th style="text-align:left;">
+SED_NAME_2019
+</th>
+<th style="text-align:right;">
+STATE_CODE_2016
+</th>
+<th style="text-align:left;">
+STATE_NAME_2016
+</th>
+<th style="text-align:right;">
+AREA_ALBERS_SQKM
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:right;">
+10102100701
+</td>
+<td style="text-align:right;">
+10031
+</td>
+<td style="text-align:left;">
+Goulburn
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+New South Wales
+</td>
+<td style="text-align:right;">
+362.8727
+</td>
+</tr></tbody>
+</table>
+<p><br></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="poa">POA<a class="anchor" aria-label="anchor" href="#poa"></a>
+</h3>
+<p>POAs are ABS approximations of Australia Post postcodes, useful for
+converting election data to postal codes for campaign targeting or
+social media analysis.</p>
+<p><em>Usage</em>: Map election results to postcodes for targeted
+analysis.</p>
+<p><em>Note:</em> Prior to 2016, POAs were allocated from 2011 SA1s;
+since 2016, they use MBs, requiring MB to SA1 allocation tables for
+consistency.</p>
+<div class="section level4">
+<h4 id="example-usage-3">
+<em>Example Usage:</em><a class="anchor" aria-label="anchor" href="#example-usage-3"></a>
+</h4>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_boundary_data.html">get_boundary_data</a></span><span class="op">(</span></span>
+<span>  ref_date <span class="op">=</span> <span class="fl">2021</span>, <span class="co"># OR 2011, 2016</span></span>
+<span>  level <span class="op">=</span> <span class="st">"POA"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="sample-data-2021">
+<em>Sample Data (2021):</em><a class="anchor" aria-label="anchor" href="#sample-data-2021"></a>
+</h4>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+MB_CODE_2021
+</th>
+<th style="text-align:left;">
+POA_CODE_2021
+</th>
+<th style="text-align:left;">
+POA_NAME_2021
+</th>
+<th style="text-align:left;">
+AUS_CODE_2021
+</th>
+<th style="text-align:left;">
+AUS_NAME_2021
+</th>
+<th style="text-align:right;">
+AREA_ALBERS_SQKM
+</th>
+<th style="text-align:left;">
+ASGS_LOCI_URI_2021
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:left;">
+70034860000
+</td>
+<td style="text-align:left;">
+0800
+</td>
+<td style="text-align:left;">
+0800
+</td>
+<td style="text-align:left;">
+AUS
+</td>
+<td style="text-align:left;">
+Australia
+</td>
+<td style="text-align:right;">
+0.0434
+</td>
+<td style="text-align:left;">
+<a href="http://linked.data.gov.au/dataset/asgsed3/MB/70034860000" class="external-link uri">http://linked.data.gov.au/dataset/asgsed3/MB/70034860000</a>
+</td>
+</tr></tbody>
+</table>
+</div>
+<div class="section level4">
+<h4 id="sample-data-2011">
+<em>Sample Data (2011):</em><a class="anchor" aria-label="anchor" href="#sample-data-2011"></a>
+</h4>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:right;">
+SA1_MAINCODE_2011
+</th>
+<th style="text-align:right;">
+POA_CODE_2011
+</th>
+<th style="text-align:left;">
+POA_NAME_2011
+</th>
+<th style="text-align:right;">
+AREA_ALBERS_SQKM
+</th>
+</tr></thead>
+<tbody><tr>
+<td style="text-align:right;">
+70101100206
+</td>
+<td style="text-align:right;">
+800
+</td>
+<td style="text-align:left;">
+0800
+</td>
+<td style="text-align:right;">
+0.4481936
+</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
