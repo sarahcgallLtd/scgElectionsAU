@@ -62,6 +62,10 @@ The datasets are organised into categories:
 ### Data Sources and Collection
 The AEC collects election data through its electoral processes, publishing results via the Tally Room and downloads pages. Data is typically available in CSV or TAB format shortly after each election, with final results confirmed weeks later. The `scgElectionsAU` package standardises these datasets for consistency across years, handling variations in column names and formats. Users should verify dataset availability for specific elections, as some datasets (e.g., “Votes by SA1”) are only available from later years.
 
+### Available Datasets and Examples
+
+The following sections detail the datasets available for each return type, including example usage of the `get_election_data` function and sample data output.
+
 ## Candidates & Nominations
 ### National list of candidates
 The `National list of candidates` dataset contains a comprehensive list of all candidates who participated in Australian federal elections. It covers both `Senate` and `House` elections from `2004` to the present and `type=By-Election`. The `2004` dataset is processed in the following way:

@@ -22,13 +22,399 @@ knitr::opts_chunk$set(
 )
 ```
 <br>
-This article explores the [`get_election_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_election_data.html) function and the data that it is able to retrieve from the Australian Electoral Commission's (AEC) website. This function is primarily used to retrieve the raw data with limited processing. To remove any processing, ensure the function's `process` param is set to `FALSE`. For a more processed and 'analysis-ready' function, check out [`get_results`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_results.html).
+This guide explores the [`get_boundary_data`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_boundary_data.html) function. The function simplifies retrieving boundary datasets from the Australian Bureau of Statistics (ABS) including correspondence tables and allocation files with specific boundary types like Commonwealth Electoral Divisions (CED), State Electoral Divisions (SED), and Postal Areas (POA). These datasets enable users to align election results across changing boundaries and integrate demographic data, supporting research into voting trends and voter demographics. Below, we detail the function’s parameters, available datasets, practical usage examples, and the context of ABS boundary data.
 <br>
 
 ```{r setup, include = FALSE}
 library(scgElectionsAU)
 library(knitr)
 ```
-In the [`get_election_data`](https://sarahcgallLtd.github.io/scgElectionsAU/reference/get_election_data.html) function, the `type` argument default is "Federal Election". This type extracts data from the AEC's 'Tally Room' for elections between 2004 and 2022. Both House and Senate data are extractable. Additionally, when `type` is "By-Election" or "Referendum", this will extract data for by-elections between 2008 and 2024 and the 2023 referendum. There is an option for any or all types to be selected (e.g., to retrieve data for both federal elections and by-elections).
+### Introduction to ABS Boundary Datasets
+The ABS provides boundary datasets as part of the Australian Statistical Geography Standard (ASGS), a framework for collecting and disseminating statistical data across geographic areas (ABS ASGS). These datasets are essential for electoral analysis, as electoral boundaries, such as CEDs, change periodically due to population shifts and redistributions. The `get_boundary_data` function streamlines access to these datasets, allowing users to retrieve correspondence tables for converting data between Census years, allocation tables for mapping smaller areas to larger ones, and specific boundary definitions for electoral and postal areas. This guide explains how to use these datasets effectively, their importance in electoral studies, and how to handle nuances like boundary changes over time.
 
-## Candidates & Nominations
+### Why Boundary Datasets Matter
+
+Electoral boundaries evolve, making it challenging to compare election results across different years. For example, a division’s boundaries in 2013 may differ significantly from those in 2025. Correspondence tables help adjust historical election results to current boundaries, enabling consistent trend analysis. Allocation tables map smaller areas, like Statistical Area Level 1 (SA1) or Mesh Blocks (MB), to larger electoral divisions, facilitating data aggregation or mapping. Additionally, datasets like POA allocations allow for converting election data to postal codes, useful for campaign targeting. By integrating these datasets with Australian Electoral Commission (AEC) election data, researchers can analyse voting patterns alongside demographic factors like income or education from the Census.
+
+### The `get_boundary_data` Function
+
+The `get_boundary_data` function retrieves ABS boundary datasets, leveraging internal metadata to map parameters to specific files. It downloads data from ABS servers, typically in Excel or CSV format, and returns a data frame. Users can specify the dataset by reference date (`ref_date`), geographic level (`level`), and data type (`type`), with options to retrieve raw or processed data. This function is particularly useful for aligning AEC election data, often provided at the SA1 level, with electoral boundaries that may be defined using MBs or other units.
+
+| Parameters | Description | Default | Valid Options |
+| ---------- | ----------- | ------- | ------------- |
+| `ref_date` | Year of the boundary dataset | None | 2011, 2013, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2024 (varies by `level`) |
+| `level` | Geographic or boundary level | "CED" | "SA1", "MB", "CED", "SED", "POA" |
+| `type` | Type of dataset | "allocation" | "correspondence", "allocation" |
+
+#### Dataset Types
+* **Correspondence Tables:** Convert data between different boundary sets or Census years (e.g., 2011 SA1 to 2016 SA1), providing proportional allocations based on population or area overlap.
+* **Allocation Tables:** Assign smaller geographic units (e.g., SA1, MB) to larger ones (e.g., CED, SED), indicating which larger area each smaller unit belongs to.
+
+<br>
+
+#### Key Considerations
+* **Boundary Changes:** CEDs and SEDs switched from SA1-based to MB-based allocations in 2021, requiring MB to SA1 allocation tables for consistency with AEC data.
+* **Supplementary Data:** For accurate 2022 and 2025 election analyses, incorporate AEC redistribution data for Victoria, Western Australia, and the Northern Territory.
+* **Data Availability:** Not all years are available for all boundary types; verify availability below.
+
+### Understanding Correspondence and Allocation Tables
+#### Correspondence Tables
+Correspondence tables facilitate data conversion between different geographic boundaries or between the same boundary type across Census years. They provide ratios indicating how much of one area overlaps with another. For electoral analysis, these tables are critical for adjusting historical election results to current boundaries. For example, to compare 2013 election results with 2016 boundaries, you need the 2011 SA1 correspondence table to convert 2006 Collection Districts (CD) to 2011 SA1s, aligning with 2013 CEDs.
+
+*Use Case:* Convert 2016 election results from 2011 SA1s to 2021 SA1s to match 2024 CED boundaries for trend analysis.
+
+#### Allocation Tables
+Allocation tables assign smaller geographic units to larger ones, such as mapping SA1s to CEDs or MBs to SEDs. These tables are essential for aggregating election data or determining which electoral division a specific area belongs to. For instance, an SA1 to CED allocation table lists which CED each SA1 is part of, based on its geographic centroid or majority overlap.
+
+*Use Case:* Identify all SA1s within a specific CED to analyse demographic characteristics using Census data.
+
+### Available Datasets and Examples
+
+The following sections detail the datasets available through `get_boundary_data`, including their coverage, key columns, and practical usage usage examples. Each section includes sample data to illustrate the dataset’s structure.
+
+## Main Structure and Greater Capital City Statistical Areas
+### Correspondence Tables
+Correspondence tables convert data between Census years, enabling alignment of election results with changing statistical areas. They are available for SA1 and MB levels, covering transitions like 2006 CD to 2011 SA1, 2011 SA1 to 2016 SA1, and 2016 SA1 to 2021 SA1.
+
+*Usage:* Adjust historical election results to current boundaries or align Census data with electoral divisions.
+
+* *2013 Election results*: the AEC provides count data per 2006 CD, meaning the 2011 SA1 correspondence table is needed to convert from 2006 CDs to 2011 SA1s and thus to be in line with the 2011 Census data and the ABS's 2013 CEDs.
+* *2016 Election results*: the AEC provides count data per 2011 SA1, meaning the 2016 SA1 correspondence table is needed to convert from 2011 SA1s to 2016 SA1s and thus to be in line with the 2016 Census data and the ABS's 2016 CEDs.
+* *2019 and 2022 Election results*: the AEC provides count data per 2016 SA1, meaning the 2021 SA1 correspondence table is needed to convert from 2016 SA1s to 2021 SA1s and thus to be in line with the most recent Census and to be able to convert election results into the ABS's 2024 CEDs (current boundaries used for the 2025 election).
+
+
+#### *Example Usage (2006 CD -> 2011 SA1):*
+
+```{r, eval = FALSE}
+df <- get_boundary_data(
+  ref_date = 2011,
+  level = "SA1",
+  type = "correspondence"
+)
+```
+
+#### *Sample Data (2006 CD -> 2011 SA1):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_boundary_data(
+  ref_date = 2011,
+  level = "SA1",
+  type = "correspondence"
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Example Usage (2011 -> 2016):*
+
+```{r, eval = FALSE}
+df <- get_boundary_data(
+  ref_date = 2016,
+  level = "SA1", # OR "MB"
+  type = "correspondence"
+)
+```
+
+#### *Sample Data (2011 SA1 -> 2016 SA1):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_boundary_data(
+  ref_date = 2016,
+  level = "SA1",
+  type = "correspondence"
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (2011 MB -> 2016 MB):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_boundary_data(
+  ref_date = 2016,
+  level = "MB",
+  type = "correspondence"
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Example Usage (2016 -> 2021):*
+
+```{r, eval = FALSE}
+df <- get_boundary_data(
+  ref_date = 2021,
+  level = "SA1", # OR "MB"
+  type = "correspondence"
+)
+```
+
+#### *Sample Data (2016 SA1 -> 2021 SA1):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_boundary_data(
+  ref_date = 2021,
+  level = "SA1",
+  type = "correspondence"
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (2016 MB -> 2021 MB):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_boundary_data(
+  ref_date = 2021,
+  level = "MB",
+  type = "correspondence"
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+### Allocation
+Allocation tables map smaller geographic units (SA1, MB) to larger ones, such as SA1 to STATE or MB to SA1, facilitating data aggregation and boundary identification.
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_boundary_data(
+  ref_date = 2021, # OR 2011, 2016
+  level = "MB", # OR "SA1"
+  type = "allocation" # = default
+)
+```
+
+#### *Sample Data (2021 MB):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_boundary_data(
+  ref_date = 2021,
+  level = "MB"
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (2021 SA1):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_boundary_data(
+  ref_date = 2021,
+  level = "SA1"
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+## Non ABS Structures
+Non-ABS Structures include CED, SED, and POA, which are approximations of official boundaries used for statistical purposes.
+
+### CED
+CEDs are ABS approximations of AEC federal electoral boundaries, used for the House of Representatives. Prior to 2021, CEDs were constructed from SA1s; since 2021, they use MBs, requiring MB to SA1 allocation tables for consistency with AEC data.
+
+
+***CED Release Notes:***
+
+| Year | Release Date | Details |
+| ---- | ------------ | ------- |
+| 2011 | July 2011 | Aligned with 2011 Census boundaries. |
+| 2013 | July 2012 | Included SA redistribution (13 March 2012). Used for 2013 Federal Election (7 September 2013). |
+| 2016 | July 2016 | Aligned with 2016 Census boundaries. Used for 2016 Federal Election (2 July 2016). |
+| 2017 | 31 October 2017 | Included redistributions in NSW (25 February 2016), WA (19 January 2016), ACT (28 January 2016). |
+| 2018 | 20 August 2018 | Included redistributions in Qld (27 March 2018), Vic (13 July 2018), ACT (13 July 2018), SA (20 July 2018), NT (27 March 2018), Tas (14 November 2017). Used for 2019 Federal Election (18 May 2019). |
+| 2021 | 20 July 2021 | Aligned with 2021 Census boundaries, switched to MB-based allocations. Used for 2022 Federal Election (21 May 2022). Excludes Vic (26 July 2021) and WA (2 August 2021) redistributions. |
+| 2024 | December 2024 | Included redistributions in NSW (27 November 2024), Vic (26 July 2021, 27 November 2024), WA (2 August 2021, 27 November 2024). Used for 2025 Federal Election (3 May 2025). Excludes NT redistribution (26 March 2025) |
+
+
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_boundary_data(
+  ref_date = 2024, # OR 2011, 2013, 2016, 2017, 2018, 2021
+  level = "CED" # = default
+)
+```
+
+#### *Sample Data (2024):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_boundary_data(
+  ref_date = 2024,
+  level = "CED"
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (2018):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_boundary_data(
+  ref_date = 2018,
+  level = "CED"
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+
+***Supplementary Data:*** For accurate 2022 and 2025 election analyses, incorporate AEC redistribution data:
+
+* *2022 Election:* Use Vic (Vic Redistribution) and WA (WA Redistribution) SA1 to CED mappings to update the 2021 CED product.
+* *2025 Election:* Use NT (NT Redistribution) SA1 to CED mappings to update the 2024 CED product until the 2025 CEDs are released (22 July 2025).
+
+To retrieve these datasets, use the `get_file` in the `scgUtils` package:
+
+```{r, eval = FALSE}
+url <- "https://www.aec.gov.au/redistributions/2021/vic/final-report/files/vic-by-SA2-and-SA1.xlsx"
+Vic <- scgUtils::get_file(url, source = "web")
+```
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+url <- "https://www.aec.gov.au/redistributions/2021/vic/final-report/files/vic-by-SA2-and-SA1.xlsx"
+Vic <- scgUtils::get_file(url, source = "web")
+
+# Display as an HTML table
+kable(Vic[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+```{r, eval = FALSE}
+url <- "https://www.aec.gov.au/redistributions/2021/wa/final-report/files/wa-by-SA2-and-SA1.xlsx"
+WA <- scgUtils::get_file(url, source = "web")
+```
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+url <- "https://www.aec.gov.au/redistributions/2021/wa/final-report/files/wa-by-SA2-and-SA1.xlsx"
+WA <- scgUtils::get_file(url, source = "web")
+
+# Display as an HTML table
+kable(WA[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+```{r, eval = FALSE}
+url <- "https://www.aec.gov.au/redistributions/2024/nt/final-report/files/Northern-Territory-electoral-divisions-SA1-and-SA2.xlsx"
+NT <- scgUtils::get_file(url, source = "web")
+```
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+url <- "https://www.aec.gov.au/redistributions/2024/nt/final-report/files/Northern-Territory-electoral-divisions-SA1-and-SA2.xlsx"
+NT <- scgUtils::get_file(url, source = "web")
+
+# Display as an HTML table
+kable(NT[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+
+<br>
+
+### SED
+SEDs are ABS approximations of state and territory legislative boundaries, used for state elections. Prior to 2021, SEDs were allocated from SA1s; since 2021, they use MBs.
+
+*Usage:* Analyse federal election results with state election results.
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_boundary_data(
+  ref_date = 2024, # OR 2011, 2016, 2017, 2018, 2019, 2020, 2021, 2022
+  level = "SED"
+)
+```
+
+#### *Sample Data (2024):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_boundary_data(
+  ref_date = 2024,
+  level = "SED"
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (2019):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_boundary_data(
+  ref_date = 2019,
+  level = "SED"
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+### POA
+POAs are ABS approximations of Australia Post postcodes, useful for converting election data to postal codes for campaign targeting or social media analysis.
+
+*Usage*: Map election results to postcodes for targeted analysis.
+
+*Note:* Prior to 2016, POAs were allocated from 2011 SA1s; since 2016, they use MBs, requiring MB to SA1 allocation tables for consistency.
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+df <- get_boundary_data(
+  ref_date = 2021, # OR 2011, 2016
+  level = "POA"
+)
+```
+
+#### *Sample Data (2021):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_boundary_data(
+  ref_date = 2021,
+  level = "POA"
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+#### *Sample Data (2011):*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- get_boundary_data(
+  ref_date = 2011,
+  level = "POA"
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
