@@ -11,15 +11,22 @@ authors:
     href: https://www.sarahcgall.co.uk/
 
 reference:
-- title: Data
+- title: Prepare Data
   desc: >
-    Functions for retrieving election datasets.
+    Functions for preparing datasets, ready for analysis.
+  contents:
+    - prepare_results
+    - prepare_boundaries
+
+- subtitle: Get Data
+  desc: >
+    Functions for retrieving election datasets, boundary correspondence and allocation tables, and disclosure data.
   contents:
     - get_boundary_data
     - get_disclosure_data
     - get_election_data
 
-- subtitle: Processing
+- subtitle: Process Data
   desc: >
     Functions for processing AEC raw data. These primarily
     are used for standardising names and data across datasets and different event types.

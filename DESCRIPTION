@@ -36,12 +36,14 @@ Config/Needs/website: tidyverse/tidytemplate
 VignetteBuilder: knitr
 Collate: 
     'amend_colnames.R'
+    'amend_maincode.R'
     'amend_names.R'
     'get_boundary_data.R'
     'get_disclosure_data.R'
     'utils.R'
     'get_election_data.R'
-    'get_results.R'
+    'prepare_boundaries.R'
+    'prepare_results.R'
     'process_ccd.R'
     'process_coords.R'
     'process_elected.R'
