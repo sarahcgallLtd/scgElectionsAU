@@ -292,11 +292,15 @@ apply_redistribution_adjustments <- function(
     Vic <- scgUtils::get_file("https://www.aec.gov.au/redistributions/2021/vic/final-report/files/vic-by-SA2-and-SA1.xlsx", source = "web")
     WA <- scgUtils::get_file("https://www.aec.gov.au/redistributions/2021/wa/final-report/files/wa-by-SA2-and-SA1.xlsx", source = "web")
 
+    # Clean column names to remove \r\n
+    colnames(Vic) <- gsub("[\r\n]", "", colnames(Vic))
+    colnames(WA) <- gsub("[\r\n]", "", colnames(WA))
+
     # Amend to match ABS for NT redistribution
-    Vic <- Vic[, c("SA1 code\r\n(2016 SA1s)", "New electoral division from \r\n26 July 2021")]
-    WA <- WA[, c("SA1 code\r\n(2016 SA1s)", "New electoral division from \r\n2 August 2021")]
-    Vic <- rename_cols(Vic, SA1_7DIGITCODE_2016 = "SA1 code\r\n(2016 SA1s)", CED_NAME_2021 = "New electoral division from \r\n26 July 2021")
-    WA <- rename_cols(WA, SA1_7DIGITCODE_2016 = "SA1 code\r\n(2016 SA1s)", CED_NAME_2021 = "New electoral division from \r\n2 August 2021")
+    Vic <- Vic[, c("SA1 code (2016 SA1s)", "New electoral division from 26 July 2021")]
+    WA <- WA[, c("SA1 code (2016 SA1s)", "New electoral division from 2 August 2021")]
+    Vic <- rename_cols(Vic, SA1_7DIGITCODE_2016 = "SA1 code (2016 SA1s)", CED_NAME_2021 = "New electoral division from 26 July 2021")
+    WA <- rename_cols(WA, SA1_7DIGITCODE_2016 = "SA1 code (2016 SA1s)", CED_NAME_2021 = "New electoral division from 2 August 2021")
 
     # combine the two
     redist_states <- rbind(Vic, WA)
@@ -333,9 +337,12 @@ apply_redistribution_adjustments <- function(
     # Get supplementatry AEC data
     NT <- scgUtils::get_file("https://www.aec.gov.au/redistributions/2024/nt/final-report/files/Northern-Territory-electoral-divisions-SA1-and-SA2.xlsx", source = "web")
 
+    # Clean column names to remove \r\n
+    colnames(NT) <- gsub("[\r\n]", "", colnames(NT))
+
     # Amend to match ABS for NT redistribution
-    NT <- NT[, c("Statistical Area Level 1 (SA1) Code (7-digit)\r\n(2021 SA1s)\r\n", "New Electoral Division from 4 March 2025")]
-    NT <- rename_cols(NT, SA1_7DIGITCODE_2021 = "Statistical Area Level 1 (SA1) Code (7-digit)\r\n(2021 SA1s)\r\n", CED_NAME_2024 = "New Electoral Division from 4 March 2025")
+    NT <- NT[, c("Statistical Area Level 1 (SA1) Code (7-digit) (2021 SA1s)", "New Electoral Division from 4 March 2025")]
+    NT <- rename_cols(NT, SA1_7DIGITCODE_2021 = "Statistical Area Level 1 (SA1) Code (7-digit) (2021 SA1s)", CED_NAME_2024 = "New Electoral Division from 4 March 2025")
     NT$CED_NAME_2024 <- tools::toTitleCase(tolower(NT$CED_NAME_2024))
     NT <- NT[NT$CED_NAME_2024 != "Total",]
 
@@ -437,7 +444,7 @@ verify_ratios <- function(
         if (any(abs(verification_after[[ratio_col]] - 1) > threshold)) {
           warning("Some total ratios still deviate from 1 by more than ", threshold, " after removal.")
         } else {
-          message("All total ratios are now within the acceptable range of 1 ± ", threshold, ".")
+          message("All total ratios are now within the acceptable range of 1 \u00B1 ", threshold, ".")
         }
       }
     }
