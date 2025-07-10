@@ -14,7 +14,7 @@ the 11-digit SA1 Maincode.}
 }
 \value{
 The input data frame with an additional column named 'SA1_CODE_YYYY', where 'YYYY'
-is extracted from the end of \code{column_name}, containing the 7-digit SA1 Code as a numeric value.
+is extracted from the end of \code{column_name}, containing the 7-digit SA1 Code as a string value.
 }
 \description{
 This function takes a data frame containing an 11-digit SA1 Maincode and converts it to the

@@ -72,8 +72,8 @@
 #' process_ccd(data_2019, "2019 Federal Election")
 #'
 #' # Sample invalid year
-#' data_2025 <- data.frame(event = "2025 Federal Election", state_ab = "QLD", votes = 100)
-#' process_ccd(data_2025, "2025 Federal Election")
+#' data_2021 <- data.frame(event = "2021 Federal Election", state_ab = "QLD", votes = 100)
+#' process_ccd(data_2021, "2021 Federal Election")
 #'
 #' @export
 process_ccd <- function(data, event) {

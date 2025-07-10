@@ -2,14 +2,14 @@ test_that("process_overseas handles event values and data processing correctly",
 
   # Test 1: Unrecognised event returns unprocessed data with message
   invalid_data <- data.frame(
-    event = "2025 Federal Election",
+    event = "2024 Federal Election",
     StateAb = "QLD",
     DivisionNm = "Brisbane",
     Votes = 100
   )
   expect_message(
-    result_invalid <- process_overseas(invalid_data, "2025 Federal Election"),
-    "No processing required for `2025 Federal Election`. Data returned unprocessed."
+    result_invalid <- process_overseas(invalid_data, "2024 Federal Election"),
+    "No processing required for `2024 Federal Election`. Data returned unprocessed."
   )
   expect_identical(result_invalid, invalid_data)  # Data returned unchanged
 

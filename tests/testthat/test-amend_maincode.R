@@ -1,7 +1,7 @@
 test_that("amend_maincode correctly converts 11-digit to 7-digit codes", {
   df <- data.frame(SA1_MAINCODE_2016 = c("12345678901", "23456789012"))
   result <- amend_maincode(df, "SA1_MAINCODE_2016")
-  expect_equal(result$SA1_7DIGITCODE_2016, c(1678901, 2789012))
+  expect_equal(result$SA1_7DIGITCODE_2016, c('1678901', '2789012'))
 })
 
 test_that("amend_maincode creates the correct new column name", {
@@ -13,7 +13,7 @@ test_that("amend_maincode creates the correct new column name", {
 test_that("amend_maincode creates a numeric column", {
   df <- data.frame(SA1_MAINCODE_2016 = c("12345678901"))
   result <- amend_maincode(df, "SA1_MAINCODE_2016")
-  expect_type(result$SA1_7DIGITCODE_2016, "double")
+  expect_type(result$SA1_7DIGITCODE_2016, "character")
 })
 
 test_that("amend_maincode throws an error if column does not exist", {
@@ -24,13 +24,13 @@ test_that("amend_maincode throws an error if column does not exist", {
 test_that("amend_maincode handles NA values correctly", {
   df <- data.frame(SA1_MAINCODE_2016 = c("12345678901", NA))
   result <- amend_maincode(df, "SA1_MAINCODE_2016")
-  expect_equal(result$SA1_7DIGITCODE_2016, c(1678901, NA))
+  expect_equal(result$SA1_7DIGITCODE_2016, c('1678901', NA))
 })
 
 test_that("amend_maincode works with numeric columns", {
   df <- data.frame(SA1_MAINCODE_2016 = c(12345678901, 23456789012))
   result <- amend_maincode(df, "SA1_MAINCODE_2016")
-  expect_equal(result$SA1_7DIGITCODE_2016, c(1678901, 2789012))
+  expect_equal(result$SA1_7DIGITCODE_2016, c('1678901', '2789012'))
 })
 
 test_that("amend_maincode does not modify original columns", {

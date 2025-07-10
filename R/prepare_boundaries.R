@@ -379,8 +379,8 @@ combine_ratios <- function(
   data[[col_name]] <- data[[ratio_col1]] * data[[ratio_col2]]
 
   # Aggregate by the specified group columns, summing the combined ratio
-  agg_formula <- as.formula(paste(col_name, "~", paste(group_cols, collapse = " + ")))
-  combined_df <- aggregate(agg_formula, data = data, sum, na.rm = TRUE)
+  agg_formula <- stats::as.formula(paste(col_name, "~", paste(group_cols, collapse = " + ")))
+  combined_df <- stats::aggregate(agg_formula, data = data, sum, na.rm = TRUE)
 
   # Verify ratios = 1
   combined_df <- verify_ratios(combined_df, col_name, group_cols[1], process)
@@ -401,11 +401,11 @@ verify_ratios <- function(
 ) {
   # Create formula for aggregation
   formula_str <- paste(ratio_col, "~", paste(group_cols, collapse = " + "))
-  ver_formula <- as.formula(formula_str)
+  ver_formula <- stats::as.formula(formula_str)
   group_type <- strsplit(group_cols[1], "_")[[1]][1]
 
   # Aggregate to sum ratios by group_cols
-  verification <- aggregate(ver_formula, data = data, sum, na.rm = TRUE)
+  verification <- stats::aggregate(ver_formula, data = data, sum, na.rm = TRUE)
 
   # Identify problematic groups
   problematic_idx <- which(abs(verification[[ratio_col]] - 1) > threshold)
@@ -433,7 +433,7 @@ verify_ratios <- function(
 
       if (reverify) {
         # Re-aggregate
-        verification_after <- aggregate(ver_formula, data = data, sum, na.rm = TRUE)
+        verification_after <- stats::aggregate(ver_formula, data = data, sum, na.rm = TRUE)
         if (any(abs(verification_after[[ratio_col]] - 1) > threshold)) {
           warning("Some total ratios still deviate from 1 by more than ", threshold, " after removal.")
         } else {

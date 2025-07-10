@@ -8,7 +8,7 @@ process_ppv(data, event)
 }
 \arguments{
 \item{data}{A data frame containing PPVC data for a single election event. Must include
-an \code{event} column with a single unique value (e.g., "2010", "2013", "2016", "2019", "2022").
+an \code{event} column with a single unique value (e.g., "2010", "2013", "2016", "2019", "2022", "2025").
 Additional required columns vary by year: \code{State}, \code{Division}, and date-specific vote columns
 for 2010; \code{State}, \code{Division}, \code{m_pp_nm} for 2013; \code{m_state_ab}, \code{m_div_nm}, \code{m_pp_nm} for
 2016 and 2019; \code{State}, \code{Division}, \code{PPVC}, \verb{Issue Date}, \verb{Total Votes} for 2022. A \code{date}
@@ -36,8 +36,8 @@ the original data frame is returned unchanged.
 \description{
 Standardises and transforms Pre-Poll Voting Centre (PPVC) data
 for a single Australian federal election event into a consistent long-format structure. This
-function aligns column names across election years (2010, 2013, 2016, 2019, 2022), pivots date-specific
-vote counts into a long format (except for 2022), and converts issue dates to Date objects. For
+function aligns column names across election years (2010, 2013, 2016, 2019, 2022, 2025), pivots date-specific
+vote counts into a long format (except for 2022-25), and converts issue dates to Date objects. For
 unrecognised election years, the data is returned unprocessed with a message.
 }
 \details{
@@ -48,15 +48,16 @@ This function processes PPVC data by:
 \item 2010: \code{Division} to \code{DivisionNm}.
 \item 2013: ``Division\code{to}DivisionNm`, `m_pp_nm` to `PollingPlaceNm`.
 \item 2016 and 2019: `m_state_ab` to `StateAb`, `m_div_nm` to `DivisionNm`, `m_pp_nm` to `PollingPlaceNm`.
-\item 2022: `Division` to `DivisionNm`, `PPVC` to `PollingPlaceNm`,
+\item 2022-25: `Division` to `DivisionNm`, `PPVC` to `PollingPlaceNm`,
 `Issue Date` to `IssueDate`, `Total Votes` to `TotalVotes`.
 }
 \item For 2010: Filtering out rows with NA in `DivisionNm` (e.g., notes or totals).
 \item For 2010–2019: Pivoting date-specific vote columns into long format with `pivot_event()`,
 creating `IssueDate` and `TotalVotes` columns.
-\item For 2022: Selecting standardised columns without pivoting.
+\item For 2022-25: Selecting standardised columns without pivoting.
 \item Converting `IssueDate` to a Date object using year-specific formats:
 \itemize{
+\item 2025: "\%d/\%m/\%Y" (e.g., "03/05/2025")
 \item 2022: "\%d/\%m/\%y" (e.g., "09/05/22")
 \item 2019: "\%d/\%m/\%Y" (e.g., "29/04/2019")
 \item 2016: "\%Y-\%m-\%d" (e.g., "2016-06-14")
@@ -96,7 +97,7 @@ data_2022 <- data.frame(
 process_ppv(data_2022, "2022 Federal Election")
 
 # Sample invalid year
-data_2025 <- data.frame(event = "2025 Federal Election", StateAb = "QLD", Votes = 100)
-process_ppv(data_2025, "2025 Federal Election")
+data_2024 <- data.frame(event = "2024 Federal Election", StateAb = "QLD", Votes = 100)
+process_ppv(data_2024, "2024 Federal Election")
 
 }

@@ -1,6 +1,7 @@
 prepare_results <- function(
   dataset = c("Votes", "FP", "TCP", "TPP", "DistPref", "TCPFlowPref"),
-  event = c("2023 Referendum", "2022 Federal Election", "2019 Federal Election", "2016 Federal Election", "2013 Federal Election"),
+  event = c("2023 Referendum", "2022 Federal Election", "2019 Federal Election", "2016 Federal Election",
+            "2013 Federal Election"),
   boundary = c("original", "latest CED", "2021 CED", "latest POA", "latest SA1") # most recent
 ) {
 

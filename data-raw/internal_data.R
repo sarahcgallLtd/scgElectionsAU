@@ -18,8 +18,10 @@ name_conversions <- readr::read_csv("data-raw/name_conversions.csv")
 # ===
 # Get all unprocessed polling place datasets
 data <- get_election_data(file_name = "Polling places",
-                          date_range = list(from = "2004-01-01", to = "2025-01-01"),
-                          type = c("Federal Election", "Referendum", "By-Election"),
+                          date_range = list(from = "2004-01-01", to = "2026-01-01"),
+                          type = c("Federal Election",
+                                   "Referendum",
+                                   "By-Election"),
                           category = "General",
                           process = FALSE
 )

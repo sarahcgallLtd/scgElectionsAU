@@ -1,12 +1,12 @@
 test_that("process_ppv standardises and transforms PPVC data correctly", {
 
   # Test 1: Unrecognised event returns unprocessed data with message
-  data_2025 <- data.frame(event = "2025 Federal Election", State = "Queensland", Votes = 100)
+  data_2024 <- data.frame(event = "2024 Federal Election", State = "Queensland", Votes = 100)
   expect_message(
-    result_2025 <- process_ppv(data_2025, "2025 Federal Election"),
-    "No processing required for `2025 Federal Election`. Data returned unprocessed."
+    result_2024 <- process_ppv(data_2024, "2024 Federal Election"),
+    "No processing required for `2024 Federal Election`. Data returned unprocessed."
   )
-  expect_identical(result_2025, data_2025)
+  expect_identical(result_2024, data_2024)
 
   # Test 2: 2010 data processing (no PollingPlaceNm, with NA filtering)
   data_2010 <- data.frame(

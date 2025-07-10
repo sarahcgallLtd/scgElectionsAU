@@ -46,7 +46,11 @@ articles:
 - title: Function Example
   navbar: ~
   contents:
-  - articles/a-guide-to-aec-election-datasets
-  - articles/a-guide-to-aec-disclosure-datasets
-  - articles/a-guide-to-abs-boundary-datasets
+
+- title: Guides
+  contents:
+    - articles/a-guide-to-aec-election-datasets
+    - articles/a-guide-to-aec-disclosure-datasets
+    - articles/a-guide-to-abs-boundary-datasets
+
 

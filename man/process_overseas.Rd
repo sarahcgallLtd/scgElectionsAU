@@ -9,15 +9,15 @@ process_overseas(data, event)
 \arguments{
 \item{data}{A data frame containing overseas voting data. Must include an \code{event} column indicating
 the election event (e.g., "2013 Federal Election", "2019 Federal Election", "2022 Federal Election",
-"2023 Referendum") and, for recognised years, year-specific columns
+"2023 Referendum", "2024 Federal Election") and, for recognised years, year-specific columns
 for state, division, overseas post, and vote counts.}
 
 \item{event}{A character string specifying the election event to process. Recognised values are
-"2013 Federal Election", "2019 Federal Election", "2022 Federal Election", or "2023 Referendum". Other values
-will result in the data being returned unprocessed.}
+"2013 Federal Election", "2019 Federal Election", "2022 Federal Election", "2023 Referendum", or
+"2025 Federal Election". Other values will result in the data being returned unprocessed.}
 }
 \value{
-A data frame. For recognised election years ("2013", "2019", "2022", "2023"), it contains standardised
+A data frame. For recognised election years ("2013", "2019", "2022", "2023", "2025"), it contains standardised
 columns:
 \itemize{
 \item \code{date} (if present in input)
@@ -48,7 +48,7 @@ This function processes overseas voting data by:
 \item For unrecognised years: Returning the data unprocessed with an informative message.
 }
 The function assumes the input data frame contains the required columns for the specified \code{event} year
-when it is "2013", "2019", or "2022", though column names may vary as per the original datasets.
+when it is "2013", "2019", "2022", or "2025", though column names may vary as per the original datasets.
 }
 \examples{
 # Sample 2013 data
@@ -66,8 +66,8 @@ data_2013 <- data.frame(
 process_overseas(data_2013, "2013 Federal Election")
 
 # Sample invalid year
-data_2025 <- data.frame(event = "2025 Federal Election", StateAb = "QLD", Votes = 100)
-process_overseas(data_2025, "2025 Federal Election")
+data_2026 <- data.frame(event = "2026 Federal Election", StateAb = "QLD", Votes = 100)
+process_overseas(data_2026, "2026 Federal Election")
 
 }
 \seealso{

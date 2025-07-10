@@ -1,89 +1,89 @@
 file_name,download_folder,prefix,download_name,file_type,2025 Federal Election,2024 Cook By-Election,2024 Dunkley By-Election,2023 Referendum,2023 Fadden By-Election,2023 Aston By-Election,2022 Federal Election,2020 Groom By-Election,2020 Eden-Monaro By-Election,2019 Federal Election,2018 Wentworth By-Election,2018 Braddon By-Election,2018 Fremantle By-Election,2018 Longman By-Election,2018 Mayo By-Election,2018 Perth By-Election,2018 Batman By-Election,2017 Bennelong By-Election,2017 New England By-Election,2016 Federal Election,2015 North Sydney By-Election,2015 Canning By-Election,2014 WA Senate Election,2014 Griffith By-Election,2013 Federal Election,2010 Federal Election,2009 Higgins By-Election,2009 Bradfield By-Election,2008 Lyne By-Election,2008 Mayo By-Election,2008 Gippsland By-Election,2007 Federal Election,2004 Federal Election,processing_function
-National list of candidates,Downloads,House,Candidates,.csv,N,Y,Y,N,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,process_elected
-Members elected,Downloads,House,MembersElected,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Nominations by state,Downloads,House,NominationsByState,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Nominations by division,Downloads,House,NominationsByDivision,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,N,N,N,N,N,N,N,N,NA
-Nominations by gender,Downloads,House,NominationsByGender,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Party representation,Downloads,House,PartyRepresentationLeading,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,N,N,N,N,N,N,N,N,NA
+National list of candidates,Downloads,House,Candidates,.csv,Y,Y,Y,N,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,process_elected
+Members elected,Downloads,House,MembersElected,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Nominations by state,Downloads,House,NominationsByState,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Nominations by division,Downloads,House,NominationsByDivision,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,N,N,N,N,N,N,N,N,NA
+Nominations by gender,Downloads,House,NominationsByGender,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Party representation,Downloads,House,PartyRepresentationLeading,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,N,N,N,N,N,N,N,N,NA
 Party representation,Downloads,House,PartyRepresentation,.csv,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,N,Y,Y,process_reps
-Seats that changed hands,Downloads,House,SeatsWhichChangedHands,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Seats decided on preferences,Downloads,House,SeatsDecidedOnPrefs,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Seats decided on first preferences,Downloads,House,SeatsDecidedOnFirstPrefs,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Non-classic divisions,Downloads,House,NonClassicDivisions,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,N,N,NA
-Political parties,Downloads,General,PartyDetails,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-First preferences by party,Downloads,House,FirstPrefsByParty,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-First preferences by state by party,Downloads,House,FirstPrefsByStateByParty,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-First preferences by candidate by vote type,Downloads,House,FirstPrefsByCandidateByVoteType,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,process_elected
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-NSW.csv,N,Y,N,N,N,N,Y,N,Y,Y,Y,N,N,N,N,N,N,Y,Y,Y,Y,N,N,N,Y,Y,N,Y,Y,N,N,Y,Y,process_elected
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-VIC.csv,N,N,Y,N,N,Y,Y,N,N,Y,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,Y,Y,Y,N,N,N,Y,Y,Y,NA
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-QLD.csv,N,N,N,N,Y,N,Y,Y,N,Y,N,N,N,Y,N,N,N,N,N,Y,N,N,N,Y,Y,Y,N,N,N,N,N,Y,Y,NA
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-WA.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,Y,N,Y,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-SA.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,Y,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,Y,N,Y,Y,NA
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-TAS.csv,N,N,N,N,N,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-ACT.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-NT.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Two candidate preferred by candidate by vote type,Downloads,House,TcpByCandidateByVoteType,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,process_elected
-Two candidate preferred by candidate by polling place,Downloads,House,TcpByCandidateByPollingPlace,.csv,N,Y,Y,N,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,process_elected
-Two party preferred by state,Downloads,House,TppByState,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Two party preferred by division,Downloads,House,TppByDivision,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Two party preferred by division by vote type,Downloads,House,TppByDivisionByVoteType,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,N,N,N,N,N,N,N,N,N,NA
-Two party preferred by polling place,Downloads,House,TppByPollingPlace,.csv,N,Y,Y,N,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,NA
-Distribution of preferences by candidate by division,Downloads,House,DopByDivision,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,process_elected
-Two candidate preferred flow of preferences by candidate by division,Downloads,House,TcpFlowByDivision,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Two party preferred flow of preferences by party,Downloads,House,TppFlowByParty,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Two party preferred flow of preferences by state by party,Downloads,House,TppFlowByStateByParty,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Two candidate preferred flow of preferences by party,Downloads,House,TcpFlowByParty,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Two candidate preferred flow of preferences by state by party,Downloads,House,TcpFlowByStateByParty,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Distribution of preferences by polling place,External,House,DopByPP,-NSW.zip,N,Y,N,N,N,N,Y,N,Y,Y,Y,N,N,N,N,N,N,Y,Y,Y,Y,N,N,N,Y,Y,N,Y,Y,N,N,Y,Y,process_elected
-Distribution of preferences by polling place,External,House,DopByPP,-VIC.zip,N,N,Y,N,N,Y,Y,N,N,Y,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,Y,Y,Y,N,N,N,Y,Y,Y,NA
-Distribution of preferences by polling place,External,House,DopByPP,-QLD.zip,N,N,N,N,Y,N,Y,Y,N,Y,N,N,N,Y,N,N,N,N,N,Y,N,N,N,Y,Y,Y,N,N,N,N,N,Y,Y,NA
-Distribution of preferences by polling place,External,House,DopByPP,-WA.zip,N,N,N,N,N,N,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,Y,N,Y,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Distribution of preferences by polling place,External,House,DopByPP,-SA.zip,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,Y,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,Y,N,Y,Y,NA
-Distribution of preferences by polling place,External,House,DopByPP,-TAS.zip,N,N,N,N,N,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Distribution of preferences by polling place,External,House,DopByPP,-ACT.zip,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Distribution of preferences by polling place,External,House,DopByPP,-NT.zip,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-NSW.zip,N,Y,N,N,N,N,Y,N,Y,Y,Y,N,N,N,N,N,N,Y,Y,Y,Y,N,N,N,Y,Y,N,Y,Y,N,N,Y,Y,NA
-Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-VIC.zip,N,N,Y,N,N,Y,Y,N,N,Y,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,Y,Y,Y,N,N,N,Y,Y,Y,NA
-Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-QLD.zip,N,N,N,N,Y,N,Y,Y,N,Y,N,N,N,Y,N,N,N,N,N,Y,N,N,N,Y,Y,Y,N,N,N,N,N,Y,Y,NA
-Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-WA.zip,N,N,N,N,N,N,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,Y,N,Y,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-SA.zip,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,Y,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,Y,N,Y,Y,NA
-Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-TAS.zip,N,N,N,N,N,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-ACT.zip,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-NT.zip,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Enrolment by state,Downloads,General,EnrolmentByState,.csv,N,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Enrolment by division,Downloads,General,EnrolmentByDivision,.csv,N,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Informal votes by state,Downloads,House,InformalByState,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Informal votes by division,Downloads,House,InformalByDivision,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Turnout by state,Downloads,House,TurnoutByState,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Turnout by division,Downloads,House,TurnoutByDivision,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Votes by state,Downloads,House,VotesCountedByState,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Votes by division,Downloads,House,VotesCountedByDivision,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Declaration votes issued by state,Downloads,General,DecVotesIssuedByState,.csv,N,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Declaration votes issued by division,Downloads,General,DecVotesIssuedByDivision,.csv,N,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Declaration votes received by state,Downloads,General,DecVotesReceivedByState,.csv,N,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Declaration votes received by division,Downloads,General,DecVotesReceivedByDivision,.csv,N,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Polling places,Downloads,General,PollingPlaces,.csv,N,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,process_coords
-National list of candidates,Downloads,Senate,Candidates,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,process_elected
-Senators elected,Downloads,Senate,SenatorsElected,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Nominations by state,Downloads,Senate,NominationsByState,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Nominations by gender,Downloads,Senate,NominationsByGender,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Party representation,Downloads,Senate,PartyRepresentation,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-First preferences by state by vote type,Downloads,Senate,FirstPrefsByStateByVoteType,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-First preferences by division by vote type,Downloads,Senate,FirstPrefsByDivisionByVoteType,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-First preferences by group by vote type,Downloads,Senate,FirstPrefsByGroupByVoteType,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-First preferences by state by group by vote type,Downloads,Senate,FirstPrefsByStateByGroupByVoteType,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Informal votes by state,Downloads,Senate,InformalByState,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Informal votes by division,Downloads,Senate,InformalByDivision,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Turnout by state,Downloads,Senate,TurnoutByState,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Turnout by division,Downloads,Senate,TurnoutByDivision,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Votes by state,Downloads,Senate,VotesCountedByState,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Votes by division,Downloads,Senate,VotesCountedByDivision,.csv,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
-Postal vote applications by total,Elections,Statistics,see info spreadsheet,.csv,N,Y,Y,Y,Y,Y,Y,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,NA
+Seats that changed hands,Downloads,House,SeatsWhichChangedHands,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Seats decided on preferences,Downloads,House,SeatsDecidedOnPrefs,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Seats decided on first preferences,Downloads,House,SeatsDecidedOnFirstPrefs,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Non-classic divisions,Downloads,House,NonClassicDivisions,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,N,N,NA
+Political parties,Downloads,General,PartyDetails,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+First preferences by party,Downloads,House,FirstPrefsByParty,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+First preferences by state by party,Downloads,House,FirstPrefsByStateByParty,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+First preferences by candidate by vote type,Downloads,House,FirstPrefsByCandidateByVoteType,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,process_elected
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-NSW.csv,Y,Y,N,N,N,N,Y,N,Y,Y,Y,N,N,N,N,N,N,Y,Y,Y,Y,N,N,N,Y,Y,N,Y,Y,N,N,Y,Y,process_elected
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-VIC.csv,Y,N,Y,N,N,Y,Y,N,N,Y,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,Y,Y,Y,N,N,N,Y,Y,Y,NA
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-QLD.csv,Y,N,N,N,Y,N,Y,Y,N,Y,N,N,N,Y,N,N,N,N,N,Y,N,N,N,Y,Y,Y,N,N,N,N,N,Y,Y,NA
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-WA.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,Y,N,Y,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-SA.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,Y,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,Y,N,Y,Y,NA
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-TAS.csv,Y,N,N,N,N,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-ACT.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+First preferences by candidate by polling place,Downloads,House,StateFirstPrefsByPollingPlace,-NT.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Two candidate preferred by candidate by vote type,Downloads,House,TcpByCandidateByVoteType,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,process_elected
+Two candidate preferred by candidate by polling place,Downloads,House,TcpByCandidateByPollingPlace,.csv,Y,Y,Y,N,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,process_elected
+Two party preferred by state,Downloads,House,TppByState,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Two party preferred by division,Downloads,House,TppByDivision,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Two party preferred by division by vote type,Downloads,House,TppByDivisionByVoteType,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,N,N,N,N,N,N,N,N,N,NA
+Two party preferred by polling place,Downloads,House,TppByPollingPlace,.csv,Y,Y,Y,N,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,NA
+Distribution of preferences by candidate by division,Downloads,House,DopByDivision,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,process_elected
+Two candidate preferred flow of preferences by candidate by division,Downloads,House,TcpFlowByDivision,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Two party preferred flow of preferences by party,Downloads,House,TppFlowByParty,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Two party preferred flow of preferences by state by party,Downloads,House,TppFlowByStateByParty,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Two candidate preferred flow of preferences by party,Downloads,House,TcpFlowByParty,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Two candidate preferred flow of preferences by state by party,Downloads,House,TcpFlowByStateByParty,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Distribution of preferences by polling place,External,House,DopByPP,-NSW.zip,Y,Y,N,N,N,N,Y,N,Y,Y,Y,N,N,N,N,N,N,Y,Y,Y,Y,N,N,N,Y,Y,N,Y,Y,N,N,Y,Y,process_elected
+Distribution of preferences by polling place,External,House,DopByPP,-VIC.zip,Y,N,Y,N,N,Y,Y,N,N,Y,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,Y,Y,Y,N,N,N,Y,Y,Y,NA
+Distribution of preferences by polling place,External,House,DopByPP,-QLD.zip,Y,N,N,N,Y,N,Y,Y,N,Y,N,N,N,Y,N,N,N,N,N,Y,N,N,N,Y,Y,Y,N,N,N,N,N,Y,Y,NA
+Distribution of preferences by polling place,External,House,DopByPP,-WA.zip,Y,N,N,N,N,N,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,Y,N,Y,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Distribution of preferences by polling place,External,House,DopByPP,-SA.zip,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,Y,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,Y,N,Y,Y,NA
+Distribution of preferences by polling place,External,House,DopByPP,-TAS.zip,Y,N,N,N,N,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Distribution of preferences by polling place,External,House,DopByPP,-ACT.zip,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Distribution of preferences by polling place,External,House,DopByPP,-NT.zip,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-NSW.zip,Y,Y,N,N,N,N,Y,N,Y,Y,Y,N,N,N,N,N,N,Y,Y,Y,Y,N,N,N,Y,Y,N,Y,Y,N,N,Y,Y,NA
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-VIC.zip,Y,N,Y,N,N,Y,Y,N,N,Y,N,N,N,N,N,N,Y,N,N,Y,N,N,N,N,Y,Y,Y,N,N,N,Y,Y,Y,NA
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-QLD.zip,Y,N,N,N,Y,N,Y,Y,N,Y,N,N,N,Y,N,N,N,N,N,Y,N,N,N,Y,Y,Y,N,N,N,N,N,Y,Y,NA
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-WA.zip,Y,N,N,N,N,N,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,Y,N,Y,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-SA.zip,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,Y,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,Y,N,Y,Y,NA
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-TAS.zip,Y,N,N,N,N,N,Y,N,N,Y,N,Y,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-ACT.zip,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Two candidate preferred flow of preferences by polling place,External,House,TcpFlowByPP,-NT.zip,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Enrolment by state,Downloads,General,EnrolmentByState,.csv,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Enrolment by division,Downloads,General,EnrolmentByDivision,.csv,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Informal votes by state,Downloads,House,InformalByState,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Informal votes by division,Downloads,House,InformalByDivision,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Turnout by state,Downloads,House,TurnoutByState,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Turnout by division,Downloads,House,TurnoutByDivision,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Votes by state,Downloads,House,VotesCountedByState,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Votes by division,Downloads,House,VotesCountedByDivision,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Declaration votes issued by state,Downloads,General,DecVotesIssuedByState,.csv,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Declaration votes issued by division,Downloads,General,DecVotesIssuedByDivision,.csv,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Declaration votes received by state,Downloads,General,DecVotesReceivedByState,.csv,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Declaration votes received by division,Downloads,General,DecVotesReceivedByDivision,.csv,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Polling places,Downloads,General,PollingPlaces,.csv,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,process_coords
+National list of candidates,Downloads,Senate,Candidates,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,process_elected
+Senators elected,Downloads,Senate,SenatorsElected,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Nominations by state,Downloads,Senate,NominationsByState,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Nominations by gender,Downloads,Senate,NominationsByGender,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Party representation,Downloads,Senate,PartyRepresentation,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+First preferences by state by vote type,Downloads,Senate,FirstPrefsByStateByVoteType,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+First preferences by division by vote type,Downloads,Senate,FirstPrefsByDivisionByVoteType,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+First preferences by group by vote type,Downloads,Senate,FirstPrefsByGroupByVoteType,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+First preferences by state by group by vote type,Downloads,Senate,FirstPrefsByStateByGroupByVoteType,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Informal votes by state,Downloads,Senate,InformalByState,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Informal votes by division,Downloads,Senate,InformalByDivision,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Turnout by state,Downloads,Senate,TurnoutByState,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Turnout by division,Downloads,Senate,TurnoutByDivision,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Votes by state,Downloads,Senate,VotesCountedByState,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Votes by division,Downloads,Senate,VotesCountedByDivision,.csv,Y,N,N,N,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,Y,N,Y,Y,N,N,N,N,N,Y,Y,NA
+Postal vote applications by total,Elections,Statistics,see info spreadsheet,.csv,Y,Y,Y,Y,Y,Y,Y,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,NA
 Postal vote applications by date,Elections,Statistics,see info spreadsheet,.csv,N,N,N,N,N,N,N,Y,Y,Y,Y,Y,N,N,N,N,Y,Y,Y,Y,Y,Y,N,Y,Y,Y,N,N,N,N,N,N,N,process_pva_date
 Postal vote applications by party,Elections,Statistics,see info spreadsheet,.csv,N,N,N,N,N,N,N,Y,Y,Y,Y,Y,N,N,N,N,Y,Y,Y,Y,Y,Y,N,Y,Y,Y,N,N,N,N,N,N,N,process_pva_party
-Pre-poll votes,Elections,Statistics,see info spreadsheet,.csv,N,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,N,N,N,Y,Y,Y,Y,Y,Y,N,Y,Y,Y,N,N,N,N,N,N,N,process_ppv
+Pre-poll votes,Elections,Statistics,see info spreadsheet,.csv,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,N,N,N,Y,Y,Y,Y,Y,Y,N,Y,Y,Y,N,N,N,N,N,N,N,process_ppv
 Votes by SA1,Elections,Statistics,see info spreadsheet,Mixed,N,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,N,N,N,N,N,N,N,N,process_ccd
-Overseas,Elections,Statistics,see info spreadsheet,.csv,N,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,N,N,N,N,process_overseas
+Overseas,Elections,Statistics,see info spreadsheet,.csv,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,N,N,N,N,process_overseas
 Informal votes by state,Downloads,Referendum,InformalByState,.csv,N,N,N,Y,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,NA
 Informal votes by division,Downloads,Referendum,InformalByDivision,.csv,N,N,N,Y,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,NA
 Turnout by state,Downloads,Referendum,TurnoutByState,.csv,N,N,N,Y,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,NA

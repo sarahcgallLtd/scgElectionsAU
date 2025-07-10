@@ -12,8 +12,8 @@ test_that("process_coords updates polling place coordinates correctly", {
     result_2010 <- process_coords(data_2010, "2010 Federal Election"),
     "Filling in missing coordinates for `2010 Federal Election` data, where possible."
   )
-  expect_equal(result_2010$Latitude, c(-35.238950, -35.431464))  # Replaced NA and 0
-  expect_equal(result_2010$Longitude, c(149.069140, 149.082409))  # Replaced 0 and NA
+  expect_equal(result_2010$Latitude, c(-35.23895, -35.43119))  # Replaced NA and 0
+  expect_equal(result_2010$Longitude, c(149.069140, 149.082989))  # Replaced 0 and NA
 
   # Test 2: 2019 data with all valid coordinates
   data_2019 <- data.frame(

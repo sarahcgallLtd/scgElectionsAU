@@ -7,13 +7,13 @@
 #'
 #' @param data A data frame containing overseas voting data. Must include an `event` column indicating
 #'   the election event (e.g., "2013 Federal Election", "2019 Federal Election", "2022 Federal Election",
-#'   "2023 Referendum") and, for recognised years, year-specific columns
+#'   "2023 Referendum", "2024 Federal Election") and, for recognised years, year-specific columns
 #'   for state, division, overseas post, and vote counts.
 #' @param event A character string specifying the election event to process. Recognised values are
-#'   "2013 Federal Election", "2019 Federal Election", "2022 Federal Election", or "2023 Referendum". Other values
-#'   will result in the data being returned unprocessed.
+#'   "2013 Federal Election", "2019 Federal Election", "2022 Federal Election", "2023 Referendum", or
+#'   "2025 Federal Election". Other values will result in the data being returned unprocessed.
 #'
-#' @return A data frame. For recognised election years ("2013", "2019", "2022", "2023"), it contains standardised
+#' @return A data frame. For recognised election years ("2013", "2019", "2022", "2023", "2025"), it contains standardised
 #'   columns:
 #'   \itemize{
 #'     \item `date` (if present in input)
@@ -38,7 +38,7 @@
 #'   \item For unrecognised years: Returning the data unprocessed with an informative message.
 #' }
 #' The function assumes the input data frame contains the required columns for the specified `event` year
-#' when it is "2013", "2019", or "2022", though column names may vary as per the original datasets.
+#' when it is "2013", "2019", "2022", or "2025", though column names may vary as per the original datasets.
 #'
 #' @examples
 #' # Sample 2013 data
@@ -56,8 +56,8 @@
 #' process_overseas(data_2013, "2013 Federal Election")
 #'
 #' # Sample invalid year
-#' data_2025 <- data.frame(event = "2025 Federal Election", StateAb = "QLD", Votes = 100)
-#' process_overseas(data_2025, "2025 Federal Election")
+#' data_2026 <- data.frame(event = "2026 Federal Election", StateAb = "QLD", Votes = 100)
+#' process_overseas(data_2026, "2026 Federal Election")
 #'
 #' @seealso \code{\link{amend_names}}) for state name standardisation.
 #'
@@ -66,8 +66,9 @@ process_overseas <- function(
   data,
   event
 ) {
-  # Check only 2013, 2019, and 2022 election years are passed
-  if (event %in% c("2013 Federal Election", "2019 Federal Election", "2022 Federal Election", "2023 Referendum")) {
+  # Check only 2013, 2019, 2022, and 2025 election years are passed
+  if (event %in% c("2013 Federal Election", "2019 Federal Election", "2022 Federal Election", "2023 Referendum",
+                   "2025 Federal Election")) {
     message(paste0("Processing `", event, "` data to ensure all columns align across all elections."))
 
     # Standardise columns to goal 8 column data frame
@@ -113,10 +114,20 @@ process_overseas <- function(
         PostalVotes = "Postal Vote Envelopes Received at Post",
         PrePollVotes = "Pre-Poll (in-person) Votes Issued at Post"
       )
+    } else if (event == "2025 Federal Election") {
+      # Rename  columns
+      data <- rename_cols(data,
+        OverseasPost = "Overseas Voting Centre",
+        PostalVotes = "Postal Vote Envelopes Received at Post",
+        PrePollVotes = "Pre-Poll (in-person) Votes Issued at Post",
+        TotalVotes = "Grand Total"
+      )
     }
 
-    # Calculate Total with NA handling
-    data$`TotalVotes` <- rowSums(data[, c("PostalVotes", "PrePollVotes")], na.rm = TRUE)
+    if (event != "2025 Federal Election") {
+      # Calculate Total with NA handling
+      data$`TotalVotes` <- rowSums(data[, c("PostalVotes", "PrePollVotes")], na.rm = TRUE)
+    }
 
   } else {
     message(paste0("No processing required for `", event, "`. Data returned unprocessed."))

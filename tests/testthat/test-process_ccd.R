@@ -1,17 +1,17 @@
 test_that("process_ccd standardises election data correctly", {
 
   # Test 1: Unrecognised event returns unprocessed data with message
-  data_2025 <- data.frame(
-    event = "2025 Federal Election",
+  data_2024 <- data.frame(
+    event = "2024 Federal Election",
     state_ab = "QLD",
     div_nm = "Brisbane",
     votes = 100
   )
   expect_message(
-    result_2025 <- process_ccd(data_2025, "2025 Federal Election"),
-    "No processing required for `2025 Federal Election`. Data returned unprocessed."
+    result_2024 <- process_ccd(data_2024, "2024 Federal Election"),
+    "No processing required for `2024 Federal Election`. Data returned unprocessed."
   )
-  expect_identical(result_2025, data_2025)  # Data returned unchanged
+  expect_identical(result_2024, data_2024)  # Data returned unchanged
 
   # Test 2: 2013 data processing
   data_2013 <- data.frame(
