@@ -11,10 +11,10 @@ authors:
     href: https://www.sarahcgall.co.uk/
 
 reference:
-- title: Prepare Data
-  desc: >
-    Functions for preparing datasets, ready for analysis.
-  contents:
+#- title: Prepare Data
+#  desc: >
+#    Functions for preparing datasets, ready for analysis.
+#  contents:
 #    - prepare_results
 #    - prepare_boundaries
 
