@@ -15,8 +15,8 @@ reference:
   desc: >
     Functions for preparing datasets, ready for analysis.
   contents:
-    - prepare_results
-    - prepare_boundaries
+#    - prepare_results
+#    - prepare_boundaries
 
 - subtitle: Get Data
   desc: >
@@ -46,10 +46,11 @@ articles:
 - title: Function Example
   navbar: ~
   contents:
+
+- title: Guides
+  contents:
     - articles/a-guide-to-aec-election-datasets
     - articles/a-guide-to-aec-disclosure-datasets
     - articles/a-guide-to-abs-boundary-datasets
-
-
 
 
