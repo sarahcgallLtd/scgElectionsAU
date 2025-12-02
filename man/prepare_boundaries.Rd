@@ -60,10 +60,10 @@ tables that account for these changes.
 The function works by:
 \enumerate{
 \item Determining the base geography for the source \code{event}
-\item Building a correspondence chain to the target SA1 year via \code{\link{get_correspondence}}
-\item If target is POA or CED, merging with allocation tables via \code{\link{get_allocation_table}}
+\item Building a correspondence chain to the target SA1 year via \code{get_correspondence}
+\item If target is POA or CED, merging with allocation tables via \code{get_allocation_table}
 \item For recent elections (2022, 2023, 2025), applying redistribution adjustments
-via \code{\link{apply_redistribution_adjustments}} to correct for boundary
+via \code{apply_redistribution_adjustments} to correct for boundary
 changes that occurred after ABS allocation files were published
 }
 }
@@ -99,6 +99,6 @@ Not all event/compare_to combinations are valid. Generally:
 
 }
 \seealso{
-\code{\link{prepare_results}} for applying boundary transformations to election data
+\code{\link{get_boundary_data}} for retrieving individual ABS boundary files
 }
 \keyword{internal}

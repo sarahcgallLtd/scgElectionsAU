@@ -41,10 +41,10 @@
 #' The function works by:
 #' \enumerate{
 #'   \item Determining the base geography for the source \code{event}
-#'   \item Building a correspondence chain to the target SA1 year via \code{\link{get_correspondence}}
-#'   \item If target is POA or CED, merging with allocation tables via \code{\link{get_allocation_table}}
+#'   \item Building a correspondence chain to the target SA1 year via `get_correspondence`
+#'   \item If target is POA or CED, merging with allocation tables via `get_allocation_table`
 #'   \item For recent elections (2022, 2023, 2025), applying redistribution adjustments
-#'         via \code{\link{apply_redistribution_adjustments}} to correct for boundary
+#'         via `apply_redistribution_adjustments` to correct for boundary
 #'         changes that occurred after ABS allocation files were published
 #' }
 #'
@@ -77,7 +77,7 @@
 #' }
 #'
 #' @seealso
-#' \code{\link{prepare_results}} for applying boundary transformations to election data
+#' \code{\link{get_boundary_data}} for retrieving individual ABS boundary files
 #'
 #' @keywords internal
 prepare_boundaries <- function(
@@ -249,9 +249,6 @@ prepare_boundaries <- function(
 #'   # Get correspondence from 2019 election (SA1 2016) to 2021 SA1s
 #'   corresp <- get_correspondence("SA1", 2016, 2021, process = TRUE)
 #' }
-#'
-#' @seealso \code{\link{combine_ratios}}, \code{\link{verify_ratios}},
-#'   \code{\link{get_boundary_data}}
 #'
 #' @noRd
 #' @keywords internal
@@ -443,8 +440,6 @@ get_correspondence <- function(
 #'   # Get SA1 to POA allocation for 2021 postcodes
 #'   poa_alloc <- get_allocation_table(2021, "POA")
 #' }
-#'
-#' @seealso \code{\link{get_boundary_data}} for downloading raw ABS boundary files
 #'
 #' @noRd
 #' @keywords internal
@@ -709,8 +704,6 @@ apply_redistribution_adjustments <- function(
 #'     process = TRUE
 #'   )
 #' }
-#'
-#' @seealso \code{\link{verify_ratios}} for ratio validation
 #'
 #' @noRd
 #' @keywords internal
