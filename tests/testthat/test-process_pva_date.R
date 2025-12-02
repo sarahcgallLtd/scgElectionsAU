@@ -96,4 +96,20 @@ test_that("process_pva_date standardises and transforms PVA data by date correct
   expect_equal(result_2019$DivisionNm, c("Brisbane", "Brisbane"))
   expect_equal(result_2019$DateReceived, as.Date(c("2019-04-11", "2019-04-12")))
   expect_equal(result_2019$TotalPVAs, c(300, 350))
+
+
+  # Test 6: 2014 Griffith By-Election data processing
+  data_2014 <- data.frame(
+    date = "2014-05-18",
+    event = "2014 Griffith By-Election",
+    PVA_Web_2_Date.Div = "Griffith",
+    `20190411` = 300,
+    `20190412` = 350,
+    check.names = FALSE
+  )
+  expect_message(
+    result_2014 <- process_pva_date(data_2014, "2014 Griffith By-Election"),
+    "Processing `2014 Griffith By-Election` data to ensure all columns align across all elections."
+  )
+  expect_equal(nrow(result_2019), 2)
 })

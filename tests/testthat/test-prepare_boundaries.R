@@ -323,3 +323,10 @@ test_that("prepare_boundaries downloads and converts SA1 2011 to SA1 2021", {
     "Some SA1s in AEC data not found in ABS data")
   expect_equal(ncol(result), 5)
 })
+
+test_that("prepare_boundaries downloads and converts SA1 2016 to SA1 2021", {
+  expect_warning(
+    result <- prepare_boundaries(event = "2019 Federal Election", compare_to = "2023 Referendum"),
+    "Some SA1s in AEC data not found in ABS data")
+  expect_equal(ncol(result), 6)
+})

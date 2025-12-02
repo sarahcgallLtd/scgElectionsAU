@@ -76,4 +76,37 @@ test_that("process_overseas handles event values and data processing correctly",
                     "PostalVotes", "TotalVotes") %in% names(result_2022)))
   expect_equal(result_2022$StateAb, c("South Australia", "Western Australia"))  # No amendment for 2022
   expect_equal(result_2022$TotalVotes, c(200, 300))
+
+  # Test 5: 2023 data processing
+  data_2023 <- data.frame(
+    event = "2023 Referendum",
+    StateAb = c("New South Wales", "Victoria", NA),
+    DivisionNm = c("Sydney", "Melbourne", "Total"),
+    `Overseas Post` = c("New York", "London", "Toronto"),
+    `Pre-Poll (in-person) Votes Issued at Post` = c(120, 180, 5),
+    `Postal Vote Envelopes Received at Post` = c(80, 120, 0),
+    check.names = FALSE
+  )
+  expect_message(
+    result_2023 <- process_overseas(data_2023, "2023 Referendum"),
+    "Processing `2023 Referendum` data to ensure all columns align across all elections."
+  )
+  expect_equal(nrow(result_2023), 3)
+
+   # Test 5: 2025 data processing
+  data_2025 <- data.frame(
+    event = "2025 Federal Election",
+    StateAb = c("New South Wales", "Victoria", NA),
+    DivisionNm = c("Sydney", "Melbourne", "Total"),
+    `Overseas Voting Centre` = c("New York", "London", "Toronto"),
+    `Pre-Poll (in-person) Votes Issued at Post` = c(120, 180, 5),
+    `Postal Vote Envelopes Received at Post` = c(80, 120, 0),
+    `Grand Total` = c(200, 200, 5),
+    check.names = FALSE
+  )
+  expect_message(
+    result_2025 <- process_overseas(data_2025, "2025 Federal Election"),
+    "Processing `2025 Federal Election` data to ensure all columns align across all elections."
+  )
+  expect_equal(nrow(result_2025), 3)
 })
