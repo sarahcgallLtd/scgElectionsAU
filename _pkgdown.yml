@@ -32,6 +32,7 @@ reference:
     are used for standardising names and data across datasets and different event types.
   contents:
     - amend_colnames
+    - amend_maincode
     - amend_names
     - process_ccd
     - process_coords
