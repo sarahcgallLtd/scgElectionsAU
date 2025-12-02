@@ -214,7 +214,7 @@ test_that("verify_ratios handles single group correctly", {
 })
 
 test_that("verify_ratios issues warning after removal if ratios still invalid", {
- # This tests the case where after removing problematic groups,
+  # This tests the case where after removing problematic groups,
   # the remaining groups still have issues (edge case with reverify)
   # Create data where removal doesn't fix all issues
   df <- data.frame(
@@ -295,4 +295,24 @@ test_that("prepare_boundaries rejects backward mappings for 2016 election", {
     prepare_boundaries(event = "2016 Federal Election", compare_to = "2011 Census"),
     NA
   )
+})
+
+
+# =============================================================================
+# FULL FUNCTION TESTS (with downloads)
+# =============================================================================
+test_that("prepare_boundaries downloads and converts Postcodes", {
+  expect_message(
+    result <- prepare_boundaries(event = "2025 Federal Election", compare_to = "2021 Postcodes"),
+    "Downloading `allocation` file from"
+  )
+  expect_equal(ncol(result), 2)
+})
+
+test_that("prepare_boundaries downloads and converts CEDs", {
+  expect_warning(
+    result <- prepare_boundaries(event = "2013 Federal Election", compare_to = "2025 Federal Election"),
+    "Some SA1s in AEC data not found in ABS data")
+
+  expect_equal(ncol(result), 5)
 })
