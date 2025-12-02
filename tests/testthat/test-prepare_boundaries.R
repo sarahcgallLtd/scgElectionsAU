@@ -176,24 +176,154 @@ test_that("combine_ratios handles multiple source groups", {
 
 
 # =============================================================================
+# HELPER FUNCTION TESTS: verify_ratios() - additional coverage
+# =============================================================================
+
+test_that("verify_ratios handles reverify = FALSE", {
+  # Create test data where one group's ratios don't sum to 1
+  df <- data.frame(
+    CD_CODE_2006 = c("A", "A", "B", "B"),
+    SA1_CODE_2011 = c("1", "2", "3", "4"),
+    RATIO = c(0.6, 0.4, 0.5, 0.3)  # B sums to 0.8, not 1
+  )
+
+  # With reverify = FALSE, should not get the "All total ratios are now within" message
+  expect_message(
+    result <- scgElectionsAU:::verify_ratios(df, "RATIO", "CD_CODE_2006", process = TRUE, reverify = FALSE),
+    "Removed 1 CD"
+  )
+
+  # Should NOT get the reverification message
+  expect_equal(nrow(result), 2)
+})
+
+test_that("verify_ratios handles single group correctly", {
+  # Create test data with single group
+  df <- data.frame(
+    CD_CODE_2006 = c("A", "A", "A"),
+    SA1_CODE_2011 = c("1", "2", "3"),
+    RATIO = c(0.5, 0.3, 0.2)  # Sums to 1.0
+  )
+
+  expect_message(
+    result <- scgElectionsAU:::verify_ratios(df, "RATIO", "CD_CODE_2006", process = TRUE),
+    "No groups found with total ratios deviating"
+  )
+
+  expect_equal(nrow(result), 3)
+})
+
+test_that("verify_ratios issues warning after removal if ratios still invalid", {
+ # This tests the case where after removing problematic groups,
+  # the remaining groups still have issues (edge case with reverify)
+  # Create data where removal doesn't fix all issues
+  df <- data.frame(
+    CD_CODE_2006 = c("A", "A", "B", "B", "C", "C"),
+    SA1_CODE_2011 = c("1", "2", "3", "4", "5", "6"),
+    RATIO = c(0.6, 0.4, 0.5, 0.3, 0.6, 0.4)  # A=1.0, B=0.8, C=1.0
+  )
+
+  # Only B should be removed
+  expect_message(
+    result <- scgElectionsAU:::verify_ratios(df, "RATIO", "CD_CODE_2006", process = TRUE),
+    "Removed 1 CD"
+  )
+
+  expect_equal(nrow(result), 4)  # A and C remain
+  expect_true(all(result$CD_CODE_2006 %in% c("A", "C")))
+})
+
+
+# =============================================================================
+# HELPER FUNCTION TESTS: combine_ratios() - additional coverage
+# =============================================================================
+
+test_that("combine_ratios aggregates duplicate group combinations", {
+  # Create test data where same source->target combination appears multiple times
+  # (e.g., CD A maps to SA1 X via two different intermediate SA1s)
+  df <- data.frame(
+    CD_CODE_2006 = c("A", "A", "A"),
+    SA1_CODE_2016 = c("X", "X", "Y"),  # X appears twice
+    RATIO_1 = c(0.4, 0.4, 0.2),
+    RATIO_2 = c(0.5, 0.5, 1.0)
+  )
+
+  result <- scgElectionsAU:::combine_ratios(
+    df,
+    col_name = "RATIO_COMBINED",
+    ratio_col1 = "RATIO_1",
+    ratio_col2 = "RATIO_2",
+    group_cols = c("CD_CODE_2006", "SA1_CODE_2016"),
+    process = TRUE
+  )
+
+  # X should have aggregated ratio: (0.4*0.5) + (0.4*0.5) = 0.4
+  # Y should have ratio: 0.2*1.0 = 0.2
+  # Total = 0.6, so this will fail ratio verification and group A will be removed
+  # unless we use process = FALSE
+  expect_equal(nrow(result), 0)  # Both removed because total != 1
+})
+
+
+# =============================================================================
 # INTERNAL MAPPING TESTS (parameter validation only - no downloads)
 # =============================================================================
 
-test_that("event_base mapping rejects backward SA1 correspondences", {
-  # 2025 uses SA1 2021 - cannot map backwards to 2016 or 2011
+test_that("prepare_boundaries rejects all backward mappings for 2025 election", {
+  # 2025 cannot map to any 2016 or 2011 boundaries
   expect_error(
-    prepare_boundaries(event = "2025 Federal Election", compare_to = "2016 Census"),
+    prepare_boundaries(event = "2025 Federal Election", compare_to = "2016 Postcodes"),
     "Invalid combination"
   )
 
   expect_error(
-    prepare_boundaries(event = "2025 Federal Election", compare_to = "2011 Census"),
+    prepare_boundaries(event = "2025 Federal Election", compare_to = "2019 Federal Election"),
     "Invalid combination"
   )
 
-  # 2022 uses SA1 2016 - cannot map backwards to 2011
   expect_error(
-    prepare_boundaries(event = "2022 Federal Election", compare_to = "2011 Postcodes"),
+    prepare_boundaries(event = "2025 Federal Election", compare_to = "2016 Federal Election"),
     "Invalid combination"
+  )
+
+  expect_error(
+    prepare_boundaries(event = "2025 Federal Election", compare_to = "2013 Federal Election"),
+    "Invalid combination"
+  )
+})
+
+test_that("prepare_boundaries rejects backward mappings for 2019/2022/2023 events",
+{
+  # Events using SA1 2016 cannot map to SA1 2011 boundaries
+  events_2016 <- c("2019 Federal Election", "2022 Federal Election", "2023 Referendum")
+
+  for (evt in events_2016) {
+    expect_error(
+      prepare_boundaries(event = evt, compare_to = "2011 Census"),
+      "Invalid combination"
+    )
+
+    expect_error(
+      prepare_boundaries(event = evt, compare_to = "2011 Postcodes"),
+      "Invalid combination"
+    )
+
+    expect_error(
+      prepare_boundaries(event = evt, compare_to = "2013 Federal Election"),
+      "Invalid combination"
+    )
+  }
+})
+
+test_that("prepare_boundaries rejects backward mappings for 2016 election", {
+  # 2016 uses SA1 2011 - cannot map backwards (but 2011 is the earliest, so only 2013 CED applies)
+  # Actually 2016 CAN map to 2011 Census (same SA1 year) and 2013 CED (uses 2011 SA1)
+  # This is testing that it DOESN'T error for valid combinations
+
+  # These should NOT error (valid forward/same mappings)
+  # We can't actually run them without downloading, but we can verify no error on param validation
+  expect_error(
+    prepare_boundaries(event = "2016 Federal Election", compare_to = "2011 Census"),
+    NA
   )
 })

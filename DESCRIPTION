@@ -11,8 +11,8 @@ Description: scgElectionsAU allows you to download and explore Australia's
     election and referendum data sourced from the Australian Electoral Commission.
     It was developed by Sarah Gall, Sarah C Gall Ltd.
 License: MIT + file LICENSE
-URL: https://github.com/sarahcgall/scgElectionsAU, https://sarahcgall.github.io/scgElectionsAU/, https://docs.sarahcgall.co.uk/scgElectionsAU/
-BugReports: https://github.com/sarahcgall/scgElectionsAU/issues
+URL: https://github.com/sarahcgallLtd/scgElectionsAU, https://sarahcgall.github.io/scgElectionsAU/, https://docs.sarahcgall.co.uk/scgElectionsAU/
+BugReports: https://github.com/sarahcgallLtd/scgElectionsAU/issues
 LazyData: true
 Encoding: UTF-8
 Language: en-GB
