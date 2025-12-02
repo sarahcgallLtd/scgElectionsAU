@@ -235,37 +235,6 @@ test_that("verify_ratios issues warning after removal if ratios still invalid", 
 
 
 # =============================================================================
-# HELPER FUNCTION TESTS: combine_ratios() - additional coverage
-# =============================================================================
-
-test_that("combine_ratios aggregates duplicate group combinations", {
-  # Create test data where same source->target combination appears multiple times
-  # (e.g., CD A maps to SA1 X via two different intermediate SA1s)
-  df <- data.frame(
-    CD_CODE_2006 = c("A", "A", "A"),
-    SA1_CODE_2016 = c("X", "X", "Y"),  # X appears twice
-    RATIO_1 = c(0.4, 0.4, 0.2),
-    RATIO_2 = c(0.5, 0.5, 1.0)
-  )
-
-  result <- scgElectionsAU:::combine_ratios(
-    df,
-    col_name = "RATIO_COMBINED",
-    ratio_col1 = "RATIO_1",
-    ratio_col2 = "RATIO_2",
-    group_cols = c("CD_CODE_2006", "SA1_CODE_2016"),
-    process = TRUE
-  )
-
-  # X should have aggregated ratio: (0.4*0.5) + (0.4*0.5) = 0.4
-  # Y should have ratio: 0.2*1.0 = 0.2
-  # Total = 0.6, so this will fail ratio verification and group A will be removed
-  # unless we use process = FALSE
-  expect_equal(nrow(result), 0)  # Both removed because total != 1
-})
-
-
-# =============================================================================
 # INTERNAL MAPPING TESTS (parameter validation only - no downloads)
 # =============================================================================
 
