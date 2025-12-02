@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 )
 ```
 <br>
-This guide explores the [`get_boundary_data`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_boundary_data.html) function. The function simplifies retrieving boundary datasets from the Australian Bureau of Statistics (ABS) including correspondence tables and allocation files with specific boundary types like Commonwealth Electoral Divisions (CED), State Electoral Divisions (SED), and Postal Areas (POA). These datasets enable users to align election results across changing boundaries and integrate demographic data, supporting research into voting trends and voter demographics. Below, we detail the function’s parameters, available datasets, practical usage examples, and the context of ABS boundary data.
+This guide explores the [`get_boundary_data`](https://docs.sarahcgallLtd.co.uk/scgElectionsAU/reference/get_boundary_data.html) and [`prepare_boundaries`](https://docs.sarahcgallLtd.co.uk/scgElectionsAU/reference/prepare_boundaries.html) function. These functions simplify retrieving boundary datasets from the Australian Bureau of Statistics (ABS) including correspondence tables and allocation files with specific boundary types like Commonwealth Electoral Divisions (CED), State Electoral Divisions (SED), and Postal Areas (POA). These datasets enable users to align election results across changing boundaries and integrate demographic data, supporting research into voting trends and voter demographics. Below, we detail the function’s parameters, available datasets, practical usage examples, and the context of ABS boundary data.
 <br>
 
 ```{r setup, include = FALSE}
@@ -40,11 +40,11 @@ Electoral boundaries evolve, making it challenging to compare election results a
 
 The `get_boundary_data` function retrieves ABS boundary datasets, leveraging internal metadata to map parameters to specific files. It downloads data from ABS servers, typically in Excel or CSV format, and returns a data frame. Users can specify the dataset by reference date (`ref_date`), geographic level (`level`), and data type (`type`), with options to retrieve raw or processed data. This function is particularly useful for aligning AEC election data, often provided at the SA1 level, with electoral boundaries that may be defined using MBs or other units.
 
-| Parameters | Description | Default | Valid Options |
-| ---------- | ----------- | ------- | ------------- |
-| `ref_date` | Year of the boundary dataset | None | 2011, 2013, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2024 (varies by `level`) |
-| `level` | Geographic or boundary level | "CED" | "SA1", "MB", "CED", "SED", "POA" |
-| `type` | Type of dataset | "allocation" | "correspondence", "allocation" |
+| Parameters | Description                  | Default      | Valid Options                                                                  |
+|------------|------------------------------|--------------|--------------------------------------------------------------------------------|
+| `ref_date` | Year of the boundary dataset | None         | 2011, 2013, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2024 (varies by `level`) |
+| `level`    | Geographic or boundary level | "CED"        | "SA1", "MB", "CED", "SED", "POA"                                               |
+| `type`     | Type of dataset              | "allocation" | "correspondence", "allocation"                                                 |
 
 #### Dataset Types
 * **Correspondence Tables:** Convert data between different boundary sets or Census years (e.g., 2011 SA1 to 2016 SA1), providing proportional allocations based on population or area overlap.
@@ -235,15 +235,15 @@ CEDs are ABS approximations of AEC federal electoral boundaries, used for the Ho
 
 ***CED Release Notes:***
 
-| Year | Release Date | Details |
-| ---- | ------------ | ------- |
-| 2011 | July 2011 | Aligned with 2011 Census boundaries. |
-| 2013 | July 2012 | Included SA redistribution (13 March 2012). Used for 2013 Federal Election (7 September 2013). |
-| 2016 | July 2016 | Aligned with 2016 Census boundaries. Used for 2016 Federal Election (2 July 2016). |
-| 2017 | 31 October 2017 | Included redistributions in NSW (25 February 2016), WA (19 January 2016), ACT (28 January 2016). |
-| 2018 | 20 August 2018 | Included redistributions in Qld (27 March 2018), Vic (13 July 2018), ACT (13 July 2018), SA (20 July 2018), NT (27 March 2018), Tas (14 November 2017). Used for 2019 Federal Election (18 May 2019). |
-| 2021 | 20 July 2021 | Aligned with 2021 Census boundaries, switched to MB-based allocations. Used for 2022 Federal Election (21 May 2022). Excludes Vic (26 July 2021) and WA (2 August 2021) redistributions. |
-| 2024 | December 2024 | Included redistributions in NSW (27 November 2024), Vic (26 July 2021, 27 November 2024), WA (2 August 2021, 27 November 2024). Used for 2025 Federal Election (3 May 2025). Excludes NT redistribution (26 March 2025) |
+| Year | Release Date    | Details                                                                                                                                                                                                                 |
+|------|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 2011 | July 2011       | Aligned with 2011 Census boundaries.                                                                                                                                                                                    |
+| 2013 | July 2012       | Included SA redistribution (13 March 2012). Used for 2013 Federal Election (7 September 2013).                                                                                                                          |
+| 2016 | July 2016       | Aligned with 2016 Census boundaries. Used for 2016 Federal Election (2 July 2016).                                                                                                                                      |
+| 2017 | 31 October 2017 | Included redistributions in NSW (25 February 2016), WA (19 January 2016), ACT (28 January 2016).                                                                                                                        |
+| 2018 | 20 August 2018  | Included redistributions in Qld (27 March 2018), Vic (13 July 2018), ACT (13 July 2018), SA (20 July 2018), NT (27 March 2018), Tas (14 November 2017). Used for 2019 Federal Election (18 May 2019).                   |
+| 2021 | 20 July 2021    | Aligned with 2021 Census boundaries, switched to MB-based allocations. Used for 2022 Federal Election (21 May 2022). Excludes Vic (26 July 2021) and WA (2 August 2021) redistributions.                                |
+| 2024 | December 2024   | Included redistributions in NSW (27 November 2024), Vic (26 July 2021, 27 November 2024), WA (2 August 2021, 27 November 2024). Used for 2025 Federal Election (3 May 2025). Excludes NT redistribution (26 March 2025) |
 
 
 
@@ -418,3 +418,246 @@ df <- get_boundary_data(
 # Display as an HTML table
 kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
 ```
+
+
+## The `prepare_boundaries` Function
+
+While `get_boundary_data` retrieves individual ABS boundary files, the `prepare_boundaries` function automates the complex process of building correspondence tables between election events and target boundaries. It handles:
+
+* Chaining multiple correspondence files across ASGS editions
+* Merging with allocation tables for CED, POA, or SA1 targets
+* Applying redistribution adjustments for recent elections (Vic/WA 2021, NT 2024)
+
+This function is essential for comparing election results across different boundary configurations or linking election data to Census demographics.
+
+| Parameters   | Description                                      | Default                 | Valid Options                                                                                                                                  |
+|--------------|--------------------------------------------------|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| `event`      | Source election whose results you want to re-map | "2025 Federal Election" | "2025 Federal Election", "2023 Referendum", "2022 Federal Election", "2019 Federal Election", "2016 Federal Election", "2013 Federal Election" |
+| `compare_to` | Target boundaries to map to                      | "2025 Federal Election" | Elections, Census SA1s, or Postcodes (see below)                                                                                               |
+| `process`    | Remove geographic units with invalid ratios      | TRUE                    | TRUE, FALSE                                                                                                                                    |
+
+#### Source Event Base Geographies
+
+Each election event uses a specific ABS geographic base for its SA1/CD-level results:
+
+| Event                 | Base Geography                       | Notes             |
+|-----------------------|--------------------------------------|-------------------|
+| 2013 Federal Election | 2006 Census Collector Districts (CD) | Pre-SA1 geography |
+| 2016 Federal Election | 2011 SA1                             | ASGS Edition 1    |
+| 2019 Federal Election | 2016 SA1                             | ASGS Edition 2    |
+| 2022 Federal Election | 2016 SA1                             | ASGS Edition 2    |
+| 2023 Referendum       | 2016 SA1                             | ASGS Edition 2    |
+| 2025 Federal Election | 2021 SA1                             | ASGS Edition 3    |
+
+#### Valid Target Options
+
+| Target Type       | Options                                                                                                                     | Description                                          |
+|-------------------|-----------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
+| Federal Elections | "2013 Federal Election", "2016 Federal Election", "2019 Federal Election", "2022 Federal Election", "2025 Federal Election" | Maps to CED boundaries used for that election        |
+| Referendum        | "2023 Referendum"                                                                                                           | Maps to CED boundaries used for the Voice referendum |
+| Census SA1        | "2011 Census", "2016 Census", "2021 Census"                                                                                 | Maps to SA1 boundaries for that Census year          |
+| Postcodes         | "2011 Postcodes", "2016 Postcodes", "2021 Postcodes"                                                                        | Maps to Postal Areas (POA) for that year             |
+
+**Important:** You cannot map an event to boundaries from an earlier ASGS edition. For example, you cannot map the 2025 Federal Election (SA1 2021) to 2016 Census boundaries.
+
+<br>
+
+### Use Case 1: Comparing Elections Over Time
+
+The most common use case is comparing election results across different elections, which requires mapping historical results to current boundaries (or vice versa).
+
+#### Mapping to Current (2025) Boundaries
+
+To analyse how voting patterns have changed over time using consistent 2025 electoral boundaries:
+
+```{r, eval = FALSE}
+df <- prepare_boundaries(
+  event = "2022 Federal Election", # OR "2019 Federal Election", "2016 Federal Election", "2013 Federal Election", "2023 Referendum"
+  compare_to = "2025 Federal Election"
+)
+```
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  prepare_boundaries(
+    event = "2019 Federal Election",
+    compare_to = "2025 Federal Election"
+  )
+)
+kable(df[1:3,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+*Use cases:*
+
+* Compare election results from any previous election using the same 2025 electoral boundaries
+* Track voting trends across multiple elections (e.g., 2019, 2022, 2025) on consistent boundaries
+* Analyse relationship between Voice referendum voting and 2025 election results
+* Long-term trend analysis from 2013 to 2025 (chains through CD 2006 → SA1 2011 → SA1 2016 → SA1 2021)
+
+#### Mapping to Historical Boundaries (2022 and earlier)
+
+These mappings are useful for historical research, redistribution impact studies, or aligning with data published using older boundary definitions.
+
+```{r, eval = FALSE}
+df <- prepare_boundaries(
+  event = "2016 Federal Election", # OR "2013 Federal Election"
+  compare_to = "2022 Federal Election" # OR "2023 Referendum", "2019 Federal Election", "2016 Federal Election", "2013 Federal Election"
+)
+```
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  prepare_boundaries(
+    event = "2016 Federal Election",
+    compare_to = "2019 Federal Election"
+  )
+)
+kable(df[1:3,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+*Use cases:*
+
+* **Historical research:** Analyse elections in their original boundary context for academic studies
+* **Census alignment:** Link to Census data published with period-specific CED approximations
+* **Redistribution impact analysis:** Compare how votes would count under old vs new boundaries
+* **Media archives:** Recreate historical election maps or validate old publications
+* **State election comparisons:** Align federal results with state electoral boundaries from the same era
+
+*Notes:*
+
+* The 2022 election and 2023 referendum used identical boundaries (2021 CEDs with Vic/WA adjustments)
+* See the Valid Combinations Reference table below for all supported event/boundary combinations
+
+<br>
+
+### Use Case 2: Linking to Census Demographics
+
+Map election results to Census SA1 boundaries to analyse voting patterns alongside demographic data like income, education, or age profiles.
+
+#### Mapping to Current (2021) Census
+
+```{r, eval = FALSE}
+df <- prepare_boundaries(
+  event = "2022 Federal Election", # OR "2025 Federal Election", "2019 Federal Election", "2016 Federal Election", "2013 Federal Election"
+  compare_to = "2021 Census"
+)
+```
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  prepare_boundaries(
+    event = "2022 Federal Election",
+    compare_to = "2021 Census"
+  )
+)
+kable(df[1:3,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+*Use cases:*
+
+* Link any election results to current Census demographics (income, education, age profiles, etc.)
+* 2025 election results already use 2021 SA1s (direct mapping)
+* Earlier elections require correspondence chains (e.g., 2013 chains through CD 2006 → SA1 2011 → SA1 2016 → SA1 2021)
+
+#### Mapping to Historical Census (2016/2011)
+
+```{r, eval = FALSE}
+df <- prepare_boundaries(
+  event = "2019 Federal Election", # OR "2022 Federal Election", "2016 Federal Election", "2013 Federal Election"
+  compare_to = "2016 Census" # OR "2011 Census"
+)
+```
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  prepare_boundaries(
+    event = "2019 Federal Election",
+    compare_to = "2016 Census"
+  )
+)
+kable(df[1:3,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+*Use cases:*
+
+* **Period-matched analysis:** Link elections to the Census closest in time (e.g., 2019 election with 2016 Census demographics)
+* **Longitudinal studies:** Track demographic shifts by comparing elections against their contemporaneous Census
+* **Historical research:** Reproduce analyses as they would have been done at the time
+* **Direct mappings:** 2019/2022 elections already use 2016 SA1s; 2016 election uses 2011 SA1s
+
+*Note:* Cannot map 2025 election to 2016/2011 Census (earlier ASGS editions). See Valid Combinations Reference table below.
+
+<br>
+
+### Use Case 3: Mapping to Postcodes
+
+Map election results to Postal Areas (POA) for campaign targeting, social media analysis, or linking to postcode-based datasets.
+
+#### Mapping to Current (2021) Postcodes
+
+```{r, eval = FALSE}
+df <- prepare_boundaries(
+  event = "2022 Federal Election", # OR "2025 Federal Election", "2019 Federal Election", "2016 Federal Election", "2013 Federal Election"
+  compare_to = "2021 Postcodes"
+)
+```
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  prepare_boundaries(
+    event = "2022 Federal Election",
+    compare_to = "2021 Postcodes"
+  )
+)
+kable(df[1:3,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+*Use cases:*
+
+* **Campaign targeting:** Convert election results to postcodes for direct mail or advertising campaigns
+* **Social media analysis:** Link voting patterns to postcode-based social media demographics
+* **Commercial data integration:** Join election results with postcode-based datasets (e.g., consumer behaviour, property data)
+* **Service planning:** Analyse voting patterns by postcode for government or NGO service delivery planning
+
+#### Mapping to Historical Postcodes (2016/2011)
+
+```{r, eval = FALSE}
+df <- prepare_boundaries(
+  event = "2016 Federal Election", # OR "2019 Federal Election", "2013 Federal Election"
+  compare_to = "2016 Postcodes" # OR "2011 Postcodes"
+)
+```
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  prepare_boundaries(
+    event = "2016 Federal Election",
+    compare_to = "2016 Postcodes"
+  )
+)
+kable(df[1:3,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+*Use cases:*
+
+* **Historical commercial data:** Link elections to postcode-based datasets from that period
+* **Postcode boundary changes:** Some postcodes have been split, merged, or renamed over time
+* **Archival research:** Reproduce analyses using postcode definitions as they existed at the time
+
+*Note:* Cannot map 2025 election to 2016/2011 Postcodes (earlier ASGS editions). See Valid Combinations Reference table below.
+
+<br>
+
+### Valid Combinations Reference
+
+The following table summarises all valid `event` and `compare_to` combinations. An ✓ indicates a valid combination; an ✗ indicates the combination is not supported (typically because it would require mapping to an earlier ASGS edition).
+
+| Event ↓ / Compare to →    | 2013 Election | 2016 Election | 2019 Election | 2022 Election | 2023 Referendum | 2025 Election | 2011 Census | 2016 Census | 2021 Census | 2011 POA | 2016 POA | 2021 POA |
+|---------------------------|:-------------:|:-------------:|:-------------:|:-------------:|:---------------:|:-------------:|:-----------:|:-----------:|:-----------:|:--------:|:--------:|:--------:|
+| **2013 Federal Election** |       ✓       |       ✓       |       ✓       |       ✓       |        ✓        |       ✓       |      ✓      |      ✓      |      ✓      |    ✓     |    ✓     |    ✓     |
+| **2016 Federal Election** |       ✗       |       ✓       |       ✓       |       ✓       |        ✓        |       ✓       |      ✓      |      ✓      |      ✓      |    ✓     |    ✓     |    ✓     |
+| **2019 Federal Election** |       ✗       |       ✗       |       ✓       |       ✓       |        ✓        |       ✓       |      ✗      |      ✓      |      ✓      |    ✗     |    ✓     |    ✓     |
+| **2022 Federal Election** |       ✗       |       ✗       |       ✓       |       ✓       |        ✓        |       ✓       |      ✗      |      ✓      |      ✓      |    ✗     |    ✓     |    ✓     |
+| **2023 Referendum**       |       ✗       |       ✗       |       ✓       |       ✓       |        ✓        |       ✓       |      ✗      |      ✓      |      ✓      |    ✗     |    ✓     |    ✓     |
+| **2025 Federal Election** |       ✗       |       ✗       |       ✗       |       ✗       |        ✗        |       ✓       |      ✗      |      ✗      |      ✓      |    ✗     |    ✗     |    ✓     |
+

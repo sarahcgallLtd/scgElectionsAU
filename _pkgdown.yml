@@ -11,12 +11,12 @@ authors:
     href: https://www.sarahcgall.co.uk/
 
 reference:
-#- title: Prepare Data
-#  desc: >
-#    Functions for preparing datasets, ready for analysis.
-#  contents:
-#    - prepare_results
-#    - prepare_boundaries
+- title: Prepare Data
+  desc: >
+    Functions for preparing datasets, ready for analysis.
+  contents:
+    - prepare_results
+    - prepare_boundaries
 
 - subtitle: Get Data
   desc: >
@@ -46,6 +46,8 @@ reference:
 articles:
 - title: Function Example
   navbar: ~
+  contents:
+    - articles/preparing-aec-election-results
 
 - title: Guides
   contents:
