@@ -61,7 +61,7 @@ NULL
 #' @export
 get_election_data <- function(
   file_name,
-  date_range = list(from = "2023-01-01", to = "2026-01-01"),
+  date_range = list(from = "2025-01-01", to = "2026-01-01"),
   type = NULL,
   category = c("House", "Senate", "Referendum", "General", "Statistics"),
   process = TRUE
@@ -159,13 +159,49 @@ get_election_data <- function(
 
       # Download the file
       message(paste0("Downloading `", file_name, "` from ", url))
-      tmp_df <- suppressMessages(
-        scgUtils::get_file(url, source = "web", row_no = row_no)
+
+      tmp_df <- tryCatch(
+      {
+        suppressMessages(
+          scgUtils::get_file(url, source = "web", row_no = row_no)
+        )
+      },
+        error = function(e) {
+          # Check if it's a URL/download error or file parsing error
+          if (grepl("404|cannot open|URL|connect|delimiter|Could not guess", e$message, ignore.case = TRUE)) {
+            warning(paste0(
+              "\nSkipping `", file_name, "` for ", event, " - URL no longer accessible or file format has changed.\n",
+              "The AEC may have moved, removed, or changed the format of this file.\n",
+              "Please contact the package maintainer at [your contact/GitHub issues page] ",
+              "to report this issue.\n",
+              "URL: ", url, "\n",
+              "Error: ", e$message
+            ), call. = FALSE)
+            return(NULL)
+          } else {
+            # Re-throw other errors
+            stop(e)
+          }
+        }
       )
+
+      # Skip this iteration if download failed
+      if (is.null(tmp_df)) {
+        next
+      }
 
       # Store the data frame
       event_dfs[[j]] <- tmp_df
     }
+
+    # Check if any data frames were successfully downloaded for this event
+    if (length(event_dfs) == 0 || all(sapply(event_dfs, is.null))) {
+      message(paste0("No data available for `", file_name, "` for ", event, " - all downloads failed."))
+      next  # Skip to the next event
+    }
+
+    # Remove NULL entries from event_dfs
+    event_dfs <- event_dfs[!sapply(event_dfs, is.null)]
 
     # Combine all data frames for this event
     if (length(event_dfs) > 1) {

@@ -82,7 +82,7 @@ Postal vote applications by total,Elections,Statistics,see info spreadsheet,.csv
 Postal vote applications by date,Elections,Statistics,see info spreadsheet,.csv,N,N,N,N,N,N,N,Y,Y,Y,Y,Y,N,N,N,N,Y,Y,Y,Y,Y,Y,N,Y,Y,Y,N,N,N,N,N,N,N,process_pva_date
 Postal vote applications by party,Elections,Statistics,see info spreadsheet,.csv,N,N,N,N,N,N,N,Y,Y,Y,Y,Y,N,N,N,N,Y,Y,Y,Y,Y,Y,N,Y,Y,Y,N,N,N,N,N,N,N,process_pva_party
 Pre-poll votes,Elections,Statistics,see info spreadsheet,.csv,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,N,N,N,Y,Y,Y,Y,Y,Y,N,Y,Y,Y,N,N,N,N,N,N,N,process_ppv
-Votes by SA1,Elections,Statistics,see info spreadsheet,Mixed,N,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,N,N,N,N,N,N,N,N,process_ccd
+Votes by SA1,Elections,Statistics,see info spreadsheet,Mixed,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,Y,N,N,N,N,N,N,N,N,process_ccd
 Overseas,Elections,Statistics,see info spreadsheet,.csv,Y,N,N,Y,N,N,Y,N,N,Y,N,N,N,N,N,N,N,N,N,N,N,N,N,N,Y,N,N,N,N,N,N,N,N,process_overseas
 Informal votes by state,Downloads,Referendum,InformalByState,.csv,N,N,N,Y,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,NA
 Informal votes by division,Downloads,Referendum,InformalByDivision,.csv,N,N,N,Y,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,NA

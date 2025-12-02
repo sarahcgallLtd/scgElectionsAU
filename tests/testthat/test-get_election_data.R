@@ -35,4 +35,12 @@ test_that("test that check_file_exists returns message when date range does not 
   )
 })
 
+# df <- get_election_data(
+#   file_name = "Votes by SA1",
+#   #date_range = list(from = "2023-01-01", to = "2026-01-01"),
+#   type = c("Federal Election", "Referendum"), # Any or All
+#   category = "Statistics",
+#   process = TRUE # OR FALSE
+# )
+
 

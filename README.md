@@ -9,7 +9,7 @@ scgElectionsAU <a href="https://sarahcgallLtd.github.io/scgElectionsAU/"><img sr
 ## Overview
 
 `scgElectionsAU` is an R package providing comprehensive data and tools for analysing Australia’s federal election 
-results from 2004 to 2022. It offers a unique insight into the dynamics of the electoral process in Australia, 
+results from 2004 to 2025. It offers a unique insight into the dynamics of the electoral process in Australia, 
 presented through a variety of datasets and functions.
 
 #### Datasets Included:

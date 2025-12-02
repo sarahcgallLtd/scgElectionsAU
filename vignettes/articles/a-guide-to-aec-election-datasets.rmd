@@ -37,13 +37,13 @@ The AEC provides comprehensive data on Australia’s electoral processes through
 ### The `get_election_data` Function
 The [`get_election_data`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_election_data.html) function retrieves raw AEC data with optional processing, using the internal `aec_elections_index` dataset to map parameters to specific files. It downloads data from the AEC’s website, typically in CSV format. Users can specify the dataset, election type, data category, and time period, with an option to disable processing for raw outputs. When retrieving data for multiple elections, the function combines data into a single data frame, with an event column distinguishing each election, facilitating longitudinal analysis.
 
-| Parameter | Description | Default | Valid Options |
-| --------- | ----------- | ------- | ------------- |
-| `file_name` | Name of the AEC dataset (e.g., “National list of candidates”). Must match `aec_elections_index` entries. | None | See dataset descriptions below |
-| `type` | Type of electoral event. | "Federal Election" | “Federal Election”, “By-Election”, “Referendum” |
-| `category` | Data subset (e.g., House, Senate). | "House" | House”, “Senate”, “Referendum”, “General”, “Statistics” |
-| `date_range` | List with from and to dates (YYYY-MM-DD). | list(from = "2022-01-01", to = "2025-01-01") | Any valid date range |
-| `process` | Logical; applies processing (e.g., standardising columns). | `TRUE` | `TRUE`, `FALSE` |
+| Parameter    | Description                                                                                              | Default                                      | Valid Options                                           |
+|--------------|----------------------------------------------------------------------------------------------------------|----------------------------------------------|---------------------------------------------------------|
+| `file_name`  | Name of the AEC dataset (e.g., “National list of candidates”). Must match `aec_elections_index` entries. | None                                         | See dataset descriptions below                          |
+| `type`       | Type of electoral event.                                                                                 | "Federal Election"                           | “Federal Election”, “By-Election”, “Referendum”         |
+| `category`   | Data subset (e.g., House, Senate).                                                                       | "House"                                      | House”, “Senate”, “Referendum”, “General”, “Statistics” |
+| `date_range` | List with from and to dates (YYYY-MM-DD).                                                                | list(from = "2022-01-01", to = "2025-01-01") | Any valid date range                                    |
+| `process`    | Logical; applies processing (e.g., standardising columns).                                               | `TRUE`                                       | `TRUE`, `FALSE`                                         |
 
 #### Dataset Categories
 The datasets are organised into categories:
@@ -86,7 +86,7 @@ NB. There is no consistent pattern in when candidates retain their candidate ID 
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "National list of candidates",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   type = c("Federal Election", "By-Election"), # Any or All for House only. Default option for Senate (Federal Election).
   category = "House", # OR "Senate"
 )
@@ -98,9 +98,9 @@ df <- get_election_data(
 # Sample data (hidden execution)
 national_list_of_candidates <- suppressMessages(
   get_election_data(file_name = "National list of candidates",
-  date_range = list(from = "2024-04-13", to = "2024-06-13"),
-  type = c("By-Election")
-))
+                    date_range = list(from = "2024-04-13", to = "2024-06-13"),
+                    type = c("By-Election")
+  ))
 
 # Select the first row for display
 first_row <- national_list_of_candidates[1,]
@@ -133,7 +133,7 @@ This dataset enables you to:
 # Example usage
 df <- get_election_data(
   file_name = "Members elected",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -192,7 +192,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Nominations by state",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -217,7 +217,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Nominations by state",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "Senate"
 )
 ```
@@ -249,7 +249,7 @@ Covering elections from `2011` to the present, these datasets are available for 
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Nominations by division",
-  date_range = list(from = "2011-01-01", to = "2025-01-01"),
+  date_range = list(from = "2011-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -278,7 +278,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Nominations by gender",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House" # OR "Senate"
 )
 ```
@@ -317,7 +317,7 @@ No additional processing is required for the `Senate`, as the data are already s
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Party representation",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House",
   process = TRUE # OR FALSE
 )
@@ -343,7 +343,7 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Party representation",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "Senate"
 )
 ```
@@ -378,7 +378,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Seats that changed hands",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -412,7 +412,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Seats decided on first preferences",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -444,7 +444,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Seats decided on preferences",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -481,7 +481,7 @@ Covering elections from `2010` to the present, these datasets are available for 
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Non-classic divisions",
-  date_range = list(from = "2010-01-01", to = "2025-01-01"),
+  date_range = list(from = "2010-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -519,7 +519,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "First preferences by party",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -547,7 +547,7 @@ The `First preferences by state by party` dataset further breaks down the above 
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "First preferences by state by party",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -584,7 +584,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "First preferences by group by vote type",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "Senate",
   process = TRUE # OR FALSE
 )
@@ -613,7 +613,7 @@ The `First preferences by state by group by vote type` dataset further breaks do
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "First preferences by state by group by vote type",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "Senate",
   process = TRUE # OR FALSE
 )
@@ -654,7 +654,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "First preferences by candidate by vote type",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House",
   process = TRUE # OR FALSE
 )
@@ -689,7 +689,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "First preferences by division by vote type",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "Senate"
 )
 ```
@@ -717,7 +717,7 @@ The state-level version of this `Senate` dataset is also available by calling `F
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "First preferences by state by vote type",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "Senate",
   process = TRUE # OR FALSE
 )
@@ -767,7 +767,7 @@ Covering elections from `2004` to the present, these datasets are available for 
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "First preferences by candidate by polling place",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   type = c("Federal Election", "By-Election") # Any or All
 )
 ```
@@ -803,7 +803,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Two party preferred by state",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -830,7 +830,7 @@ The `Two party preferred by division` dataset further breaks down the above figu
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Two party preferred by division",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -869,7 +869,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Two party preferred by division by vote type",
-  date_range = list(from = "2016-01-01", to = "2025-01-01"),
+  date_range = list(from = "2016-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -897,7 +897,7 @@ The `Two party preferred by polling place` dataset further breaks down the above
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Two party preferred by polling place",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   type = c("Federal Election", "By-Election"), # Any or All
   category = "House"
 )
@@ -939,7 +939,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Two candidate preferred by candidate by vote type",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House",
   process = TRUE # OR FALSE
 )
@@ -979,7 +979,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Two candidate preferred by candidate by polling place",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   type = c("Federal Election", "By-Election"), # Any or All
   category = "House",
   process = TRUE # OR FALSE
@@ -1020,7 +1020,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Distribution of preferences by candidate by division",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House",
   process = TRUE # OR FALSE
 )
@@ -1060,7 +1060,7 @@ The `Distribution of preferences by polling place` dataset further breaks down t
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Distribution of preferences by polling place",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   type = c("Federal Election", "By-Election"), # Any or All
   category = "House",
   process = TRUE # OR FALSE
@@ -1098,7 +1098,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Two party preferred flow of preferences by party",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -1126,7 +1126,7 @@ The `Two party preferred flow of preferences by state by party` dataset further 
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Two party preferred flow of preferences by state by party",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -1161,7 +1161,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Two candidate preferred flow of preferences by party",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -1199,7 +1199,7 @@ The `Two candidate preferred flow of preferences by state by party` dataset furt
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Two candidate preferred flow of preferences by state by party",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -1235,7 +1235,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Two candidate preferred flow of preferences by candidate by division",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "House"
 )
 ```
@@ -1263,7 +1263,7 @@ The `Two candidate preferred flow of preferences by polling place` dataset furth
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Two candidate preferred flow of preferences by polling place",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   type = c("Federal Election", "By-Election"),
   category = "House"
 )
@@ -1302,7 +1302,7 @@ Covering elections from `2004` to the present, this dataset is available for bot
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Informal votes by state",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   # type = "Referendum", (for Referendum)
   category = "House" # OR "Senate" OR "Referendum"
 )
@@ -1331,7 +1331,7 @@ The `Informal votes by division` dataset further breaks down the above figures b
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Informal votes by division",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   # type = "Referendum", (for Referendum)
   category = "House" # OR "Senate" OR "Referendum"
 )
@@ -1368,7 +1368,7 @@ Covering elections from `2004` to the present, this dataset is available for bot
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Turnout by state",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   # type = "Referendum", (for Referendum)
   category = "House" # OR "Senate" OR "Referendum"
 )
@@ -1397,7 +1397,7 @@ The `Turnout by division` dataset further breaks down the above figures by divis
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Turnout by division",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   # type = "Referendum", (for Referendum)
   category = "House" # OR "Senate" OR "Referendum"
 )
@@ -1434,7 +1434,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Votes by state",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   # type = "Referendum", (for Referendum)
   category = "House" # OR "Senate" OR "Referendum"
 )
@@ -1463,7 +1463,7 @@ The `Votes by division` dataset further breaks down the above figures by divisio
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Votes by division",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   # type = "Referendum", (for Referendum)
   category = "House" # OR "Senate" OR "Referendum"
 )
@@ -1492,7 +1492,7 @@ The `Votes by polling place` dataset further breaks down the above figures by di
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Votes by polling place",
-  date_range = list(from = "2022-01-01", to = "2025-01-01"),
+  date_range = list(from = "2022-01-01", to = "2026-01-01"),
   type = "Referendum",
   category = "Referendum"
 )
@@ -1503,8 +1503,8 @@ df <- get_election_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_election_data(file_name = "Votes by polling place",
-               type = "Referendum",
-               category = "Referendum")
+                    type = "Referendum",
+                    category = "Referendum")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1530,7 +1530,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Political parties",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   category = "General"
 )
 ```
@@ -1540,7 +1540,7 @@ df <- get_election_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_election_data(file_name = "Political parties",
-               category = "General")
+                    category = "General")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1569,7 +1569,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Polling places",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   type = c("Federal Election", "Referendum", "By-Election"), # Any or All
   category = "General",
   process = TRUE # OR FALSE
@@ -1581,7 +1581,7 @@ df <- get_election_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_election_data(file_name = "Polling places",
-               category = "General")
+                    category = "General")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1607,7 +1607,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Enrolment by state",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   type = c("Federal Election", "Referendum"), # Any or All
   category = "General"
 )
@@ -1618,7 +1618,7 @@ df <- get_election_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_election_data(file_name = "Enrolment by state",
-               category = "General")
+                    category = "General")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1637,7 +1637,7 @@ The `Enrolment by division` dataset further breaks down the above figures by div
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Enrolment by division",
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   type = c("Federal Election", "Referendum"), # Any or All
   category = "General"
 )
@@ -1648,7 +1648,7 @@ df <- get_election_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_election_data(file_name = "Enrolment by division",
-               category = "General")
+                    category = "General")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1673,7 +1673,7 @@ Covering elections from `2004` to the present, this dataset is available for the
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Declaration votes issued by state", # OR Declaration votes received by state
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   type = c("Federal Election", "Referendum"), # Any or All
   category = "General"
 )
@@ -1684,7 +1684,7 @@ df <- get_election_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_election_data(file_name = "Declaration votes issued by state",
-               category = "General")
+                    category = "General")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1703,7 +1703,7 @@ The `Declaration votes issued by division` and `Declaration votes received by di
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Declaration votes issued by division", # OR Declaration votes received by division
-  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
   type = c("Federal Election", "Referendum"), # Any or All
   category = "General"
 )
@@ -1714,7 +1714,7 @@ df <- get_election_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_election_data(file_name = "Declaration votes issued by division",
-               category = "General")
+                    category = "General")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1741,7 +1741,7 @@ Covering the`2022` election only, this dataset is available for the `Statistics`
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Postal vote applications by total",
-  date_range = list(from = "2022-01-01", to = "2025-01-01"),
+  date_range = list(from = "2022-01-01", to = "2026-01-01"),
   type = c("Federal Election", "Referendum", "By-Election"), # Any or All
   category = "Statistics"
 )
@@ -1752,8 +1752,8 @@ df <- get_election_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_election_data(file_name = "Postal vote applications by total",
-               date_range = list(from = "2022-01-01", to = "2025-01-01"),
-               category = "Statistics")
+                    date_range = list(from = "2022-01-01", to = "2026-01-01"),
+                    category = "Statistics")
 )
 
 # Selecting only the first row and keeping all columns
@@ -1795,8 +1795,8 @@ df <- get_election_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_election_data(file_name = "Postal vote applications by date",
-               date_range = list(from = "2019-01-01", to = "2022-01-01"),
-               category = "Statistics", process = TRUE)
+                    date_range = list(from = "2019-01-01", to = "2022-01-01"),
+                    category = "Statistics", process = TRUE)
 )
 
 # Selecting only the first row and keeping all columns
@@ -1838,8 +1838,8 @@ df <- get_election_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_election_data(file_name = "Postal vote applications by party",
-               date_range = list(from = "2019-01-01", to = "2022-01-01"),
-               category = "Statistics", process = TRUE)
+                    date_range = list(from = "2019-01-01", to = "2022-01-01"),
+                    category = "Statistics", process = TRUE)
 )
 
 # Selecting only the first row and keeping all columns
@@ -1858,7 +1858,7 @@ The `Pre-poll votes` dataset provides a summary of the number of prepoll votes i
 - the date the pre-poll vote was issued (`IssueDate`).
 - the total number of prepoll votes issued (`TotalPPVs`).
 
-Covering elections from `2010` to `2019`, this dataset is available for the `Statistics` category. The dataset is processed in the following way, using the [`process_ppv()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_ppv.html) function:
+Covering elections from `2010` to present, this dataset is available for the `Statistics` category. The dataset is processed in the following way, using the [`process_ppv()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_ppv.html) function:
 
 - column names are standardised.
 - the date columns are pivoted from wide to long and converted into a date format for ease of comparison across years.
@@ -1868,7 +1868,7 @@ Covering elections from `2010` to `2019`, this dataset is available for the `Sta
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Pre-poll votes",
-  date_range = list(from = "2010-01-01", to = "2022-01-01"),
+  date_range = list(from = "2010-01-01", to = "2026-01-01"),
   type = c("Federal Election", "Referendum", "By-Election"), # Any or All
   category = "Statistics",
   process = TRUE # OR FALSE
@@ -1880,8 +1880,7 @@ df <- get_election_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_election_data(file_name = "Pre-poll votes",
-               date_range = list(from = "2019-01-01", to = "2022-01-01"),
-               category = "Statistics", process = TRUE)
+                    category = "Statistics", process = TRUE)
 )
 
 # Selecting only the first row and keeping all columns
@@ -1908,7 +1907,7 @@ Covering elections from `2013` to present, this dataset is available for the `St
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Votes by SA1",
-  date_range = list(from = "2013-01-01", to = "2025-01-01"),
+  date_range = list(from = "2013-01-01", to = "2026-01-01"),
   type = c("Federal Election", "Referendum"), # Any or All
   category = "Statistics",
   process = TRUE # OR FALSE
@@ -1920,8 +1919,7 @@ df <- get_election_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_election_data(file_name = "Votes by SA1",
-               date_range = list(from = "2019-01-01", to = "2022-01-01"),
-               category = "Statistics", process = TRUE)
+                    category = "Statistics", process = TRUE)
 )
 
 # Selecting only the first row and keeping all columns
@@ -1950,7 +1948,7 @@ Covering elections from `2013` to present, this dataset is available for the `St
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Overseas",
-  date_range = list(from = "2013-01-01", to = "2025-01-01"),
+  date_range = list(from = "2013-01-01", to = "2026-01-01"),
   type = c("Federal Election", "Referendum"), # Any or All
   category = "Statistics",
   process = TRUE # OR FALSE
@@ -1962,8 +1960,7 @@ df <- get_election_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_election_data(file_name = "Overseas",
-               date_range = list(from = "2019-01-01", to = "2022-01-01"),
-               category = "Statistics", process = TRUE)
+                    category = "Statistics", process = TRUE)
 )
 
 # Selecting only the first row and keeping all columns

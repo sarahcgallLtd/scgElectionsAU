@@ -78,7 +78,7 @@
 #' @export
 process_ccd <- function(data, event) {
   if (event %in% c("2013 Federal Election", "2016 Federal Election", "2019 Federal Election",
-                   "2022 Federal Election", "2023 Referendum")) {
+                   "2022 Federal Election", "2023 Referendum", "2025 Federal Election")) {
     message(paste0("Processing `", event, "` data to ensure all columns align across all elections."))
 
     # Base renaming for all years
@@ -100,7 +100,7 @@ process_ccd <- function(data, event) {
       # Rename  columns
       data <- rename_cols(data, StatisticalAreaID = "SA1_id", Count = "votes")
 
-    } else if (event %in% c("2022 Federal Election","2023 Referendum")) {
+    } else if (event %in% c("2022 Federal Election","2023 Referendum","2025 Federal Election")) {
       # Rename  columns
       data <- rename_cols(data, StatisticalAreaID = "ccd_id", Count = "votes")
 
