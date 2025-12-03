@@ -7,3 +7,6 @@
 /.idea
 docs
 *.html
+.claude
+CLAUDE.md
+nul

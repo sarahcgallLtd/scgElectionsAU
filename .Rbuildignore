@@ -10,3 +10,5 @@
 ^inst/extdata/
 ^rPackageTemplate\.Rproj$
 ^\.Rproj\.user$
+^\.claude$
+^CLAUDE\.md$
