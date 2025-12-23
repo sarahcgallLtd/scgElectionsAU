@@ -6,12 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>A Guide to the ABS's Boundary Datasets • scgElectionsAU</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
@@ -41,9 +40,9 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/a-guide-to-aec-election-datasets.html">A Guide to the AEC's Election Datasets</a></li>
-    <li><a class="dropdown-item" href="../articles/a-guide-to-aec-disclosure-datasets.html">A Guide to the AEC's Disclosure Datasets</a></li>
-    <li><a class="dropdown-item" href="../articles/a-guide-to-abs-boundary-datasets.html">A Guide to the ABS's Boundary Datasets</a></li>
+<li><a class="dropdown-item" href="../articles/preparing-aec-election-results.html">Preparing Election Results</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/index.html">More articles...</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -52,7 +51,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/sarahcgall/scgElectionsAU/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/sarahcgallLtd/scgElectionsAU/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -68,7 +67,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>A Guide to the ABS's Boundary Datasets</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/sarahcgall/scgElectionsAU/blob/main/vignettes/articles/a-guide-to-abs-boundary-datasets.rmd" class="external-link"><code>vignettes/articles/a-guide-to-abs-boundary-datasets.rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sarahcgallLtd/scgElectionsAU/blob/main/vignettes/articles/a-guide-to-abs-boundary-datasets.rmd" class="external-link"><code>vignettes/articles/a-guide-to-abs-boundary-datasets.rmd</code></a></small>
       <div class="d-none name"><code>a-guide-to-abs-boundary-datasets.rmd</code></div>
     </div>
 
@@ -83,8 +82,9 @@
     margin-bottom: 40px;
   }
 </style>
-<p><br> This guide explores the <a href="https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_boundary_data.html"><code>get_boundary_data</code></a>
-function. The function simplifies retrieving boundary datasets from the
+<p><br> This guide explores the <a href="https://docs.sarahcgallLtd.co.uk/scgElectionsAU/reference/get_boundary_data.html" class="external-link"><code>get_boundary_data</code></a>
+and <a href="https://docs.sarahcgallLtd.co.uk/scgElectionsAU/reference/prepare_boundaries.html" class="external-link"><code>prepare_boundaries</code></a>
+function. These functions simplify retrieving boundary datasets from the
 Australian Bureau of Statistics (ABS) including correspondence tables
 and allocation files with specific boundary types like Commonwealth
 Electoral Divisions (CED), State Electoral Divisions (SED), and Postal
@@ -139,10 +139,10 @@ aligning AEC election data, often provided at the SA1 level, with
 electoral boundaries that may be defined using MBs or other units.</p>
 <table class="table">
 <colgroup>
-<col width="24%">
-<col width="26%">
-<col width="17%">
-<col width="31%">
+<col width="8%">
+<col width="22%">
+<col width="10%">
+<col width="58%">
 </colgroup>
 <thead><tr class="header">
 <th>Parameters</th>
@@ -796,9 +796,9 @@ tables for consistency with AEC data.</p>
 <p><strong><em>CED Release Notes:</em></strong></p>
 <table class="table">
 <colgroup>
-<col width="17%">
-<col width="52%">
-<col width="30%">
+<col width="2%">
+<col width="7%">
+<col width="90%">
 </colgroup>
 <thead><tr class="header">
 <th>Year</th>
@@ -1368,6 +1368,879 @@ AREA_ALBERS_SQKM
 </div>
 </div>
 </div>
+<div class="section level2">
+<h2 id="the-prepare_boundaries-function">The <code>prepare_boundaries</code> Function<a class="anchor" aria-label="anchor" href="#the-prepare_boundaries-function"></a>
+</h2>
+<p>While <code>get_boundary_data</code> retrieves individual ABS
+boundary files, the <code>prepare_boundaries</code> function automates
+the complex process of building correspondence tables between election
+events and target boundaries. It handles:</p>
+<ul>
+<li>Chaining multiple correspondence files across ASGS editions</li>
+<li>Merging with allocation tables for CED, POA, or SA1 targets</li>
+<li>Applying redistribution adjustments for recent elections (Vic/WA
+2021, NT 2024)</li>
+</ul>
+<p>This function is essential for comparing election results across
+different boundary configurations or linking election data to Census
+demographics.</p>
+<table class="table">
+<colgroup>
+<col width="6%">
+<col width="21%">
+<col width="10%">
+<col width="61%">
+</colgroup>
+<thead><tr class="header">
+<th>Parameters</th>
+<th>Description</th>
+<th>Default</th>
+<th>Valid Options</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>event</code></td>
+<td>Source election whose results you want to re-map</td>
+<td>“2025 Federal Election”</td>
+<td>“2025 Federal Election”, “2023 Referendum”, “2022 Federal Election”,
+“2019 Federal Election”, “2016 Federal Election”, “2013 Federal
+Election”</td>
+</tr>
+<tr class="even">
+<td><code>compare_to</code></td>
+<td>Target boundaries to map to</td>
+<td>“2025 Federal Election”</td>
+<td>Elections, Census SA1s, or Postcodes (see below)</td>
+</tr>
+<tr class="odd">
+<td><code>process</code></td>
+<td>Remove geographic units with invalid ratios</td>
+<td>TRUE</td>
+<td>TRUE, FALSE</td>
+</tr>
+</tbody>
+</table>
+<div class="section level4">
+<h4 id="source-event-base-geographies">Source Event Base Geographies<a class="anchor" aria-label="anchor" href="#source-event-base-geographies"></a>
+</h4>
+<p>Each election event uses a specific ABS geographic base for its
+SA1/CD-level results:</p>
+<table class="table">
+<colgroup>
+<col width="28%">
+<col width="47%">
+<col width="23%">
+</colgroup>
+<thead><tr class="header">
+<th>Event</th>
+<th>Base Geography</th>
+<th>Notes</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>2013 Federal Election</td>
+<td>2006 Census Collector Districts (CD)</td>
+<td>Pre-SA1 geography</td>
+</tr>
+<tr class="even">
+<td>2016 Federal Election</td>
+<td>2011 SA1</td>
+<td>ASGS Edition 1</td>
+</tr>
+<tr class="odd">
+<td>2019 Federal Election</td>
+<td>2016 SA1</td>
+<td>ASGS Edition 2</td>
+</tr>
+<tr class="even">
+<td>2022 Federal Election</td>
+<td>2016 SA1</td>
+<td>ASGS Edition 2</td>
+</tr>
+<tr class="odd">
+<td>2023 Referendum</td>
+<td>2016 SA1</td>
+<td>ASGS Edition 2</td>
+</tr>
+<tr class="even">
+<td>2025 Federal Election</td>
+<td>2021 SA1</td>
+<td>ASGS Edition 3</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level4">
+<h4 id="valid-target-options">Valid Target Options<a class="anchor" aria-label="anchor" href="#valid-target-options"></a>
+</h4>
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="9%">
+<col width="63%">
+<col width="27%">
+</colgroup>
+<thead><tr class="header">
+<th>Target Type</th>
+<th>Options</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Federal Elections</td>
+<td>“2013 Federal Election”, “2016 Federal Election”, “2019 Federal
+Election”, “2022 Federal Election”, “2025 Federal Election”</td>
+<td>Maps to CED boundaries used for that election</td>
+</tr>
+<tr class="even">
+<td>Referendum</td>
+<td>“2023 Referendum”</td>
+<td>Maps to CED boundaries used for the Voice referendum</td>
+</tr>
+<tr class="odd">
+<td>Census SA1</td>
+<td>“2011 Census”, “2016 Census”, “2021 Census”</td>
+<td>Maps to SA1 boundaries for that Census year</td>
+</tr>
+<tr class="even">
+<td>Postcodes</td>
+<td>“2011 Postcodes”, “2016 Postcodes”, “2021 Postcodes”</td>
+<td>Maps to Postal Areas (POA) for that year</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Important:</strong> You cannot map an event to boundaries
+from an earlier ASGS edition. For example, you cannot map the 2025
+Federal Election (SA1 2021) to 2016 Census boundaries.</p>
+<p><br></p>
+</div>
+<div class="section level3">
+<h3 id="use-case-1-comparing-elections-over-time">Use Case 1: Comparing Elections Over Time<a class="anchor" aria-label="anchor" href="#use-case-1-comparing-elections-over-time"></a>
+</h3>
+<p>The most common use case is comparing election results across
+different elections, which requires mapping historical results to
+current boundaries (or vice versa).</p>
+<div class="section level4">
+<h4 id="mapping-to-current-2025-boundaries">Mapping to Current (2025) Boundaries<a class="anchor" aria-label="anchor" href="#mapping-to-current-2025-boundaries"></a>
+</h4>
+<p>To analyse how voting patterns have changed over time using
+consistent 2025 electoral boundaries:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_boundaries.html">prepare_boundaries</a></span><span class="op">(</span></span>
+<span>  event <span class="op">=</span> <span class="st">"2022 Federal Election"</span>, <span class="co"># OR "2019 Federal Election", "2016 Federal Election", "2013 Federal Election", "2023 Referendum"</span></span>
+<span>  compare_to <span class="op">=</span> <span class="st">"2025 Federal Election"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+SA1_CODE_2021
+</th>
+<th style="text-align:right;">
+SA1_MAINCODE_2016
+</th>
+<th style="text-align:right;">
+RATIO_16SA1_21SA1
+</th>
+<th style="text-align:left;">
+SA1_7DIGITCODE_2016
+</th>
+<th style="text-align:left;">
+CED_NAME_2024
+</th>
+<th style="text-align:left;">
+SA1_7DIGITCODE_2021
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+10102100701
+</td>
+<td style="text-align:right;">
+10102100701
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+1100701
+</td>
+<td style="text-align:left;">
+Eden-Monaro
+</td>
+<td style="text-align:left;">
+1100701
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10102100702
+</td>
+<td style="text-align:right;">
+10102100702
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+1100702
+</td>
+<td style="text-align:left;">
+Eden-Monaro
+</td>
+<td style="text-align:left;">
+1100702
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10102100703
+</td>
+<td style="text-align:right;">
+10102100703
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+1100703
+</td>
+<td style="text-align:left;">
+Eden-Monaro
+</td>
+<td style="text-align:left;">
+1100703
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>Use cases:</em></p>
+<ul>
+<li>Compare election results from any previous election using the same
+2025 electoral boundaries</li>
+<li>Track voting trends across multiple elections (e.g., 2019, 2022,
+2025) on consistent boundaries</li>
+<li>Analyse relationship between Voice referendum voting and 2025
+election results</li>
+<li>Long-term trend analysis from 2013 to 2025 (chains through CD 2006 →
+SA1 2011 → SA1 2016 → SA1 2021)</li>
+</ul>
+</div>
+<div class="section level4">
+<h4 id="mapping-to-historical-boundaries-2022-and-earlier">Mapping to Historical Boundaries (2022 and earlier)<a class="anchor" aria-label="anchor" href="#mapping-to-historical-boundaries-2022-and-earlier"></a>
+</h4>
+<p>These mappings are useful for historical research, redistribution
+impact studies, or aligning with data published using older boundary
+definitions.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_boundaries.html">prepare_boundaries</a></span><span class="op">(</span></span>
+<span>  event <span class="op">=</span> <span class="st">"2016 Federal Election"</span>, <span class="co"># OR "2013 Federal Election"</span></span>
+<span>  compare_to <span class="op">=</span> <span class="st">"2022 Federal Election"</span> <span class="co"># OR "2023 Referendum", "2019 Federal Election", "2016 Federal Election", "2013 Federal Election"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:right;">
+SA1_MAINCODE_2016
+</th>
+<th style="text-align:left;">
+SA1_7DIGITCODE_2016
+</th>
+<th style="text-align:left;">
+SA1_MAINCODE_2011
+</th>
+<th style="text-align:right;">
+SA1_7DIGITCODE_2011
+</th>
+<th style="text-align:right;">
+RATIO_11SA1_16SA1
+</th>
+<th style="text-align:left;">
+CED_NAME_2018
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+10102100701
+</td>
+<td style="text-align:left;">
+1100701
+</td>
+<td style="text-align:left;">
+10102100701
+</td>
+<td style="text-align:right;">
+1100701
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:left;">
+Hume
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10102100702
+</td>
+<td style="text-align:left;">
+1100702
+</td>
+<td style="text-align:left;">
+10102100702
+</td>
+<td style="text-align:right;">
+1100702
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:left;">
+Eden-Monaro
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10102100702
+</td>
+<td style="text-align:left;">
+1100702
+</td>
+<td style="text-align:left;">
+10102100710
+</td>
+<td style="text-align:right;">
+1100710
+</td>
+<td style="text-align:right;">
+0.0062026
+</td>
+<td style="text-align:left;">
+Eden-Monaro
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>Use cases:</em></p>
+<ul>
+<li>
+<strong>Historical research:</strong> Analyse elections in their
+original boundary context for academic studies</li>
+<li>
+<strong>Census alignment:</strong> Link to Census data published
+with period-specific CED approximations</li>
+<li>
+<strong>Redistribution impact analysis:</strong> Compare how votes
+would count under old vs new boundaries</li>
+<li>
+<strong>Media archives:</strong> Recreate historical election maps
+or validate old publications</li>
+<li>
+<strong>State election comparisons:</strong> Align federal results
+with state electoral boundaries from the same era</li>
+</ul>
+<p><em>Notes:</em></p>
+<ul>
+<li>The 2022 election and 2023 referendum used identical boundaries
+(2021 CEDs with Vic/WA adjustments)</li>
+<li>See the Valid Combinations Reference table below for all supported
+event/boundary combinations</li>
+</ul>
+<p><br></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="use-case-2-linking-to-census-demographics">Use Case 2: Linking to Census Demographics<a class="anchor" aria-label="anchor" href="#use-case-2-linking-to-census-demographics"></a>
+</h3>
+<p>Map election results to Census SA1 boundaries to analyse voting
+patterns alongside demographic data like income, education, or age
+profiles.</p>
+<div class="section level4">
+<h4 id="mapping-to-current-2021-census">Mapping to Current (2021) Census<a class="anchor" aria-label="anchor" href="#mapping-to-current-2021-census"></a>
+</h4>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_boundaries.html">prepare_boundaries</a></span><span class="op">(</span></span>
+<span>  event <span class="op">=</span> <span class="st">"2022 Federal Election"</span>, <span class="co"># OR "2025 Federal Election", "2019 Federal Election", "2016 Federal Election", "2013 Federal Election"</span></span>
+<span>  compare_to <span class="op">=</span> <span class="st">"2021 Census"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:right;">
+SA1_MAINCODE_2016
+</th>
+<th style="text-align:left;">
+SA1_CODE_2021
+</th>
+<th style="text-align:right;">
+RATIO_16SA1_21SA1
+</th>
+<th style="text-align:left;">
+SA1_7DIGITCODE_2016
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+10102100701
+</td>
+<td style="text-align:left;">
+10102100701
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+1100701
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10102100702
+</td>
+<td style="text-align:left;">
+10102100702
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+1100702
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10102100703
+</td>
+<td style="text-align:left;">
+10102100703
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+1100703
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>Use cases:</em></p>
+<ul>
+<li>Link any election results to current Census demographics (income,
+education, age profiles, etc.)</li>
+<li>2025 election results already use 2021 SA1s (direct mapping)</li>
+<li>Earlier elections require correspondence chains (e.g., 2013 chains
+through CD 2006 → SA1 2011 → SA1 2016 → SA1 2021)</li>
+</ul>
+</div>
+<div class="section level4">
+<h4 id="mapping-to-historical-census-20162011">Mapping to Historical Census (2016/2011)<a class="anchor" aria-label="anchor" href="#mapping-to-historical-census-20162011"></a>
+</h4>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_boundaries.html">prepare_boundaries</a></span><span class="op">(</span></span>
+<span>  event <span class="op">=</span> <span class="st">"2019 Federal Election"</span>, <span class="co"># OR "2022 Federal Election", "2016 Federal Election", "2013 Federal Election"</span></span>
+<span>  compare_to <span class="op">=</span> <span class="st">"2016 Census"</span> <span class="co"># OR "2011 Census"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:right;">
+SA1_MAINCODE_2016
+</th>
+<th style="text-align:right;">
+SA1_7DIGITCODE_2016
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+10102100701
+</td>
+<td style="text-align:right;">
+1100701
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10102100702
+</td>
+<td style="text-align:right;">
+1100702
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10102100703
+</td>
+<td style="text-align:right;">
+1100703
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>Use cases:</em></p>
+<ul>
+<li>
+<strong>Period-matched analysis:</strong> Link elections to the
+Census closest in time (e.g., 2019 election with 2016 Census
+demographics)</li>
+<li>
+<strong>Longitudinal studies:</strong> Track demographic shifts by
+comparing elections against their contemporaneous Census</li>
+<li>
+<strong>Historical research:</strong> Reproduce analyses as they
+would have been done at the time</li>
+<li>
+<strong>Direct mappings:</strong> 2019/2022 elections already use
+2016 SA1s; 2016 election uses 2011 SA1s</li>
+</ul>
+<p><em>Note:</em> Cannot map 2025 election to 2016/2011 Census (earlier
+ASGS editions). See Valid Combinations Reference table below.</p>
+<p><br></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="use-case-3-mapping-to-postcodes">Use Case 3: Mapping to Postcodes<a class="anchor" aria-label="anchor" href="#use-case-3-mapping-to-postcodes"></a>
+</h3>
+<p>Map election results to Postal Areas (POA) for campaign targeting,
+social media analysis, or linking to postcode-based datasets.</p>
+<div class="section level4">
+<h4 id="mapping-to-current-2021-postcodes">Mapping to Current (2021) Postcodes<a class="anchor" aria-label="anchor" href="#mapping-to-current-2021-postcodes"></a>
+</h4>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_boundaries.html">prepare_boundaries</a></span><span class="op">(</span></span>
+<span>  event <span class="op">=</span> <span class="st">"2022 Federal Election"</span>, <span class="co"># OR "2025 Federal Election", "2019 Federal Election", "2016 Federal Election", "2013 Federal Election"</span></span>
+<span>  compare_to <span class="op">=</span> <span class="st">"2021 Postcodes"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:left;">
+SA1_CODE_2021
+</th>
+<th style="text-align:right;">
+SA1_MAINCODE_2016
+</th>
+<th style="text-align:right;">
+RATIO_16SA1_21SA1
+</th>
+<th style="text-align:left;">
+SA1_7DIGITCODE_2016
+</th>
+<th style="text-align:left;">
+POA_NAME_2021
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+10102100701
+</td>
+<td style="text-align:right;">
+10102100701
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+1100701
+</td>
+<td style="text-align:left;">
+2580
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10102100702
+</td>
+<td style="text-align:right;">
+10102100702
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+1100702
+</td>
+<td style="text-align:left;">
+2622
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10102100703
+</td>
+<td style="text-align:right;">
+10102100703
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+1100703
+</td>
+<td style="text-align:left;">
+2622
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>Use cases:</em></p>
+<ul>
+<li>
+<strong>Campaign targeting:</strong> Convert election results to
+postcodes for direct mail or advertising campaigns</li>
+<li>
+<strong>Social media analysis:</strong> Link voting patterns to
+postcode-based social media demographics</li>
+<li>
+<strong>Commercial data integration:</strong> Join election results
+with postcode-based datasets (e.g., consumer behaviour, property
+data)</li>
+<li>
+<strong>Service planning:</strong> Analyse voting patterns by
+postcode for government or NGO service delivery planning</li>
+</ul>
+</div>
+<div class="section level4">
+<h4 id="mapping-to-historical-postcodes-20162011">Mapping to Historical Postcodes (2016/2011)<a class="anchor" aria-label="anchor" href="#mapping-to-historical-postcodes-20162011"></a>
+</h4>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_boundaries.html">prepare_boundaries</a></span><span class="op">(</span></span>
+<span>  event <span class="op">=</span> <span class="st">"2016 Federal Election"</span>, <span class="co"># OR "2019 Federal Election", "2013 Federal Election"</span></span>
+<span>  compare_to <span class="op">=</span> <span class="st">"2016 Postcodes"</span> <span class="co"># OR "2011 Postcodes"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<table class="table table table-bordered">
+<thead><tr>
+<th style="text-align:right;">
+SA1_MAINCODE_2016
+</th>
+<th style="text-align:left;">
+SA1_MAINCODE_2011
+</th>
+<th style="text-align:right;">
+SA1_7DIGITCODE_2011
+</th>
+<th style="text-align:right;">
+SA1_7DIGITCODE_2016
+</th>
+<th style="text-align:right;">
+RATIO_11SA1_16SA1
+</th>
+<th style="text-align:left;">
+POA_NAME_2016
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+10102100701
+</td>
+<td style="text-align:left;">
+10102100701
+</td>
+<td style="text-align:right;">
+1100701
+</td>
+<td style="text-align:right;">
+1100701
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+2580
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10102100701
+</td>
+<td style="text-align:left;">
+10102100701
+</td>
+<td style="text-align:right;">
+1100701
+</td>
+<td style="text-align:right;">
+1100701
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+2622
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10102100702
+</td>
+<td style="text-align:left;">
+10102100702
+</td>
+<td style="text-align:right;">
+1100702
+</td>
+<td style="text-align:right;">
+1100702
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+2622
+</td>
+</tr>
+</tbody>
+</table>
+<p><em>Use cases:</em></p>
+<ul>
+<li>
+<strong>Historical commercial data:</strong> Link elections to
+postcode-based datasets from that period</li>
+<li>
+<strong>Postcode boundary changes:</strong> Some postcodes have been
+split, merged, or renamed over time</li>
+<li>
+<strong>Archival research:</strong> Reproduce analyses using
+postcode definitions as they existed at the time</li>
+</ul>
+<p><em>Note:</em> Cannot map 2025 election to 2016/2011 Postcodes
+(earlier ASGS editions). See Valid Combinations Reference table
+below.</p>
+<p><br></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="valid-combinations-reference">Valid Combinations Reference<a class="anchor" aria-label="anchor" href="#valid-combinations-reference"></a>
+</h3>
+<p>The following table summarises all valid <code>event</code> and
+<code>compare_to</code> combinations. An ✓ indicates a valid
+combination; an ✗ indicates the combination is not supported (typically
+because it would require mapping to an earlier ASGS edition).</p>
+<table class="table">
+<colgroup>
+<col width="14%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="9%">
+<col width="7%">
+<col width="6%">
+<col width="6%">
+<col width="6%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+</colgroup>
+<thead><tr class="header">
+<th>Event ↓ / Compare to →</th>
+<th align="center">2013 Election</th>
+<th align="center">2016 Election</th>
+<th align="center">2019 Election</th>
+<th align="center">2022 Election</th>
+<th align="center">2023 Referendum</th>
+<th align="center">2025 Election</th>
+<th align="center">2011 Census</th>
+<th align="center">2016 Census</th>
+<th align="center">2021 Census</th>
+<th align="center">2011 POA</th>
+<th align="center">2016 POA</th>
+<th align="center">2021 POA</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>2013 Federal Election</strong></td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+</tr>
+<tr class="even">
+<td><strong>2016 Federal Election</strong></td>
+<td align="center">✗</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+</tr>
+<tr class="odd">
+<td><strong>2019 Federal Election</strong></td>
+<td align="center">✗</td>
+<td align="center">✗</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✗</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✗</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+</tr>
+<tr class="even">
+<td><strong>2022 Federal Election</strong></td>
+<td align="center">✗</td>
+<td align="center">✗</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✗</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✗</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+</tr>
+<tr class="odd">
+<td><strong>2023 Referendum</strong></td>
+<td align="center">✗</td>
+<td align="center">✗</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✗</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+<td align="center">✗</td>
+<td align="center">✓</td>
+<td align="center">✓</td>
+</tr>
+<tr class="even">
+<td><strong>2025 Federal Election</strong></td>
+<td align="center">✗</td>
+<td align="center">✗</td>
+<td align="center">✗</td>
+<td align="center">✗</td>
+<td align="center">✗</td>
+<td align="center">✓</td>
+<td align="center">✗</td>
+<td align="center">✗</td>
+<td align="center">✓</td>
+<td align="center">✗</td>
+<td align="center">✗</td>
+<td align="center">✓</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
@@ -1381,7 +2254,7 @@ AREA_ALBERS_SQKM
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
   </div></footer>

@@ -1,0 +1,1924 @@
+# A Guide to the AEC's Election Datasets
+
+  
+This guide explores the
+[`get_election_data`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_election_data.html)
+function in the `scgElectionsAU` package, designed to retrieve raw
+election data from the Australian Electoral Commission (AEC). Hosted on
+GitHub ([scgElectionsAU
+Repository](https://github.com/sarahcgallLtd/scgElectionsAU)), the
+package simplifies access to datasets from federal elections
+(2004–2022), by-elections (2008–2024), and the 2023 referendum, covering
+candidate lists, voting results, and more. The function is primarily
+used for raw data with optional processing; for analysis-ready data, see
+[`get_results`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_results.html).
+Below, we detail the function’s parameters, available datasets, usage
+examples, and the context of AEC data collection.  
+
+### Introduction to AEC Election Data
+
+The AEC provides comprehensive data on Australia’s electoral processes
+through its Tally Room ([AEC Tally Room](https://results.aec.gov.au/))
+and downloads pages ([AEC
+Downloads](https://www.aec.gov.au/election/downloads.htm)). These
+datasets include national, state, divisional, and polling place results
+for federal elections, by-elections, and referendums, governed by the
+*Commonwealth Electoral Act 1918*. They enable analysis of voter
+behaviour, candidate performance, and electoral trends, supporting
+transparency in Australia’s democratic process. The
+[`get_election_data`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_election_data.html)
+function streamlines access to these datasets, offering flexibility to
+retrieve raw or processed data for research and public interest.
+
+### The `get_election_data` Function
+
+The
+[`get_election_data`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_election_data.html)
+function retrieves raw AEC data with optional processing, using the
+internal `aec_elections_index` dataset to map parameters to specific
+files. It downloads data from the AEC’s website, typically in CSV
+format. Users can specify the dataset, election type, data category, and
+time period, with an option to disable processing for raw outputs. When
+retrieving data for multiple elections, the function combines data into
+a single data frame, with an event column distinguishing each election,
+facilitating longitudinal analysis.
+
+| Parameter    | Description                                                                                              | Default                                      | Valid Options                                           |
+|--------------|----------------------------------------------------------------------------------------------------------|----------------------------------------------|---------------------------------------------------------|
+| `file_name`  | Name of the AEC dataset (e.g., “National list of candidates”). Must match `aec_elections_index` entries. | None                                         | See dataset descriptions below                          |
+| `type`       | Type of electoral event.                                                                                 | “Federal Election”                           | “Federal Election”, “By-Election”, “Referendum”         |
+| `category`   | Data subset (e.g., House, Senate).                                                                       | “House”                                      | House”, “Senate”, “Referendum”, “General”, “Statistics” |
+| `date_range` | List with from and to dates (YYYY-MM-DD).                                                                | list(from = “2022-01-01”, to = “2025-01-01”) | Any valid date range                                    |
+| `process`    | Logical; applies processing (e.g., standardising columns).                                               | `TRUE`                                       | `TRUE`, `FALSE`                                         |
+
+#### Dataset Categories
+
+The datasets are organised into categories:
+
+- **Candidates & Nominations:** Candidate lists, nomination statistics
+  by state, division, and gender.
+- **Seats:** Data on electoral divisions, including changes in party
+  control and decision methods.
+- **First Preferences:** Vote counts for first preferences at party,
+  candidate, and polling place levels.
+- **Two Party Preferred (TPP):** Results for the two major parties
+  (Coalition and Labor).
+- **Two Candidate Preferred (TCP):** Results for the top two candidates
+  in each division.
+- **Distribution of Preferences:** Detailed preference flows in
+  preferential voting.
+- **Flow of Preferences:** How preferences are distributed among parties
+  and candidates.
+- **Votes:** Informal votes, turnout, and vote types (e.g., postal,
+  pre-poll).
+- **General:** Political parties, polling places, and enrolment
+  statistics.
+- **Statistics:** Postal and pre-poll voting, votes by SA1, and overseas
+  voting.
+
+### Data Sources and Collection
+
+The AEC collects election data through its electoral processes,
+publishing results via the Tally Room and downloads pages. Data is
+typically available in CSV or TAB format shortly after each election,
+with final results confirmed weeks later. The `scgElectionsAU` package
+standardises these datasets for consistency across years, handling
+variations in column names and formats. Users should verify dataset
+availability for specific elections, as some datasets (e.g., “Votes by
+SA1”) are only available from later years.
+
+### Available Datasets and Examples
+
+The following sections detail the datasets available for each return
+type, including example usage of the `get_election_data` function and
+sample data output.
+
+## Candidates & Nominations
+
+### National list of candidates
+
+The `National list of candidates` dataset contains a comprehensive list
+of all candidates who participated in Australian federal elections. It
+covers both `Senate` and `House` elections from `2004` to the present
+and `type=By-Election`. The `2004` dataset is processed in the following
+way:
+
+- The `SittingMemberFl` column is renamed to `Elected` using the
+  [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html)
+  function.
+- Based on this column, the data are further standardised to match later
+  years with “Y” and “N” values inputted. This replaces the original
+  corresponding “#” and NA values.
+
+This dataset enables you to:
+
+- View candidate details (`CandidateID`, `Surname`, `GivenNm`) and their
+  party affiliations (`PartyAb`, `PartyNm`).
+- Map candidates to electoral divisions (`DivisionID`, `DivisionNm`) and
+  states (`StateAb`).
+- Identify elected candidates (`Elected`) and incumbents
+  (`HistoricElected`).
+
+NB. There is no consistent pattern in when candidates retain their
+candidate ID (`CandidateID`) or when they do not. Some candidates appear
+to retain theirs across elections, while others do not. It is therefore
+not a column to correctly identify candidates across elections. Instead
+it should only be used across datasets of a single election.
+
+#### *Example Usage:*
+
+``` r
+df <- get_election_data(
+  file_name = "National list of candidates",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "By-Election"), # Any or All for House only. Default option for Senate (Federal Election).
+  category = "House", # OR "Senate"
+)
+```
+
+#### *Sample Data:*
+
+| date       | event                 | StateAb | DivisionID | DivisionNm | PartyAb | PartyNm              | CandidateID | Surname | GivenNm | Elected | HistoricElected |
+|:-----------|:----------------------|:--------|-----------:|:-----------|:--------|:---------------------|------------:|:--------|:--------|:--------|:----------------|
+| 2024-05-13 | 2024 Cook By-Election | NSW     |        112 | Cook       | AJP     | Animal Justice Party |       38292 | BROWN   | Natasha | N       | N               |
+
+  
+
+### Members/Senators elected
+
+The `Members elected` and `Senators elected` datasets provide
+comprehensive lists of the elected Members of Parliament (MPs) and
+Senators at federal elections. These datasets cover elections from
+`2004` to the present and are available for the `House` and `Senate`,
+respectively.
+
+- `Members elected` (`House`): Contains details of MPs who won their
+  respective electoral divisions.
+- `Senators elected` (`Senate`): Contains details of Senators elected
+  for each state or territory, including the `ElectedOrder` column,
+  which specifies the order in which they were elected.
+
+There is no additional processing for these datasets, as both are
+already standardised across all election years.
+
+This dataset enables you to:
+
+- Identify elected representatives:
+- For the `House`: MPs by electoral division (`DivisionID`,
+  `DivisionNm`).
+- For the `Senate`: Senators by state or territory (`StateAb`),
+  including their election order (`ElectedOrder`).
+- View candidate details (`CandidateID`, `Surname`, `GivenNm`) and party
+  affiliations (`PartyNm`, `PartyAb`).
+
+#### *Example Usage (Members Elected):*
+
+``` r
+# Example usage
+df <- get_election_data(
+  file_name = "Members elected",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data (Members Elected):*
+
+| date       | event                 | DivisionID | DivisionNm | StateAb | CandidateID | GivenNm | Surname   | PartyNm                | PartyAb |
+|:-----------|:----------------------|-----------:|:-----------|:--------|------------:|:--------|:----------|:-----------------------|:--------|
+| 2025-05-03 | 2025 Federal Election |        179 | Adelaide   | SA      |       41210 | Steve   | GEORGANAS | Australian Labor Party | ALP     |
+
+  
+
+#### *Example Usage (Senators Elected):*
+
+``` r
+df <- get_election_data(
+  file_name = "Senators elected",
+  date_range = list(from = "2004-01-01", to = "2025-01-01"),
+  category = "Senate"
+)
+```
+
+#### *Sample Data (Senators Elected):*
+
+| date       | event                 | StateAb | GivenNm | Surname | PartyNm      | PartyAb | ElectedOrder |
+|:-----------|:----------------------|:--------|:--------|:--------|:-------------|:--------|-------------:|
+| 2025-05-03 | 2025 Federal Election | ACT     | David   | POCOCK  | David Pocock | DAVI    |            1 |
+
+  
+
+### Nominations
+
+The `Nominations by state` dataset provides a summary of nominations for
+federal elections, detailing:
+
+- The number of divisions (`Divisions`) and nominations (`Nominations`)
+  per state (`StateAb`, `StateNm`) for the `House`.
+- The number of seats (`Seats`), candidates (`Candidates`), groups
+  (`Groups`), and ungrouped candidates (`UngroupedCandidates`) per state
+  (`StateAb`, `StateNm`) for the `Senate`.
+
+Covering elections from `2004` to the present, these datasets are
+available for both the `House` and `Senate` categories. No additional
+processing is required, as the data are already standardised across all
+election years.
+
+#### *Example Usage ‘by state’ (House):*
+
+``` r
+df <- get_election_data(
+  file_name = "Nominations by state",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data ‘by state’ (House):*
+
+| date       | event                 | StateAb | StateNm         | Divisions | Nominations |
+|:-----------|:----------------------|:--------|:----------------|----------:|------------:|
+| 2025-05-03 | 2025 Federal Election | NSW     | New South Wales |        46 |         366 |
+
+  
+
+#### *Example Usage ‘by state’ (Senate):*
+
+``` r
+df <- get_election_data(
+  file_name = "Nominations by state",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "Senate"
+)
+```
+
+#### *Sample Data ‘by state’ (Senate):*
+
+| date       | event                 | StateAb | StateNm         | Seats | Candidates | Groups | UngroupedCandidates |
+|:-----------|:----------------------|:--------|:----------------|------:|-----------:|-------:|--------------------:|
+| 2025-05-03 | 2025 Federal Election | NSW     | New South Wales |     6 |         56 |     18 |                   3 |
+
+  
+
+The `Nominations by division` dataset provides a summary of nominations
+for federal elections, detailing:
+
+- The number of nominations (`Nominations`) per division (`DivisionID`,
+  `DivisionNm`, `DivisionAb`) for the `House`.
+- Enrolment figures (`Enrolment`) and demographic classifications
+  (`Demographics`) for each electorate.
+
+Covering elections from `2011` to the present, these datasets are
+available for the `House` only. Minor amendments are made to the
+original dataset, changing `TransactionId` to `TransactionID` and
+`DivisionId` to `DivisionID`. This ensures consistency in column names
+across all datasets.
+
+#### *Example Usage ‘by division’ (House):*
+
+``` r
+df <- get_election_data(
+  file_name = "Nominations by division",
+  date_range = list(from = "2011-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data ‘by division’ (House):*
+
+| date       | event                 | TransactionID | DivisionID | StateAb | DivisionNm | DivisionAb | Enrolment | Demographic        | Nominations |
+|:-----------|:----------------------|--------------:|-----------:|:--------|:-----------|:-----------|----------:|:-------------------|------------:|
+| 2025-05-03 | 2025 Federal Election |         31496 |        179 | SA      | Adelaide   | ADEL       |    131436 | Inner Metropolitan |           7 |
+
+  
+
+The `Nominations by gender` dataset provides a summary of nominations
+for federal elections, detailing the number of nominations
+(`Nominations`) per party (`PartyAb`, `PartyNm`) for the `House` and
+`Senate`. Each state and territory have their own columns for the two
+genders (`MalesNSW`, `FemalesNSW`) and an unspecified column
+(`UnspecifiedNSW`). There is also a grand total (`GrandTotal`) of
+nominations by party which is useful for turning data into percentages.
+
+Covering elections from `2004` to the present, these datasets are
+available for both the `House` and `Senate` categories. No additional
+processing is required, as the data are already standardised across all
+election years.
+
+#### *Example Usage ‘by gender’ (House):*
+
+``` r
+df <- get_election_data(
+  file_name = "Nominations by gender",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House" # OR "Senate"
+)
+```
+
+#### *Sample Data ‘by gender’ (House):*
+
+| date       | event                 | PartyAb | PartyNm              | MalesNSW | FemalesNSW | UnspecifiedNSW | MalesVIC | FemalesVIC | UnspecifiedVIC | MalesQLD | FemalesQLD | UnspecifiedQLD | MalesWA | FemalesWA | UnspecifiedWA | MalesSA | FemalesSA | UnspecifiedSA | MalesTAS | FemalesTAS | UnspecifiedTAS | MalesACT | FemalesACT | UnspecifiedACT | MalesNT | FemalesNT | UnspecifiedNT | TotalMales | TotalFemales | TotalUnspecified | GrandTotal |
+|:-----------|:----------------------|:--------|:---------------------|---------:|-----------:|---------------:|---------:|-----------:|---------------:|---------:|-----------:|---------------:|--------:|----------:|--------------:|--------:|----------:|--------------:|---------:|-----------:|---------------:|---------:|-----------:|---------------:|--------:|----------:|--------------:|-----------:|-------------:|-----------------:|-----------:|
+| 2025-05-03 | 2025 Federal Election | AJP     | Animal Justice Party |        3 |          2 |              0 |        0 |          3 |              0 |        0 |          4 |              0 |       0 |         0 |             0 |       3 |         2 |             0 |        0 |          0 |              0 |        0 |          1 |              0 |       0 |         0 |             0 |          6 |           12 |                0 |         18 |
+
+  
+
+### Party representation
+
+The `Party representation` dataset provides a summary of elected
+representatives for federal elections, detailing:
+
+- The number of MPs per party (`Party`) per state and territory
+  (`NSW`,`VIC`,`QLD`,`WA`,`SA`,`TAS`,`ACT`,`NT`) and nationally
+  (`National`) for the `House`. It also includes the number of MPs
+  previously representing each party at the previous election
+  (`LastElection`).
+- The number of Senators per party (`PartyAb`, `PartyNm`) per state and
+  territory (`NSW`,`VIC`,`QLD`,`WA`,`SA`,`TAS`,`ACT`,`NT`) and
+  nationally (`TOTAL`) for the `Senate`.
+
+Covering elections from `2004` to the present, these datasets are
+available for both the `House` and `Senate` categories. In order to
+standardise datasets across election years, additional processing is
+conducted for election years prior to `2010` in the `House`. Using the
+[`process_reps()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_reps.html)
+function:
+
+- Pre-2010 columns are renamed from `Total` to `National` and from
+  `LastElectionTotal` to `LastElection`.
+- The `PartyAb` column is removed.
+
+No additional processing is required for the `Senate`, as the data are
+already standardised across all election years.
+
+#### *Example Usage (House):*
+
+``` r
+df <- get_election_data(
+  file_name = "Party representation",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data (House):*
+
+| date       | event                 | PartyNm                | NSW | VIC | QLD |  WA |  SA | TAS | ACT |  NT | National | LastElection |
+|:-----------|:----------------------|:-----------------------|----:|----:|----:|----:|----:|----:|----:|----:|---------:|-------------:|
+| 2025-05-03 | 2025 Federal Election | Australian Labor Party |  28 |  27 |  12 |  11 |   7 |   4 |   3 |   2 |       94 |           77 |
+
+  
+
+#### *Example Usage (Senate):*
+
+``` r
+df <- get_election_data(
+  file_name = "Party representation",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "Senate"
+)
+```
+
+#### *Sample Data (Senate):*
+
+| date       | event                 | PartyAb | PartyNm                | NSW | VIC | QLD |  WA |  SA | TAS | ACT |  NT | TOTAL |
+|:-----------|:----------------------|:--------|:-----------------------|----:|----:|----:|----:|----:|----:|----:|----:|------:|
+| 2025-05-03 | 2025 Federal Election | ALP     | Australian Labor Party |   2 |   3 |   2 |   2 |   3 |   2 |   1 |   1 |    16 |
+
+  
+
+## Seats
+
+### Seats that changed hands
+
+The `Seats that changed hands` dataset provides a summary of the seats
+that have changed from one party to another, detailing:
+
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The previous party that held the seat (`PreviousPartyAb`,
+  `PreviousPartyNm`).
+- The details of the newly elected MP who won that seat at the election
+  (`CadidateID`, `Surname`, `GivenNm`, `PartyAb`, `PartyNm`).
+
+Covering elections from `2004` to the present, these datasets are
+available for the `House` only. No additional processing is required, as
+the data are already standardised across all election years.
+
+#### *Example Usage:*
+
+``` r
+df <- get_election_data(
+  file_name = "Seats that changed hands",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data:*
+
+| date       | event                 | StateAb | DivisionID | DivisionNm | PreviousPartyAb | PreviousPartyNm | CandidateID | Surname | GivenNm | PartyAb | PartyNm                |
+|:-----------|:----------------------|:--------|-----------:|:-----------|:----------------|:----------------|------------:|:--------|:--------|:--------|:-----------------------|
+| 2025-05-03 | 2025 Federal Election | VIC     |        197 | Aston      | LP              | Liberal         |       40809 | DOYLE   | Mary    | ALP     | Australian Labor Party |
+
+  
+
+### Seats decided on FPTP or preferences
+
+The `Seats decided on first preferences` dataset provides a summary of
+the seats that were decided on first preferences (i.e., the winning
+candidate in a division achieved equal to or more than 50% of the
+primary vote - similar to First-Past-The-Post), detailing:
+
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The winning party (`PartyAb`, `PartyNm`).
+
+Covering elections from `2004` to the present, these datasets are
+available for the `House` only. No additional processing is required, as
+the data are already standardised across all election years.
+
+#### *Example Usage ‘first’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Seats decided on first preferences",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data ‘first’:*
+
+| date       | event                 | DivisionID | DivisionNm | StateAb | PartyAb | PartyNm                |
+|:-----------|:----------------------|-----------:|:-----------|:--------|:--------|:-----------------------|
+| 2025-05-03 | 2025 Federal Election |        111 | Chifley    | NSW     | ALP     | Australian Labor Party |
+
+  
+
+The `Seats decided on preferences` dataset provides a summary of the
+seats that were decided on preferences (i.e., no candidate in a division
+achieved more than 50% of the primary vote), detailing:
+
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The winning party (`PartyAb`, `PartyNm`).
+
+Covering elections from `2004` to the present, these datasets are
+available for the `House` only. No additional processing is required, as
+the data are already standardised across all election years.
+
+#### *Example Usage ‘preference’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Seats decided on preferences",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data ‘preference’:*
+
+| date       | event                 | DivisionID | DivisionNm | StateAb | PartyAb | PartyNm                |
+|:-----------|:----------------------|-----------:|:-----------|:--------|:--------|:-----------------------|
+| 2025-05-03 | 2025 Federal Election |        179 | Adelaide   | SA      | ALP     | Australian Labor Party |
+
+  
+
+### Non-classic divisions
+
+The `Non-classic divisions` dataset provides a summary of the seats in
+which the two-party contest included a non-major party candidate,
+detailing:
+
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The latest time and date that the data were updated (`Updated`).
+- The first candidate details (`PartyAb1`, `PartyNm1`, `CandidateID1`,
+  `Surname1`, `GivenNm1`, `Elected1`, `HistoricElected1`).
+- The second candidate details (`PartyAb2`, `PartyNm2`, `CandidateID2`,
+  `Surname2`, `GivenNm2`, `Elected2`, `HistoricElected2`).
+
+Covering elections from `2010` to the present, these datasets are
+available for the `House` only. Minor amendments are made to the
+original dataset, changing `CandidateId` to `CandidateID` and
+`DivisionId` to `DivisionID`. This ensures consistency in column names
+across all datasets.
+
+#### *Example Usage:*
+
+``` r
+df <- get_election_data(
+  file_name = "Non-classic divisions",
+  date_range = list(from = "2010-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data:*
+
+| date       | event                 | StateAb | DivisionID | DivisionNm | Updated                         | PartyAb1 | PartyNm1          | CandidateID1 | Surname1 | GivenNm1 | Elected1 | HistoricElected1 | PartyAb2 | PartyNm2               | CandidateID2 | Surname2 | GivenNm2 | Elected2 | HistoricElected2 |
+|:-----------|:----------------------|:--------|-----------:|:-----------|:--------------------------------|:---------|:------------------|-------------:|:---------|:---------|:---------|:-----------------|:---------|:-----------------------|-------------:|:---------|:---------|:---------|:-----------------|
+| 2025-05-03 | 2025 Federal Election | ACT     |        101 | Canberra   | Tue 03 Jun 2025 4:32:18 PM AEST | GRN      | Australian Greens |        41390 | MUDFORD  | Isabel   | N        | N                | ALP      | Australian Labor Party |        40677 | PAYNE    | Alicia   | Y        | Y                |
+
+  
+
+## First Preferences
+
+### First preferences by party
+
+The `First preferences by party` dataset provides a summary of the first
+preferences received by each party, detailing:
+
+- The party details (`PartyAb`, `PartyNm`).
+- The number of divisions that the party stood a candidate
+  (`Contested`), the number of candidate nominations submitted by the
+  party (`Nominations`), and the number of candidates who were
+  elected/won their division (`Elected`).
+- The number of votes that the party received by vote type
+  (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`,
+  `DeclarationPrePollVotes`, `PostalVotes`, `TotalVotes`).
+- The percentage of votes received by each party by vote type
+  (`OrdinaryPercentage`, `AbsentPercentage`, `ProvisionalPercentage`,
+  `PrePollPercentage`, `PostalPercentage`, `TotalPercentage`).
+- The overall swing in total votes received by the party compared to the
+  previous election (`TotalSwing`).
+
+Covering elections from `2004` to the present, these datasets are
+available for the `House` only. `PrePollVotes` is renamed
+`DeclarationPrePollVotes` for consistency and clarification.
+
+#### *Example Usage ‘by party’ (House):*
+
+``` r
+df <- get_election_data(
+  file_name = "First preferences by party",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data ‘by party’ (House):*
+
+| date       | event                 | PartyAb | PartyNm                | OrderOfAppearance | Contested | Nominations | Elected | OrdinaryVotes | OrdinaryPercentage | AbsentVotes | AbsentPercentage | ProvisionalVotes | ProvisionalPercentage | DeclarationPrePollVotes | DeclarationPrePollPercentage | PostalVotes | PostalPercentage | TotalVotes | TotalPercentage | TotalSwing |
+|:-----------|:----------------------|:--------|:-----------------------|------------------:|----------:|------------:|--------:|--------------:|-------------------:|------------:|-----------------:|-----------------:|----------------------:|------------------------:|-----------------------------:|------------:|-----------------:|-----------:|----------------:|-----------:|
+| 2025-05-03 | 2025 Federal Election | ALP     | Australian Labor Party |                 1 |       150 |         150 |      94 |       4281714 |              34.75 |      162532 |            32.33 |             9180 |                 35.79 |                  173337 |                        32.55 |      727375 |            34.53 |    5354138 |           34.56 |       1.98 |
+
+  
+
+The `First preferences by state by party` dataset further breaks down
+the above figures by state (`StateAb`).
+
+#### *Example Usage of ‘by state by party’ (House):*
+
+``` r
+df <- get_election_data(
+  file_name = "First preferences by state by party",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data of ‘by state by party’ (House):*
+
+| date       | event                 | StateAb | PartyAb | PartyNm                | OrderOfAppearance | Contested | Nominations | Elected | OrdinaryVotes | OrdinaryPercentage | AbsentVotes | AbsentPercentage | ProvisionalVotes | ProvisionalPercentage | DeclarationPrePollVotes | DeclarationPrePollPercentage | PostalVotes | PostalPercentage | TotalVotes | TotalPercentage | TotalSwing |
+|:-----------|:----------------------|:--------|:--------|:-----------------------|------------------:|----------:|------------:|--------:|--------------:|-------------------:|------------:|-----------------:|-----------------:|----------------------:|------------------------:|-----------------------------:|------------:|-----------------:|-----------:|----------------:|-----------:|
+| 2025-05-03 | 2025 Federal Election | NSW     | ALP     | Australian Labor Party |                 1 |        46 |          46 |      28 |       1414024 |              35.22 |       46880 |            34.02 |             1718 |                  36.3 |                   49067 |                        34.73 |      175305 |            35.44 |    1686994 |            35.2 |       1.82 |
+
+  
+
+The `First preferences by group by vote type` dataset is the
+Senate-equivalent and provides first preference vote totals by party
+groupings, detailing:
+
+- The party details (`PartyAb`, `PartyNm`).
+- The number of votes that the party received by vote type
+  (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`,
+  `DeclarationPrePollVotes`, `PostalVotes`, `TotalVotes`).
+- The percentage of votes received by each party by vote type
+  (`OrdinaryPercentage`, `AbsentPercentage`, `ProvisionalPercentage`,
+  `DeclarationPrePollPercentage`, `PostalPercentage`,
+  `TotalPercentage`).
+
+Covering elections from `2004` to the present, these datasets are
+available for the `Senate` only. The `2004` dataset is processed in the
+following way:
+
+- The `SittingMemberFl` column is renamed to `Elected` using the
+  [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html)
+  function.
+- Based on this column, the data are further standardised to match later
+  years with “Y” and “N” values inputted. This replaces the original
+  corresponding “#” and NA values.
+
+#### *Example Usage ‘by group’ (Senate):*
+
+``` r
+df <- get_election_data(
+  file_name = "First preferences by group by vote type",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "Senate",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data ‘by group’ (Senate):*
+
+| date       | event                 | PartyGroupAb | PartyGroupNm           | OrdinaryVotes | OrdinaryPercentage | AbsentVotes | AbsentPercentage | ProvisionalVotes | ProvisionalPercentage | DeclarationPrePollVotes | DeclarationPrePollPercentage | PostalVotes | PostalPercentage | TotalVotes | TotalPercentage |
+|:-----------|:----------------------|:-------------|:-----------------------|--------------:|-------------------:|------------:|-----------------:|-----------------:|----------------------:|------------------------:|-----------------------------:|------------:|-----------------:|-----------:|----------------:|
+| 2025-05-03 | 2025 Federal Election | ALP          | Australian Labor Party |       4467474 |               35.4 |      169540 |            31.78 |            13538 |                 32.21 |                  179823 |                        32.82 |      742653 |            34.89 |    5573028 |           35.11 |
+
+  
+
+The `First preferences by state by group by vote type` dataset further
+breaks down the above figures by state (`StateAb`).
+
+#### *Example Usage ‘by state by group’ (Senate):*
+
+``` r
+df <- get_election_data(
+  file_name = "First preferences by state by group by vote type",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "Senate",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data ‘by state by group’ (Senate):*
+
+| date       | event                 | StateAb | PartyGroupAb | PartyGroupNm | OrdinaryVotes | OrdinaryPercentage | AbsentVotes | AbsentPercentage | ProvisionalVotes | ProvisionalPercentage | DeclarationPrePollVotes | DeclarationPrePollPercentage | PostalVotes | PostalPercentage | TotalVotes | TotalPercentage |
+|:-----------|:----------------------|:--------|:-------------|:-------------|--------------:|-------------------:|------------:|-----------------:|-----------------:|----------------------:|------------------------:|-----------------------------:|------------:|-----------------:|-----------:|----------------:|
+| 2025-05-03 | 2025 Federal Election | NSW     | ALP          | Labor        |       1578222 |              37.77 |       51737 |            35.25 |             2340 |                 37.31 |                   54511 |                        36.97 |      189903 |            37.38 |    1876713 |           37.63 |
+
+  
+
+### First preferences by candidate by vote type
+
+The `First preferences by candidate by vote type` dataset provides a
+summary of the first preferences received by each individual candidate,
+detailing:
+
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The candidate details (`CandidateID`, `Surname`, `GivenNm`), including
+  their position on the ballot position (`BallotPosition`), and whether
+  they were elected (`Elected`) or an incumbent (`HistoricElected`), and
+  the party (`PartyAb`, `PartyNm`) that they represent.
+- The number of votes that the candidate received by vote type
+  (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`,
+  `DeclarationPrePollVotes`, `PostalVotes`, `TotalVotes`).
+- The overall swing in total votes received by the candidate compared to
+  the previous election (`TotalSwing`).
+
+Covering elections from `2004` to the present, this dataset is available
+for the `House` only. The `2004` dataset is processed in the following
+way:
+
+- The `SittingMemberFl` column is renamed to `Elected` using the
+  [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html)
+  function.
+- Based on this column, the data are further standardised to match later
+  years with “Y” and “N” values inputted. This replaces the original
+  corresponding “#” and NA values.
+- `PrePollVotes` is renamed `DeclarationPrePollVotes` for consistency
+  and clarification.
+
+#### *Example Usage (House):*
+
+``` r
+df <- get_election_data(
+  file_name = "First preferences by candidate by vote type",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data (House):*
+
+| date       | event                 | StateAb | DivisionID | DivisionNm | CandidateID | Surname  | GivenNm | BallotPosition | Elected | HistoricElected | PartyAb | PartyNm | OrdinaryVotes | AbsentVotes | ProvisionalVotes | DeclarationPrePollVotes | PostalVotes | TotalVotes | Swing |
+|:-----------|:----------------------|:--------|-----------:|:-----------|------------:|:---------|:--------|---------------:|:--------|:----------------|:--------|:--------|--------------:|------------:|-----------------:|------------------------:|------------:|-----------:|------:|
+| 2025-05-03 | 2025 Federal Election | ACT     |        318 | Bean       |       41076 | LAMERTON | David   |              1 | N       | N               | LP      | Liberal |         20237 |         372 |               60 |                     906 |        2090 |      23665 | -6.68 |
+
+  
+
+The `First preferences by state by vote type` dataset is the equivalent
+for the Senate, albeit it differs in some columns. The dataset details:
+
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The candidate details (`CandidateID`), including their ballot details
+  (`BallotPosition`,`CandidateDetails`, `Group`), and whether they were
+  elected (`Elected`) or an incumbent (`HistoricElected`), and the party
+  (`PartyAb`, `PartyNm`) that they represent.
+- The number of votes that the candidate received by vote type
+  (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`,
+  `DeclarationPrePollVotes`, `PostalVotes`, `TotalVotes`).
+
+Covering elections from `2004` to the present, this dataset is available
+for the `Senate` only. Minor amendments are made to the original
+dataset, changing `PartyName` to `PartyNm` and `PrePollVotes` to
+`DeclarationPrePollVotes`. This ensures consistency in column names
+across all datasets.
+
+#### *Example Usage (Senate Division-level):*
+
+``` r
+df <- get_election_data(
+  file_name = "First preferences by division by vote type",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "Senate"
+)
+```
+
+#### *Sample Data (Senate Division-level):*
+
+| date       | event                 | StateAb | DivisionID | DivisionNm | Group | BallotPosition | CandidateID | CandidateDetails       | PartyNm                                              | PartyAb | Elected | HistoricElected | OrdinaryVotes | AbsentVotes | ProvisionalVotes | DeclarationPrePollVotes | PostalVotes | TotalVotes |
+|:-----------|:----------------------|:--------|-----------:|:-----------|:------|---------------:|------------:|:-----------------------|:-----------------------------------------------------|:--------|:--------|:----------------|--------------:|------------:|-----------------:|------------------------:|------------:|-----------:|
+| 2025-05-03 | 2025 Federal Election | ACT     |        318 | Bean       | A     |              0 |       42128 | A Above-the-line Votes | Sustainable Australia Party - Universal Basic Income | SPP     | N       | N               |           860 |          25 |                7 |                      47 |          86 |       1025 |
+
+  
+
+The state-level version of this `Senate` dataset is also available by
+calling `First preferences by state by vote type`.
+
+#### *Example Usage (Senate State-level):*
+
+``` r
+df <- get_election_data(
+  file_name = "First preferences by state by vote type",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "Senate",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data (Senate State-level):*
+
+| date       | event                 | StateAb | Group | CandidateID | BallotPosition | CandidateDetails       | PartyNm                                              | OrdinaryVotes | AbsentVotes | ProvisionalVotes | DeclarationPrePollVotes | PostalVotes | TotalVotes |
+|:-----------|:----------------------|:--------|:------|------------:|---------------:|:-----------------------|:-----------------------------------------------------|--------------:|------------:|-----------------:|------------------------:|------------:|-----------:|
+| 2025-05-03 | 2025 Federal Election | ACT     | A     |       42128 |              0 | A Above-the-line Votes | Sustainable Australia Party - Universal Basic Income |          2344 |          84 |               29 |                     159 |         268 |       2884 |
+
+  
+
+### First preferences by candidate by polling place
+
+The `First preferences by candidate by polling place` dataset provides
+first preference vote totals of each candidate by polling place,
+detailing:
+
+- The polling place details (`StateAb`, `DivisionID`, `DivisionNm`,
+  `PollingPlaceID`, `PollingPlaceNm`).
+- The candiate details (`CandidateID`, `Surname`, `GivenNm`), including
+  their position on the ballot position (`BallotPosition`), and whether
+  they were elected (`Elected`) or an incumbent (`HistoricElected`), and
+  the party (`PartyAb`, `PartyNm`) they represent.
+- The number of votes that the party received (`OrdinaryVotes`).
+- The overall swing in ordinary votes received by the candidate compared
+  to the previous election (`Swing`).
+
+Covering elections from `2004` to the present, these datasets are
+available for the `House` only. The `2004` dataset is processed in the
+following way:
+
+- The `SittingMemberFl` column is renamed to `Elected` using the
+  [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html)
+  function.
+- Based on this column, the data are further standardised to match later
+  years with “Y” and “N” values inputted. This replaces the original
+  corresponding “#” and NA values.
+
+\*Caution should be taken if retrieving multiple election years as this
+dataset is large. Sizes include:
+
+- 2022: 17 columns by 76,452 rows (1,299,684 cells)
+- 2019: 17 columns by 71,805 rows (1,220,685 cells)
+- 2016: 17 columns by 64,112 rows (1,089,904 cells)
+- 2013: 17 columns by 82,398 rows (1,400,766 cells)
+- 2010: 17 columns by 60,663 rows (1,031,271 cells)
+- 2007: 17 columns by 66,269 rows (1,126,573 cells)
+- 2004: 16 columns by 69,098 rows (1,105,568 cells)
+
+#### *Example Usage:*
+
+``` r
+df <- get_election_data(
+  file_name = "First preferences by candidate by polling place",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "By-Election") # Any or All
+)
+```
+
+#### *Sample Data:*
+
+| date       | event                 | StateAb | DivisionID | DivisionNm | PollingPlaceID | PollingPlaceNm  | CandidateID | Surname | GivenNm | BallotPosition | Elected | HistoricElected | PartyAb | PartyNm             | OrdinaryVotes | Swing |
+|:-----------|:----------------------|:--------|-----------:|:-----------|---------------:|:----------------|------------:|:--------|:--------|---------------:|:--------|:----------------|:--------|:--------------------|--------------:|------:|
+| 2025-05-03 | 2025 Federal Election | NSW     |        103 | Banks      |         121441 | Allawah (Banks) |       41763 | TARUSTE | Allan   |              1 | N       | N               | CYA     | Trumpet of Patriots |            16 |  6.99 |
+
+  
+
+## Two Party Preferred
+
+### Two party preferred by state
+
+The `Two party preferred by state` dataset provides the two party
+preferred (TPP) vote by state (`StateAb`) detailing:
+
+- The Coalition votes and percentage
+  (`Liberal/National Coalition Votes`,
+  `Liberal/National Coalition Percentage`)
+- The ALP votes and percentage (`Australian Labor Party Votes`,
+  `Australian Labor Party Percentage`.
+- The total votes (`TotalVotes`) and swing (`Swing`).
+
+Covering elections from `2004` to the present, this dataset is available
+for the `House` only. No changes are made.
+
+#### *Example Usage ‘by state’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Two party preferred by state",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data ‘by state’:*
+
+| date       | event                 | StateAb | StateNm         | Australian Labor Party Votes | Australian Labor Party Percentage | Liberal/National Coalition Votes | Liberal/National Coalition Percentage | TotalVotes | Swing |
+|:-----------|:----------------------|:--------|:----------------|-----------------------------:|----------------------------------:|---------------------------------:|--------------------------------------:|-----------:|------:|
+| 2025-05-03 | 2025 Federal Election | NSW     | New South Wales |                      2649390 |                             55.27 |                          2143861 |                                 44.73 |    4793251 |  3.85 |
+
+  
+
+The `Two party preferred by division` dataset further breaks down the
+above figures by division (`DivisionID`, `DivisionNm`) and includes the
+winning party of the seat (`PartyAb`).
+
+#### *Example Usage ‘by division’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Two party preferred by division",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data ‘by division’:*
+
+| date       | event                 | DivisionNm | DivisionID | StateAb | PartyAb | Australian Labor Party Votes | Australian Labor Party Percentage | Liberal/National Coalition Votes | Liberal/National Coalition Percentage | TotalVotes | Swing |
+|:-----------|:----------------------|:-----------|-----------:|:--------|:--------|-----------------------------:|----------------------------------:|---------------------------------:|--------------------------------------:|-----------:|------:|
+| 2025-05-03 | 2025 Federal Election | Adelaide   |        179 | SA      | ALP     |                        78796 |                             69.07 |                            35293 |                                 30.93 |     114089 |  7.16 |
+
+  
+
+The `Two party preferred by polling place` dataset further breaks down
+the above figures by polling place (`PollingPlaceID`, `PollingPlaceNm`).
+
+#### *Example Usage ‘by polling place’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Two party preferred by polling place",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "By-Election"), # Any or All
+  category = "House"
+)
+```
+
+#### *Sample Data ‘by polling place’:*
+
+| date       | event                 | StateAb | DivisionID | DivisionNm | PollingPlaceID | PollingPlaceNm      | Australian Labor Party Votes | Australian Labor Party Percentage | Liberal/National Coalition Votes | Liberal/National Coalition Percentage | TotalVotes | Swing |
+|:-----------|:----------------------|:--------|-----------:|:-----------|---------------:|:--------------------|-----------------------------:|----------------------------------:|---------------------------------:|--------------------------------------:|-----------:|------:|
+| 2025-05-03 | 2025 Federal Election | ACT     |        318 | Bean       |          93925 | Belconnen BEAN PPVC |                          900 |                                72 |                              350 |                                    28 |       1250 |  9.84 |
+
+  
+
+### Two party preferred by division by vote type
+
+The `Two party preferred by division by vote type` dataset provides the
+two party preferred (TPP) vote by vote type detailing:
+
+- The division details (`StateAb`, `DivisionNm`, `DivisionID`).
+- The winning party of the seat (`PartyAb`).
+- The Coalition votes by vote type
+  (`Liberal/National Coalition OrdinaryVotes`,`Liberal/National Coalition AbsentVotes`,`Liberal/National Coalition ProvisionalVotes`,`Liberal/National Coalition PostalVotes`,`Liberal/National Coalition DeclarationPrePollVotes`).
+- The Coalition percentage by vote type
+  (`Liberal/National Coalition OrdinaryPercentage`,`Liberal/National Coalition AbsentPercentage`,`Liberal/National Coalition ProvisionalPercentage`,`Liberal/National Coalition PostalPercentage`,`Liberal/National Coalition DeclarationPrePollPercentage`).
+- The ALP votes by vote type
+  (`Australian Labor Party OrdinaryVotes`,`Australian Labor Party AbsentVotes`,`Australian Labor Party ProvisionalVotes`,`Australian Labor Party PostalVotes`,`Australian Labor Party DeclarationPrePollVotes`).
+- The ALP percentage by vote type
+  (`Australian Labor Party OrdinaryPercentage`,`Australian Labor Party AbsentPercentage`,`Australian Labor Party ProvisionalPercentage`,`Australian Labor Party PostalPercentage`,`Australian Labor Party DeclarationPrePollPercentage`).
+- The total number of votes (`TotalVotes`).
+
+Covering elections from `2004` to the present, this dataset is available
+for the `House` only. No changes are made.
+
+#### *Example Usage ‘by division’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Two party preferred by division by vote type",
+  date_range = list(from = "2016-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data ‘by division’:*
+
+| date       | event                 | DivisionNm | DivisionID | StateAb | PartyAb | Australian Labor Party OrdinaryVotes | Australian Labor Party OrdinaryPercentage | Liberal/National Coalition OrdinaryVotes | Liberal/National Coalition OrdinaryPercentage | Australian Labor Party AbsentVotes | Australian Labor Party AbsentPercentage | Liberal/National Coalition AbsentVotes | Liberal/National Coalition AbsentPercentage | Australian Labor Party ProvisionalVotes | Australian Labor Party ProvisionalPercentage | Liberal/National Coalition ProvisionalVotes | Liberal/National Coalition ProvisionalPercentage | Australian Labor Party PostalVotes | Australian Labor Party PostalPercentage | Liberal/National Coalition PostalVotes | Liberal/National Coalition PostalPercentage | TotalVotes | Australian Labor Party DeclarationPrePollVotes | Australian Labor Party DeclarationPrePollPercentage | Liberal/National Coalition DeclarationPrePollVotes | Liberal/National Coalition DeclarationPrePollPercentage |
+|:-----------|:----------------------|:-----------|-----------:|:--------|:--------|-------------------------------------:|------------------------------------------:|-----------------------------------------:|----------------------------------------------:|-----------------------------------:|----------------------------------------:|---------------------------------------:|--------------------------------------------:|----------------------------------------:|---------------------------------------------:|--------------------------------------------:|-------------------------------------------------:|-----------------------------------:|----------------------------------------:|---------------------------------------:|--------------------------------------------:|-----------:|-----------------------------------------------:|----------------------------------------------------:|---------------------------------------------------:|--------------------------------------------------------:|
+| 2025-05-03 | 2025 Federal Election | Adelaide   |        179 | SA      | ALP     |                                61476 |                                     69.84 |                                    26547 |                                         30.16 |                               3951 |                                    69.3 |                                   1750 |                                        30.7 |                                     578 |                                        74.68 |                                         196 |                                            25.32 |                              10176 |                                   64.76 |                                   5537 |                                       35.24 |     114089 |                                           2615 |                                               67.43 |                                               1263 |                                                   32.57 |
+
+  
+
+## Two Candidate Preferred
+
+### Two candidate preferred by candidate by vote type
+
+The `Two candidate preferred by candidate by vote type` dataset provides
+details of the two candidate preferred (TCP) votes by vote type for each
+candidate, detailing:
+
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The candidate details (`CandidateID`, `Surname`, `GivenNm`), including
+  their position on the ballot position (`BallotPosition`), and whether
+  they were elected (`Elected`) or an incumbent (`HistoricElected`), and
+  the party (`PartyAb`, `PartyNm`) that they represent.
+- The number of votes that the candidate received by vote type
+  (`OrdinaryVotes`, `AbsentVotes`, `ProvisionalVotes`,
+  `DeclarationPrePollVotes`, `PostalVotes`, `TotalVotes`).
+- The overall swing in total votes received by the candidate compared to
+  the previous election (`Swing`).
+
+Covering elections from `2004` to the present, this dataset is available
+for the `House` only. The `2004` dataset is processed in the following
+way:
+
+- The `SittingMemberFl` column is renamed to `Elected` using the
+  [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html)
+  function.
+- Based on this column, the data are further standardised to match later
+  years with “Y” and “N” values inputted. This replaces the original
+  corresponding “#” and NA values.
+- `PrePollVotes` is renamed `DeclarationPrePollVotes` for consistency
+  and clarification.
+
+#### *Example Usage:*
+
+``` r
+df <- get_election_data(
+  file_name = "Two candidate preferred by candidate by vote type",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data:*
+
+| date       | event                 | StateAb | DivisionID | DivisionNm | CandidateID | Surname | GivenNm | BallotPosition | Elected | HistoricElected | PartyAb | PartyNm     | OrdinaryVotes | AbsentVotes | ProvisionalVotes | DeclarationPrePollVotes | PostalVotes | TotalVotes | Swing |
+|:-----------|:----------------------|:--------|-----------:|:-----------|------------:|:--------|:--------|---------------:|:--------|:----------------|:--------|:------------|--------------:|------------:|-----------------:|------------------------:|------------:|-----------:|------:|
+| 2025-05-03 | 2025 Federal Election | ACT     |        318 | Bean       |       41682 | PRICE   | Jessie  |              2 | N       | N               | IND     | Independent |         44930 |         775 |              132 |                    1559 |        3604 |      51000 | 49.66 |
+
+  
+
+### Two candidate preferred by candidate by polling place
+
+The `Two candidate preferred by candidate by polling place` dataset
+provides details of the two candidate preferred (TCP) votes for each
+candidate and the polling place-level, detailing:
+
+- The polling place details (`StateAb`, `DivisionID`, `DivisionNm`,
+  `PollingPlaceID`, `PollingPlaceNm`).
+- The candidate details (`CandidateID`, `Surname`, `GivenNm`), including
+  their position on the ballot position (`BallotPosition`), and whether
+  they were elected (`Elected`) or an incumbent (`HistoricElected`), and
+  the party (`PartyAb`, `PartyNm`) that they represent.
+- The number of ordinary votes that the candidate received
+  (`OrdinaryVotes`).
+- The overall swing in total votes received by the candidate compared to
+  the previous election (`Swing`).
+
+Covering elections from `2004` to the present, this dataset is available
+for the `House` only. The `2004` dataset is processed in the following
+way:
+
+- The `SittingMemberFl` column is renamed to `Elected` using the
+  [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html)
+  function.
+- Based on this column, the data are further standardised to match later
+  years with “Y” and “N” values inputted. This replaces the original
+  corresponding “#” and NA values.
+
+#### *Example Usage:*
+
+``` r
+df <- get_election_data(
+  file_name = "Two candidate preferred by candidate by polling place",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "By-Election"), # Any or All
+  category = "House",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data:*
+
+| date       | event                 | StateAb | DivisionID | DivisionNm | PollingPlaceID | PollingPlaceNm      | CandidateID | Surname | GivenNm | BallotPosition | Elected | HistoricElected | PartyAb | PartyNm     | OrdinaryVotes | Swing |
+|:-----------|:----------------------|:--------|-----------:|:-----------|---------------:|:--------------------|------------:|:--------|:--------|---------------:|:--------|:----------------|:--------|:------------|--------------:|------:|
+| 2025-05-03 | 2025 Federal Election | ACT     |        318 | Bean       |          93925 | Belconnen BEAN PPVC |       41682 | PRICE   | Jessie  |              2 | N       | N               | IND     | Independent |           499 | 39.92 |
+
+  
+
+## Distribution of Preferences
+
+### Distribution of preferences by candidate
+
+The `Distribution of preferences by candidate by division` dataset
+provides details of the distribution of preferences by division,
+detailing:
+
+- The division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- The candidate details (`CandidateID`, `Surname`, `GivenNm`), including
+  their position on the ballot position (`BallotPosition`), and whether
+  they were elected (`Elected`) or an incumbent (`HistoricElected`), and
+  the party (`PartyAb`, `PartyNm`) that they represent.
+- The distrbution details (`CountNumber`, `CalculationType`,
+  `CalculationValue`).
+
+Covering elections from `2004` to the present, this dataset is available
+for the `House` only. The `2004` dataset is processed in the following
+way:
+
+- The `SittingMemberFl` column is renamed to `Elected` using the
+  [`process_elected()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_elected.html)
+  function.
+- Based on this column, the data are further standardised to match later
+  years with “Y” and “N” values inputted. This replaces the original
+  corresponding “#” and NA values.
+
+#### *Example Usage ‘by division’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Distribution of preferences by candidate by division",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data ‘by division’:*
+
+| date       | event                 | StateAb | DivisionID | DivisionNm | CountNumber | BallotPosition | CandidateID | Surname  | GivenNm | PartyAb | PartyNm | Elected | HistoricElected | CalculationType  | CalculationValue |
+|:-----------|:----------------------|:--------|-----------:|:-----------|------------:|---------------:|------------:|:---------|:--------|:--------|:--------|:--------|:----------------|:-----------------|-----------------:|
+| 2025-05-03 | 2025 Federal Election | ACT     |        318 | Bean       |           0 |              1 |       41076 | LAMERTON | David   | LP      | Liberal | N       | N               | Preference Count |            23665 |
+
+  
+
+The `Distribution of preferences by polling place` dataset further
+breaks down the above figures by polling place (`PollingPlaceID`,
+`PollingPlaceNm`). Additional amendments are made to the original
+dataset, changing `CountNum` to `CountNumber`, `PPId` to
+`PollingPlaceID`, `PPNm` to `PollingPlaceNm`, `CandidateId` to
+`CandidateID`, and `SittingMemberFl` to `Elected`. This ensures
+consistency in column names across all datasets.
+
+\*Caution should be taken if retrieving multiple election years as this
+dataset is large. Sizes include:
+
+- 2022: 17 columns by 2,132,816 rows (36,257,872 cells)
+- 2019: 17 columns by 1,719,736 rows (29,235,512 cells)
+- 2016: 17 columns by 1,475,704 rows (25,086,968 cells)
+- 2013: 17 columns by 2,335,760 rows (39,707,920 cells)
+- 2010: 17 columns by 1,155,304 rows (19,640,168 cells)
+- 2007: 17 columns by 1,597,048 rows (27,149,816 cells)
+- 2004: 17 columns by 1,770,184 rows (30,093,128 cells)
+- Max (All Elections + By-Elections): 17 columns by 12,835,444 rows
+  (218,202,548 cells)
+
+#### *Example Usage ‘by polling place’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Distribution of preferences by polling place",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "By-Election"), # Any or All
+  category = "House",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data ‘by polling place’:*
+
+| date       | event                 | StateAb | DivisionID | DivisionNm | PollingPlaceID | PollingPlaceNm | CountNumber | BallotPosition | CandidateID | Surname | GivenNm | PartyAb | PartyNm             | Elected | CalculationType  | CalculationValue |
+|:-----------|:----------------------|:--------|-----------:|:-----------|---------------:|:---------------|------------:|---------------:|------------:|:--------|:--------|:--------|:--------------------|:--------|:-----------------|-----------------:|
+| 2025-05-03 | 2025 Federal Election | NSW     |        103 | Banks      |              0 | ABSENT         |           0 |              1 |       41763 | TARUSTE | Allan   | CYA     | Trumpet of Patriots | N       | Preference Count |              220 |
+
+  
+
+## Flow of Preferences
+
+### Two party preferred flow of preferences by party
+
+The `Two party preferred flow of preferences by party` dataset provides
+the TPP flow of preferences, detailing:
+
+- the party details from whom the votes are transferred
+  (`PartyAb`,`PartyNm`).
+- The votes and percentage of votes transferred to the Coalition
+  (`Liberal/National Coalition Transfer Votes`,
+  `Liberal/National Coalition Tansfer Percentage`)
+- The votes and percentage of votes transferred to the ALP
+  (`Australian Labor Party Transfer Votes`,
+  `Australian Labor Party Transfer Percentage`.
+
+Covering elections from `2004` to the present, this dataset is available
+for the `House` only. No changes are made.
+
+#### *Example Usage ‘by party’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Two party preferred flow of preferences by party",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data ‘by party’:*
+
+| date       | event                 | PartyAb | PartyNm | Australian Labor Party Transfer Votes | Australian Labor Party Transfer Percentage | Liberal/National Coalition Transfer Votes | Liberal/National Coalition Transfer Percentage |
+|:-----------|:----------------------|:--------|:--------|--------------------------------------:|-------------------------------------------:|------------------------------------------:|-----------------------------------------------:|
+| 2025-05-03 | 2025 Federal Election | LP      | Liberal |                                  1394 |                                      12.47 |                                      9782 |                                          87.53 |
+
+  
+
+The `Two party preferred flow of preferences by state by party` dataset
+further breaks down the above figures by state (`StateAb`).
+
+#### *Example Usage ‘by state’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Two party preferred flow of preferences by state by party",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data ‘by state’:*
+
+| date       | event                 | StateAb | PartyAb | PartyNm     | Australian Labor Party Transfer Votes | Australian Labor Party Transfer Percentage | Liberal/National Coalition Transfer Votes | Liberal/National Coalition Transfer Percentage |
+|:-----------|:----------------------|:--------|:--------|:------------|--------------------------------------:|-------------------------------------------:|------------------------------------------:|-----------------------------------------------:|
+| 2025-05-03 | 2025 Federal Election | NSW     | IND     | Independent |                                298935 |                                      64.26 |                                    166253 |                                          35.74 |
+
+  
+
+### Two candidate preferred flow of preferences by party
+
+The `Two candidate preferred flow of preferences by party` dataset
+provides the TCP flow of preferences, detailing:
+
+- the party details from whom the votes are transferred
+  (`FromPartyGroupID`,`FromPartyGroupAb`,`FromPartyGroupNm`,`FromPartyOrderOfAppearance`).
+- the party details to whom the votes are transferred
+  (`ToPartyGroupID`,`ToPartyGroupAb`,`ToPartyGroupNm`,`ToPartyOrderOfAppearance`).
+- The number of votes and percentage of votes transferred
+  (`TransferVotes`, `TransferPercentage`)
+
+Covering elections from `2004` to the present, this dataset is available
+for the `House` only. No changes are made.
+
+#### *Example Usage ‘by party’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Two candidate preferred flow of preferences by party",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data ‘by party’:*
+
+| date       | event                 | FromPartyGroupID | FromPartyGroupAb | FromPartyGroupNm       | FromPartyOrderOfAppearance | ToPartyGroupID | ToPartyDisplayAb | ToPartyGroupNm         | ToPartyOrderOfAppearance | TransferVotes | TransferPercentage |
+|:-----------|:----------------------|-----------------:|:-----------------|:-----------------------|---------------------------:|---------------:|:-----------------|:-----------------------|-------------------------:|--------------:|-------------------:|
+| 2025-05-03 | 2025 Federal Election |                2 | ALP              | Australian Labor Party |                          1 |              2 | ALP              | Australian Labor Party |                        1 |             0 |                  0 |
+
+  
+
+The `Two candidate preferred flow of preferences by state by party`
+dataset further breaks down the above figures by state (`StateAb`).
+
+\*Caution should be taken if retrieving multiple election years as this
+dataset is large. Sizes include:
+
+- 2022: 21 columns by 127,404 rows (2,675,484 cells)
+- 2019: 21 columns by 115,350 rows (2,422,350 cells)
+- 2016: 21 columns by 101,664 rows (2,134,944 cells)
+- 2013: 21 columns by 136,516 rows (2,866,836 cells)
+- 2010: 21 columns by 91,136 rows (1,913,856 cells)
+- 2007: 21 columns by 106,838 rows (2,243,598 cells)
+- 2004: 21 columns by 112,788 rows (2,368,548 cells)
+
+#### *Example Usage ‘by state’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Two candidate preferred flow of preferences by state by party",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data ‘by state’:*
+
+| date       | event                 | StateAb | FromPartyGroupID | FromPartyGroupAb | FromPartyGroupNm       | FromPartyOrderOfAppearance | ToPartyGroupID | ToPartyDisplayAb | ToPartyGroupNm         | ToPartyOrderOfAppearance | TransferVotes | TransferPercentage |
+|:-----------|:----------------------|:--------|-----------------:|:-----------------|:-----------------------|---------------------------:|---------------:|:-----------------|:-----------------------|-------------------------:|--------------:|-------------------:|
+| 2025-05-03 | 2025 Federal Election | NSW     |                2 | ALP              | Australian Labor Party |                          1 |              2 | ALP              | Australian Labor Party |                        1 |             0 |                  0 |
+
+  
+
+### Two candidate preferred flow of preferences by candidate
+
+The
+`Two candidate preferred flow of preferences by candidate by division`
+dataset provides the TCP flow of preferences by candidate, detailing:
+
+- the division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- the candidate details from whom the votes are transferred
+  (`FromCandidateID`,`FromCandidatePartyAb`,`FromCandidatePartyNm`,`FromCandidateSurname`,`FromCandidateGivenNm`,
+  `FromCandidateBallotPosition`).
+- the candidate details to whom the votes are transferred
+  (`ToCandidateID`,`ToCandidatePartyAb`,`ToCandidatePartyNm`,`ToCandidateSurname`,`ToGivenNm`,
+  `ToCandidateBallotPosition`).
+- The number of votes and percentage of votes transferred
+  (`TransferVotes`, `TransferPercentage`)
+
+Covering elections from `2004` to the present, this dataset is available
+for the `House` only. No changes are made.
+
+#### *Example Usage ‘by division’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Two candidate preferred flow of preferences by candidate by division",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "House"
+)
+```
+
+#### *Sample Data ‘by division’:*
+
+| date       | event                 | StateAb | DivisionID | DivisionNm | FromCandidateID | FromCandidatePartyAb | FromCandidatePartyNm | FromCandidateSurname | FromCandidateGivenNm | FromCandidateBallotPosition | ToCandidateID | ToCandidatePartyAb | ToCandidatePartyNm     | ToCandidateSurname | ToCandidateGivenNm | ToCandidateBallotPosition | TransferCount | TransferPercentage |
+|:-----------|:----------------------|:--------|-----------:|:-----------|----------------:|:---------------------|:---------------------|:---------------------|:---------------------|----------------------------:|--------------:|:-------------------|:-----------------------|:-------------------|:-------------------|--------------------------:|--------------:|-------------------:|
+| 2025-05-03 | 2025 Federal Election | ACT     |        318 | Bean       |               0 | NA                   | NA                   | First Preferences    | NA                   |                           0 |         40676 | ALP                | Australian Labor Party | SMITH              | David              |                         4 |         42158 |              60.85 |
+
+  
+
+The `Two candidate preferred flow of preferences by polling place`
+dataset further breaks down the above figures by polling place
+(`PollingPlaceID`,`PollingPlaceNm`).
+
+#### *Example Usage ‘by polling place’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Two candidate preferred flow of preferences by polling place",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "By-Election"),
+  category = "House"
+)
+```
+
+#### *Sample Data ‘by polling place’:*
+
+| date       | event                 | StateAb | DivisionID | DivisionNm | PollingPlaceID | PollingPlaceNm | FromCandidateID | FromCandidatePartyAb | FromCandidatePartyNm | FromCandidateSurname | FromCandidateGivenNm | FromCandidateBallotPosition | ToCandidateID | ToCandidatePartyAb | ToCandidatePartyNm                      | ToCandidateSurname | ToCandidateGivenNm | ToCandidateBallotPosition | TransferCount | TransferPercentage |
+|:-----------|:----------------------|:--------|-----------:|:-----------|---------------:|:---------------|----------------:|:---------------------|:---------------------|:---------------------|:---------------------|----------------------------:|--------------:|:-------------------|:----------------------------------------|:-------------------|:-------------------|--------------------------:|--------------:|-------------------:|
+| 2025-05-03 | 2025 Federal Election | NSW     |        103 | Banks      |              0 | ABSENT         |               0 | NA                   | NA                   | First Preferences    | NA                   |                           0 |         41411 | LP                 | Liberal Party of Australia NSW Division | COLEMAN            | David              |                         7 |           842 |              44.13 |
+
+  
+
+## Votes
+
+### Informal votes
+
+The `Informal votes by state` dataset provides a summary of formal and
+informal votes, detailing:
+
+- the state details (`StateAb`, `StateNm`).
+- the number of formal and informal votes
+  (`FormalVotes`,`InformalVotes`).
+- the total number of votes (formal + informal) (`TotalVotes`).
+- The percentage of informal votes (`InformalPercent`).
+- the overall swing in informal votes received compared to the previous
+  election (`InformalSwing`).
+
+Covering elections from `2004` to the present, this dataset is available
+for both the `House`, `Senate`, or `Referendum`. No changes are made.
+
+#### *Example Usage ‘by state’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Informal votes by state",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  # type = "Referendum", (for Referendum)
+  category = "House" # OR "Senate" OR "Referendum"
+)
+```
+
+#### *Sample Data ‘by state’:*
+
+| date       | event                 | StateAb | StateNm         | FormalVotes | InformalVotes | TotalVotes | InformalPercent | InformalSwing |
+|:-----------|:----------------------|:--------|:----------------|------------:|--------------:|-----------:|----------------:|--------------:|
+| 2025-05-03 | 2025 Federal Election | NSW     | New South Wales |     4793251 |        420008 |    5213259 |            8.06 |          1.84 |
+
+  
+
+The `Informal votes by division` dataset further breaks down the above
+figures by division (`DivisionID`,`DivisionNm`).
+
+#### *Example Usage ‘by division’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Informal votes by division",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  # type = "Referendum", (for Referendum)
+  category = "House" # OR "Senate" OR "Referendum"
+)
+```
+
+#### *Sample Data ‘by division’:*
+
+| date       | event                 | DivisionID | DivisionNm | StateAb | FormalVotes | InformalVotes | TotalVotes | InformalPercent | InformalSwing |
+|:-----------|:----------------------|-----------:|:-----------|:--------|------------:|--------------:|-----------:|----------------:|--------------:|
+| 2025-05-03 | 2025 Federal Election |        153 | Werriwa    | NSW     |       87614 |         18274 |     105888 |           17.26 |          7.08 |
+
+  
+
+### Turnout
+
+The `Turnout by state` dataset provides a summary of voter turnout,
+detailing:
+
+- the state details (`StateAb`, `StateNm`).
+- the number of voters enrolled (`Enrolment`).
+- the number and percentage of voters who voted (`Turnout`,
+  `TurnoutPercentage`).
+- the overall swing in turnout compared to the previous election
+  (`TurnoutSwing`).
+
+Covering elections from `2004` to the present, this dataset is available
+for both the `House`, `Senate`, or `Referendum`. No changes are made.
+
+#### *Example Usage ‘by state’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Turnout by state",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  # type = "Referendum", (for Referendum)
+  category = "House" # OR "Senate" OR "Referendum"
+)
+```
+
+#### *Sample Data ‘by state’:*
+
+| date       | event                 | StateAb | StateNm         | Enrolment | Turnout | TurnoutPercentage | TurnoutSwing |
+|:-----------|:----------------------|:--------|:----------------|----------:|--------:|------------------:|-------------:|
+| 2025-05-03 | 2025 Federal Election | NSW     | New South Wales |   5692270 | 5213259 |             91.58 |         0.88 |
+
+  
+
+The `Turnout by division` dataset further breaks down the above figures
+by division (`DivisionID`,`DivisionNm`).
+
+#### *Example Usage ‘by division’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Turnout by division",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  # type = "Referendum", (for Referendum)
+  category = "House" # OR "Senate" OR "Referendum"
+)
+```
+
+#### *Sample Data ‘by division’:*
+
+| date       | event                 | DivisionID | DivisionNm | StateAb | Enrolment | Turnout | TurnoutPercentage | TurnoutSwing |
+|:-----------|:----------------------|-----------:|:-----------|:--------|----------:|--------:|------------------:|-------------:|
+| 2025-05-03 | 2025 Federal Election |        179 | Adelaide   | SA      |    131436 |  118567 |             90.21 |         0.03 |
+
+  
+
+### Votes Type
+
+The `Votes by state` dataset provides the number of votes by vote type,
+detailing:
+
+- the state details (`StateAb`, `StateNm`).
+- the number of voters enrolled (`Enrolment`).
+- the number votes by vote type (`OrdinaryVotes`, `AbsentVotes`,
+  `ProvisionalVotes`, `DeclarationPrePollVotes`, `PostalVotes`).
+- the total number of votes and percentage (`TotalVotes`,
+  `TotalPercentage`).
+
+Covering elections from `2004` to the present, this dataset is available
+for the `House`, `Senate` or `Referendum`. Minor amendments are made to
+the original dataset, changing `PrePollVotes` to
+`DeclarationPrePollVotes`. This ensures consistency in column names
+across all datasets.
+
+#### *Example Usage ‘by state’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Votes by state",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  # type = "Referendum", (for Referendum)
+  category = "House" # OR "Senate" OR "Referendum"
+)
+```
+
+#### *Sample Data ‘by state’:*
+
+| date       | event                 | StateAb | StateNm         | Enrolment | OrdinaryVotes | AbsentVotes | ProvisionalVotes | DeclarationPrePollVotes | PostalVotes | TotalVotes | TotalPercentage |
+|:-----------|:----------------------|:--------|:----------------|----------:|--------------:|------------:|-----------------:|------------------------:|------------:|-----------:|----------------:|
+| 2025-05-03 | 2025 Federal Election | NSW     | New South Wales |   5692270 |       4388728 |      152839 |             5133 |                  150434 |      516125 |    5213259 |           91.58 |
+
+  
+
+The `Votes by division` dataset further breaks down the above figures by
+division (`DivisionID`,`DivisionNm`).
+
+#### *Example Usage ‘by division’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Votes by division",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  # type = "Referendum", (for Referendum)
+  category = "House" # OR "Senate" OR "Referendum"
+)
+```
+
+#### *Sample Data ‘by division’:*
+
+| date       | event                 | DivisionID | DivisionNm | StateAb | Enrolment | OrdinaryVotes | AbsentVotes | ProvisionalVotes | DeclarationPrePollVotes | PostalVotes | TotalVotes | TotalPercentage |
+|:-----------|:----------------------|-----------:|:-----------|:--------|----------:|--------------:|------------:|-----------------:|------------------------:|------------:|-----------:|----------------:|
+| 2025-05-03 | 2025 Federal Election |        179 | Adelaide   | SA      |    131436 |         91642 |        6025 |              837 |                    3988 |       16075 |     118567 |           90.21 |
+
+  
+
+The `Votes by polling place` dataset further breaks down the above
+figures by division (`PollingPlaceID`,`PollingPlaceNm`). It is only for
+`Referendum`.
+
+#### *Example Usage ‘by polling place’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Votes by polling place",
+  date_range = list(from = "2023-01-01", to = "2024-01-01"),
+  type = "Referendum",
+  category = "Referendum"
+)
+```
+
+#### *Sample Data ‘by polling place’:*
+
+| date       | event           | QuestionNo | StateAb | DivisionID | DivisionNm | PollingPlaceID | PollingPlaceNm | YesVotes | YesPercentage | NoVotes | NoPercentage | FormalVotes | FormalPercentage | InformalVotes | InformalPercentage | TotalVotes |
+|:-----------|:----------------|-----------:|:--------|-----------:|:-----------|---------------:|:---------------|---------:|--------------:|--------:|-------------:|------------:|-----------------:|--------------:|-------------------:|-----------:|
+| 2023-10-14 | 2023 Referendum |          1 | NSW     |        119 | Fowler     |          31643 | Abbotsbury     |      339 |         24.93 |    1021 |        75.07 |        1360 |            98.27 |            24 |               1.73 |       1384 |
+
+  
+
+## General
+
+### Political parties
+
+The `Political parties` dataset provides a summary of the political
+parties being represented at each election, detailing:
+
+- the state details (`StateAb`).
+- the party details (`PartyAb`, `PartyNm`), including the registered
+  party name (`RegisteredPartyAb`).
+
+Covering elections from `2004` to the present, this dataset is available
+for the `General` category. No changes are made.
+
+#### *Example Usage:*
+
+``` r
+df <- get_election_data(
+  file_name = "Political parties",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  category = "General"
+)
+```
+
+#### *Sample Data:*
+
+| date       | event                 | StateAb | PartyAb | RegisteredPartyAb | PartyNm              |
+|:-----------|:----------------------|:--------|:--------|:------------------|:---------------------|
+| 2025-05-03 | 2025 Federal Election | VIC     | AJP     | AJP               | Animal Justice Party |
+
+  
+
+### Polling places
+
+The `Polling places` dataset provides a summary of the polling places
+used at each election, detailing:
+
+- the division details (`StateAb`, `DivisionID`, `DivisionNm`).
+- the polling place details (`PollingPlaceID`, `PollingPlaceTypeID`,
+  `PollingPlaceNm`).
+- the address of the polling place (`PremisesAddress1`,
+  `PremisesAddress2`, `PremisesAddress3`, `PremisesSubrub`,
+  `PremisesStateAb`, `PremisesPostCode`).
+- the coordinates of the polling place (`Latitude`, `Longitude`).
+
+Covering elections from `2004` to the present, this dataset is available
+for the `General` category. The dataset is processed in the following
+way, using the
+[`process_coords()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_coords.html)
+function:
+
+- `NA` or `0` values in `Latitude` and `Longitude` are replaced if
+  known, based on matching of the `PollingPlaceID` column within an
+  internal dataset and the dataset retrieved from the AEC.
+
+#### *Example Usage:*
+
+``` r
+df <- get_election_data(
+  file_name = "Polling places",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "Referendum", "By-Election"), # Any or All
+  category = "General",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data:*
+
+| date       | event                 | StateAb | DivisionID | DivisionNm | PollingPlaceID | PollingPlaceTypeID | PollingPlaceNm      | PremisesNm                 | PremisesAddress1 | PremisesAddress2 | PremisesAddress3 | PremisesSuburb | PremisesStateAb | PremisesPostCode |  Latitude | Longitude |
+|:-----------|:----------------------|:--------|-----------:|:-----------|---------------:|-------------------:|:--------------------|:---------------------------|:-----------------|:-----------------|:-----------------|:---------------|:----------------|-----------------:|----------:|----------:|
+| 2025-05-03 | 2025 Federal Election | ACT     |        318 | Bean       |          93925 |                  5 | Belconnen BEAN PPVC | Belconnen Community Centre | 23 Swanson Ct    | NA               | NA               | BELCONNEN      | ACT             |             2617 | -35.23895 |  149.0691 |
+
+  
+
+### Enrolment
+
+The `Enrolment by state` dataset provides a summary of the enrolment,
+detailing:
+
+- the state details (`StateAb`, `StateNm`).
+- the number of enrolments based on type
+  (`CloseOfRollsEnrolment`,`NotebookRollAdditions`,`NotebookRollDeletions`,`ReinstatementsPrePoll`,`ReinstatementsAbsent`,`ReinstatementsProvisional`).
+- the overall number of enrolled voters (`Enrolment`).
+
+Covering elections from `2004` to the present, this dataset is available
+for the `General` category. No changes are made.
+
+#### *Example Usage ‘by state’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Enrolment by state",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "Referendum"), # Any or All
+  category = "General"
+)
+```
+
+#### *Sample Data ‘by state’:*
+
+| date       | event                 | StateAb | StateNm         | CloseOfRollsEnrolment | NotebookRollAdditions | NotebookRollDeletions | ReinstatementsPostal | ReinstatementsPrePoll | ReinstatementsAbsent | ReinstatementsProvisional | Enrolment |
+|:-----------|:----------------------|:--------|:----------------|----------------------:|----------------------:|----------------------:|---------------------:|----------------------:|---------------------:|--------------------------:|----------:|
+| 2025-05-03 | 2025 Federal Election | NSW     | New South Wales |               5694989 |                   114 |                  2956 |                   11 |                    43 |                    8 |                        61 |   5692270 |
+
+  
+
+The `Enrolment by division` dataset further breaks down the above
+figures by division (`DivisionID`,`DivisionNm`).
+
+#### *Example Usage ‘by division’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Enrolment by division",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "Referendum"), # Any or All
+  category = "General"
+)
+```
+
+#### *Sample Data ‘by division’:*
+
+| date       | event                 | DivisionID | DivisionNm | StateAb | CloseOfRollsEnrolment | NotebookRollAdditions | NotebookRollDeletions | ReinstatementsPostal | ReinstatementsPrePoll | ReinstatementsAbsent | ReinstatementsProvisional | Enrolment |
+|:-----------|:----------------------|-----------:|:-----------|:--------|----------------------:|----------------------:|----------------------:|---------------------:|----------------------:|---------------------:|--------------------------:|----------:|
+| 2025-05-03 | 2025 Federal Election |        179 | Adelaide   | SA      |                131466 |                     0 |                    66 |                    3 |                     7 |                   14 |                        12 |    131436 |
+
+  
+
+### Declaration votes
+
+The `Declaration votes issued by state` and
+`Declaration votes received by state` datasets provide a summary of the
+number of declaration votes issued and received, respectively,
+detailing:
+
+- the state details (`StateAb`, `StateNm`).
+- the number of declaration votes by type
+  (`Provisional`,`Absent`,`PrePoll`,`PrePollOwnDivision`,`Postal`,`PostalOwnDivision`).
+
+Covering elections from `2004` to the present, this dataset is available
+for the `General` category. No changes are made.
+
+#### *Example Usage ‘by state’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Declaration votes issued by state", # OR Declaration votes received by state
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "Referendum"), # Any or All
+  category = "General"
+)
+```
+
+#### *Sample Data ‘by state’:*
+
+| date       | event                 | StateAb | StateNm         | Provisional | Absent | PrePoll | PrePollOwnDivision | Postal | PostalOwnDivision |
+|:-----------|:----------------------|:--------|:----------------|------------:|-------:|--------:|-------------------:|-------:|------------------:|
+| 2025-05-03 | 2025 Federal Election | NSW     | New South Wales |       17080 | 157683 |  135807 |               9015 | 614888 |            612738 |
+
+  
+
+The `Declaration votes issued by division` and
+`Declaration votes received by division` datasets further break down the
+above figures by division (`DivisionID`,`DivisionNm`).
+
+#### *Example Usage ‘by division’:*
+
+``` r
+df <- get_election_data(
+  file_name = "Declaration votes issued by division", # OR Declaration votes received by division
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "Referendum"), # Any or All
+  category = "General"
+)
+```
+
+#### *Sample Data ‘by division’:*
+
+| date       | event                 | DivisionID | DivisionNm | StateAb | Provisional | Absent | PrePoll | PrePollOwnDivision | Postal | PostalOwnDivision |
+|:-----------|:----------------------|-----------:|:-----------|:--------|------------:|-------:|--------:|-------------------:|-------:|------------------:|
+| 2025-05-03 | 2025 Federal Election |        179 | Adelaide   | SA      |        1798 |   8411 |    3012 |                175 |  19450 |             19185 |
+
+\<br
+
+## Statistics
+
+### Postal vote applications by total
+
+The `Postal vote applications by total` dataset provides a summary of
+the number of postal vote applications received and postal votes
+returned, detailing:
+
+- the division details (`StateAb`, `DivisionNm`).
+- the number of valid applications received
+  (`Valid Applications Received`).
+- the number of postal votes returned (`Postal Votes Returned`).
+
+Covering the`2022` election only, this dataset is available for the
+`Statistics` category. No changes are made.
+
+#### *Example Usage:*
+
+``` r
+df <- get_election_data(
+  file_name = "Postal vote applications by total",
+  date_range = list(from = "2022-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "Referendum", "By-Election"), # Any or All
+  category = "Statistics"
+)
+```
+
+#### *Sample Data:*
+
+| date       | event                 | StateAb | DivisionNm | Valid Applications Received | Postal Votes Returned |
+|:-----------|:----------------------|:--------|:-----------|----------------------------:|----------------------:|
+| 2025-05-03 | 2025 Federal Election | VIC     | Deakin     |                       28384 |                 25144 |
+
+  
+
+### Postal vote applications by date
+
+The `Postal vote applications by date` dataset provides a summary of the
+number of postal votes returned each day, detailing:
+
+- the division details (`StateAb`, `DivisionNm`).
+- the date the postal vote was received (`DateReceived`).
+- the total number of postal votes received (`TotalPVAs`).
+
+Covering elections from `2010` to `2019`, this dataset is available for
+the `Statistics` category. The dataset is processed in the following
+way, using the
+[`process_pva_date()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_pva_date.html)
+function:
+
+- column names are standardised, including `Enrolment`,
+  `Enrolment Division`, `PVA_Web_2_Date_Div` and `PVA_Web_2_V2_Div` are
+  renamed to `DivisionNm` and `State_Cd` to `StateAb`.
+- Unnecessary columns are dropped, including `<>`,
+  `TOTAL to date(Inc GPV)`, and `Date out of range`.
+- the date columns are pivoted from wide to long and converted into a
+  date format for ease of comparison across years.
+
+#### *Example Usage:*
+
+``` r
+df <- get_election_data(
+  file_name = "Postal vote applications by date",
+  date_range = list(from = "2010-01-01", to = "2022-01-01"),
+  type = c("Federal Election", "By-Election"), # Any or All
+  category = "Statistics",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data:*
+
+| date       | event                 | StateAb | DivisionNm | DateReceived | TotalPVAs |
+|:-----------|:----------------------|:--------|:-----------|:-------------|----------:|
+| 2019-05-18 | 2019 Federal Election | ACT     | Bean       | 2019-04-11   |       150 |
+
+  
+
+### Postal vote applications by party
+
+The `Postal vote applications by party` dataset provides a summary of
+the number of postal votes returned each day, detailing:
+
+- the division details (`StateAb`, `DivisionNm`).
+- the number of General Postal Voters (`GPV`) - these are voters who
+  automatically receive ballot papers via post and generally include
+  voters with a disability, silent electors, prisoners, those in remote
+  areas, and those who are unable to attend a polling place on election
+  day due to religious objections.
+- the number of AEC-received postal vote applications and by the method
+  in which they were received (`AEC (Online)`, `AEC (Paper)`,
+  `AEC (Total)`).
+- the number of party-received postal vote applications (`ALP`, `CLP`,
+  `DEM`, `LIB`, `LNP`, `NAT`, `OTH`).
+- the total number of AEC and party received postal vote applications
+  (`Total (AEC + Parties)`).
+
+Covering elections from `2010` to `2019`, this dataset is available for
+the `Statistics` category. The dataset is processed in the following
+way, using the
+[`process_pva_party()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_pva_party.html)
+function:
+
+- column names are standardised, including abbreviating party names.
+
+#### *Example Usage:*
+
+``` r
+df <- get_election_data(
+  file_name = "Postal vote applications by party",
+  date_range = list(from = "2010-01-01", to = "2022-01-01"),
+  type = c("Federal Election", "By-Election"), # Any or All
+  category = "Statistics",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data:*
+
+| date       | event                 | StateAb | DivisionNm |  GPV | AEC (Online) | AEC (Paper) | AEC (Total) | Total (AEC + Parties) | ALP | CLP | DEM | LIB | LNP | NAT | OTH |
+|:-----------|:----------------------|:--------|:-----------|-----:|-------------:|------------:|------------:|----------------------:|----:|----:|----:|----:|----:|----:|----:|
+| 2019-05-18 | 2019 Federal Election | ACT     | Bean       | 1642 |         3204 |         229 |        3433 |                  5090 |   1 |  NA |  NA |  12 |   2 |  NA |  NA |
+
+  
+
+### Pre-poll votes
+
+The `Pre-poll votes` dataset provides a summary of the number of prepoll
+votes issued, detailing:
+
+- the polling place details (`StateAb`, `DivisionNm`, `PollingPlaceNm`).
+- the date the pre-poll vote was issued (`IssueDate`).
+- the total number of prepoll votes issued (`TotalPPVs`).
+
+Covering elections from `2010` to present, this dataset is available for
+the `Statistics` category. The dataset is processed in the following
+way, using the
+[`process_ppv()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_ppv.html)
+function:
+
+- column names are standardised.
+- the date columns are pivoted from wide to long and converted into a
+  date format for ease of comparison across years.
+
+#### *Example Usage:*
+
+``` r
+df <- get_election_data(
+  file_name = "Pre-poll votes",
+  date_range = list(from = "2010-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "Referendum", "By-Election"), # Any or All
+  category = "Statistics",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data:*
+
+| date       | event                 | StateAb | DivisionNm | PollingPlaceNm      | IssueDate  | TotalPPVs |
+|:-----------|:----------------------|:--------|:-----------|:--------------------|:-----------|----------:|
+| 2025-05-03 | 2025 Federal Election | ACT     | Bean       | Belconnen BEAN PPVC | 2025-04-22 |        98 |
+
+  
+
+### Votes by SA1
+
+The `Votes by SA1` dataset provides a summary of the number of votes by
+SA1, detailing:
+
+- the SA1 details (`StateAb`, `DivisionNm`, `PollingPlaceID`,
+  `PollingPlaceNm`, `StatisticalAreaID`).
+- indicative count of otes cast per SA1 (`Count`).
+
+Covering elections from `2013` to present, this dataset is available for
+the `Statistics` category. The dataset is processed in the following
+way, using the
+[`process_ccd()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_ccd.html)
+function:
+
+- column names are standardised and the `year` column is removed.
+
+#### *Example Usage:*
+
+``` r
+df <- get_election_data(
+  file_name = "Votes by SA1",
+  date_range = list(from = "2013-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "Referendum"), # Any or All
+  category = "Statistics",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data:*
+
+| date       | event                 | StateAb | DivisionNm | StatisticalAreaID | PollingPlaceID | PollingPlaceNm | Count |
+|:-----------|:----------------------|:--------|:-----------|------------------:|---------------:|:---------------|------:|
+| 2025-05-03 | 2025 Federal Election | SA      | Adelaide   |           4100101 |              0 | Absent         |    10 |
+
+  
+
+### Overseas
+
+The `Overseas` dataset provides a summary of the breakdown of overseas
+voting, detailing:
+
+- the the overseas post (`OverseasPost`).
+- the division that the votes were cast (`StateAb`, `DivisionNm`).
+- the total number of votes (`TotalVotes`), broken down by postal and
+  prepoll voting types (`PostalVotes`,`PrePollVotes`).
+
+Covering elections from `2013` to present, this dataset is available for
+the `Statistics` category. The dataset is processed in the following
+way, using the
+[`process_overseas()`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/process_overseas.html)
+function:
+
+- column names are standardised and the `pp_sort_nm` and `Total` columns
+  are removed.
+- the `TotalVotes` column is calculated based on the sum of
+  `PostalVotes` and `PrePollVotes`.
+
+#### *Example Usage:*
+
+``` r
+df <- get_election_data(
+  file_name = "Overseas",
+  date_range = list(from = "2013-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "Referendum"), # Any or All
+  category = "Statistics",
+  process = TRUE # OR FALSE
+)
+```
+
+#### *Sample Data:*
+
+| date       | event                 | OverseasPost | StateAb | DivisionNm | PrePollVotes | PostalVotes | TotalVotes |
+|:-----------|:----------------------|:-------------|:--------|:-----------|-------------:|------------:|-----------:|
+| 2025-05-03 | 2025 Federal Election | Abu Dhabi    | ACT     | Bean       |           11 |          NA |         11 |
+
+  
