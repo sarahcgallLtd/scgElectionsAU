@@ -1492,7 +1492,7 @@ The `Votes by polling place` dataset further breaks down the above figures by di
 ```{r, eval = FALSE}
 df <- get_election_data(
   file_name = "Votes by polling place",
-  date_range = list(from = "2022-01-01", to = "2026-01-01"),
+  date_range = list(from = "2023-01-01", to = "2024-01-01"),
   type = "Referendum",
   category = "Referendum"
 )
@@ -1503,6 +1503,7 @@ df <- get_election_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_election_data(file_name = "Votes by polling place",
+                    date_range = list(from = "2023-01-01", to = "2024-01-01"),
                     type = "Referendum",
                     category = "Referendum")
 )

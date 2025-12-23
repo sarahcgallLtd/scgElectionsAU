@@ -143,7 +143,7 @@ get_election_data <- function(
 
   # Check if events has 1 or more event
   if (length(events) == 0) {
-    stop("Check that the `date_range` captures election periods between 2004 and 2022, inclusively.")
+    stop("Check that the `date_range` captures election periods between 2004 and 2026, inclusively.")
   }
 
   # =====================================#
