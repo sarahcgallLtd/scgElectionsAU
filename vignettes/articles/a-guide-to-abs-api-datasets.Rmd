@@ -16,7 +16,7 @@ title: "A Guide to the ABS API Datasets"
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = FALSE,
+  eval = TRUE,
   warning = FALSE,
   message = FALSE
 )
@@ -136,7 +136,7 @@ Each index provides several measures:
 seifa_2021 <- get_abs_data("ABS_SEIFA2021_SA1")
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE}
 # Sample data display
 df <- data.frame(
   INDEX_TYPE = c("IEO", "IEO", "IRSAD", "IRSAD"),
@@ -155,12 +155,12 @@ kable(df, format = "html", table.attr = "class='table table-bordered'")
 irsd_scores <- seifa_2021[seifa_2021$INDEX_TYPE == "IRSD" &
                            seifa_2021$MEASURE == "SCORE", ]
 ```
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE}
 # Sample data display
 df <- data.frame(
   INDEX_TYPE = c("IRSD", "IRSD", "IRSD", "IRSD"),
   MEASURE = c("SCORE", "SCORE", "SCORE", "SCORE"),
-  OBS_STATUS = c(NA, NA, NA, q),
+  OBS_STATUS = c(NA, NA, NA, NA),
   ObsDimension = c(2021, 2021, 2021, 2021),
   ObsValue = c(980, 1053, 992, NA),
   SEIFA_SA1 = c(11102121517, 40304108006, 30907125329, 60401107706),
@@ -202,7 +202,7 @@ g01_ced <- get_abs_data("C21_G01_CED")
 
 #### *Sample Data:*
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE}
 # Sample data display
 df <- data.frame(
   ObsDimension = c(2021, 2021, 2021, 2021),
