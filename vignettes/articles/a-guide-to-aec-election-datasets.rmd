@@ -851,6 +851,35 @@ kable(first_row, format = "html", table.attr = "class='table table-bordered'")
 
 <br>
 
+The `Two party preferred by polling place` dataset further breaks down the above figures by polling place (`PollingPlaceID`, `PollingPlaceNm`).
+
+#### *Example Usage 'by polling place':*
+
+```{r, eval = FALSE}
+df <- get_election_data(
+  file_name = "Two party preferred by polling place",
+  date_range = list(from = "2004-01-01", to = "2026-01-01"),
+  type = c("Federal Election", "By-Election"), # Any or All
+  category = "House"
+)
+```
+
+#### *Sample Data 'by polling place':*
+
+```{r, echo = FALSE}
+df <- suppressMessages(
+  get_election_data(file_name = "Two party preferred by polling place")
+)
+
+# Selecting only the first row and keeping all columns
+first_row <- df[1,]
+
+# Create the HTML table with kable
+kable(first_row, format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
 ### Two party preferred by division by vote type
 The `Two party preferred by division by vote type` dataset provides the two party preferred (TPP) vote by vote type detailing:
 
@@ -879,35 +908,6 @@ df <- get_election_data(
 ```{r, echo = FALSE}
 df <- suppressMessages(
   get_election_data(file_name = "Two party preferred by division by vote type")
-)
-
-# Selecting only the first row and keeping all columns
-first_row <- df[1,]
-
-# Create the HTML table with kable
-kable(first_row, format = "html", table.attr = "class='table table-bordered'")
-```
-
-<br>
-
-The `Two party preferred by polling place` dataset further breaks down the above figures by polling place (`PollingPlaceID`, `PollingPlaceNm`).
-
-#### *Example Usage 'by polling place':*
-
-```{r, eval = FALSE}
-df <- get_election_data(
-  file_name = "Two party preferred by polling place",
-  date_range = list(from = "2004-01-01", to = "2026-01-01"),
-  type = c("Federal Election", "By-Election"), # Any or All
-  category = "House"
-)
-```
-
-#### *Sample Data 'by polling place':*
-
-```{r, echo = FALSE}
-df <- suppressMessages(
-  get_election_data(file_name = "Two party preferred by polling place")
 )
 
 # Selecting only the first row and keeping all columns

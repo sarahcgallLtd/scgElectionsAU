@@ -1,0 +1,527 @@
+---
+title: "A Guide to the ABS Census Datasets"
+---
+```{=html}
+<style>
+  .content p {
+    margin-top: 30px !important;
+  }
+
+  details {
+    margin-bottom: 40px;
+  }
+</style>
+```
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+<br>
+This guide explores the [`get_census_data`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_census_data.html) function in the `scgElectionsAU` package, designed to retrieve Census data from the Australian Bureau of Statistics (ABS). The function simplifies access to Census DataPacks for 2011, 2016, and 2021 at the Statistical Area Level 1 (SA1) geographic level. Census data provides comprehensive demographic, social, and economic information that can be linked to electoral data for analysis of voting patterns. Below, we detail the function's parameters, available datasets, usage examples, and the context of ABS Census data collection.
+<br>
+
+```{r setup, include = FALSE}
+library(scgElectionsAU)
+library(knitr)
+```
+
+### Introduction to ABS Census Data
+The Australian Bureau of Statistics (ABS) conducts the Census of Population and Housing every five years, collecting data on the key characteristics of people and dwellings in Australia. The Census provides a comprehensive snapshot of the nation, covering demographics, education, employment, income, housing, and more. The data is published through various products including [DataPacks](https://www.abs.gov.au/census/find-census-data/datapacks), [Community Profiles](https://www.abs.gov.au/census/find-census-data/community-profiles), and [GeoPackages](https://www.abs.gov.au/census/find-census-data/geopackages).
+
+The [`get_census_data`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_census_data.html) function provides access to Census DataPacks at the SA1 geographic level. SA1s are the smallest geographic unit for which Census data is publicly released, containing approximately 200-800 people. This granular level of data is particularly useful for linking Census demographics to electoral results.
+
+### The `get_census_data` Function
+The [`get_census_data`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_census_data.html) function retrieves Census data from ABS DataPacks, downloading and extracting specific tables from ZIP archives hosted on the ABS website. Each table contains different Census variables organised by topic.
+
+| Parameter     | Description                                                                                      | Valid Options                    |
+|---------------|--------------------------------------------------------------------------------------------------|----------------------------------|
+| `census_year` | The Census year to retrieve data for.                                                            | 2011, 2016, 2021                 |
+| `table`       | The table identifier to retrieve (e.g., "G01"). See `abs_census_tables` for available tables.   | See table descriptions below     |
+
+#### Census Profiles
+The Census DataPacks contain different profile types depending on the year:
+
+* **General Community Profile (GCP):** Used for 2016 and 2021 Census. Tables are prefixed with "G" (e.g., G01, G02). Contains approximately 60 tables covering all major Census topics.
+* **Basic Community Profile (BCP):** Used for 2011 Census. Tables are prefixed with "B" (e.g., B01, B02). Contains approximately 46 tables with core Census variables.
+
+#### Table Categories
+The tables are organised by topic:
+
+* **Person Characteristics:** Age, sex, marital status, ancestry, country of birth, language, religion
+* **Education:** School attendance, highest year of school, qualifications, field of study
+* **Employment:** Labour force status, occupation, industry, hours worked, income
+* **Family & Household:** Family composition, household composition, number of children
+* **Housing:** Dwelling structure, tenure, mortgage, rent, bedrooms, motor vehicles
+* **Health & Assistance:** Long-term health conditions, need for assistance, unpaid care
+
+### Data Sources and Collection
+The ABS collects Census data through the national Census conducted every five years. The data is processed, quality-checked, and released approximately 12-18 months after Census night. DataPacks are made available in CSV format within ZIP archives, organised by geographic level.
+
+Key points about the data:
+
+* **Confidentiality:** Small random adjustments are made to cell values to protect respondent confidentiality
+* **Geographic Structure:** SA1s are the building blocks of the Australian Statistical Geography Standard (ASGS), nesting within SA2, SA3, SA4, and State/Territory boundaries
+* **Comparability:** While many tables are consistent across years, some topics are only available in certain Census years (e.g., health conditions in 2021 only)
+
+### Looking Up Available Tables
+
+The `abs_census_tables` dataset provides a reference of all available tables and their descriptions:
+
+#### *Example: Finding Tables*
+
+```{r}
+# View all available tables
+head(abs_census_tables)
+
+# Find tables related to income
+abs_census_tables[grep("income", abs_census_tables$description, ignore.case = TRUE), ]
+
+# Find tables available in 2021
+abs_census_tables[grep("2021", abs_census_tables$census_years), ]
+
+# Find 2011 Census tables (B-prefix)
+abs_census_tables[grep("^B", abs_census_tables$table), ]
+```
+
+<br>
+
+## Available Tables and Examples
+
+The following sections detail selected tables available for each topic, including example usage of the `get_census_data` function.
+
+## Person Characteristics
+
+### G01/B01: Selected Person Characteristics by Sex
+The `G01` (2016, 2021) or `B01` (2011) table provides a summary of key person characteristics, including:
+
+- Age distribution (`Age_0_4_yr_M`, `Age_0_4_yr_F`, etc.)
+- Country of birth (`Australia_M`, `Australia_F`, `Elsewhere_M`, `Elsewhere_F`)
+- Indigenous status (`Indigenous_P_Tot_M`, `Indigenous_P_Tot_F`)
+- Language spoken at home
+- Citizenship and year of arrival
+
+This table is useful for understanding the basic demographic profile of an area.
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g01 <- get_census_data(
+  census_year = 2021, # OR 2016
+  table = "G01" # OR "B01" (2011)
+)
+```
+
+#### *Sample Data:*
+
+```{r, echo = FALSE}
+# Sample data (hidden execution)
+df <- suppressMessages(
+get_census_data(
+  census_year = 2021, # OR 2016
+  table = "G01"
+)
+)
+
+# Display as an HTML table
+kable(df[1,], format = "html", table.attr = "class='table table-bordered'")
+```
+
+<br>
+
+### G02/B02: Selected Medians and Averages
+The `G02` (2016, 2021) or `B02` (2011) table provides key summary statistics for each SA1, including:
+
+- Median age (`Median_age_persons`)
+- Median household income (`Median_tot_hhd_inc_weekly`)
+- Median personal income (`Median_tot_prsnl_inc_weekly`)
+- Median mortgage repayment (`Median_mortgage_repay_monthly`)
+- Median rent (`Median_rent_weekly`)
+- Average household size (`Average_household_size`)
+- Average number of bedrooms (`Average_num_psns_per_bedroom`)
+
+This table is particularly useful for socioeconomic analysis and identifying areas by income levels.
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g02 <- get_census_data(
+  census_year = 2021,
+  table = "G02"
+)
+```
+
+<br>
+
+### G04/B04: Age by Sex
+The `G04` (2016, 2021) or `B04` (2011) table provides detailed age breakdowns by sex, with single-year age groups and summary categories:
+
+- Single year of age from 0 to 100+
+- Male, Female, and Total counts for each age
+
+This table is useful for detailed demographic analysis and population pyramids.
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g04 <- get_census_data(
+  census_year = 2021,
+  table = "G04"
+)
+```
+
+<br>
+
+### G07/B07: Indigenous Status by Age by Sex
+The `G07` (2016, 2021) or `B07` (2011) table provides Indigenous status by age groups:
+
+- Aboriginal (`Aboriginal_M`, `Aboriginal_F`, `Aboriginal_P`)
+- Torres Strait Islander (`Torres_Strait_Islander_M`, etc.)
+- Both Aboriginal and Torres Strait Islander
+- Non-Indigenous population
+- Indigenous status not stated
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g07 <- get_census_data(
+  census_year = 2021,
+  table = "G07"
+)
+```
+
+<br>
+
+### G09/B09: Country of Birth by Age by Sex
+The `G09` (2016, 2021) or `B09` (2011) table provides country of birth information:
+
+- Australia-born population
+- Major countries of birth (England, New Zealand, China, India, etc.)
+- Regional groupings (Oceania, Europe, Asia, Americas, Africa)
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g09 <- get_census_data(
+  census_year = 2021,
+  table = "G09"
+)
+```
+
+<br>
+
+### G14/B14: Religious Affiliation by Sex
+The `G14` (2016, 2021) or `B14` (2011) table provides religious affiliation:
+
+- Major Christian denominations (Catholic, Anglican, Uniting Church, etc.)
+- Other religions (Buddhism, Hinduism, Islam, Judaism, etc.)
+- No religion
+- Religion not stated
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g14 <- get_census_data(
+  census_year = 2021,
+  table = "G14"
+)
+```
+
+<br>
+
+## Education
+
+### G16/B16: Highest Year of School Completed by Age by Sex
+The `G16` (2016, 2021) or `B16` (2011) table provides school completion levels:
+
+- Year 12 or equivalent
+- Year 11 or equivalent
+- Year 10 or equivalent
+- Year 9 or equivalent
+- Year 8 or below
+- Did not go to school
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g16 <- get_census_data(
+  census_year = 2021,
+  table = "G16"
+)
+```
+
+<br>
+
+### G49/B42: Highest Non-School Qualification by Age by Sex
+The `G49` (2016, 2021) or `B42` (2011) table provides post-school qualifications:
+
+- Postgraduate degree
+- Graduate diploma/certificate
+- Bachelor degree
+- Advanced diploma/diploma
+- Certificate III/IV
+- Certificate I/II
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g49 <- get_census_data(
+  census_year = 2021,
+  table = "G49"
+)
+```
+
+<br>
+
+## Employment & Income
+
+### G17/B17: Total Personal Income (Weekly) by Age by Sex
+The `G17` (2016, 2021) or `B17` (2011) table provides personal income distribution:
+
+- Income ranges (Negative/Nil, $1-$149, $150-$299, ... $3000+)
+- By age group and sex
+- Not stated/not applicable
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g17 <- get_census_data(
+  census_year = 2021,
+  table = "G17"
+)
+```
+
+<br>
+
+### G46/B40: Labour Force Status by Age by Sex
+The `G46` (2016, 2021) or `B40` (2011) table provides employment status:
+
+- Employed (full-time, part-time)
+- Unemployed (looking for work)
+- Not in the labour force
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g46 <- get_census_data(
+  census_year = 2021,
+  table = "G46"
+)
+```
+
+<br>
+
+### G60/B46: Occupation by Age by Sex
+The `G60` (2016, 2021) table provides occupation categories (ANZSCO major groups):
+
+- Managers
+- Professionals
+- Technicians and trades workers
+- Community and personal service workers
+- Clerical and administrative workers
+- Sales workers
+- Machinery operators and drivers
+- Labourers
+
+Note: 2011 uses table B46 for industry of employment.
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g60 <- get_census_data(
+  census_year = 2021,
+  table = "G60"
+)
+```
+
+<br>
+
+## Family & Household
+
+### G29/B25: Family Composition
+The `G29` (2016, 2021) or `B25` (2011) table provides family types:
+
+- Couple family with children
+- Couple family without children
+- One parent family
+- Other family types
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g29 <- get_census_data(
+  census_year = 2021,
+  table = "G29"
+)
+```
+
+<br>
+
+### G33/B29: Household Income (Weekly) by Household Composition
+The `G33` (2016, 2021) or `B29` (2011) table provides household income:
+
+- Income ranges for different household types
+- Family households vs. non-family households
+- Group households, lone person households
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g33 <- get_census_data(
+  census_year = 2021,
+  table = "G33"
+)
+```
+
+<br>
+
+## Housing
+
+### G36/B32: Dwelling Structure
+The `G36` (2016, 2021) or `B32` (2011) table provides dwelling types:
+
+- Separate house
+- Semi-detached/townhouse
+- Flat/apartment (by number of storeys)
+- Other dwelling types (caravan, cabin, etc.)
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g36 <- get_census_data(
+  census_year = 2021,
+  table = "G36"
+)
+```
+
+<br>
+
+### G37/B33: Tenure Type and Landlord Type by Dwelling Structure
+The `G37` (2016, 2021) or `B33` (2011) table provides housing tenure:
+
+- Owned outright
+- Owned with a mortgage
+- Rented (from real estate agent, state housing authority, private landlord, etc.)
+- Other tenure types
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g37 <- get_census_data(
+  census_year = 2021,
+  table = "G37"
+)
+```
+
+<br>
+
+### G34/B30: Number of Motor Vehicles by Dwellings
+The `G34` (2016, 2021) or `B30` (2011) table provides vehicle ownership:
+
+- No motor vehicles
+- 1 motor vehicle
+- 2 motor vehicles
+- 3 or more motor vehicles
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g34 <- get_census_data(
+  census_year = 2021,
+  table = "G34"
+)
+```
+
+<br>
+
+## Health & Assistance (2021 Only)
+
+### G19: Type of Long-Term Health Condition by Age by Sex
+The `G19` table (2021 only) provides health condition data:
+
+- Arthritis
+- Asthma
+- Cancer
+- Dementia
+- Diabetes
+- Heart disease
+- Kidney disease
+- Lung condition
+- Mental health condition
+- Stroke
+- Other long-term health conditions
+
+Note: This table is only available for the 2021 Census.
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g19 <- get_census_data(
+  census_year = 2021,
+  table = "G19"
+)
+```
+
+<br>
+
+### G18/B18: Need for Assistance with Core Activities by Age by Sex
+The `G18` (2016, 2021) or `B18` (2011) table provides disability information:
+
+- Has need for assistance
+- Does not have need for assistance
+- Need for assistance not stated
+
+#### *Example Usage:*
+
+```{r, eval = FALSE}
+g18 <- get_census_data(
+  census_year = 2021,
+  table = "G18"
+)
+```
+
+<br>
+
+## Linking Census Data to Electoral Data
+
+Census data at SA1 level can be linked to electoral data using the ABS boundary correspondence files available through [`get_boundary_data`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_boundary_data.html). The `Votes by SA1` dataset from [`get_election_data`](https://docs.sarahcgall.co.uk/scgElectionsAU/reference/get_election_data.html) provides vote counts at SA1 level that can be joined with Census demographics.
+
+#### *Example: Linking Census to Electoral Data*
+
+```{r, eval = FALSE}
+# Get 2021 Census income data
+census_income <- get_census_data(census_year = 2021, table = "G02")
+
+# Get SA1 voting data from 2022 election
+voting_sa1 <- get_election_data(
+  file_name = "Votes by SA1",
+  date_range = list(from = "2022-01-01", to = "2023-01-01"),
+  category = "Statistics"
+)
+
+# Join datasets by SA1 code
+# Note: Column names may need adjustment based on actual data structure
+merged_data <- merge(
+  voting_sa1,
+  census_income,
+  by.x = "StatisticalAreaID",
+  by.y = "SA1_CODE_2021"
+)
+```
+
+<br>
+
+## Additional Resources
+
+For more information about ABS Census data:
+
+* [ABS Census Data](https://www.abs.gov.au/census)
+* [Census DataPacks](https://www.abs.gov.au/census/find-census-data/datapacks)
+* [Census Dictionary](https://www.abs.gov.au/census/guide-census-data/census-dictionary)
+* [Australian Statistical Geography Standard (ASGS)](https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3)
+
+<br>

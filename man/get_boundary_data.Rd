@@ -7,7 +7,8 @@
 get_boundary_data(
   ref_date,
   level = c("CED", "SED", "POA", "SA1", "MB"),
-  type = c("allocation", "correspondence")
+  type = c("allocation", "correspondence"),
+  cache = TRUE
 )
 }
 \arguments{
@@ -18,6 +19,9 @@ get_boundary_data(
 Defaults to "CED".}
 
 \item{type}{Character. The type of boundary data. One of "allocation" or "correspondence". Defaults to "allocation".}
+
+\item{cache}{Logical. If TRUE (default), caches the downloaded and processed data for the session,
+making subsequent identical requests instant. Set to FALSE to always download fresh data.}
 }
 \value{
 A data frame containing the boundary data for the specified parameters. If multiple files are downloaded,
@@ -40,6 +44,8 @@ known column name typo ("SA1_7DIGICODE_2011" to "SA1_7DIGITCODE_2011"), and perf
 such as renaming columns (e.g., "CD_CODE_2006...2" to "CD_CODE_2006"), removing redundant columns (e.g.,
 "CD_CODE_2006...1"), and removing rows with all NA values. The function includes validation checks to ensure the
 parameters are valid and that the downloaded data can be combined.
+
+Use \code{\link{clear_cache}} to remove cached data when needed.
 }
 \examples{
 \dontrun{
@@ -51,6 +57,12 @@ sa1_data <- get_boundary_data(ref_date = 2021, level = "SA1", type = "correspond
 
 # Retrieve 2011 SA1 correspondence data (special case)
 sa1_2011_data <- get_boundary_data(ref_date = 2011, level = "SA1", type = "correspondence")
+
+# Second call uses cache - instant!
+sa1_2011_data2 <- get_boundary_data(ref_date = 2011, level = "SA1", type = "correspondence")
 }
 
+}
+\seealso{
+\code{\link{clear_cache}} to remove cached data
 }

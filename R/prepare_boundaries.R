@@ -77,9 +77,9 @@
 #' }
 #'
 #' @seealso
-#' \code{\link{get_boundary_data}} for retrieving individual ABS boundary files
+#' \code{get_boundary_data} for retrieving individual ABS boundary files
 #'
-#' @keywords internal
+#' @export
 prepare_boundaries <- function(
   event = c("2025 Federal Election", # 2021 ASGS
             "2023 Referendum", "2022 Federal Election", "2019 Federal Election", # 2016 ASGS
@@ -202,7 +202,7 @@ prepare_boundaries <- function(
 #'   }
 #' @param target_sa1_year Numeric. The target SA1 year to correspond to (2011, 2016, or 2021).
 #'   Must be greater than or equal to \code{base_year} for SA1 base types.
-#' @param process Logical. Passed to \code{\link{verify_ratios}} and \code{\link{combine_ratios}}
+#' @param process Logical. Passed to \code{verify_ratios} and \code{combine_ratios}
 #'   to control whether problematic ratio groups are removed.
 #'
 #' @return A data frame containing the correspondence mapping with columns for source unit
@@ -239,7 +239,7 @@ prepare_boundaries <- function(
 #' }
 #'
 #' When chaining correspondences, ratios are multiplied and aggregated using
-#' \code{\link{combine_ratios}}, then validated using \code{\link{verify_ratios}}.
+#' \code{combine_ratios}, then validated using \code{verify_ratios}.
 #'
 #' @examples
 #' \dontrun{
@@ -415,7 +415,7 @@ get_correspondence <- function(
 #'
 #' @return A data frame with SA1 identifiers and the corresponding POA or CED name.
 #'   The SA1 column name varies by year (e.g., \code{SA1_MAINCODE_2016}, \code{SA1_CODE_2021}).
-#'   For CED allocations, a 7-digit SA1 code column is also added via \code{\link{amend_maincode}}.
+#'   For CED allocations, a 7-digit SA1 code column is also added via \code{amend_maincode}.
 #'
 #' @details
 #' The ABS provides allocation files at different geographic levels depending on the year:
@@ -673,7 +673,7 @@ apply_redistribution_adjustments <- function(
 #'   (e.g., "RATIO_11SA1_16SA1").
 #' @param group_cols Character vector of length 2 specifying the source and target
 #'   geographic unit columns to aggregate by (e.g., \code{c("CD_CODE_2006", "SA1_CODE_2016")}).
-#' @param process Logical. Passed to \code{\link{verify_ratios}} to control whether
+#' @param process Logical. Passed to \code{verify_ratios} to control whether
 #'   groups with invalid combined ratios are removed.
 #'
 #' @return A data frame with columns for the source unit, target unit, and combined ratio.

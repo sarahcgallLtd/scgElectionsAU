@@ -327,6 +327,6 @@ test_that("prepare_boundaries downloads and converts SA1 2011 to SA1 2021", {
 test_that("prepare_boundaries downloads and converts SA1 2016 to SA1 2021", {
   expect_message(
     result <- prepare_boundaries(event = "2019 Federal Election", compare_to = "2023 Referendum"),
-    "Downloading `correspondence` file from")
+    "(Downloading|Using cached)")
   expect_equal(ncol(result), 6)
 })

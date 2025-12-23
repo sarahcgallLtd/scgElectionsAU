@@ -12,8 +12,13 @@
 #'   "Associated Entity", "Candidate", "Donor", "Media", "MPs", "Other", "Party", "Referendum Entity",
 #'   "Significant Third Party", "Third Party".
 #' @param type The type of return. Defaults to "Annual". Must be one of: "Annual", "Election", "Referendum".
+#' @param cache Logical. If TRUE (default), caches the downloaded data for the session,
+#'   making subsequent identical requests instant. Set to FALSE to always download fresh data.
 #'
 #' @return A data frame containing the requested disclosure data.
+#'
+#' @details
+#' Use \code{clear_cache} to remove cached data when needed.
 #'
 #' @examples
 #' \dontrun{
@@ -22,9 +27,13 @@
 #'
 #'   # Retrieve specific data: Receipts for Parties in Election returns
 #'   data <- get_disclosure_data(file_name = "Receipts", group = "Party", type = "Election")
+#'
+#'   # Second identical call uses cache - instant!
+#'   data2 <- get_disclosure_data(file_name = "Receipts", group = "Party", type = "Election")
 #' }
 #'
-#' @seealso \url{https://www.aec.gov.au/parties_and_representatives/financial_disclosure/} for more
+#' @seealso \code{clear_cache} to remove cached data,
+#'   \url{https://www.aec.gov.au/parties_and_representatives/financial_disclosure/} for more
 #'   information on the AEC's financial disclosure scheme.
 #'
 #' @importFrom scgUtils get_file
@@ -32,7 +41,8 @@
 get_disclosure_data <- function(
   file_name = NULL,
   group = NULL,
-  type = c("Annual", "Election", "Referendum")
+  type = c("Annual", "Election", "Referendum"),
+  cache = TRUE
 ) {
   # =====================================#
   # CHECK PARAMS
@@ -64,6 +74,17 @@ get_disclosure_data <- function(
     invalid_groups <- group[!group %in% valid_groups]
     stop("Invalid group provided: ", paste(invalid_groups, collapse = ", "),
          ". Must be one of: ", paste(valid_groups, collapse = ", "), ".")
+  }
+
+  # =====================================#
+  # CHECK CACHE
+  if (cache) {
+    cache_key <- paste("disclosure", file_name, group, type, sep = "|")
+    cached_data <- get_disclosure_cache(cache_key)
+    if (!is.null(cached_data)) {
+      message("Using cached disclosure data for `", file_name, "`...")
+      return(cached_data)
+    }
   }
 
   # =====================================#
@@ -99,6 +120,52 @@ get_disclosure_data <- function(
   )
 
   # =====================================#
-  # RETURN DATA
+  # CACHE AND RETURN DATA
+  if (cache) {
+    set_disclosure_cache(cache_key, tmp_df)
+  }
+
   return(tmp_df)
+}
+
+
+# ======================================================================================================================
+# CACHING FUNCTIONS
+
+# Package-level environment to store cached disclosure data
+.disclosure_cache <- new.env(parent = emptyenv())
+
+
+#' Get cached disclosure data
+#'
+#' Retrieves data from the disclosure cache if it exists.
+#'
+#' @param cache_key The cache key to look up.
+#'
+#' @return The cached data frame, or NULL if not found.
+#'
+#' @noRd
+#' @keywords internal
+get_disclosure_cache <- function(cache_key) {
+  if (exists(cache_key, envir = .disclosure_cache)) {
+    return(get(cache_key, envir = .disclosure_cache))
+  }
+  return(NULL)
+}
+
+
+#' Store disclosure data in cache
+#'
+#' Saves data to the disclosure cache.
+#'
+#' @param cache_key The cache key to store under.
+#' @param data The data frame to cache.
+#'
+#' @return Invisible NULL.
+#'
+#' @noRd
+#' @keywords internal
+set_disclosure_cache <- function(cache_key, data) {
+  assign(cache_key, data, envir = .disclosure_cache)
+  invisible(NULL)
 }

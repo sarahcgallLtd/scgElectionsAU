@@ -7,7 +7,8 @@
 get_disclosure_data(
   file_name = NULL,
   group = NULL,
-  type = c("Annual", "Election", "Referendum")
+  type = c("Annual", "Election", "Referendum"),
+  cache = TRUE
 )
 }
 \arguments{
@@ -21,6 +22,9 @@ get_disclosure_data(
 "Significant Third Party", "Third Party".}
 
 \item{type}{The type of return. Defaults to "Annual". Must be one of: "Annual", "Election", "Referendum".}
+
+\item{cache}{Logical. If TRUE (default), caches the downloaded data for the session,
+making subsequent identical requests instant. Set to FALSE to always download fresh data.}
 }
 \value{
 A data frame containing the requested disclosure data.
@@ -30,6 +34,9 @@ This function downloads and retrieves specific datasets from the Australian Elec
 Transparency Register. The register contains financial disclosure information from political entities,
 including annual returns, election returns, and referendum returns.
 }
+\details{
+Use \code{clear_cache} to remove cached data when needed.
+}
 \examples{
 \dontrun{
   # Retrieve default data: Donations Made by Donors for Annual returns
@@ -37,10 +44,14 @@ including annual returns, election returns, and referendum returns.
 
   # Retrieve specific data: Receipts for Parties in Election returns
   data <- get_disclosure_data(file_name = "Receipts", group = "Party", type = "Election")
+
+  # Second identical call uses cache - instant!
+  data2 <- get_disclosure_data(file_name = "Receipts", group = "Party", type = "Election")
 }
 
 }
 \seealso{
+\code{clear_cache} to remove cached data,
 \url{https://www.aec.gov.au/parties_and_representatives/financial_disclosure/} for more
 information on the AEC's financial disclosure scheme.
 }

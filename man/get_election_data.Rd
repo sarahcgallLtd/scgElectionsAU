@@ -9,7 +9,8 @@ get_election_data(
   date_range = list(from = "2025-01-01", to = "2026-01-01"),
   type = NULL,
   category = c("House", "Senate", "Referendum", "General", "Statistics"),
-  process = TRUE
+  process = TRUE,
+  cache = TRUE
 )
 }
 \arguments{
@@ -28,6 +29,9 @@ and end dates (in "YYYY-MM-DD" format) for the election events to include. Defau
 
 \item{process}{A logical value indicating whether to apply additional processing to the downloaded
 data, such as standardizing column names. Defaults to \code{TRUE}.}
+
+\item{cache}{Logical. If TRUE (default), caches the downloaded and processed data for the session,
+making subsequent identical requests instant. Set to FALSE to always download fresh data.}
 }
 \value{
 A data frame containing the combined AEC data for the specified criteria. The data frame
@@ -44,9 +48,10 @@ handle various types of election-related datasets, including federal elections, 
 and by-elections.
 }
 \details{
-The \code{get_aec_data} function automates the retrieval and processing of AEC datasets by:
+The \code{get_election_data} function automates the retrieval and processing of AEC datasets by:
 \enumerate{
 \item Validating input parameters to ensure correctness.
+\item Checking if the data is already cached (if \code{cache = TRUE}).
 \item Retrieving internal metadata about election events within the specified \code{date_range}
 and matching the \code{type}.
 \item Checking the availability of the requested \code{file_name} and \code{category} in the
@@ -54,16 +59,20 @@ internal index datasets.
 \item Constructing download URLs and retrieving the raw data files from the AEC website.
 \item Optionally preprocessing postal vote data and standardizing column names.
 \item Combining data from multiple election events into a single data frame.
+\item Caching the result for future identical requests (if \code{cache = TRUE}).
 }
 The function relies on internal helper functions (e.g., \code{check_params}, \code{construct_url},
 \code{preprocess_pva}) and datasets (e.g., \code{info}, \code{aec_elections_index}) within the
 \code{scgElectionsAU} package. It also uses \code{scgUtils::get_file} for downloading files.
 The function is designed to be robust, providing clear messages and errors to guide users through
 the data retrieval process.
+
+Use \code{clear_cache} to remove cached data when needed.
 }
 \examples{
 \dontrun{
   # Retrieve and process the national list of candidates for House elections in 2022
+  # First call downloads from AEC
   data <- get_election_data(
     file_name = "National list of candidates",
     date_range = list(from = "2022-01-01", to = "2023-01-01"),
@@ -71,7 +80,21 @@ the data retrieval process.
     category = "House",
     process = FALSE
   )
-  head(data)
+
+  # Second identical call uses cache - instant!
+  data2 <- get_election_data(
+    file_name = "National list of candidates",
+    date_range = list(from = "2022-01-01", to = "2023-01-01"),
+    type = "Federal Election",
+    category = "House",
+    process = FALSE
+  )
+
+  # Clear cache when done (optional - clears automatically when session ends)
+  clear_cache()
 }
 
+}
+\seealso{
+\code{clear_cache} to remove cached data
 }

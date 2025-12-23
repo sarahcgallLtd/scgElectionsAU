@@ -8,5 +8,7 @@
 NULL
 
 globalVariables(
-  #c()
+  c('OrdinaryVotes', 'AbsentVotes', 'ProvisionalVotes', 'DeclarationPrePollVotes', 'PostalVotes', 'Absent',
+    'Provisional', 'Pre-Poll', 'Postal', 'StateAb', 'DivisionNm', 'PollingPlaceID', 'PollingPlaceNm', 'Count',
+    'Weight', '.data')
 )

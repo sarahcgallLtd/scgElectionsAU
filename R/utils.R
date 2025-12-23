@@ -1,4 +1,4 @@
-#' Validate Parameters for Internal Function Usage
+#' Helper Function to Validate Parameters for Internal Function Usage
 #'
 #' This function performs validation checks on parameters passed to internal functions,
 #' ensuring they conform to expected formats and types. It checks for string types,
@@ -50,7 +50,7 @@ check_params <- function(...) {
 }
 
 
-#' Validate Date Format 'YYYY-MM-DD'
+#' Helper Function to Validate Date Format 'YYYY-MM-DD'
 #'
 #' This helper function checks if a given string conforms to the 'YYYY-MM-DD' date format
 #' and represents a valid date. It is primarily used internally by other functions
@@ -71,7 +71,7 @@ validate_date <- function(date_string) {
 }
 
 
-#' Combine Two Data Frames Robustly
+#' Helper Function Combine Two Data Frames Robustly
 #'
 #' This utility function attempts to combine two data frames by rows even if
 #' there are data type mismatches between the corresponding columns of the two data frames.
@@ -103,6 +103,7 @@ validate_date <- function(date_string) {
 #' @importFrom stringr str_detect str_extract
 #'
 #' @noRd
+#' @keywords internal
 try_combine <- function(df1, df2) {
   tryCatch({
     # Try to combine the data frames
@@ -116,8 +117,9 @@ try_combine <- function(df1, df2) {
       message(paste("Attempting to fix columns:", paste(col_name, collapse = ", ")))
 
       # Convert the problematic column to numeric, replacing non-numeric characters
-      df1[[col_name]] <- as.numeric(as.character(df1[[col_name]]))
-      df2[[col_name]] <- as.numeric(as.character(df2[[col_name]]))
+      # Suppress warnings about NA coercion since this is expected behavior
+      df1[[col_name]] <- suppressWarnings(as.numeric(as.character(df1[[col_name]])))
+      df2[[col_name]] <- suppressWarnings(as.numeric(as.character(df2[[col_name]])))
 
       # Recursively call try_combine to try again
       return(try_combine(df1, df2))
@@ -128,7 +130,7 @@ try_combine <- function(df1, df2) {
 }
 
 
-#' Pivot Event Data to Long Format
+#' Helper Function Pivot Event Data to Long Format
 #'
 #' This internal utility function transforms a dataframe from wide to long format,
 #' focusing on columns that represent dates and their associated values (e.g., vote totals).
@@ -215,7 +217,7 @@ pivot_event <- function(
 }
 
 
-#' Rename Columns in a Data Frame
+#' Helper Function Rename Columns in a Data Frame
 #'
 #' Renames columns in a data frame using a tidyverse-style syntax where new names are specified
 #' on the left and old names on the right (e.g., `new_name = "old_name"`).
@@ -257,4 +259,133 @@ rename_cols <- function(.data, ...) {
   # Perform the renaming
   names(.data)[match(old_names, names(.data))] <- new_names
   return(.data)
+}
+
+
+#' Clear cached data
+#'
+#' Removes cached data from the package to free up memory and disk space. This
+#' includes cached election data (in-memory), disclosure data (in-memory),
+#' boundary data (in-memory), and Census DataPack ZIP files (on disk). Caches
+#' are automatically cleared when the R session ends, so this function is only
+#' needed if you want to free up resources during a long session or force fresh
+#' downloads.
+#'
+#' @param type Character or NULL. Specifies which cache to clear:
+#'   \itemize{
+#'     \item \code{NULL} (default): Clears all caches
+#'     \item \code{"election"}: Clears only election data cache (in-memory)
+#'     \item \code{"disclosure"}: Clears only disclosure data cache (in-memory)
+#'     \item \code{"boundary"}: Clears only boundary data cache (in-memory)
+#'     \item \code{"census"}: Clears only Census DataPack cache (on disk)
+#'     \item \code{"abs"}: Clears only ABS API data cache (in-memory)
+#'   }
+#'
+#' @return Invisible NULL. Called for its side effect of removing cached data.
+#'
+#' @examples
+#' \dontrun{
+#' # Clear all caches
+#' clear_cache()
+#'
+#' # Clear only election data cache
+#' clear_cache("election")
+#'
+#' # Clear only disclosure data cache
+#' clear_cache("disclosure")
+#'
+#' # Clear only boundary data cache
+#' clear_cache("boundary")
+#'
+#' # Clear only Census DataPack cache
+#' clear_cache("census")
+#'
+#' # Clear only ABS API data cache
+#' clear_cache("abs")
+#' }
+#'
+#' @seealso \code{get_election_data}, \code{get_disclosure_data},
+#'   \code{get_boundary_data}, \code{get_census_data},
+#'   \code{get_abs_data}
+#'
+#' @export
+clear_cache <- function(type = NULL) {
+  valid_types <- c("election", "disclosure", "boundary", "census", "abs")
+
+  if (!is.null(type) && !type %in% valid_types) {
+    stop("type must be NULL, 'election', 'disclosure', 'boundary', 'census', or 'abs'")
+  }
+
+  cleared_any <- FALSE
+
+  # Clear election cache
+  if (is.null(type) || type == "election") {
+    cache_keys <- ls(envir = .election_cache)
+    if (length(cache_keys) > 0) {
+      rm(list = cache_keys, envir = .election_cache)
+      message("Cleared ", length(cache_keys), " cached election dataset(s).")
+      cleared_any <- TRUE
+    } else if (!is.null(type)) {
+      message("No cached election data found.")
+    }
+  }
+
+  # Clear disclosure cache
+  if (is.null(type) || type == "disclosure") {
+    cache_keys <- ls(envir = .disclosure_cache)
+    if (length(cache_keys) > 0) {
+      rm(list = cache_keys, envir = .disclosure_cache)
+      message("Cleared ", length(cache_keys), " cached disclosure dataset(s).")
+      cleared_any <- TRUE
+    } else if (!is.null(type)) {
+      message("No cached disclosure data found.")
+    }
+  }
+
+  # Clear boundary cache
+  if (is.null(type) || type == "boundary") {
+    cache_keys <- ls(envir = .boundary_cache)
+    if (length(cache_keys) > 0) {
+      rm(list = cache_keys, envir = .boundary_cache)
+      message("Cleared ", length(cache_keys), " cached boundary dataset(s).")
+      cleared_any <- TRUE
+    } else if (!is.null(type)) {
+      message("No cached boundary data found.")
+    }
+  }
+
+  # Clear census cache
+  if (is.null(type) || type == "census") {
+    cache_dir <- file.path(tempdir(), "scgElectionsAU_census_cache")
+    if (dir.exists(cache_dir)) {
+      files <- list.files(cache_dir, pattern = "^census_.*\\.zip$", full.names = TRUE)
+      if (length(files) > 0) {
+        unlink(files)
+        message("Cleared ", length(files), " cached Census DataPack(s).")
+        cleared_any <- TRUE
+      } else if (!is.null(type)) {
+        message("No cached Census DataPacks found.")
+      }
+    } else if (!is.null(type)) {
+      message("No cached Census DataPacks found.")
+    }
+  }
+
+  # Clear ABS API cache
+  if (is.null(type) || type == "abs") {
+    cache_keys <- ls(envir = .abs_cache)
+    if (length(cache_keys) > 0) {
+      rm(list = cache_keys, envir = .abs_cache)
+      message("Cleared ", length(cache_keys), " cached ABS API dataset(s).")
+      cleared_any <- TRUE
+    } else if (!is.null(type)) {
+      message("No cached ABS API data found.")
+    }
+  }
+
+  if (is.null(type) && !cleared_any) {
+    message("No cached data found.")
+  }
+
+  invisible(NULL)
 }

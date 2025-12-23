@@ -10,6 +10,8 @@
 #'   "SED" (State Electoral Division), "POA" (Postal Area), "SA1" (Statistical Area Level 1), or "MB" (Mesh Block).
 #'   Defaults to "CED".
 #' @param type Character. The type of boundary data. One of "allocation" or "correspondence". Defaults to "allocation".
+#' @param cache Logical. If TRUE (default), caches the downloaded and processed data for the session,
+#'   making subsequent identical requests instant. Set to FALSE to always download fresh data.
 #'
 #' @return A data frame containing the boundary data for the specified parameters. If multiple files are downloaded,
 #'   they are combined into a single data frame, provided they have identical column structures. For the 2011 SA1
@@ -26,6 +28,8 @@
 #' "CD_CODE_2006...1"), and removing rows with all NA values. The function includes validation checks to ensure the
 #' parameters are valid and that the downloaded data can be combined.
 #'
+#' Use \code{\link{clear_cache}} to remove cached data when needed.
+#'
 #' @examples
 #' \dontrun{
 #' # Retrieve 2024 CED allocation data
@@ -36,13 +40,19 @@
 #'
 #' # Retrieve 2011 SA1 correspondence data (special case)
 #' sa1_2011_data <- get_boundary_data(ref_date = 2011, level = "SA1", type = "correspondence")
+#'
+#' # Second call uses cache - instant!
+#' sa1_2011_data2 <- get_boundary_data(ref_date = 2011, level = "SA1", type = "correspondence")
 #' }
+#'
+#' @seealso \code{\link{clear_cache}} to remove cached data
 #'
 #' @export
 get_boundary_data <- function(
   ref_date,
   level = c("CED", "SED", "POA", "SA1", "MB"),
-  type = c("allocation", "correspondence")
+  type = c("allocation", "correspondence"),
+  cache = TRUE
 ) {
   # =====================================#
   # CHECK PARAMS
@@ -54,6 +64,17 @@ get_boundary_data <- function(
     ref_date < 2011 ||
     ref_date > 2024) {
     stop("ref_date must be a number between 2011 and 2024")
+  }
+
+  # =====================================#
+  # CHECK CACHE
+  if (cache) {
+    cache_key <- paste("boundary", ref_date, level, type, sep = "|")
+    cached_data <- get_boundary_cache(cache_key)
+    if (!is.null(cached_data)) {
+      message("Using cached boundary data for ", ref_date, " ", level, " ", type, "...")
+      return(cached_data)
+    }
   }
 
   # =====================================#
@@ -104,9 +125,10 @@ get_boundary_data <- function(
   }
 
   message(paste0("Successfully downloaded ", ref_date, " ", level, " boundary file(s). Structure: ", index$Notes[1]))
-  # If only one file, return it directly
+
+  # Prepare result data frame
   if (length(df_list) == 1) {
-    return(df_list[[1]])
+    result_df <- df_list[[1]]
   } else {
     # Check if all data frames have the same columns
     first_cols <- names(df_list[[1]])
@@ -122,36 +144,42 @@ get_boundary_data <- function(
     }
     # Combine the data frames using base R
     message("Combining files into one single file.")
-    combined_df <- do.call(rbind, df_list)
+    result_df <- do.call(rbind, df_list)
 
     # Fix formatting issues in special case
     if (is_special_case) {
       if (ref_date == 2011) {
         # Rename the second column with labels/unique IDs
-        combined_df <- rename_cols(combined_df, CD_CODE_2006 = "CD_CODE_2006...2")
+        result_df <- rename_cols(result_df, CD_CODE_2006 = "CD_CODE_2006...2")
         # Remove the first column containing what is in the second column as well as Copyright information
-        combined_df <- combined_df[, !names(combined_df) == "CD_CODE_2006...1"]
+        result_df <- result_df[, !names(result_df) == "CD_CODE_2006...1"]
       } else if (ref_date == 2016) {
         if (level == "MB") {
           # Rename the second column with labels/unique IDs
-          combined_df <- rename_cols(combined_df, MB_CODE_2011 = "MB_CODE_2011...2", MB_CODE_2016 = "MB_CODE_2016...3")
+          result_df <- rename_cols(result_df, MB_CODE_2011 = "MB_CODE_2011...2", MB_CODE_2016 = "MB_CODE_2016...3")
           # Remove the first column containing what is in the second column as well as Copyright information
-          combined_df <- combined_df[, !names(combined_df) %in% c("MB_CODE_2011...1", "MB_CODE_2016...4")]
+          result_df <- result_df[, !names(result_df) %in% c("MB_CODE_2011...1", "MB_CODE_2016...4")]
         } else if (level == "SA1") {
           # Remove "C Commonwealth of Australia 2012"
-          combined_df <- combined_df[combined_df$SA1_MAINCODE_2011 != "C Commonwealth of Australia 2012",]
+          result_df <- result_df[result_df$SA1_MAINCODE_2011 != "C Commonwealth of Australia 2012",]
         }
       }
       # Remove rows with all NA
-      combined_df <- combined_df[rowSums(!is.na(combined_df)) > 0,]
+      result_df <- result_df[rowSums(!is.na(result_df)) > 0,]
     }
 
     # Remove "PERCENTAGE" column and standardise RATIO colnames
-    combined_df <- combined_df[, !names(combined_df) == "PERCENTAGE"]
-    combined_df <- amend_colnames(combined_df)
-
-    return(combined_df)
+    result_df <- result_df[, !names(result_df) == "PERCENTAGE"]
+    result_df <- amend_colnames(result_df)
   }
+
+  # =====================================#
+  # CACHE AND RETURN DATA
+  if (cache) {
+    set_boundary_cache(cache_key, result_df)
+  }
+
+  return(result_df)
 }
 
 
@@ -245,5 +273,47 @@ process_special_case <- function(urls, level, ref_date) {
     }
   }
   return(df_list)
+}
+
+
+# ======================================================================================================================
+# CACHING FUNCTIONS
+
+# Package-level environment to store cached boundary data
+.boundary_cache <- new.env(parent = emptyenv())
+
+
+#' Get cached boundary data
+#'
+#' Retrieves data from the boundary cache if it exists.
+#'
+#' @param cache_key The cache key to look up.
+#'
+#' @return The cached data frame, or NULL if not found.
+#'
+#' @noRd
+#' @keywords internal
+get_boundary_cache <- function(cache_key) {
+  if (exists(cache_key, envir = .boundary_cache)) {
+    return(get(cache_key, envir = .boundary_cache))
+  }
+  return(NULL)
+}
+
+
+#' Store boundary data in cache
+#'
+#' Saves data to the boundary cache.
+#'
+#' @param cache_key The cache key to store under.
+#' @param data The data frame to cache.
+#'
+#' @return Invisible NULL.
+#'
+#' @noRd
+#' @keywords internal
+set_boundary_cache <- function(cache_key, data) {
+  assign(cache_key, data, envir = .boundary_cache)
+  invisible(NULL)
 }
 

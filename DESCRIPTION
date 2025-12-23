@@ -22,9 +22,12 @@ Depends:
     R (>= 3.5.0)
 Imports:
     dplyr,
+    readsdmx,
     rlang,
     stats,
     stringr,
+    tidyr,
+    xml2,
     scgUtils
 Remotes:
     sarahcgallLtd/scgUtils
@@ -34,11 +37,14 @@ Suggests:
 Config/testthat/edition: 3
 Config/Needs/website: tidyverse/tidytemplate
 VignetteBuilder: knitr
-Collate: 
+Collate:
     'amend_colnames.R'
     'amend_maincode.R'
     'amend_names.R'
+    'data.R'
+    'get_abs_data.R'
     'get_boundary_data.R'
+    'get_census_data.R'
     'get_disclosure_data.R'
     'utils.R'
     'get_election_data.R'

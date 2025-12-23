@@ -99,6 +99,5 @@ Not all event/compare_to combinations are valid. Generally:
 
 }
 \seealso{
-\code{\link{get_boundary_data}} for retrieving individual ABS boundary files
+\code{get_boundary_data} for retrieving individual ABS boundary files
 }
-\keyword{internal}

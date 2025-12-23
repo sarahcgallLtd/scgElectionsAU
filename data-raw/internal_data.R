@@ -51,4 +51,10 @@ coords <- na.omit(coords)
 # sysdata_filenames <- load("R/sysdata.rda")
 save(info, aec_elections_index, aec_disclosure_index, abs_boundary_index, name_conversions, coords,
      file = "R/sysdata.rda", compress = "xz")
+
+# Save to external data
+abs_census_tables <- read.csv("data-raw/abs-census-tables.csv", stringsAsFactors = FALSE)
+
+usethis::use_data(abs_census_tables, overwrite = TRUE)
+
 devtools::load_all()

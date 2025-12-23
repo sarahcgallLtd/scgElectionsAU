@@ -20,6 +20,8 @@ NULL
 #'        "Senate", "Referendum", "General", or "Statistics". Defaults to the first option.
 #' @param process A logical value indicating whether to apply additional processing to the downloaded
 #'        data, such as standardizing column names. Defaults to \code{TRUE}.
+#' @param cache Logical. If TRUE (default), caches the downloaded and processed data for the session,
+#'        making subsequent identical requests instant. Set to FALSE to always download fresh data.
 #'
 #' @return A data frame containing the combined AEC data for the specified criteria. The data frame
 #'         includes metadata columns (e.g., \code{date}, \code{event}) and is optionally processed
@@ -27,9 +29,10 @@ NULL
 #'         the function stops with an informative error message.
 #'
 #' @details
-#' The \code{get_aec_data} function automates the retrieval and processing of AEC datasets by:
+#' The \code{get_election_data} function automates the retrieval and processing of AEC datasets by:
 #' \enumerate{
 #'   \item Validating input parameters to ensure correctness.
+#'   \item Checking if the data is already cached (if \code{cache = TRUE}).
 #'   \item Retrieving internal metadata about election events within the specified \code{date_range}
 #'         and matching the \code{type}.
 #'   \item Checking the availability of the requested \code{file_name} and \code{category} in the
@@ -37,6 +40,7 @@ NULL
 #'   \item Constructing download URLs and retrieving the raw data files from the AEC website.
 #'   \item Optionally preprocessing postal vote data and standardizing column names.
 #'   \item Combining data from multiple election events into a single data frame.
+#'   \item Caching the result for future identical requests (if \code{cache = TRUE}).
 #' }
 #' The function relies on internal helper functions (e.g., \code{check_params}, \code{construct_url},
 #' \code{preprocess_pva}) and datasets (e.g., \code{info}, \code{aec_elections_index}) within the
@@ -44,9 +48,12 @@ NULL
 #' The function is designed to be robust, providing clear messages and errors to guide users through
 #' the data retrieval process.
 #'
+#' Use \code{clear_cache} to remove cached data when needed.
+#'
 #' @examples
 #' \dontrun{
 #'   # Retrieve and process the national list of candidates for House elections in 2022
+#'   # First call downloads from AEC
 #'   data <- get_election_data(
 #'     file_name = "National list of candidates",
 #'     date_range = list(from = "2022-01-01", to = "2023-01-01"),
@@ -54,8 +61,21 @@ NULL
 #'     category = "House",
 #'     process = FALSE
 #'   )
-#'   head(data)
+#'
+#'   # Second identical call uses cache - instant!
+#'   data2 <- get_election_data(
+#'     file_name = "National list of candidates",
+#'     date_range = list(from = "2022-01-01", to = "2023-01-01"),
+#'     type = "Federal Election",
+#'     category = "House",
+#'     process = FALSE
+#'   )
+#'
+#'   # Clear cache when done (optional - clears automatically when session ends)
+#'   clear_cache()
 #' }
+#'
+#' @seealso \code{clear_cache} to remove cached data
 #'
 #' @importFrom scgUtils get_file
 #' @export
@@ -64,12 +84,13 @@ get_election_data <- function(
   date_range = list(from = "2025-01-01", to = "2026-01-01"),
   type = NULL,
   category = c("House", "Senate", "Referendum", "General", "Statistics"),
-  process = TRUE
+  process = TRUE,
+  cache = TRUE
 ) {
   # =====================================#
   # CHECK PARAMS
   # Define valid type options
-  valid_types <- c("Federal Election", "Referendum", "By-Election")
+ valid_types <- c("Federal Election", "Referendum", "By-Election")
 
   # If type is NULL or empty, default to the first option
   if (is.null(type) || length(type) == 0) {
@@ -85,12 +106,25 @@ get_election_data <- function(
 
   category <- match.arg(category)
 
+  # =====================================#
+  # VALIDATE PARAMS (must happen before cache check)
   check_params(
     file_name = file_name,
     date_range = date_range,
     category = category,
     process = process
   )
+
+  # =====================================#
+  # CHECK CACHE
+  if (cache) {
+    cache_key <- build_election_cache_key(file_name, date_range, type, category, process)
+    cached_data <- get_election_cache(cache_key)
+    if (!is.null(cached_data)) {
+      message("Using cached data for `", file_name, "`...")
+      return(cached_data)
+    }
+  }
 
   # =====================================#
   # GET AND PROCESS INTERNAL DATA
@@ -297,7 +331,11 @@ get_election_data <- function(
   }
 
   # =====================================#
-  # RETURN DATA
+  # CACHE AND RETURN DATA
+  if (cache) {
+    set_election_cache(cache_key, combined_df)
+  }
+
   return(combined_df)
 }
 
@@ -667,4 +705,76 @@ process_init <- function(data, file_name, category, event, index) {
 
   return(data)
 }
+
+
+# ======================================================================================================================
+# CACHING FUNCTIONS
+
+# Package-level environment to store cached election data
+.election_cache <- new.env(parent = emptyenv())
+
+
+#' Build a cache key for election data
+#'
+#' Creates a unique key based on the function parameters to identify cached data.
+#'
+#' @param file_name The file name parameter.
+#' @param date_range The date range parameter.
+#' @param type The type parameter.
+#' @param category The category parameter.
+#' @param process The process parameter.
+#'
+#' @return A character string to use as a cache key.
+#'
+#' @noRd
+#' @keywords internal
+build_election_cache_key <- function(file_name, date_range, type, category, process) {
+  # Create a unique key from all parameters
+  key_parts <- c(
+    file_name,
+    date_range$from,
+    date_range$to,
+    paste(sort(type), collapse = "_"),
+    category,
+    as.character(process)
+  )
+  paste(key_parts, collapse = "|")
+}
+
+
+#' Get cached election data
+#'
+#' Retrieves data from the election cache if it exists.
+#'
+#' @param cache_key The cache key to look up.
+#'
+#' @return The cached data frame, or NULL if not found.
+#'
+#' @noRd
+#' @keywords internal
+get_election_cache <- function(cache_key) {
+  if (exists(cache_key, envir = .election_cache)) {
+    return(get(cache_key, envir = .election_cache))
+  }
+  return(NULL)
+}
+
+
+#' Store election data in cache
+#'
+#' Saves data to the election cache.
+#'
+#' @param cache_key The cache key to store under.
+#' @param data The data frame to cache.
+#'
+#' @return Invisible NULL.
+#'
+#' @noRd
+#' @keywords internal
+set_election_cache <- function(cache_key, data) {
+  assign(cache_key, data, envir = .election_cache)
+  invisible(NULL)
+}
+
+
 

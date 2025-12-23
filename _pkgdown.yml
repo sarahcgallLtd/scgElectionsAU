@@ -20,11 +20,14 @@ reference:
 
 - subtitle: Get Data
   desc: >
-    Functions for retrieving election datasets, boundary correspondence and allocation tables, and disclosure data.
+    Functions for retrieving election datasets, boundary correspondence and allocation tables, census data, and disclosure data.
   contents:
+    - get_abs_data
     - get_boundary_data
+    - get_census_data
     - get_disclosure_data
     - get_election_data
+    - list_abs_dataflows
 
 - subtitle: Process Data
   desc: >
@@ -53,6 +56,8 @@ articles:
   contents:
     - articles/a-guide-to-aec-election-datasets
     - articles/a-guide-to-aec-disclosure-datasets
+    - articles/a-guide-to-abs-api-datasets
     - articles/a-guide-to-abs-boundary-datasets
+    - articles/a-guide-to-abs-census-datasets
 
 

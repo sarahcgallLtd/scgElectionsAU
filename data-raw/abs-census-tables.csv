@@ -1,0 +1,109 @@
+table,description,census_years
+G01,Selected person characteristics by sex,"2016,2021"
+G02,Selected medians and averages,"2016,2021"
+G03,Place of usual residence by place of enumeration on Census Night by age,"2016,2021"
+G04,Age by sex,"2016,2021"
+G05,Registered marital status by age by sex,"2016,2021"
+G06,Social marital status by age by sex,"2016,2021"
+G07,Indigenous status by age by sex,"2016,2021"
+G08,Ancestry by country of birth of parents,"2016,2021"
+G09,Country of birth of person by age by sex,"2016,2021"
+G10,Country of birth of person by year of arrival,"2016,2021"
+G11,Proficiency in spoken English by year of arrival by age,"2016,2021"
+G12,Proficiency in spoken English of parents by age of dependent children,"2016,2021"
+G13,Language used at home by proficiency in spoken English by sex,"2016,2021"
+G14,Religious affiliation by sex,"2016,2021"
+G15,Type of education institution attending by sex,"2016,2021"
+G16,Highest year of school completed by age by sex,"2016,2021"
+G17,Total personal income (weekly) by age by sex,"2016,2021"
+G18,Core activity need for assistance by age by sex,"2016,2021"
+G19,Type of long-term health condition by age by sex,2021
+G20,Count of selected long-term health conditions by age by sex,2021
+G21,Type of long-term health condition by selected person characteristics,2021
+G22,Australian Defence Force service by age by sex,2021
+G23,Voluntary work for an organisation or group by age by sex,"2016,2021"
+G24,Unpaid domestic work: number of hours by age by sex,"2016,2021"
+G25,Unpaid assistance to a person with a disability or health condition or due to old age by age by sex,"2016,2021"
+G26,Unpaid child care by age by sex,"2016,2021"
+G27,Relationship in household by age by sex,"2016,2021"
+G28,Number of children ever born,"2016,2021"
+G29,Family composition,"2016,2021"
+G30,Family composition and country of birth of parents by age of dependent children,"2016,2021"
+G31,Family blending,"2016,2021"
+G32,Total family income (weekly) by family composition,"2016,2021"
+G33,Total household income (weekly) by household composition,"2016,2021"
+G34,Number of motor vehicles by dwellings,"2016,2021"
+G35,Household composition by number of persons usually resident,"2016,2021"
+G36,Dwelling structure,"2016,2021"
+G37,Tenure and landlord type by dwelling structure,"2016,2021"
+G38,Mortgage repayment (monthly) by dwelling structure,"2016,2021"
+G39,Mortgage repayment (monthly) by family composition,"2016,2021"
+G40,Rent (weekly) by landlord type,"2016,2021"
+G41,Dwelling structure by number of bedrooms,"2016,2021"
+G42,Dwelling structure by household composition and family composition,"2016,2021"
+G43,Selected labour force education and migration characteristics by sex,"2016,2021"
+G44,Place of usual residence 1 year ago by sex,"2016,2021"
+G45,Place of usual residence 5 years ago by sex,"2016,2021"
+G46,Labour force status by age by sex,"2016,2021"
+G47,Labour force status by sex of parents by age of dependent children for couple families,"2016,2021"
+G48,Labour force status by sex of parent by age of dependent children for one parent families,"2016,2021"
+G49,Highest non-school qualification: level of education by age by sex,"2016,2021"
+G50,Highest non-school qualification: field of study by age by sex,"2016,2021"
+G51,Highest non-school qualification: field of study by occupation by sex,"2016,2021"
+G52,Highest non-school qualification: level of education by occupation by sex,"2016,2021"
+G53,Highest non-school qualification: level of education by industry of employment by sex,"2016,2021"
+G54,Industry of employment by age by sex,"2016,2021"
+G55,Industry of employment by hours worked by sex,"2016,2021"
+G56,Industry of employment by occupation,"2016,2021"
+G57,Total family income (weekly) by labour force status of partners for couple families with no children,"2016,2021"
+G58,Total family income (weekly) by labour force status of parents/partners for couple families with children,"2016,2021"
+G59,Total family income (weekly) by labour force status of parent for one parent families,"2016,2021"
+G60,Occupation by age by sex,"2016,2021"
+G61,Occupation by hours worked by sex,"2016,2021"
+G62,Method of travel to work by sex,"2016,2021"
+B01,Selected person characteristics by sex,2011
+B02,Selected medians and averages,2011
+B03,Place of usual residence on Census Night by place of usual residence 5 years ago by sex,2011
+B04,Age by sex,2011
+B05,Registered marital status by age by sex,2011
+B06,Social marital status by age by sex,2011
+B07,Indigenous status by age by sex,2011
+B08,Ancestry by country of birth of parents,2011
+B09,Country of birth of person by age by sex,2011
+B10,Country of birth of person by year of arrival in Australia,2011
+B11,Proficiency in spoken English/language by year of arrival in Australia by sex,2011
+B12,Proficiency in spoken English of parents by age of dependent children,2011
+B13,Language spoken at home by sex,2011
+B14,Religious affiliation by sex,2011
+B15,Type of educational institution attending by age by sex,2011
+B16,Highest year of school completed by age by sex,2011
+B17,Total personal income (weekly) by age by sex,2011
+B18,Need for assistance with core activities by age by sex,2011
+B19,Voluntary work for an organisation or group by age by sex,2011
+B20,Unpaid domestic work: number of hours by age by sex,2011
+B21,Unpaid assistance to a person with a disability by age by sex,2011
+B22,Unpaid child care by age of carer by sex of carer,2011
+B23,Relationship in household by age by sex,2011
+B24,Number of children ever born by age of parent,2011
+B25,Family composition,2011
+B26,Family composition and country of birth of parents,2011
+B27,Family blending,2011
+B28,Total family income (weekly) by family composition,2011
+B29,Household income (weekly) by household composition,2011
+B30,Number of motor vehicles by dwellings,2011
+B31,Household composition by number of persons usually resident,2011
+B32,Dwelling structure,2011
+B33,Tenure type and landlord type by dwelling structure,2011
+B34,Mortgage repayment (monthly) by dwelling structure,2011
+B35,Mortgage repayment (monthly) by family composition,2011
+B36,Rent (weekly) by landlord type,2011
+B37,Dwelling structure by number of bedrooms,2011
+B38,Dwelling structure by household composition and family composition,2011
+B39,Selected labour force education and migration characteristics by sex,2011
+B40,Labour force status by age by sex,2011
+B41,Labour force status of parents by age of dependent children by family composition,2011
+B42,Non-school qualification: level of education by age by sex,2011
+B43,Non-school qualification: field of study by age by sex,2011
+B44,Non-school qualification: field of study by occupation by sex,2011
+B45,Non-school qualification: level of education by industry by sex,2011
+B46,Industry of employment by age by sex,2011
