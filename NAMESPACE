@@ -3,7 +3,6 @@
 export(amend_colnames)
 export(amend_maincode)
 export(amend_names)
-export(clear_cache)
 export(get_abs_data)
 export(get_boundary_data)
 export(get_census_data)

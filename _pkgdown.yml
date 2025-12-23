@@ -46,6 +46,12 @@ reference:
     - process_pva_party
     - process_reps
 
+- subtitle: Get Data
+  desc: >
+    Functions for reviewing which data can be accessed through APIs or other functions.
+  contents:
+    - abs_census_tables
+
 articles:
 - title: Function Example
   navbar: ~

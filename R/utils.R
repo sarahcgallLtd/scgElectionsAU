@@ -308,7 +308,8 @@ rename_cols <- function(.data, ...) {
 #'   \code{get_boundary_data}, \code{get_census_data},
 #'   \code{get_abs_data}
 #'
-#' @export
+#' @noRd
+#' @keywords internal
 clear_cache <- function(type = NULL) {
   valid_types <- c("election", "disclosure", "boundary", "census", "abs")
 
