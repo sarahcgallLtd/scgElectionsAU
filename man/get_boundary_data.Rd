@@ -45,7 +45,7 @@ such as renaming columns (e.g., "CD_CODE_2006...2" to "CD_CODE_2006"), removing 
 "CD_CODE_2006...1"), and removing rows with all NA values. The function includes validation checks to ensure the
 parameters are valid and that the downloaded data can be combined.
 
-Use \code{\link{clear_cache}} to remove cached data when needed.
+Use \code{clear_cache} to remove cached data when needed.
 }
 \examples{
 \dontrun{
@@ -64,5 +64,5 @@ sa1_2011_data2 <- get_boundary_data(ref_date = 2011, level = "SA1", type = "corr
 
 }
 \seealso{
-\code{\link{clear_cache}} to remove cached data
+\code{clear_cache} to remove cached data
 }
