@@ -1,7 +1,7 @@
 test_that("test that get_election_data returns errors", {
   expect_error(
     get_election_data(file_name = "Non-classic divisions", date_range = list(from = "2024-01-01", to = "2025-01-01")),
-    "Check that the `date_range` captures election periods between 2004 and 2022, inclusively."
+    "Check that the `date_range` captures election periods between 2004 and 2026, inclusively."
   )
 })
 
